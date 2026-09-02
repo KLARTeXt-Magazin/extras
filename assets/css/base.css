@@ -2,12 +2,12 @@
    Reusable, accessible, no external deps
 */
 :root{
-  --bg:#fbf9fc; /* very light */
-  --paper:#ffffff;
-  --text:#111217;
-  --muted:#6b6f76;
-  --accent:#8a6fa8; /* cool lilac */
-  --accent-2:#bfa9d6;
+  --bg:#f6f2eb;
+  --paper:#fffefb;
+  --text:#222222;
+  --muted:#666666;
+  --accent:#8aa35c; /* green dark (match Q3) */
+  --accent-2:#a9bf7a;
   --radius:14px;
 }
 *{box-sizing:border-box}
