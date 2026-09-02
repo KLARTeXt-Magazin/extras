@@ -35,3 +35,11 @@ button,input,a{font:inherit}
 
 /* audio card tweaks */
 .audio-meta{font-size:0.95rem;color:var(--muted);margin-top:8px}
+
+/* nested cards */
+.card .card{margin-top:18px;border:1px solid rgba(0,0,0,0.06)}
+.card h1{font-size:2rem;margin:0 0 8px 0;font-weight:700;line-height:1.2}
+.card h2{font-size:1.3rem;margin:16px 0 8px 0;font-weight:600}
+
+/* audio player styling */
+audio{width:100%;margin-top:12px;margin-bottom:12px}
