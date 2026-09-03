@@ -1,309 +1,315 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>KLARTeXt. – 2026 Q4 — Winterausgabe</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KLARTeXt. — 2026 Q4 Winterausgabe</title>
   <link rel="stylesheet" href="../assets/css/base.css">
   <style>
-    /* Audio Carousel Styles */
+    /* ============================================================
+       Q4 Audio Carousel — Erweiterung zu base.css
+       Konsistent mit KLARTeXt.-Designsystem (Barlow, Raleway, etc.)
+       ============================================================ */
+
+    .carousel-container {
+      margin: 0;
+      padding: 0;
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      max-width: var(--max);
+      margin: 2rem auto;
+    }
+
     .carousel-wrapper {
       position: relative;
-      margin: 28px 0;
-    }
-    
-    .carousel-container {
-      position: relative;
+      width: 100%;
       overflow: hidden;
-      border-radius: var(--radius);
-      background: var(--paper);
-      border: 1px solid rgba(0,0,0,0.04);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
     }
-    
+
     .carousel-slides {
       display: flex;
-      transition: transform 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateX(0);
     }
-    
+
     .carousel-slide {
-      min-width: 100%;
-      padding: 28px;
+      flex: 0 0 100%;
+      padding: 2.5rem 1.5rem;
       display: flex;
       flex-direction: column;
     }
-    
-    .slide-content h3 {
-      margin: 0 0 12px 0;
-      font-size: 1.3rem;
+
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
       font-weight: 600;
+      color: var(--ink);
+      margin: 0 0 0.5rem 0;
+      line-height: 1.2;
     }
-    
-    .slide-content p {
-      margin: 0 0 18px 0;
+
+    .slide-intro {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
       color: var(--muted);
-      line-height: 1.6;
+      margin: 0 0 1.5rem 0;
+      line-height: 1.5;
     }
-    
+
+    .audio-container {
+      margin-top: auto;
+    }
+
     .audio-player {
-      background: rgba(0,0,0,0.02);
-      border-radius: calc(var(--radius) - 4px);
-      padding: 16px;
-      margin: 12px 0;
-    }
-    
-    .audio-player audio {
-      width: 100%;
+      background: var(--paper);
+      padding: 1rem;
+      border-radius: 8px;
       margin: 0;
     }
-    
-    .locked-notice {
-      background: rgba(0,0,0,0.05);
-      border-radius: calc(var(--radius) - 4px);
-      padding: 20px;
+
+    .audio-player audio {
+      width: 100%;
+      display: block;
+      margin: 0;
+    }
+
+    .locked-state {
+      background: var(--paper);
+      padding: 2rem 1.5rem;
+      border-radius: 8px;
       text-align: center;
       color: var(--muted);
     }
-    
+
     .lock-icon {
-      font-size: 2rem;
-      margin-bottom: 8px;
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      display: block;
     }
-    
+
+    .lock-title {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 0 0 0.5rem 0;
+    }
+
     .lock-message {
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-    
-    .lock-date {
+      font-family: var(--font-body);
       font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0;
     }
-    
-    /* Carousel Controls */
-    .carousel-nav {
+
+    /* Carousel Navigation */
+    .carousel-controls {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      padding: 16px;
+      gap: 1.5rem;
+      padding: 1.25rem;
       background: var(--paper);
-      border-top: 1px solid rgba(0,0,0,0.04);
+      border-top: 1px solid var(--border);
     }
-    
-    .carousel-btn {
+
+    .carousel-nav-btn {
       background: none;
       border: none;
-      padding: 8px 12px;
-      cursor: pointer;
+      font-family: inherit;
+      font-size: 1.25rem;
       color: var(--muted);
-      font-size: 1.2rem;
-      transition: color 0.2s, transform 0.2s;
-      border-radius: 6px;
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: all 0.2s ease;
+      border-radius: 4px;
     }
-    
-    .carousel-btn:hover {
-      color: var(--text);
-      transform: scale(1.1);
+
+    .carousel-nav-btn:hover {
+      color: var(--red);
+      transform: scale(1.15);
     }
-    
-    .carousel-btn:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
+
+    .carousel-nav-btn:focus-visible {
+      outline: 2px solid var(--red);
+      outline-offset: 3px;
     }
-    
+
     .carousel-dots {
       display: flex;
-      gap: 8px;
+      gap: 0.75rem;
+      align-items: center;
     }
-    
+
     .carousel-dot {
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background: rgba(0,0,0,0.12);
+      background: var(--border);
       border: none;
       cursor: pointer;
-      transition: background 0.2s;
       padding: 0;
+      transition: all 0.2s ease;
     }
-    
+
+    .carousel-dot:hover {
+      background: var(--olive);
+    }
+
     .carousel-dot.active {
-      background: var(--accent);
+      background: var(--red);
+      transform: scale(1.1);
     }
-    
+
     .carousel-dot:focus-visible {
-      outline: 2px solid var(--accent);
+      outline: 2px solid var(--red);
       outline-offset: 2px;
     }
-    
-    @media(min-width:720px) {
+
+    @media (min-width: 720px) {
       .carousel-slide {
-        padding: 36px;
+        padding: 3rem 2rem;
       }
-      
-      .carousel-nav {
-        padding: 20px;
+
+      .slide-title {
+        font-size: 1.8rem;
+      }
+
+      .carousel-controls {
+        padding: 1.5rem;
       }
     }
   </style>
 </head>
 <body>
-  <nav class="container header">
-    <div class="brand"><a href="../"><img src="../Klartext-logo.png" alt="KLARTeXt."></a></div>
-  </nav>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../" class="logo">KLARTeXt<span>.</span></a>
+    </div>
+  </header>
 
-  <main class="container">
-    <article class="card">
-      <h1>Klartext<br><span style="color:var(--accent)">Winterausgabe</span></h1>
-      <p class="lead">Digitale Ergänzungen zur Winterausgabe: kleine Übungen für Zuhause.</p>
+  <!-- Main Content -->
+  <main class="main">
+    <section>
+      <h1>Winterausgabe<br><span style="color: var(--red);">2026 Q4</span></h1>
+      <p style="font-family: var(--font-body); color: var(--muted); line-height: 1.6; margin-bottom: 2rem;">
+        Drei kleine geführte Achtsamkeitsübungen für die winterliche Jahreszeit. Wähle eine Übung und nimm dir einen Moment Zeit für dich selbst.
+      </p>
 
-      <section class="carousel-wrapper" aria-label="Audio-Carousel mit geführten Achtsamkeitsübungen">
-        <div class="carousel-container">
-          <div class="carousel-slides" id="carouselSlides">
+      <!-- Carousel -->
+      <div class="carousel-container">
+        <div class="carousel-wrapper">
+          <div class="carousel-slides" id="slides">
+
             <!-- Slide 1: Nikolaus -->
-            <div class="carousel-slide" data-slide-id="nikolaus" role="tabpanel" aria-label="Nikolaus - Ein Moment zum Nikolaus">
-              <div class="slide-content">
-                <h3>Einen Moment zum Nikolaus</h3>
-                <p>Geführte Audio-Übung für Nikolaus.</p>
-              </div>
-              <div id="nikolaus-player" class="audio-player">
-                <!-- Player or lock notice will be inserted here -->
-              </div>
+            <div class="carousel-slide" data-slide-id="nikolaus" role="tabpanel" aria-label="Slide 1: Nikolaus">
+              <h2 class="slide-title">Einen Moment zum Nikolaus</h2>
+              <p class="slide-intro">Eine geführte Achtsamkeitsübung zur Vorbereitung auf die Adventszeit.</p>
+              <div class="audio-container" id="nikolaus-container"></div>
             </div>
 
             <!-- Slide 2: Weihnachten -->
-            <div class="carousel-slide" data-slide-id="weihnachten" role="tabpanel" aria-label="Weihnachten - Ein kleiner Weihnachtsgruß">
-              <div class="slide-content">
-                <h3>Ein kleiner Weihnachtsgruß für Dich</h3>
-                <p>Geführte Audio-Übung für Weihnachten.</p>
-              </div>
-              <div id="weihnachten-player" class="audio-player">
-                <!-- Player or lock notice will be inserted here -->
-              </div>
+            <div class="carousel-slide" data-slide-id="weihnachten" role="tabpanel" aria-label="Slide 2: Weihnachten">
+              <h2 class="slide-title">Ein kleiner Weihnachtsgruß für Dich</h2>
+              <p class="slide-intro">Eine stille Andacht für die Weihnachtszeit — zum Innehalten und Genießen.</p>
+              <div class="audio-container" id="weihnachten-container"></div>
             </div>
 
             <!-- Slide 3: Moment für dich -->
-            <div class="carousel-slide" data-slide-id="moment" role="tabpanel" aria-label="Moment für dich - Ein kleiner Moment für dich">
-              <div class="slide-content">
-                <h3>Ein kleiner Moment für dich</h3>
-                <p>Geführte Audio-Übung für jeden Tag.</p>
-              </div>
-              <div id="moment-player" class="audio-player">
-                <!-- Player will be inserted here -->
-              </div>
+            <div class="carousel-slide" data-slide-id="moment" role="tabpanel" aria-label="Slide 3: Moment für dich">
+              <h2 class="slide-title">Ein kleiner Moment für dich</h2>
+              <p class="slide-intro">Eine Achtsamkeitsübung für jeden Tag im Jahr — jederzeit verfügbar.</p>
+              <div class="audio-container" id="moment-container"></div>
             </div>
-          </div>
 
-          <div class="carousel-nav">
-            <button class="carousel-btn" id="prevBtn" aria-label="Vorheriger Slide">←</button>
-            <div class="carousel-dots">
-              <button class="carousel-dot active" data-slide="0" aria-label="Slide 1: Nikolaus" aria-current="page"></button>
-              <button class="carousel-dot" data-slide="1" aria-label="Slide 2: Weihnachten"></button>
-              <button class="carousel-dot" data-slide="2" aria-label="Slide 3: Moment für dich"></button>
-            </div>
-            <button class="carousel-btn" id="nextBtn" aria-label="Nächster Slide">→</button>
           </div>
         </div>
-      </section>
-    </article>
+
+        <!-- Navigation Controls -->
+        <div class="carousel-controls">
+          <button class="carousel-nav-btn" id="prev" aria-label="Vorheriger Slide">‹</button>
+          <div class="carousel-dots">
+            <button class="carousel-dot active" data-slide="0" aria-label="Slide 1: Nikolaus" aria-current="page"></button>
+            <button class="carousel-dot" data-slide="1" aria-label="Slide 2: Weihnachten"></button>
+            <button class="carousel-dot" data-slide="2" aria-label="Slide 3: Moment für dich"></button>
+          </div>
+          <button class="carousel-nav-btn" id="next" aria-label="Nächster Slide">›</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script>
-    const SLIDES_CONFIG = [
+    const SLIDES = [
       {
         id: 'nikolaus',
         title: 'Einen Moment zum Nikolaus',
         audio: 'assets/audio/Nikolaus_raw.mp3',
-        lockedUntil: '2026-12-05T23:59:59',
-        unlocksAt: '2026-12-06T00:00:00'
+        unlocksAt: new Date('2026-12-06T00:00:00').getTime()
       },
       {
         id: 'weihnachten',
         title: 'Ein kleiner Weihnachtsgruß für Dich',
         audio: 'assets/audio/Heiligabend_raw.mp3',
-        lockedUntil: '2026-12-23T23:59:59',
-        unlocksAt: '2026-12-24T00:00:00'
+        unlocksAt: new Date('2026-12-24T00:00:00').getTime()
       },
       {
         id: 'moment',
         title: 'Ein kleiner Moment für dich',
         audio: 'assets/audio/Moment_fuer_dich_raw.mp3',
-        lockedUntil: null,
-        unlocksAt: null
+        unlocksAt: 0 // Always unlocked
       }
     ];
 
-    let currentSlide = 0;
-    const audioPlayers = [];
+    let currentIndex = 0;
+    const players = [];
 
-    function getSlideIndex(slideId) {
-      return SLIDES_CONFIG.findIndex(s => s.id === slideId);
+    function isUnlocked(slide) {
+      return slide.unlocksAt === 0 || Date.now() >= slide.unlocksAt;
     }
 
-    function isSlideUnlocked(slideConfig) {
-      if (!slideConfig.unlocksAt) return true;
-      return new Date() >= new Date(slideConfig.unlocksAt);
+    function formatUnlockDate(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
-    function formatDate(dateStr) {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString('de-DE', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-    }
+    function renderPlayer(slide, index) {
+      const container = document.getElementById(`${slide.id}-container`);
+      const unlocked = isUnlocked(slide);
 
-    function createAudioPlayer(config, index) {
-      const locked = !isSlideUnlocked(config);
-      const playerId = `audio-${config.id}`;
-      const container = document.getElementById(`${config.id}-player`);
-
-      if (locked) {
-        const unlockDate = new Date(config.unlocksAt);
-        const formatted = formatDate(config.unlocksAt);
+      if (unlocked) {
+        const audio = document.createElement('audio');
+        audio.src = slide.audio;
+        audio.controls = true;
+        audio.className = 'audio-player';
+        audio.setAttribute('aria-label', `Audio: ${slide.title}`);
+        container.innerHTML = '';
+        container.appendChild(audio);
+        players[index] = audio;
+      } else {
+        const unlockDate = formatUnlockDate(slide.unlocksAt);
         container.innerHTML = `
-          <div class="locked-notice" role="status" aria-live="polite">
-            <div class="lock-icon">🔒</div>
-            <div class="lock-message">Diese Übung ist noch gesperrt</div>
-            <div class="lock-date">Freigeschaltet ab ${formatted}</div>
+          <div class="locked-state" role="status" aria-live="polite">
+            <span class="lock-icon">🔒</span>
+            <div class="lock-title">Diese Übung ist noch gesperrt</div>
+            <div class="lock-message">Verfügbar ab ${unlockDate}</div>
           </div>
         `;
-        audioPlayers[index] = null;
-      } else {
-        const player = document.createElement('audio');
-        player.id = playerId;
-        player.src = config.audio;
-        player.controls = true;
-        player.setAttribute('aria-label', `Audio-Player: ${config.title}`);
-        container.innerHTML = '';
-        container.appendChild(player);
-        audioPlayers[index] = player;
+        players[index] = null;
       }
     }
 
-    function showSlide(index) {
-      const slides = document.querySelectorAll('.carousel-slide');
-      const dots = document.querySelectorAll('.carousel-dot');
-      const config = SLIDES_CONFIG[index];
+    function goToSlide(index) {
+      currentIndex = (index + SLIDES.length) % SLIDES.length;
+      const offset = -currentIndex * 100;
+      document.getElementById('slides').style.transform = `translateX(${offset}%)`;
 
-      // Check if this slide is locked and if trying to navigate to it directly
-      if (!isSlideUnlocked(config)) {
-        // For locked slides accessed via hash, show them but still locked
-        // This allows direct links but respects the lock
-      }
-
-      currentSlide = index;
-      const offset = -index * 100;
-      document.getElementById('carouselSlides').style.transform = `translateX(${offset}%)`;
-
-      slides.forEach((slide, i) => {
-        slide.setAttribute('aria-hidden', i !== index ? 'true' : 'false');
-      });
-
-      dots.forEach((dot, i) => {
-        if (i === index) {
+      // Update dots
+      document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+        if (i === currentIndex) {
           dot.classList.add('active');
           dot.setAttribute('aria-current', 'page');
         } else {
@@ -312,87 +318,56 @@
         }
       });
 
-      // Pause all other audio players
-      audioPlayers.forEach((player, i) => {
-        if (player && i !== index) {
-          player.pause();
-        }
+      // Pause other players
+      players.forEach((p, i) => {
+        if (p && i !== currentIndex) p.pause();
       });
 
-      // Update URL hash
-      window.location.hash = config.id;
+      // Update hash
+      window.location.hash = SLIDES[currentIndex].id;
     }
 
-    function initCarousel() {
-      // Create all audio players/lock notices
-      SLIDES_CONFIG.forEach((config, index) => {
-        createAudioPlayer(config, index);
+    function init() {
+      // Render all players/locks
+      SLIDES.forEach(renderPlayer);
+
+      // Nav buttons
+      document.getElementById('prev').addEventListener('click', () => goToSlide(currentIndex - 1));
+      document.getElementById('next').addEventListener('click', () => goToSlide(currentIndex + 1));
+
+      // Dot clicks
+      document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+        dot.addEventListener('click', () => goToSlide(i));
       });
 
-      // Navigation buttons
-      document.getElementById('prevBtn').addEventListener('click', () => {
-        const newIndex = (currentSlide - 1 + SLIDES_CONFIG.length) % SLIDES_CONFIG.length;
-        showSlide(newIndex);
-      });
-
-      document.getElementById('nextBtn').addEventListener('click', () => {
-        const newIndex = (currentSlide + 1) % SLIDES_CONFIG.length;
-        showSlide(newIndex);
-      });
-
-      // Dot navigation
-      document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-          showSlide(index);
-        });
-      });
-
-      // Keyboard navigation
+      // Keyboard
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-          document.getElementById('prevBtn').click();
-        } else if (e.key === 'ArrowRight') {
-          document.getElementById('nextBtn').click();
+        if (e.key === 'ArrowLeft') document.getElementById('prev').click();
+        if (e.key === 'ArrowRight') document.getElementById('next').click();
+      });
+
+      // Touch/swipe
+      let touchX = 0;
+      const wrapper = document.querySelector('.carousel-wrapper');
+      wrapper.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; });
+      wrapper.addEventListener('touchend', (e) => {
+        const delta = touchX - e.changedTouches[0].clientX;
+        if (Math.abs(delta) > 50) {
+          if (delta > 0) document.getElementById('next').click();
+          else document.getElementById('prev').click();
         }
       });
 
-      // Touch/swipe support
-      let touchStartX = 0;
-      const container = document.querySelector('.carousel-container');
-      container.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-      });
-      container.addEventListener('touchend', (e) => {
-        const touchEndX = e.changedTouches[0].clientX;
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 50) {
-          if (diff > 0) {
-            document.getElementById('nextBtn').click();
-          } else {
-            document.getElementById('prevBtn').click();
-          }
-        }
-      });
-
-      // Handle hash navigation on load
+      // Hash navigation
       const hash = window.location.hash.substring(1);
-      if (hash) {
-        const slideIndex = getSlideIndex(hash);
-        if (slideIndex !== -1) {
-          showSlide(slideIndex);
-          return;
-        }
-      }
-
-      // Default to first slide
-      showSlide(0);
+      const slideIndex = SLIDES.findIndex(s => s.id === hash);
+      goToSlide(slideIndex !== -1 ? slideIndex : 0);
     }
 
-    // Initialize when DOM is ready
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCarousel);
+      document.addEventListener('DOMContentLoaded', init);
     } else {
-      initCarousel();
+      init();
     }
   </script>
 </body>
