@@ -5,6 +5,148 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>KLARTeXt. – 2026 Q4 — Winterausgabe</title>
   <link rel="stylesheet" href="../assets/css/base.css">
+  <style>
+    /* Audio Carousel Styles */
+    .carousel-wrapper {
+      position: relative;
+      margin: 28px 0;
+    }
+    
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--paper);
+      border: 1px solid rgba(0,0,0,0.04);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    }
+    
+    .carousel-slides {
+      display: flex;
+      transition: transform 0.3s ease;
+      transform: translateX(0);
+    }
+    
+    .carousel-slide {
+      min-width: 100%;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .slide-content h3 {
+      margin: 0 0 12px 0;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    
+    .slide-content p {
+      margin: 0 0 18px 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    
+    .audio-player {
+      background: rgba(0,0,0,0.02);
+      border-radius: calc(var(--radius) - 4px);
+      padding: 16px;
+      margin: 12px 0;
+    }
+    
+    .audio-player audio {
+      width: 100%;
+      margin: 0;
+    }
+    
+    .locked-notice {
+      background: rgba(0,0,0,0.05);
+      border-radius: calc(var(--radius) - 4px);
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+    
+    .lock-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    
+    .lock-message {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    
+    .lock-date {
+      font-size: 0.9rem;
+    }
+    
+    /* Carousel Controls */
+    .carousel-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--paper);
+      border-top: 1px solid rgba(0,0,0,0.04);
+    }
+    
+    .carousel-btn {
+      background: none;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 1.2rem;
+      transition: color 0.2s, transform 0.2s;
+      border-radius: 6px;
+    }
+    
+    .carousel-btn:hover {
+      color: var(--text);
+      transform: scale(1.1);
+    }
+    
+    .carousel-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.12);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      padding: 0;
+    }
+    
+    .carousel-dot.active {
+      background: var(--accent);
+    }
+    
+    .carousel-dot:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    
+    @media(min-width:720px) {
+      .carousel-slide {
+        padding: 36px;
+      }
+      
+      .carousel-nav {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
   <nav class="container header">
@@ -16,23 +158,242 @@
       <h1>Klartext<br><span style="color:var(--accent)">Winterausgabe</span></h1>
       <p class="lead">Digitale Ergänzungen zur Winterausgabe: kleine Übungen für Zuhause.</p>
 
-      <section class="card" aria-labelledby="uebersicht">
-        <h2 id="uebersicht">Inhalte</h2>
-        <div class="cards">
-          <article class="card">
-            <h3>Nikolaus</h3>
-            <p>Geführte Audio-Übung für Nikolaus.</p>
-            <a class="btn" href="nikolaus/">Zur Übung</a>
-          </article>
+      <section class="carousel-wrapper" aria-label="Audio-Carousel mit geführten Achtsamkeitsübungen">
+        <div class="carousel-container">
+          <div class="carousel-slides" id="carouselSlides">
+            <!-- Slide 1: Nikolaus -->
+            <div class="carousel-slide" data-slide-id="nikolaus" role="tabpanel" aria-label="Nikolaus - Ein Moment zum Nikolaus">
+              <div class="slide-content">
+                <h3>Einen Moment zum Nikolaus</h3>
+                <p>Geführte Audio-Übung für Nikolaus.</p>
+              </div>
+              <div id="nikolaus-player" class="audio-player">
+                <!-- Player or lock notice will be inserted here -->
+              </div>
+            </div>
 
-          <article class="card">
-            <h3>Heiligabend</h3>
-            <p>Geführte Audio-Übung für Heiligabend.</p>
-            <a class="btn" href="heiligabend/">Zur Übung</a>
-          </article>
+            <!-- Slide 2: Weihnachten -->
+            <div class="carousel-slide" data-slide-id="weihnachten" role="tabpanel" aria-label="Weihnachten - Ein kleiner Weihnachtsgruß">
+              <div class="slide-content">
+                <h3>Ein kleiner Weihnachtsgruß für Dich</h3>
+                <p>Geführte Audio-Übung für Weihnachten.</p>
+              </div>
+              <div id="weihnachten-player" class="audio-player">
+                <!-- Player or lock notice will be inserted here -->
+              </div>
+            </div>
+
+            <!-- Slide 3: Moment für dich -->
+            <div class="carousel-slide" data-slide-id="moment" role="tabpanel" aria-label="Moment für dich - Ein kleiner Moment für dich">
+              <div class="slide-content">
+                <h3>Ein kleiner Moment für dich</h3>
+                <p>Geführte Audio-Übung für jeden Tag.</p>
+              </div>
+              <div id="moment-player" class="audio-player">
+                <!-- Player will be inserted here -->
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-nav">
+            <button class="carousel-btn" id="prevBtn" aria-label="Vorheriger Slide">←</button>
+            <div class="carousel-dots">
+              <button class="carousel-dot active" data-slide="0" aria-label="Slide 1: Nikolaus" aria-current="page"></button>
+              <button class="carousel-dot" data-slide="1" aria-label="Slide 2: Weihnachten"></button>
+              <button class="carousel-dot" data-slide="2" aria-label="Slide 3: Moment für dich"></button>
+            </div>
+            <button class="carousel-btn" id="nextBtn" aria-label="Nächster Slide">→</button>
+          </div>
         </div>
       </section>
     </article>
   </main>
+
+  <script>
+    const SLIDES_CONFIG = [
+      {
+        id: 'nikolaus',
+        title: 'Einen Moment zum Nikolaus',
+        audio: 'assets/audio/Nikolaus_raw.mp3',
+        lockedUntil: '2026-12-05T23:59:59',
+        unlocksAt: '2026-12-06T00:00:00'
+      },
+      {
+        id: 'weihnachten',
+        title: 'Ein kleiner Weihnachtsgruß für Dich',
+        audio: 'assets/audio/Heiligabend_raw.mp3',
+        lockedUntil: '2026-12-23T23:59:59',
+        unlocksAt: '2026-12-24T00:00:00'
+      },
+      {
+        id: 'moment',
+        title: 'Ein kleiner Moment für dich',
+        audio: 'assets/audio/Moment_fuer_dich_raw.mp3',
+        lockedUntil: null,
+        unlocksAt: null
+      }
+    ];
+
+    let currentSlide = 0;
+    const audioPlayers = [];
+
+    function getSlideIndex(slideId) {
+      return SLIDES_CONFIG.findIndex(s => s.id === slideId);
+    }
+
+    function isSlideUnlocked(slideConfig) {
+      if (!slideConfig.unlocksAt) return true;
+      return new Date() >= new Date(slideConfig.unlocksAt);
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    }
+
+    function createAudioPlayer(config, index) {
+      const locked = !isSlideUnlocked(config);
+      const playerId = `audio-${config.id}`;
+      const container = document.getElementById(`${config.id}-player`);
+
+      if (locked) {
+        const unlockDate = new Date(config.unlocksAt);
+        const formatted = formatDate(config.unlocksAt);
+        container.innerHTML = `
+          <div class="locked-notice" role="status" aria-live="polite">
+            <div class="lock-icon">🔒</div>
+            <div class="lock-message">Diese Übung ist noch gesperrt</div>
+            <div class="lock-date">Freigeschaltet ab ${formatted}</div>
+          </div>
+        `;
+        audioPlayers[index] = null;
+      } else {
+        const player = document.createElement('audio');
+        player.id = playerId;
+        player.src = config.audio;
+        player.controls = true;
+        player.setAttribute('aria-label', `Audio-Player: ${config.title}`);
+        container.innerHTML = '';
+        container.appendChild(player);
+        audioPlayers[index] = player;
+      }
+    }
+
+    function showSlide(index) {
+      const slides = document.querySelectorAll('.carousel-slide');
+      const dots = document.querySelectorAll('.carousel-dot');
+      const config = SLIDES_CONFIG[index];
+
+      // Check if this slide is locked and if trying to navigate to it directly
+      if (!isSlideUnlocked(config)) {
+        // For locked slides accessed via hash, show them but still locked
+        // This allows direct links but respects the lock
+      }
+
+      currentSlide = index;
+      const offset = -index * 100;
+      document.getElementById('carouselSlides').style.transform = `translateX(${offset}%)`;
+
+      slides.forEach((slide, i) => {
+        slide.setAttribute('aria-hidden', i !== index ? 'true' : 'false');
+      });
+
+      dots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+          dot.setAttribute('aria-current', 'page');
+        } else {
+          dot.classList.remove('active');
+          dot.removeAttribute('aria-current');
+        }
+      });
+
+      // Pause all other audio players
+      audioPlayers.forEach((player, i) => {
+        if (player && i !== index) {
+          player.pause();
+        }
+      });
+
+      // Update URL hash
+      window.location.hash = config.id;
+    }
+
+    function initCarousel() {
+      // Create all audio players/lock notices
+      SLIDES_CONFIG.forEach((config, index) => {
+        createAudioPlayer(config, index);
+      });
+
+      // Navigation buttons
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        const newIndex = (currentSlide - 1 + SLIDES_CONFIG.length) % SLIDES_CONFIG.length;
+        showSlide(newIndex);
+      });
+
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        const newIndex = (currentSlide + 1) % SLIDES_CONFIG.length;
+        showSlide(newIndex);
+      });
+
+      // Dot navigation
+      document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showSlide(index);
+        });
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          document.getElementById('prevBtn').click();
+        } else if (e.key === 'ArrowRight') {
+          document.getElementById('nextBtn').click();
+        }
+      });
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      const container = document.querySelector('.carousel-container');
+      container.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+      });
+      container.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            document.getElementById('nextBtn').click();
+          } else {
+            document.getElementById('prevBtn').click();
+          }
+        }
+      });
+
+      // Handle hash navigation on load
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        const slideIndex = getSlideIndex(hash);
+        if (slideIndex !== -1) {
+          showSlide(slideIndex);
+          return;
+        }
+      }
+
+      // Default to first slide
+      showSlide(0);
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCarousel);
+    } else {
+      initCarousel();
+    }
+  </script>
 </body>
 </html>
