@@ -25,27 +25,30 @@
       <span class="kicker">Ausgabe 01 · 08/26</span>
       <h1>Warum Ehrlichkeit Mut braucht</h1>
       <p class="detail-subtitle">Das Audio-Extra der ersten Ausgabe: eine Auszeit zum Entschleunigen.</p>
-    </section>
 
-    <section class="detail-card">
-      <div class="detail-label">Auszeit</div>
-      <h2>Entschleunigen</h2>
-      <p class="detail-lead">Zwischen all dem – wo bist du eigentlich?</p>
-      <h3>🎧 Auszeit: Entschleunigen</h3>
-      <audio class="audio-player" preload="metadata" controls>
-        <source src="./Zeit-fuer-dich_2026.m4a" type="audio/mp4">
-        Dein Browser unterstützt die Audiowiedergabe nicht.
-      </audio>
-      <p class="audio-note">Willkommen zu deiner kleinen Pause. Manchmal braucht es nur einen ruhigen Moment, um wieder bei sich selbst anzukommen.</p>
-      <blockquote>„Du musst nicht immer stark sein.“</blockquote>
-      <a class="download-card" href="./zeit-fuer-dich-achtsamkeitsuebung.pdf" target="_blank" rel="noopener">
-        <span class="download-icon" aria-hidden="true">📄</span>
-        <span><strong>Übungsblatt</strong><small>PDF herunterladen</small></span>
-        <span aria-hidden="true">↓</span>
-      </a>
-    </section>
+      <!-- ═══ AUDIO-KACHEL (gleiches Design wie Q4, nur ein Slide) ═══ -->
+      <div class="carousel-container">
+        <div class="carousel-wrapper">
+          <div class="carousel-slides">
+            <div class="carousel-slide" style="flex-basis:100%;">
+              <span class="audio-badge">🎧 Ausgabe 01 · 08/26</span>
+              <h2 class="slide-title">Entschleunigen</h2>
+              <p class="slide-intro">Zwischen all dem – wo bist du eigentlich?</p>
+              <blockquote class="slide-quote">„Du musst nicht immer stark sein.“</blockquote>
+              <div class="audio-container" id="zeitfuerdich-container"></div>
 
-    <a class="back-link" href="../">← Alle Ausgaben</a>
+              <a class="download-card" href="./zeit-fuer-dich-achtsamkeitsuebung.pdf" target="_blank" rel="noopener">
+                <span class="download-icon" aria-hidden="true">📄</span>
+                <span><strong>Übungsblatt</strong><small>PDF herunterladen</small></span>
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a class="back-link" href="../">← Alle Ausgaben</a>
+    </section>
 
     <footer class="site-footer">
       <div>
@@ -60,5 +63,140 @@
       <p class="copyright">© 2026 KLARTeXt. Das Magazin mit Haltung</p>
     </footer>
   </main>
+
+  <!-- ═══ PLAYER (identisch zu Q4, nur ein einzelner Player, keine Carousel-Navigation nötig) ═══ -->
+  <script>
+    (function() {
+      'use strict';
+
+      function fmt(s) {
+        if (!isFinite(s) || s < 0) return '0:00';
+        const mins = Math.floor(s / 60);
+        const secs = Math.floor(s % 60);
+        return mins + ':' + String(secs).padStart(2, '0');
+      }
+
+      function renderPlayer(containerId, title, src) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = `
+          <div class="player">
+            <div class="player-title">🎧 ${title}</div>
+            <div class="progress-track" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0" aria-label="Fortschritt">
+              <div class="progress-fill" style="width:0%;"></div>
+            </div>
+            <div class="time-labels">
+              <span class="current-time" aria-live="polite">0:00</span>
+              <span class="total-time">0:00</span>
+            </div>
+            <div class="controls">
+              <button class="btn-skip" aria-label="15 Sekunden zurück" data-skip="-15">↺ 15s</button>
+              <button class="btn-play" aria-label="Abspielen" data-playing="false">
+                <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>
+              </button>
+              <button class="btn-skip" aria-label="15 Sekunden vor" data-skip="15">↻ 15s</button>
+            </div>
+          </div>
+        `;
+
+        const playerDiv = container.querySelector('.player');
+        const playBtn = playerDiv.querySelector('.btn-play');
+        const progressFill = playerDiv.querySelector('.progress-fill');
+        const progressTrack = playerDiv.querySelector('.progress-track');
+        const timeCurrent = playerDiv.querySelector('.current-time');
+        const timeTotal = playerDiv.querySelector('.total-time');
+        const skipBtns = playerDiv.querySelectorAll('.btn-skip');
+
+        const audio = new Audio(src);
+        audio.preload = 'metadata';
+        let duration = 0;
+        let interval = null;
+
+        function updateUI() {
+          const pct = duration ? Math.min(100, (audio.currentTime / duration) * 100) : 0;
+          progressFill.style.width = pct + '%';
+          progressTrack.setAttribute('aria-valuenow', Math.round(pct));
+          timeCurrent.textContent = fmt(audio.currentTime);
+          timeTotal.textContent = fmt(duration);
+        }
+
+        function togglePlay() {
+          if (audio.paused) {
+            audio.play().catch(() => {});
+            playBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="3" width="4" height="18" /><rect x="14" y="3" width="4" height="18" /></svg>';
+            playBtn.setAttribute('aria-label', 'Pause');
+            playBtn.dataset.playing = 'true';
+            if (interval) clearInterval(interval);
+            interval = setInterval(updateUI, 250);
+          } else {
+            audio.pause();
+            if (interval) { clearInterval(interval); interval = null; }
+            playBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>';
+            playBtn.setAttribute('aria-label', 'Abspielen');
+            playBtn.dataset.playing = 'false';
+          }
+        }
+
+        function nudge(delta) {
+          audio.currentTime = Math.max(0, Math.min(duration || 0, (audio.currentTime || 0) + delta));
+          updateUI();
+        }
+
+        function handleSeek(e) {
+          const rect = progressTrack.getBoundingClientRect();
+          const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+          audio.currentTime = x * (duration || 1);
+          updateUI();
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+          duration = audio.duration;
+          updateUI();
+        });
+        audio.addEventListener('timeupdate', updateUI);
+        audio.addEventListener('ended', () => {
+          if (interval) { clearInterval(interval); interval = null; }
+          playBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>';
+          playBtn.setAttribute('aria-label', 'Abspielen');
+          playBtn.dataset.playing = 'false';
+          audio.currentTime = 0;
+          updateUI();
+        });
+
+        playBtn.addEventListener('click', togglePlay);
+        skipBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const delta = parseInt(btn.dataset.skip, 10);
+            if (!isNaN(delta)) nudge(delta);
+          });
+        });
+        progressTrack.addEventListener('click', handleSeek);
+
+        playerDiv.addEventListener('keydown', (e) => {
+          if (e.target.closest('button, input, textarea')) return;
+          if (e.code === 'Space') { e.preventDefault(); togglePlay(); }
+          if (e.key === 'ArrowLeft') { e.preventDefault(); nudge(-5); }
+          if (e.key === 'ArrowRight') { e.preventDefault(); nudge(5); }
+        });
+        progressTrack.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); nudge(-5); }
+          if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); nudge(5); }
+          if (e.key === 'Home') { e.preventDefault(); nudge(-duration); }
+          if (e.key === 'End') { e.preventDefault(); nudge(duration); }
+        });
+      }
+
+      function init() {
+        renderPlayer('zeitfuerdich-container', 'Entschleunigen', './Zeit-fuer-dich_2026.m4a');
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
 </body>
 </html>
