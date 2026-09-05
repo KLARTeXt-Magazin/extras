@@ -242,17 +242,22 @@ blockquote {
 .download-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 10px 14px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
+  background: var(--paper);
+  color: inherit;
   text-decoration: none;
-  transition: border-color .18s ease, color .18s ease;
+  font-size: .85rem;
+  transition: border-color .18s ease, color .18s ease, background .18s ease;
 }
-.download-card:hover { border-color: var(--signal); color: var(--signal); }
-.download-card > span:nth-child(2) { display: grid; flex: 1; }
-.download-card small { color: var(--muted); }
-.download-icon { font-size: 1.5rem; }
+.download-card:hover { border-color: var(--signal); color: var(--signal); background: var(--soft); }
+.download-card > span:nth-child(2) { display: grid; flex: 1; line-height: 1.25; }
+.download-card strong { font-size: .85rem; }
+.download-card small { color: var(--muted); font-size: .72rem; }
+.download-icon { font-size: 1.1rem; }
 .back-link {
   display: inline-block;
   margin-top: 32px;
@@ -290,7 +295,7 @@ blockquote {
 /* Q4 carousel compatibility */
 .carousel-container {
   max-width: var(--max);
-  margin: 32px auto;
+  margin: 20px auto;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -298,16 +303,26 @@ blockquote {
 }
 .carousel-wrapper { position: relative; overflow: hidden; }
 .carousel-slides { display: flex; transition: transform .35s cubic-bezier(.4,0,.2,1); }
-.carousel-slide { display: flex; flex: 0 0 100%; flex-direction: column; padding: 40px 32px; }
-.slide-title { margin: 0 0 8px; color: var(--ink); font-size: 1.75rem; }
-.slide-intro { margin: 0 0 24px; color: var(--muted); }
-.audio-container { margin-top: auto; }
+.carousel-slide { display: flex; flex: 0 0 100%; flex-direction: column; padding: 28px 24px; }
+.slide-title { margin: 0 0 6px; color: var(--ink); font-size: 1.5rem; }
+.slide-intro { margin: 0 0 14px; color: var(--muted); font-size: .92rem; }
+.slide-quote {
+  margin: 0 0 18px;
+  padding-left: 14px;
+  border-left: 2px solid var(--signal);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+.audio-container { margin-top: 0; }
 .audio-player { border-radius: 8px; }
 .locked-state { padding: 32px 24px; border-radius: 8px; background: var(--bg); color: var(--muted); text-align: center; }
 .lock-icon { display: block; margin-bottom: 12px; font-size: 2rem; }
 .lock-title { margin-bottom: 8px; color: var(--ink); font-weight: 600; }
 .lock-message { font-size: .9rem; }
-.carousel-controls { display: flex; align-items: center; justify-content: center; gap: 24px; padding: 20px; border-top: 1px solid var(--border); }
+.carousel-controls { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 14px; border-top: 1px solid var(--border); }
 .carousel-nav-btn { border: 0; border-radius: 4px; background: none; color: var(--muted); cursor: pointer; font-size: 1.5rem; }
 .carousel-nav-btn:hover { color: var(--signal); }
 .carousel-dots { display: flex; gap: 12px; }
@@ -330,16 +345,16 @@ blockquote {
 
 /* Custom audio player (JS-gesteuert, keine nativen Browser-Controls) */
 .player {
-  margin: 4px 0 8px;
-  padding: 20px 24px;
+  margin: 0 0 4px;
+  padding: 14px 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--soft);
 }
 .player-title {
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   font-weight: 600;
-  font-size: .95rem;
+  font-size: .85rem;
   color: var(--ink);
 }
 .progress-track {
@@ -369,17 +384,17 @@ blockquote {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-top: 16px;
+  gap: 10px;
+  margin-top: 10px;
 }
 .btn-skip {
-  padding: 6px 8px;
+  padding: 4px 6px;
   border: none;
   border-radius: 6px;
   background: none;
   color: var(--muted);
   font-family: inherit;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: all .2s ease;
@@ -391,8 +406,8 @@ blockquote {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   border: none;
   border-radius: 50%;
   background: var(--ink);
@@ -403,7 +418,7 @@ blockquote {
 }
 .btn-play:hover { background: var(--signal); transform: scale(1.04); }
 .btn-play:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
-.btn-play svg { width: 22px; height: 22px; fill: currentColor; }
+.btn-play svg { width: 17px; height: 17px; fill: currentColor; }
 
 /* Gesperrter Player */
 .locked-badge {
