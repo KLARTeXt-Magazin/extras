@@ -1,398 +1,633 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Audio-Extras zur zweiten KLARTeXt. Ausgabe.">
-  <title>Lichtblicke – Audios Ausgabe 02 · 11/26 | KLARTeXt.</title>
-  <link rel="stylesheet" href="../assets/css/base.css">
-  <style>
-    /* ============================================================
-       Q4 Audio Carousel — Erweiterung zu base.css
-       Konsistent mit KLARTeXt.-Designsystem (Barlow, Raleway, etc.)
-       ============================================================ */
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KLARTeXt. Extras – Hinhören. Fühlen. Ankommen.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* --- Reset & Basis --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .carousel-container {
-      margin: 0;
-      padding: 0;
-      background: var(--card);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      max-width: var(--max);
-      margin: 2rem auto;
-    }
+        body {
+            font-family: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+            background: #f8f6f2; /* Sanfter, papierähnlicher Hintergrund */
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .carousel-wrapper {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
+        /* --- Design System (angelehnt an Print) --- */
+        :root {
+            --color-ink: #1a1a1a;
+            --color-surface: #f0ede8;
+            --color-signal: #b33a3a;
+            --color-background: #f8f6f2;
+            --color-foreground: #1a1a1a;
+            --color-card: #ffffff;
+            --color-muted-foreground: #6b6b6b;
+            --color-border: #e5e0d8;
+            --color-accent: #b33a3a;
+            --radius: 0.75rem;
+        }
 
-    .carousel-slides {
-      display: flex;
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateX(0);
-    }
+        /* --- Header (reduziert für Audio-Fokus) --- */
+        .site-header {
+            border-bottom: 1px solid var(--color-border);
+            background: rgba(248, 246, 242, 0.92);
+            backdrop-filter: blur(8px);
+            padding: 12px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
 
-    .carousel-slide {
-      flex: 0 0 100%;
-      padding: 2.5rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-    }
+        .header-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+        }
 
-    .slide-title {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin: 0 0 0.5rem 0;
-      line-height: 1.2;
-    }
+        .logo {
+            font-family: "Antonio", sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--color-ink);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .logo span { color: var(--color-signal); }
 
-    .slide-intro {
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin: 0 0 1.5rem 0;
-      line-height: 1.5;
-    }
+        .nav a {
+            font-family: "Antonio", sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-ink);
+            text-decoration: none;
+            padding: 4px 12px;
+            border-radius: 20px;
+            transition: all 0.2s;
+            letter-spacing: 0.02em;
+        }
+        .nav a:hover { color: var(--color-signal); }
+        .nav a.active {
+            background: var(--color-ink);
+            color: #fff;
+        }
+        .nav a.active:hover { background: var(--color-signal); }
 
-    .audio-container {
-      margin-top: auto;
-    }
+        /* --- Hauptcontainer --- */
+        .main {
+            flex: 1;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+            width: 100%;
+        }
 
-    .audio-player {
-      background: var(--paper);
-      padding: 1rem;
-      border-radius: 8px;
-      margin: 0;
-    }
+        /* --- Seiten-Intro --- */
+        .page-intro {
+            margin-bottom: 40px;
+            border-left: 4px solid var(--color-signal);
+            padding-left: 20px;
+        }
+        .page-intro .kicker {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--color-signal);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .page-intro h1 {
+            font-family: "Antonio", sans-serif;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: 0.01em;
+        }
+        .page-intro .claim {
+            font-size: 1.05rem;
+            color: var(--color-muted-foreground);
+            margin-top: 6px;
+        }
 
-    .audio-player audio {
-      width: 100%;
-      display: block;
-      margin: 0;
-    }
+        /* --- Audio Card (primärer Fokus) --- */
+        .audio-card {
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .audio-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
 
-    .locked-state {
-      background: var(--paper);
-      padding: 2rem 1.5rem;
-      border-radius: 8px;
-      text-align: center;
-      color: var(--muted);
-    }
+        .audio-card .badge {
+            display: inline-block;
+            background: var(--color-signal);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 3px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
 
-    .lock-icon {
-      font-size: 2.5rem;
-      margin-bottom: 0.75rem;
-      display: block;
-    }
+        .audio-card h2 {
+            font-family: "Antonio", sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+        .audio-card .sub {
+            color: var(--color-muted-foreground);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
 
-    .lock-title {
-      font-family: var(--font-body);
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin: 0 0 0.5rem 0;
-    }
+        /* --- Player (minimalistisch) --- */
+        .player {
+            background: var(--color-surface);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin: 4px 0 8px;
+        }
 
-    .lock-message {
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin: 0;
-    }
+        .player-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+        }
 
-    /* Carousel Navigation */
-    .carousel-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      padding: 1.25rem;
-      background: var(--paper);
-      border-top: 1px solid var(--border);
-    }
+        .progress-track {
+            height: 5px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--color-signal);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
 
-    .carousel-nav-btn {
-      background: none;
-      border: none;
-      font-family: inherit;
-      font-size: 1.25rem;
-      color: var(--muted);
-      cursor: pointer;
-      padding: 0.5rem;
-      transition: all 0.2s ease;
-      border-radius: 4px;
-    }
+        .time-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-muted-foreground);
+            margin-top: 4px;
+        }
 
-    .carousel-nav-btn:hover {
-      color: var(--red);
-      transform: scale(1.15);
-    }
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+        }
 
-    .carousel-nav-btn:focus-visible {
-      outline: 2px solid var(--red);
-      outline-offset: 3px;
-    }
+        .btn-skip {
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-muted-foreground);
+            cursor: pointer;
+            padding: 6px 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+            border-radius: 6px;
+        }
+        .btn-skip:hover {
+            color: var(--color-foreground);
+            background: rgba(0,0,0,0.04);
+        }
 
-    .carousel-dots {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-    }
+        .btn-play {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--color-ink);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+        .btn-play:hover {
+            background: var(--color-signal);
+            transform: scale(1.04);
+        }
+        .btn-play svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
 
-    .carousel-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--border);
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: all 0.2s ease;
-    }
+        /* --- PDF-Download (optional) --- */
+        .pdf-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding: 10px 18px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            background: var(--color-surface);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .pdf-link:hover {
+            background: var(--color-border);
+            transform: translateY(-1px);
+        }
+        .pdf-link .icon { font-size: 1.2rem; }
 
-    .carousel-dot:hover {
-      background: var(--olive);
-    }
+        /* --- Archiv (nachrangig) --- */
+        .archive-section {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 2px solid var(--color-border);
+        }
+        .archive-section h3 {
+            font-family: "Antonio", sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin-bottom: 16px;
+            color: var(--color-muted-foreground);
+        }
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+        .archive-item {
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .archive-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border-color: var(--color-signal);
+        }
+        .archive-item .issue {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-muted-foreground);
+        }
+        .archive-item .title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: block;
+            margin-top: 4px;
+        }
 
-    .carousel-dot.active {
-      background: var(--red);
-      transform: scale(1.1);
-    }
+        /* --- Footer --- */
+        .site-footer {
+            max-width: 680px;
+            margin: 20px auto 0;
+            padding: 20px 20px 32px;
+            width: 100%;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--color-muted-foreground);
+        }
+        .site-footer a {
+            color: var(--color-muted-foreground);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .site-footer a:hover { color: var(--color-signal); }
 
-    .carousel-dot:focus-visible {
-      outline: 2px solid var(--red);
-      outline-offset: 2px;
-    }
-
-    @media (min-width: 720px) {
-      .carousel-slide {
-        padding: 3rem 2rem;
-      }
-
-      .slide-title {
-        font-size: 1.8rem;
-      }
-
-      .carousel-controls {
-        padding: 1.5rem;
-      }
-    }
-  </style>
+        /* --- Responsive --- */
+        @media (max-width: 500px) {
+            .header-inner { flex-direction: column; gap: 6px; }
+            .audio-card { padding: 20px 16px; }
+            .player { padding: 16px; }
+            .controls { gap: 12px; }
+            .btn-play { width: 50px; height: 50px; }
+            .btn-play svg { width: 18px; height: 18px; }
+            .archive-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="../" aria-label="KLARTeXt. Extras - Startseite">
-        <img src="../Klartext-logo.png" alt="KLARTeXt. - Das Magazin mit Haltung">
-      </a>
-      <nav class="nav" aria-label="Hauptnavigation">
-        <a class="nav-current" href="../">Extras</a>
-        <a href="https://www.magazin-klartext.de/" target="_blank" rel="noopener">Startseite</a>
-        <a href="https://www.magazin-klartext.de/aktuelle-ausgabe/" target="_blank" rel="noopener">Aktuelle Ausgabe</a>
-        <a href="https://www.magazin-klartext.de/ueber-uns/" target="_blank" rel="noopener">Über uns</a>
-        <a href="https://www.magazin-klartext.de/kontakt/" target="_blank" rel="noopener">Kontakt</a>
-      </nav>
-    </div>
-  </header>
 
-  <!-- Main Content -->
-  <main class="main">
-    <section class="detail-hero">
-      <span class="kicker">Ausgabe 02 · 11/26</span>
-      <h1>Lichtblicke</h1>
-      <p class="detail-subtitle">Momente zum Innehalten: scanne den QR-Code im Heft oder im Kalender und höre direkt los.</p>
+    <!-- ═══ HEADER ═══ -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/" class="logo">KLARTeXt<span>.</span></a>
+            <nav class="nav">
+                <a href="/" class="active">Extras</a>
+                <a href="https://www.magazin-klartext.de/" target="_blank">Magazin</a>
+            </nav>
+        </div>
+    </header>
 
-      <!-- Carousel -->
-      <div class="carousel-container">
-        <div class="carousel-wrapper">
-          <div class="carousel-slides" id="slides">
+    <!-- ═══ MAIN ═══ -->
+    <main class="main">
 
-            <!-- Slide 1: Nikolaus -->
-            <div class="carousel-slide" data-slide-id="nikolaus" role="tabpanel" aria-label="Slide 1: Nikolaus">
-              <h2 class="slide-title">Einen Moment zum Nikolaus</h2>
-              <p class="slide-intro">Eine geführte Achtsamkeitsübung zur Vorbereitung auf die Adventszeit.</p>
-              <div class="audio-container" id="nikolaus-container"></div>
-            </div>
-
-            <!-- Slide 2: Weihnachten -->
-            <div class="carousel-slide" data-slide-id="weihnachten" role="tabpanel" aria-label="Slide 2: Weihnachten">
-              <h2 class="slide-title">Ein kleiner Weihnachtsgruß für Dich</h2>
-              <p class="slide-intro">Eine stille Andacht für die Weihnachtszeit — zum Innehalten und Genießen.</p>
-              <div class="audio-container" id="weihnachten-container"></div>
-            </div>
-
-            <!-- Slide 3: Moment für dich -->
-            <div class="carousel-slide" data-slide-id="moment" role="tabpanel" aria-label="Slide 3: Moment für dich">
-              <h2 class="slide-title">Ein kleiner Moment für dich</h2>
-              <p class="slide-intro">Eine Achtsamkeitsübung für jeden Tag im Jahr — jederzeit verfügbar.</p>
-              <div class="audio-container" id="moment-container"></div>
-            </div>
-
-          </div>
+        <!-- Seiten-Intro -->
+        <div class="page-intro">
+            <span class="kicker">KLARTeXt. Extras</span>
+            <h1>Hinhören. Fühlen. Ankommen.</h1>
+            <p class="claim">Die Audio-Begleiter zur aktuellen Ausgabe – für einen echten Moment mit dir selbst.</p>
         </div>
 
-        <!-- Navigation Controls -->
-        <div class="carousel-controls">
-          <button class="carousel-nav-btn" id="prev" aria-label="Vorheriger Slide">‹</button>
-          <div class="carousel-dots">
-            <button class="carousel-dot active" data-slide="0" aria-label="Slide 1: Nikolaus" aria-current="page"></button>
-            <button class="carousel-dot" data-slide="1" aria-label="Slide 2: Weihnachten"></button>
-            <button class="carousel-dot" data-slide="2" aria-label="Slide 3: Moment für dich"></button>
-          </div>
-          <button class="carousel-nav-btn" id="next" aria-label="Nächster Slide">›</button>
-        </div>
-      </div>
+        <!-- ═══ AKTUELLE AUDIO-EXTRAS (FOKUS) ═══ -->
 
-      <a class="back-link" href="../">← Alle Ausgaben</a>
-    </section>
+        <!-- Audio 1: Lichtblicke -->
+        <article class="audio-card" id="audio-lichtblicke">
+            <span class="badge">🎧 Ausgabe 02 · 11/26</span>
+            <h2>Lichtblicke</h2>
+            <p class="sub">Ein Moment zum Innehalten im Dezember.</p>
 
+            <div class="player">
+                <div class="player-title">🎧 Audio: Lichtblicke</div>
+                <div class="progress-track" role="presentation">
+                    <div class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="time-labels">
+                    <span class="current-time">0:00</span>
+                    <span class="total-time">3:45</span>
+                </div>
+                <div class="controls">
+                    <button class="btn-skip" aria-label="15 Sekunden zurück" data-skip="-15">↺ 15s</button>
+                    <button class="btn-play" aria-label="Abspielen" data-playing="false">
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>
+                    </button>
+                    <button class="btn-skip" aria-label="15 Sekunden vor" data-skip="15">↻ 15s</button>
+                </div>
+            </div>
+
+            <a href="#" class="pdf-link" target="_blank" rel="noopener">
+                <span class="icon">📄</span> Begleitblatt zum Download
+            </a>
+        </article>
+
+        <!-- Audio 2: Nikolaus-Special -->
+        <article class="audio-card" id="audio-nikolaus">
+            <span class="badge">🎧 Ausgabe 02 · 11/26</span>
+            <h2>Einen Moment zum Nikolaus</h2>
+            <p class="sub">Ein kurzes Innehalten mitten im Dezember.</p>
+
+            <div class="player">
+                <div class="player-title">🎧 Audio: Nikolaus-Special</div>
+                <div class="progress-track" role="presentation">
+                    <div class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="time-labels">
+                    <span class="current-time">0:00</span>
+                    <span class="total-time">2:58</span>
+                </div>
+                <div class="controls">
+                    <button class="btn-skip" aria-label="15 Sekunden zurück" data-skip="-15">↺ 15s</button>
+                    <button class="btn-play" aria-label="Abspielen" data-playing="false">
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>
+                    </button>
+                    <button class="btn-skip" aria-label="15 Sekunden vor" data-skip="15">↻ 15s</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- Audio 3: Weihnachtsgruß -->
+        <article class="audio-card" id="audio-weihnachten">
+            <span class="badge">🎧 Ausgabe 02 · 11/26</span>
+            <h2>Ein kleiner Weihnachtsgruß für Dich</h2>
+            <p class="sub">Ein leiser Moment am Abend des Jahres.</p>
+
+            <div class="player">
+                <div class="player-title">🎧 Audio: Weihnachtsgruß</div>
+                <div class="progress-track" role="presentation">
+                    <div class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="time-labels">
+                    <span class="current-time">0:00</span>
+                    <span class="total-time">4:12</span>
+                </div>
+                <div class="controls">
+                    <button class="btn-skip" aria-label="15 Sekunden zurück" data-skip="-15">↺ 15s</button>
+                    <button class="btn-play" aria-label="Abspielen" data-playing="false">
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>
+                    </button>
+                    <button class="btn-skip" aria-label="15 Sekunden vor" data-skip="15">↻ 15s</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- ═══ ARCHIV (NACHRANGIG) ═══ -->
+        <section class="archive-section">
+            <h3>Weitere Ausgaben entdecken</h3>
+            <div class="archive-grid">
+                <a href="#" class="archive-item">
+                    <span class="issue">Ausgabe 01 · 08/26</span>
+                    <span class="title">Warum Ehrlichkeit Mut braucht</span>
+                </a>
+                <a href="#" class="archive-item">
+                    <span class="issue">Ausgabe 03 · 2027</span>
+                    <span class="title">Demnächst</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══ FOOTER ═══ -->
     <footer class="site-footer">
-      <div>
-        <div class="footer-brand">KLARTeXt.</div>
-        <div class="footer-tagline">Echt. Mutig. Klar.</div>
-      </div>
-      <div class="footer-links">
-        <a href="https://www.magazin-klartext.de/impressum/" target="_blank" rel="noopener">Impressum</a>
-        <a href="https://www.magazin-klartext.de/datenschutzerklaerung/" target="_blank" rel="noopener">Datenschutzerklärung</a>
-        <span>Extras · 11/2026</span>
-      </div>
-      <p class="copyright">© 2026 KLARTeXt. Das Magazin mit Haltung</p>
+        <span>© 2026 KLARTeXt. Das Magazin mit Haltung</span>
+        <span>
+            <a href="https://www.magazin-klartext.de/impressum/" target="_blank">Impressum</a> ·
+            <a href="https://www.magazin-klartext.de/datenschutzerklaerung/" target="_blank">Datenschutz</a>
+        </span>
     </footer>
-  </main>
 
-  <script>
-    const SLIDES = [
-      {
-        id: 'nikolaus',
-        title: 'Einen Moment zum Nikolaus',
-        audio: 'assets/audio/Nikolaus_raw.mp3',
-        unlocksAt: new Date('2026-12-06T00:00:00').getTime()
-      },
-      {
-        id: 'weihnachten',
-        title: 'Ein kleiner Weihnachtsgruß für Dich',
-        audio: 'assets/audio/Heiligabend_raw.mp3',
-        unlocksAt: new Date('2026-12-24T00:00:00').getTime()
-      },
-      {
-        id: 'moment',
-        title: 'Ein kleiner Moment für dich',
-        audio: 'assets/audio/Moment_fuer_dich_raw.mp3',
-        unlocksAt: 0 // Always unlocked
-      }
-    ];
+    <!-- ═══ JAVASCRIPT: PLAYER-LOGIK ═══ -->
+    <script>
+        (function() {
+            'use strict';
 
-    let currentIndex = 0;
-    const players = [];
+            // --- Hilfsfunktionen ---
+            function fmt(s) {
+                if (!isFinite(s) || s < 0) return '0:00';
+                const mins = Math.floor(s / 60);
+                const secs = Math.floor(s % 60);
+                return `${mins}:${String(secs).padStart(2, '0')}`;
+            }
 
-    function isUnlocked(slide) {
-      return slide.unlocksAt === 0 || Date.now() >= slide.unlocksAt;
-    }
+            // --- Jeden Player initialisieren ---
+            document.querySelectorAll('.audio-card').forEach((card) => {
+                const playBtn = card.querySelector('.btn-play');
+                const progressFill = card.querySelector('.progress-fill');
+                const timeCurrent = card.querySelector('.current-time');
+                const timeTotal = card.querySelector('.total-time');
+                const skipBtns = card.querySelectorAll('.btn-skip');
+                const track = card.querySelector('.progress-track');
 
-    function formatUnlockDate(timestamp) {
-      const date = new Date(timestamp);
-      return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    }
+                // Zustand pro Player
+                let isPlaying = false;
+                let currentTime = 0;
+                // Dauer aus dem timeTotal-Element auslesen (z.B. "3:45")
+                const durationStr = timeTotal.textContent;
+                const parts = durationStr.split(':').map(Number);
+                const duration = (parts.length === 2) ? (parts[0] * 60 + parts[1]) : 180;
+                let interval = null;
 
-    function renderPlayer(slide, index) {
-      const container = document.getElementById(`${slide.id}-container`);
-      const unlocked = isUnlocked(slide);
+                // --- UI aktualisieren ---
+                function updateUI() {
+                    const pct = duration ? Math.min(100, (currentTime / duration) * 100) : 0;
+                    progressFill.style.width = pct + '%';
+                    timeCurrent.textContent = fmt(currentTime);
+                    timeTotal.textContent = fmt(duration);
+                }
 
-      if (unlocked) {
-        const audio = document.createElement('audio');
-        audio.src = slide.audio;
-        audio.controls = true;
-        audio.className = 'audio-player';
-        audio.setAttribute('aria-label', `Audio: ${slide.title}`);
-        container.innerHTML = '';
-        container.appendChild(audio);
-        players[index] = audio;
-      } else {
-        const unlockDate = formatUnlockDate(slide.unlocksAt);
-        container.innerHTML = `
-          <div class="locked-state" role="status" aria-live="polite">
-            <span class="lock-icon">🔒</span>
-            <div class="lock-title">Diese Übung ist noch gesperrt</div>
-            <div class="lock-message">Verfügbar ab ${unlockDate}</div>
-          </div>
-        `;
-        players[index] = null;
-      }
-    }
+                // --- Play/Pause togglen ---
+                function togglePlay() {
+                    isPlaying = !isPlaying;
+                    if (isPlaying) {
+                        // Play → Pause Icon
+                        playBtn.innerHTML = `
+                            <svg viewBox="0 0 24 24">
+                                <rect x="6" y="3" width="4" height="18" />
+                                <rect x="14" y="3" width="4" height="18" />
+                            </svg>
+                        `;
+                        playBtn.setAttribute('aria-label', 'Pause');
+                        playBtn.dataset.playing = 'true';
 
-    function goToSlide(index) {
-      currentIndex = (index + SLIDES.length) % SLIDES.length;
-      const offset = -currentIndex * 100;
-      document.getElementById('slides').style.transform = `translateX(${offset}%)`;
+                        // Simulation abspielen
+                        if (interval) clearInterval(interval);
+                        interval = setInterval(() => {
+                            if (currentTime < duration) {
+                                currentTime += 0.5;
+                                updateUI();
+                            } else {
+                                // Am Ende angekommen
+                                isPlaying = false;
+                                clearInterval(interval);
+                                interval = null;
+                                playBtn.innerHTML = `
+                                    <svg viewBox="0 0 24 24">
+                                        <polygon points="5,3 19,12 5,21" />
+                                    </svg>
+                                `;
+                                playBtn.setAttribute('aria-label', 'Abspielen');
+                                playBtn.dataset.playing = 'false';
+                                currentTime = 0;
+                                updateUI();
+                            }
+                        }, 500);
+                    } else {
+                        // Pause
+                        if (interval) {
+                            clearInterval(interval);
+                            interval = null;
+                        }
+                        playBtn.innerHTML = `
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="5,3 19,12 5,21" />
+                            </svg>
+                        `;
+                        playBtn.setAttribute('aria-label', 'Abspielen');
+                        playBtn.dataset.playing = 'false';
+                    }
+                }
 
-      // Update dots
-      document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-        if (i === currentIndex) {
-          dot.classList.add('active');
-          dot.setAttribute('aria-current', 'page');
-        } else {
-          dot.classList.remove('active');
-          dot.removeAttribute('aria-current');
-        }
-      });
+                // --- Springen ---
+                function nudge(delta) {
+                    currentTime = Math.max(0, Math.min(duration, currentTime + delta));
+                    updateUI();
+                }
 
-      // Pause other players
-      players.forEach((p, i) => {
-        if (p && i !== currentIndex) p.pause();
-      });
+                // --- Klick auf Fortschrittsbalken ---
+                function handleSeek(e) {
+                    const rect = track.getBoundingClientRect();
+                    const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                    currentTime = x * duration;
+                    updateUI();
+                }
 
-      // Update hash
-      window.location.hash = SLIDES[currentIndex].id;
-    }
+                // --- Event-Listener ---
+                playBtn.addEventListener('click', togglePlay);
 
-    function init() {
-      // Render all players/locks
-      SLIDES.forEach(renderPlayer);
+                skipBtns.forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        const delta = parseInt(this.dataset.skip, 10);
+                        if (!isNaN(delta)) nudge(delta);
+                    });
+                });
 
-      // Nav buttons
-      document.getElementById('prev').addEventListener('click', () => goToSlide(currentIndex - 1));
-      document.getElementById('next').addEventListener('click', () => goToSlide(currentIndex + 1));
+                track.addEventListener('click', handleSeek);
 
-      // Dot clicks
-      document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-        dot.addEventListener('click', () => goToSlide(i));
-      });
+                // --- Initiales UI ---
+                updateUI();
 
-      // Keyboard
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') document.getElementById('prev').click();
-        if (e.key === 'ArrowRight') document.getElementById('next').click();
-      });
+                // --- Tastatursteuerung (für den Player) ---
+                card.addEventListener('keydown', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        togglePlay();
+                    }
+                    if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        nudge(-15);
+                    }
+                    if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        nudge(15);
+                    }
+                });
+                // Damit die Card den Fokus für Tastaturereignisse erhalten kann
+                card.setAttribute('tabindex', '0');
+            });
 
-      // Touch/swipe
-      let touchX = 0;
-      const wrapper = document.querySelector('.carousel-wrapper');
-      wrapper.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; });
-      wrapper.addEventListener('touchend', (e) => {
-        const delta = touchX - e.changedTouches[0].clientX;
-        if (Math.abs(delta) > 50) {
-          if (delta > 0) document.getElementById('next').click();
-          else document.getElementById('prev').click();
-        }
-      });
-
-      // Hash navigation
-      const hash = window.location.hash.substring(1);
-      const slideIndex = SLIDES.findIndex(s => s.id === hash);
-      goToSlide(slideIndex !== -1 ? slideIndex : 0);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-  </script>
+        })();
+    </script>
 </body>
 </html>
