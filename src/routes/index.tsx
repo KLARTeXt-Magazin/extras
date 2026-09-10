@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Download, Menu, Pause, Play, RotateCcw, RotateCw } from "lucide-react";
 
 import coverImage from "../assets/zeit-fuer-dich-cover.jpg";
-import exerciseAsset from "../assets/zeit-fuer-dich-achtsamkeitsuebung.pdf.asset.json";
+import exerciseAsset from "../assets/2026-q3_Auszeit01.pdf.asset.json";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -55,7 +55,7 @@ const issues: {
   },
   {
     eyebrow: "Ausgabe 01 · 08/26",
-    title: "Ehrlichkeit",
+    title: "Warum Ehrlichkeit Mut braucht",
     subtitle: "Zwischen Anpassung, Angst und Wahrheit",
     to: "/",
   },
@@ -115,7 +115,7 @@ function Index() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-background font-body text-foreground">
-      <audio ref={audioRef} src="/audio/zeit-fuer-dich-2026.mp3" preload="metadata" />
+      <audio ref={audioRef} src="/audio/2026-q3_extra01.mp4" preload="metadata" />
 
       <section className="mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-5 sm:px-7 sm:pt-7">
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
@@ -164,7 +164,7 @@ function Index() {
         <div className="mt-8">
           <p className="text-[10px] font-medium uppercase text-muted-foreground">Ausgabe 01 · 08/26</p>
           <h1 className="mt-3 max-w-[340px] font-display text-[clamp(2.7rem,13vw,4rem)] font-medium leading-[0.93]">
-            Zeit für dich.
+            Warum Ehrlichkeit Mut braucht
           </h1>
         </div>
 
@@ -179,7 +179,7 @@ function Index() {
           <div className="px-3 pb-3 pt-5">
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
               <div className="min-w-0">
-                <h2 className="truncate font-display text-2xl font-medium">Entschleunigen</h2>
+                <h2 className="truncate font-display text-2xl font-medium">Zeit für Dich</h2>
                 <p className="mt-1 truncate text-xs text-muted-foreground">Zwischen all dem – wo bist du eigentlich?</p>
               </div>
               <span className="pb-0.5 text-[10px] uppercase text-muted-foreground">8 min</span>
@@ -232,11 +232,11 @@ function Index() {
           <p className="text-[10px] font-medium uppercase text-muted-foreground">Ein Moment nur für dich</p>
           <h2 className="mt-5 font-display text-4xl font-medium leading-tight">„Du musst nicht immer stark sein.“</h2>
           <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
-            Das Audio-Extra der ersten Ausgabe ist eine Auszeit zum Entschleunigen. Nimm dir acht Minuten, atme durch und komme bei dir an.
+            Das Audio-Extra der ersten Ausgabe ist eine Auszeit zum Entschleunigen. Nimm dir ein paar Minuten, atme durch und komme bei dir an.
           </p>
           <Button asChild variant="outline" className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none">
             <a href={exerciseAsset.url} target="_blank" rel="noreferrer">
-              <Download className="size-4" /> Übungsblatt öffnen
+              <Download className="size-4" /> Auszeit pdf
             </a>
           </Button>
         </div>
