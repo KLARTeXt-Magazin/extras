@@ -40,7 +40,7 @@ const tracks: AudioTrack[] = [
     description: "Ein kurzes Innehalten mitten im Dezember.",
     cover: coverNikolaus,
     coverAlt: "Brennende Kerze neben einem Tannenzweig auf dunklem Holz",
-    src: "/audio/zeit-fuer-dich-2026.mp3",
+    src: "/audio/2026-q4_extra01.m4a",
     unlockAt: "2026-12-06T00:00:00+01:00",
     unlockLabel: "Öffnet sich am 6. Dezember",
     credit: "Music by Alexandr Kazantsev from Pixabay · Content License Pixabay.",
@@ -48,25 +48,25 @@ const tracks: AudioTrack[] = [
   {
     id: "weihnachtsgruss",
     eyebrow: "24. Dezember",
-    title: "Ein kleiner Weihnachtsgruß für dich",
-    quote: "„Nicht das Perfekte zählt, sondern das Gemeinsame und das Bewusste im Augenblick.“",
+    title: "Ein kleiner Weihnachtsimpuls für dich",
+    quote: "„Nicht das Perfekte zählt, sondern das Gemeinsame und Bewusste im Augenblick.“",
     description: "Ein Impuls für den Heiligen Abend.",
     cover: coverGruss,
     coverAlt: "Warme Lichterkette hinter Leinentuch und Keramiktasse",
-    src: "/audio/zeit-fuer-dich-2026.mp3",
+    src: "/audio/2026-q4_extra02.m4a",
     unlockAt: "2026-12-24T00:00:00+01:00",
     unlockLabel: "Öffnet sich am 24. Dezember",
     credit: "Music by AudioCoffee (audiocoffee.net) / Denys Kyshchuk from Pixabay · Content License Pixabay.",
   },
   {
     id: "moment",
-    eyebrow: "Jederzeit",
+    eyebrow: "Auszeit",
     title: "Ein kleiner Moment für dich",
     quote: "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
     description: "Eine Pause, um an dich zu denken.",
     cover: coverMoment,
     coverAlt: "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
-    src: "/audio/zeit-fuer-dich-2026.mp3",
+    src: "/audio/2026-q4_extra03.m4a",
     downloadUrl: exerciseAsset.url,
     downloadLabel: "Impuls zum Ausdrucken",
     credit: "Music by Elijah K from Pixabay · Content License Pixabay.",
@@ -122,7 +122,7 @@ function Lichtblicke() {
             Lichtblicke.
           </h1>
           <p className="mt-4 max-w-[19rem] text-sm leading-7 text-muted-foreground">
-            Zwei der 24 Lichtblicke im Adventskalender sind Audios — sie werden am 6. und am 24. Dezember hörbar.
+            Zwei der 24 Lichtblicke im Adventskalender sind Audios. Sie werden am 6. und am 24. Dezember hörbar.
           </p>
         </div>
 
@@ -167,12 +167,9 @@ function Lichtblicke() {
       <section className="mt-16 border-t border-border bg-secondary/45 px-6 py-20">
         <div className="mx-auto max-w-[430px]">
           <p className="text-[10px] font-medium uppercase text-muted-foreground">Momente zum Innehalten</p>
-          <h2 className="mt-5 font-display text-4xl font-medium leading-tight">
-            „Nicht das Perfekte zählt.“
-          </h2>
-          <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
-            Der Adventskalender der zweiten Ausgabe begleitet dich durch den Dezember. Drei der Lichtblicke kannst du
-            hier hören — einer ist schon jetzt für dich da.
+                <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
+            Der Adventskalender der zweiten Ausgabe begleitet dich durch den Dezember. Zwei der Lichtblicke kannst du
+            hier als Audio hören, die Auszeit-Audio ist jetzt schon jederzeit für dich da.
           </p>
           <Button asChild variant="outline" className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none">
             <Link to="/">
