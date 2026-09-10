@@ -145,9 +145,9 @@ function Index() {
                       <span className="mt-1 block text-xs leading-5 text-muted-foreground">{issue.subtitle}</span>
                     </>
                   );
-                  return issue.href ? (
+                  return issue.to ? (
                     <SheetClose asChild key={issue.title}>
-                      <a href={issue.href} className="block py-6" target="_blank" rel="noreferrer">{content}</a>
+                      <Link to={issue.to} className="block py-6">{content}</Link>
                     </SheetClose>
                   ) : (
                     <div key={issue.title} className="py-6 opacity-50">{content}</div>
