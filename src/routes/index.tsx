@@ -171,7 +171,7 @@ function Index() {
           <div className="relative aspect-square overflow-hidden rounded-[1.45rem]">
             <img src={coverImage} alt="Ruhiger Stein auf dunklem Holz im warmen Morgenlicht" width={1024} height={1024} className="h-full w-full object-cover" />
             <span className="absolute left-4 top-4 rounded-full border border-light/35 bg-surface/45 px-3 py-1.5 text-[9px] font-medium uppercase text-foreground backdrop-blur-xl">
-              Achtsamkeitsübung
+              Achtsamkeit
             </span>
           </div>
 
