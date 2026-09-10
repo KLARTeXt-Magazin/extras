@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { Download, Menu, Pause, Play, RotateCcw, RotateCw } from "lucide-react";
 
 import coverImage from "../assets/zeit-fuer-dich-cover.jpg";
-import exerciseAsset from "../assets/2026-q3_Auszeit01.pdf.asset.json";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -180,7 +179,7 @@ function Index() {
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
               <div className="min-w-0">
                 <h2 className="truncate font-display text-2xl font-medium">Zeit für Dich</h2>
-                <p className="mt-1 truncate text-xs text-muted-foreground">Zwischen all dem – wo bist du eigentlich?</p>
+                <p className="mt-1 truncate text-xs text-muted-foreground">Zwischen all dem, wo bist du eigentlich?</p>
               </div>
               <span className="pb-0.5 text-[10px] uppercase text-muted-foreground">8 min</span>
             </div>
@@ -235,7 +234,7 @@ function Index() {
             Das Audio-Extra der ersten Ausgabe ist eine Auszeit zum Entschleunigen. Nimm dir ein paar Minuten, atme durch und komme bei dir an.
           </p>
           <Button asChild variant="outline" className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none">
-            <a href={exerciseAsset.url} target="_blank" rel="noreferrer">
+            <a href={"/pdf/2026-q3_Auszeit01.pdf"} target="_blank" rel="noreferrer">
               <Download className="size-4" /> Auszeit pdf
             </a>
           </Button>
