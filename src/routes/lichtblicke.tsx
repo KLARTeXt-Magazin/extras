@@ -59,7 +59,7 @@ const tracks: AudioTrack[] = [
   },
   {
     id: "moment",
-    eyebrow: "Auszeit",
+    eyebrow: "Achtsamkeitsübung",
     title: "Ein kleiner Moment für dich",
     quote: "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
     description: "Eine Pause, um an dich zu denken.",
