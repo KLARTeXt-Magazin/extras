@@ -1,17 +1,32 @@
-# Edlerer Luxury-Japandi Audio-Player
+# Ausgabe 02 „Lichtblicke“ einbinden
 
 ## Ziel
-Die bestehende Aufteilung bleibt erhalten, wirkt aber typografisch ruhiger, hochwertiger und räumlicher. Kleine Beschriftungen werden reduziert; die Audio-Kachel erhält eine klarere Glass-Wirkung und mehr Abstand zum Hintergrund.
+Eine eigene Seite für Ausgabe 02 mit den drei Audios, im gleichen ruhigen Look wie Ausgabe 01. Die Audios liegen als wischbares Widget nebeneinander. Zwei davon bleiben bis zum 6. bzw. 24. Dezember eine Überraschung und schalten sich danach von selbst frei.
+
+## Inhalte der Seite
+- Titel: „Lichtblicke. Momente zum Innehalten“, Ausgabe 02 · 12/26
+- Audio 1 — „Einen Moment zum Nikolaus“: „Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“ Frei ab 6. Dezember.
+- Audio 2 — „Ein kleiner Weihnachtsgruß für dich“: „Nicht das Perfekte zählt, sondern das Gemeinsame und das Bewusste im Augenblick.“ Frei ab 24. Dezember.
+- Audio 3 — „Ein kleiner Moment für dich“: „Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“ Sofort hörbar, mit Übungsblatt zum Ausdrucken.
+- Musik-Hinweise (Pixabay) klein unter dem jeweiligen Audio.
 
 ## Umsetzung
-- Überschrift deutlich größer und mit einer eleganteren Editorial-Schrift setzen; Begleittexte und Mikro-Labels reduzieren.
-- Titelbereich beim Scrollen und während der Wiedergabe sanft zurücknehmen, damit der Player allein im Fokus steht.
-- Player-Kachel mit transparenterer Glasfläche, feiner Lichtkante, stärkerem Floating-Schatten und subtiler Bewegung veredeln.
-- Ausgabenmenü als hochwertige, weich einblendende Glasfläche mit größeren Ausgaben-Einträgen und klarer Hierarchie gestalten.
-- Unterhalb des Hauptplayers für Ausgabe 2 ein horizontal wischbares Audio-Rondell mit Snap-Verhalten, sichtbarer nächster Kachel und drei echten Audio-Ausgaben ergänzen.
-- Mobile Darstellung und Wiedergabe abschließend prüfen.
+- Neue Seite für Ausgabe 02, erreichbar über das Ausgaben-Menü; das Menü verlinkt künftig auf die eigenen Seiten statt nach außen.
+- Wischbares Audio-Widget: drei Kacheln nebeneinander, sanftes Einrasten, die nächste Kachel schaut am Rand hervor, kleine Punkte zeigen die Position.
+- Gesperrte Audios: Cover leicht verschleiert, Hinweis „Öffnet sich am 6. Dezember“, kein Abspielen möglich. Freischaltung nach Datum automatisch.
+- Übungsblatt-Download nur beim dritten Audio.
+- Ausgabe 01 bleibt inhaltlich unverändert; nur die Menü-Verlinkung wird angepasst.
+- Anschließend prüfe ich Wischen und Wiedergabe am Handy-Format.
+
+## Danach (Prio 2, nach deiner Freigabe)
+- Player-Leiste kräftiger, Zeiten größer und lesbarer.
+- Kachel stärker in Richtung Glas-Widget: klarere Lichtkante, weicherer Schatten.
+
+## Offen
+- Die drei Audio-Dateien und passende Cover-Bilder fehlen noch. Bis dahin nutze ich vorübergehend das vorhandene Audio und stimmige Platzhalter-Bilder; sobald du die Dateien hochlädst, tausche ich sie aus.
 
 ## Technische Details
-- Scroll- und Wiedergabestatus steuern ausschließlich Präsentation und Animation; die vorhandene Audiofunktion bleibt erhalten.
-- Das Rondell nutzt natives horizontales Scrollen mit CSS Scroll Snap und eigene Player-Zustände pro Audio.
-- Animationen berücksichtigen reduzierte Bewegungseinstellungen.
+- Eigene Route `src/routes/lichtblicke.tsx` mit eigenem `head()`-Titel und Beschreibung.
+- Player-Logik als wiederverwendbare Komponente, ein Audio-Element pro Kachel, nur eine Wiedergabe gleichzeitig.
+- Wischen über natives horizontales Scrollen mit CSS Scroll Snap; reduzierte Bewegung wird respektiert.
+- Freischaltung über Datumsvergleich im Client, Cover-Bilder als generierte Assets.
