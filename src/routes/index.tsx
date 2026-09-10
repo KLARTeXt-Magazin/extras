@@ -235,7 +235,7 @@ function Index() {
           </p>
           <Button asChild variant="outline" className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none">
             <a href={"/pdf/2026-q3_Auszeit01.pdf"} target="_blank" rel="noreferrer">
-              <Download className="size-4" /> Auszeit pdf
+              <Download className="size-4" /> Impuls zum Downloaden
             </a>
           </Button>
         </div>
