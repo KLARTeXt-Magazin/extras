@@ -5,7 +5,6 @@ import { ArrowLeft, Menu } from "lucide-react";
 import coverNikolaus from "../assets/lichtblicke-nikolaus.jpg";
 import coverGruss from "../assets/lichtblicke-weihnachtsgruss.jpg";
 import coverMoment from "../assets/lichtblicke-moment.jpg";
-import exerciseAsset from "../assets/zeit-fuer-dich-achtsamkeitsuebung.pdf.asset.json";
 import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { Button } from "@/components/ui/button";
 
