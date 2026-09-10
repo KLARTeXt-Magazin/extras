@@ -66,7 +66,7 @@ const tracks: AudioTrack[] = [
     cover: coverMoment,
     coverAlt: "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
     src: "/audio/2026-q4_extra03.m4a",
-    downloadUrl: exerciseAsset.url,
+    downloadUrl: "/pdf/2026-q4_Auszeit01.pdf",
     downloadLabel: "Impuls zum Ausdrucken",
     credit: "Music by Elijah K from Pixabay · Content License Pixabay.",
   },
