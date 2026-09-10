@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Download, Menu, Pause, Play, RotateCcw, RotateCw } from "lucide-react";
 
@@ -41,18 +41,23 @@ function formatTime(seconds: number) {
   return `${minutes}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 }
 
-const issues = [
+const issues: {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  to?: "/" | "/lichtblicke";
+}[] = [
   {
     eyebrow: "Ausgabe 02 · 12/26",
     title: "Lichtblicke",
-    subtitle: "Momente zum Innehalten",
-    href: "https://klartext-magazin.github.io/extras/2026-q4/",
+    subtitle: "Momente zum Innehalten · 3 Audios",
+    to: "/lichtblicke",
   },
   {
     eyebrow: "Ausgabe 01 · 08/26",
     title: "Ehrlichkeit",
     subtitle: "Zwischen Anpassung, Angst und Wahrheit",
-    href: "https://klartext-magazin.github.io/extras/2026-q3/",
+    to: "/",
   },
   {
     eyebrow: "Ausgabe 03 · 2027",
@@ -140,9 +145,9 @@ function Index() {
                       <span className="mt-1 block text-xs leading-5 text-muted-foreground">{issue.subtitle}</span>
                     </>
                   );
-                  return issue.href ? (
+                  return issue.to ? (
                     <SheetClose asChild key={issue.title}>
-                      <a href={issue.href} className="block py-6" target="_blank" rel="noreferrer">{content}</a>
+                      <Link to={issue.to} className="block py-6">{content}</Link>
                     </SheetClose>
                   ) : (
                     <div key={issue.title} className="py-6 opacity-50">{content}</div>
