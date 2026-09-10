@@ -114,7 +114,7 @@ function Index() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-background font-body text-foreground">
-      <audio ref={audioRef} src="/audio/2026-q3_extra01.mp4" preload="metadata" />
+      <audio ref={audioRef} src="/audio/2026-q3_extra01.m4a" preload="metadata" />
 
       <section className="mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-5 sm:px-7 sm:pt-7">
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
