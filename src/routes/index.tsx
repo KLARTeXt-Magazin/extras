@@ -41,18 +41,23 @@ function formatTime(seconds: number) {
   return `${minutes}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 }
 
-const issues = [
+const issues: {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  to?: "/" | "/lichtblicke";
+}[] = [
   {
     eyebrow: "Ausgabe 02 · 12/26",
     title: "Lichtblicke",
-    subtitle: "Momente zum Innehalten",
-    href: "https://klartext-magazin.github.io/extras/2026-q4/",
+    subtitle: "Momente zum Innehalten · 3 Audios",
+    to: "/lichtblicke",
   },
   {
     eyebrow: "Ausgabe 01 · 08/26",
     title: "Ehrlichkeit",
     subtitle: "Zwischen Anpassung, Angst und Wahrheit",
-    href: "https://klartext-magazin.github.io/extras/2026-q3/",
+    to: "/",
   },
   {
     eyebrow: "Ausgabe 03 · 2027",
