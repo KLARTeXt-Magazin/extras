@@ -302,7 +302,7 @@ function Lichtblicke() {
               >
                 <div className="px-7 py-10">
                   <SheetHeader className="mt-8 text-left">
-                    <p className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                    <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-foreground/65">
                       KLARTeXt. Extras
                     </p>
 
@@ -323,15 +323,15 @@ function Lichtblicke() {
                     {issues.map((issue, index) => {
                       const content = (
                         <>
-                          <span className="text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                          <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-foreground/60">
                             {issue.eyebrow}
                           </span>
 
-                          <span className="mt-2 block font-display text-[2rem] font-semibold leading-[1.02] tracking-[-0.025em]">
+                          <span className="mt-2 block font-display text-[2rem] font-semibold leading-[1.02] tracking-[-0.025em] text-foreground">
                             {issue.title}
                           </span>
 
-                          <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-muted-foreground">
+                          <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-foreground/65">
                             {issue.subtitle}
                           </span>
                         </>
