@@ -11,6 +11,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -34,47 +35,221 @@
   --color-surface: var(--surface);
   --color-panel-border: var(--panel-border);
   --color-light: var(--light);
-  --shadow-player: 0 20px 55px color-mix(in oklab, var(--primary) 10%, transparent);
-  --shadow-play: 0 12px 24px color-mix(in oklab, var(--primary) 24%, transparent);
+
+  --shadow-player:
+    0 24px 70px color-mix(
+      in oklab,
+      var(--primary) 11%,
+      transparent
+    );
+
+  --shadow-play:
+    0 12px 24px color-mix(
+      in oklab,
+      var(--primary) 24%,
+      transparent
+    );
+
   --font-display: "Urbanist", sans-serif;
   --font-body: "Plus Jakarta Sans", sans-serif;
 }
 
 :root {
   --radius: 0.625rem;
+
   --background: oklch(0.9588 0.0086 84.57);
   --foreground: oklch(0.1969 0.0067 78.16);
+
   --card: oklch(0.98 0.005 84.57);
   --card-foreground: oklch(0.1969 0.0067 78.16);
+
   --popover: oklch(0.98 0.005 84.57);
   --popover-foreground: oklch(0.1969 0.0067 78.16);
+
   --primary: oklch(0.3474 0.0362 45.47);
   --primary-foreground: oklch(0.9588 0.0086 84.57);
+
   --secondary: oklch(0.8501 0.0279 78.17);
   --secondary-foreground: oklch(0.1969 0.0067 78.16);
+
   --muted: oklch(0.91 0.015 80);
   --muted-foreground: oklch(0.49 0.021 65);
+
   --accent: oklch(0.8501 0.0279 78.17);
   --accent-foreground: oklch(0.1969 0.0067 78.16);
+
   --destructive: oklch(0.58 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
+
   --border: oklch(0.80 0.023 78 / 55%);
   --input: oklch(0.80 0.023 78);
   --ring: oklch(0.3474 0.0362 45.47);
-  --surface: oklch(0.985 0.004 85 / 82%);
-  --panel-border: oklch(1 0 0 / 72%);
+
+  --surface: oklch(0.985 0.004 85 / 52%);
+  --panel-border: oklch(1 0 0 / 62%);
   --light: oklch(1 0 0);
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
-  body { background-color: var(--color-background); color: var(--color-foreground); letter-spacing: 0; }
-  button, a, input { -webkit-tap-highlight-color: transparent; }
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    letter-spacing: 0;
+  }
+
+  button,
+  a,
+  input {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
+
+/* -------------------------------------------------------
+   Liquid Glass
+   ------------------------------------------------------- */
+
+.liquid-glass {
+  --liquid-filter: none;
+  --liquid-blur: 20px;
+
+  position: relative;
+  isolation: isolate;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgb(255 255 255 / 0.18),
+      rgb(255 255 255 / 0.06)
+    );
+
+  border: 1px solid rgb(255 255 255 / 0.42);
+
+  box-shadow:
+    0 24px 70px rgb(70 58 45 / 0.10),
+    inset 0 1px 0 rgb(255 255 255 / 0.72),
+    inset 0 -1px 0 rgb(255 255 255 / 0.10);
+
+  backdrop-filter:
+    var(--liquid-filter)
+    blur(var(--liquid-blur))
+    saturate(135%);
+
+  -webkit-backdrop-filter:
+    var(--liquid-filter)
+    blur(var(--liquid-blur))
+    saturate(135%);
+
+  overflow: hidden;
+}
+
+.liquid-glass::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: -1;
+
+  background:
+    linear-gradient(
+      125deg,
+      rgb(255 255 255 / 0.34) 0%,
+      rgb(255 255 255 / 0.08) 25%,
+      transparent 46%,
+      transparent 70%,
+      rgb(255 255 255 / 0.10) 100%
+    );
+
+  opacity: 0.8;
+}
+
+.liquid-glass::after {
+  content: "";
+
+  position: absolute;
+  inset: 1px;
+
+  pointer-events: none;
+  z-index: 20;
+
+  border-radius: inherit;
+
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.12);
+
+  opacity: 0.8;
+}
+
+.liquid-glass-content {
+  position: relative;
+  z-index: 10;
+}
+
+/* -------------------------------------------------------
+   Header glass button
+   ------------------------------------------------------- */
+
+.liquid-glass-button {
+  position: relative;
+
+  border: 1px solid rgb(255 255 255 / 0.55) !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgb(255 255 255 / 0.30),
+      rgb(255 255 255 / 0.09)
+    ) !important;
+
+  box-shadow:
+    0 10px 30px rgb(70 58 45 / 0.08),
+    inset 0 1px 0 rgb(255 255 255 / 0.70);
+
+  backdrop-filter:
+    blur(18px)
+    saturate(140%);
+
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(140%);
+
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.liquid-glass-button:hover {
+  transform: translateY(-1px);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgb(255 255 255 / 0.42),
+      rgb(255 255 255 / 0.13)
+    ) !important;
+
+  box-shadow:
+    0 14px 34px rgb(70 58 45 / 0.11),
+    inset 0 1px 0 rgb(255 255 255 / 0.78);
+}
+
+/* -------------------------------------------------------
+   Hero
+   ------------------------------------------------------- */
 
 .hero-presentation {
   transform-origin: top center;
+
   transition:
     opacity 420ms ease,
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -87,6 +262,7 @@
 
 .hero-title {
   transform-origin: left top;
+
   transition:
     opacity 480ms ease,
     transform 620ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -95,7 +271,11 @@
 
 .hero-presentation.is-compact .hero-title {
   opacity: 0.35;
-  transform: translateY(-0.75rem) scale(0.94);
+
+  transform:
+    translateY(-0.75rem)
+    scale(0.94);
+
   letter-spacing: -0.01em;
 }
 
@@ -110,21 +290,59 @@
     transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* -------------------------------------------------------
+   Audio cards
+   ------------------------------------------------------- */
+
 .audio-player-card {
-  background: linear-gradient(
-    145deg,
-    color-mix(in oklab, var(--surface) 70%, white 30%),
-    color-mix(in oklab, var(--surface) 42%, transparent)
-  );
-  border-color: color-mix(in oklab, white 76%, var(--border));
+  background:
+    linear-gradient(
+      145deg,
+      rgb(255 255 255 / 0.21),
+      rgb(255 255 255 / 0.055)
+    );
+
+  border-color:
+    rgb(255 255 255 / 0.55);
+
   box-shadow:
-    0 26px 70px color-mix(in oklab, var(--primary) 9%, transparent),
-    inset 0 1px 0 color-mix(in oklab, white 78%, transparent);
+    0 26px 70px rgb(70 58 45 / 0.11),
+    inset 0 1px 0 rgb(255 255 255 / 0.76),
+    inset 0 -1px 0 rgb(255 255 255 / 0.08);
+
+  backdrop-filter:
+    blur(18px)
+    saturate(128%);
+
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(128%);
+
   transition:
     opacity 420ms ease,
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 420ms ease,
     box-shadow 520ms ease;
+}
+
+.audio-player-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgb(255 255 255 / 0.22),
+      transparent 32%,
+      transparent 72%,
+      rgb(255 255 255 / 0.07)
+    );
+
+  opacity: 0.75;
 }
 
 .audio-player-card.is-active {
@@ -133,68 +351,158 @@
 }
 
 .audio-player-card.is-dimmed {
-  opacity: 0.62;
+  opacity: 0.58;
   transform: scale(0.975);
   filter: saturate(0.82);
 }
 
 .audio-card-glow {
-  animation: audio-card-glow 8s ease-in-out infinite;
+  animation:
+    audio-card-glow
+    8s
+    ease-in-out
+    infinite;
 }
 
+/* -------------------------------------------------------
+   Slide-out issue panel
+   ------------------------------------------------------- */
+
 .issue-sheet {
-  background: color-mix(in oklab, var(--background) 76%, transparent);
-  backdrop-filter: blur(28px) saturate(125%);
-  -webkit-backdrop-filter: blur(28px) saturate(125%);
+  background: transparent !important;
+}
+
+.issue-panel {
+  min-height: 100%;
 }
 
 .issue-entry {
+  position: relative;
+
+  display: block;
+
+  padding:
+    1.25rem
+    1rem
+    1.35rem;
+
+  margin-top: 0.35rem;
+
+  border-radius: 1.25rem;
+
   transition:
-    background-color 280ms ease,
-    padding-left 280ms ease,
-    opacity 280ms ease;
+    background-color 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.issue-entry:first-child {
+  margin-top: 0;
 }
 
 .issue-entry:hover {
-  background: color-mix(in oklab, white 24%, transparent);
-  padding-left: 0.35rem;
+  background:
+    rgb(255 255 255 / 0.16);
+
+  transform: translateX(2px);
+
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25);
 }
+
+.issue-entry-current {
+  background:
+    rgb(255 255 255 / 0.10);
+}
+
+/* -------------------------------------------------------
+   Player
+   ------------------------------------------------------- */
 
 .player-range {
   --player-progress: 0%;
+
   appearance: none;
+
   height: 2px;
+
   border-radius: 999px;
-  background: linear-gradient(to right, var(--primary) 0 var(--player-progress), var(--secondary) var(--player-progress) 100%);
+
+  background:
+    linear-gradient(
+      to right,
+      var(--primary)
+        0
+        var(--player-progress),
+      var(--secondary)
+        var(--player-progress)
+        100%
+    );
+
   cursor: pointer;
 }
 
 .player-range::-webkit-slider-thumb {
   appearance: none;
+
   width: 10px;
   height: 10px;
+
   border-radius: 999px;
-  border: 3px solid var(--surface);
+
+  border: 3px solid
+    rgb(255 255 255 / 0.70);
+
   background: var(--primary);
-  box-shadow: 0 0 0 1px var(--primary);
+
+  box-shadow:
+    0 0 0 1px var(--primary),
+    0 2px 8px rgb(70 58 45 / 0.18);
 }
 
 .player-range::-moz-range-thumb {
   width: 6px;
   height: 6px;
+
   border-radius: 999px;
-  border: 3px solid var(--surface);
+
+  border: 3px solid
+    rgb(255 255 255 / 0.70);
+
   background: var(--primary);
 }
 
+/* -------------------------------------------------------
+   Motion
+   ------------------------------------------------------- */
+
 @keyframes audio-card-glow {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.55; }
-  50% { transform: translate3d(-10px, 8px, 0) scale(1.08); opacity: 0.8; }
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+
+    opacity: 0.45;
+  }
+
+  50% {
+    transform:
+      translate3d(-10px, 8px, 0)
+      scale(1.08);
+
+    opacity: 0.72;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
