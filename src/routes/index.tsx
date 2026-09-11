@@ -23,22 +23,22 @@ import {
 } from "@/components/ui/sheet";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "KLARTeXt. Extras zu Ausgabe 01: Warum Ehrlichkeit Mut braucht" },
-      {
-        name: "description",
-        content: "Eine Achtsamkeitsübung der ersten Ausgabe von KLARTeXt.: Zeit für Dich",
-      },
-      { property: "og:title", content: "KLARTeXt. Audio zu Ausgabe 01" },
-      {
-        property: "og:description",
-        content: "Eine Achtsamkeitsübung der ersten Ausgabe von KLARTeXt.: Zeit für Dich",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+head: () => ({
+  meta: [
+    { title: "KLARTeXt. Extras zu Ausgabe 01: Warum Ehrlichkeit Mut braucht" },
+    {
+      name: "description",
+      content: "Eine Achtsamkeitsübung der ersten Ausgabe von KLARTeXt.: Zeit für Dich",
+    },
+    { property: "og:title", content: "KLARTeXt. – Warum Ehrlichkeit Mut braucht" },
+    {
+      property: "og:description",
+      content: "Die Audio-Übung „Zeit für dich“ zur ersten KLARTeXt.-Ausgabe.",
+    },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ],
+}),
   component: Index,
 });
 
