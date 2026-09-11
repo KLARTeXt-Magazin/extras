@@ -21,36 +21,35 @@ import {
 } from "@/components/ui/sheet";
 
 export const Route = createFileRoute("/lichtblicke")({
-  head: () => ({
-    meta: [
-      {
-        title: "KLARTeXt. Extras zu Ausgabe 02: Lichtblicke",
-      },
-      {
-        name: "description",
-        content:
-          "Drei Audio-Impulse der zweiten KLARTeXt.-Ausgabe: Momente zum Innehalten im Dezember.",
-      },
-      {
-        property: "og:title",
-        content:
-          "KLARTeXt. Audio zu Ausgabe 02",
-      },
-      {
-        property: "og:description",
-        content:
-          "Drei Audio-Impulse der zweiten KLARTeXt.-Ausgabe: Momente zum Innehalten im Dezember.",
-      },
-      {
-        property: "og:type",
-        content: "website",
-      },
-      {
-        name: "twitter:card",
-        content: "summary_large_image",
-      },
-    ],
-  }),
+head: () => ({
+  meta: [
+    {
+      title: "KLARTeXt. Extras zu Ausgabe 02: Lichtblicke",
+    },
+    {
+      name: "description",
+      content:
+        "Drei Audio-Impulse der zweiten KLARTeXt.-Ausgabe: Momente zum Innehalten im Dezember.",
+    },
+    {
+      property: "og:title",
+      content: "KLARTeXt. – Lichtblicke",
+    },
+    {
+      property: "og:description",
+      content:
+        "Drei Audio-Momente zum Innehalten im Dezember – dein Advents-Extra zur zweiten KLARTeXt.-Ausgabe.",
+    },
+    {
+      property: "og:type",
+      content: "website",
+    },
+    {
+      name: "twitter:card",
+      content: "summary_large_image",
+    },
+  ],
+}),
   component: Lichtblicke,
 });
 
