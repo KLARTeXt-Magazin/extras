@@ -1,12 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import coverNikolaus from "../assets/lichtblicke-nikolaus.jpg";
 import coverGruss from "../assets/lichtblicke-weihnachtsgruss.jpg";
 import coverMoment from "../assets/lichtblicke-moment.jpg";
 import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export const Route = createFileRoute("/lichtblicke")({
   head: () => ({
@@ -29,6 +38,31 @@ export const Route = createFileRoute("/lichtblicke")({
   }),
   component: Lichtblicke,
 });
+
+const issues: {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  to?: "/" | "/lichtblicke";
+}[] = [
+  {
+    eyebrow: "Ausgabe 02 · 12/26",
+    title: "Lichtblicke",
+    subtitle: "Momente zum Innehalten · 3 Audios",
+    to: "/lichtblicke",
+  },
+  {
+    eyebrow: "Ausgabe 01 · 08/26",
+    title: "Warum Ehrlichkeit Mut braucht",
+    subtitle: "Zwischen Anpassung, Angst und Wahrheit",
+    to: "/",
+  },
+  {
+    eyebrow: "Ausgabe 03 · 2027",
+    title: "Demnächst",
+    subtitle: "Neue Themen in Vorbereitung",
+  },
+];
 
 const tracks: AudioTrack[] = [
   {
@@ -103,16 +137,42 @@ function Lichtblicke() {
             <img src="/logo.png" alt="KLARTeXt." className="h-6 w-auto" />
             <p className="mt-0.5 text-[9px] uppercase text-muted-foreground">Das Magazin mit Haltung</p>
           </div>
-          <Button
-            asChild
-            variant="outline"
-            size="icon"
-            className="size-10 shrink-0 rounded-full border-border bg-surface/70 shadow-none backdrop-blur-xl"
-          >
-            <Link to="/" aria-label="Zurück zu Ausgabe 01">
-              <ArrowLeft className="size-[18px]" strokeWidth={1.5} />
-            </Link>
-          </Button>
+
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="size-10 shrink-0 rounded-full border-border bg-surface/70 shadow-none backdrop-blur-xl" aria-label="Ausgaben öffnen">
+                <Menu className="size-[18px]" strokeWidth={1.5} />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[88%] border-border bg-background px-7 py-10 sm:max-w-sm">
+              <SheetHeader className="mt-8 text-left">
+                <p className="text-[10px] uppercase text-muted-foreground">KLARTeXt. Extras</p>
+                <SheetTitle className="font-display text-3xl font-medium">Alle Ausgaben</SheetTitle>
+                <SheetDescription className="font-body">Audio-Experiences und Impulse zum Magazin.</SheetDescription>
+              </SheetHeader>
+              <nav className="mt-12 divide-y divide-border" aria-label="Ausgaben">
+                {issues.map((issue) => {
+                  const content = (
+                    <>
+                      <span className="text-[9px] uppercase text-muted-foreground">{issue.eyebrow}</span>
+                      <span className="mt-2 block font-display text-xl font-medium">{issue.title}</span>
+                      <span className="mt-1 block text-xs leading-5 text-muted-foreground">{issue.subtitle}</span>
+                    </>
+                  );
+                  return issue.to ? (
+                    <SheetClose asChild key={issue.title}>
+                      <Link to={issue.to} className="block py-6">{content}</Link>
+                    </SheetClose>
+                  ) : (
+                    <div key={issue.title} className="py-6 opacity-50">{content}</div>
+                  );
+                })}
+              </nav>
+              <a href="https://www.magazin-klartext.de/" target="_blank" rel="noreferrer" className="mt-9 inline-block text-xs font-medium underline underline-offset-4">
+                Zum Magazin
+              </a>
+            </SheetContent>
+          </Sheet>
         </header>
 
         <div className="mt-8">
