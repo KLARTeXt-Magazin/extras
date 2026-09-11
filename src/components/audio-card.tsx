@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { Download, Lock, Pause, Play, RotateCcw, RotateCw } from "lucide-react";
+import {
+  Download,
+  Lock,
+  Pause,
+  Play,
+  RotateCcw,
+  RotateCw,
+} from "lucide-react";
 
+import { LiquidGlass } from "@/components/liquid-glass";
 import { Button } from "@/components/ui/button";
 
 export type AudioTrack = {
@@ -22,7 +30,9 @@ export type AudioTrack = {
 
 export function formatTime(seconds: number) {
   if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+
   const minutes = Math.floor(seconds / 60);
+
   return `${minutes}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 }
 
@@ -36,6 +46,7 @@ export function AudioCard({
   onPlay: (id: string | null) => void;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -43,6 +54,7 @@ export function AudioCard({
 
   useEffect(() => {
     if (!track.unlockAt) return;
+
     setUnlocked(Date.now() >= new Date(track.unlockAt).getTime());
   }, [track.unlockAt]);
 
@@ -51,7 +63,11 @@ export function AudioCard({
     if (!audio) return;
 
     const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () => setDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
+
+    const updateDuration = () => {
+      setDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
+    };
+
     const stop = () => {
       setIsPlaying(false);
       onPlay(null);
@@ -84,6 +100,7 @@ export function AudioCard({
 
     if (audio.paused) {
       onPlay(track.id);
+
       try {
         await audio.play();
         setIsPlaying(true);
@@ -101,28 +118,42 @@ export function AudioCard({
   const skip = (seconds: number) => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.currentTime = Math.max(0, Math.min(audio.duration || 0, audio.currentTime + seconds));
+
+    audio.currentTime = Math.max(
+      0,
+      Math.min(
+        audio.duration || 0,
+        audio.currentTime + seconds,
+      ),
+    );
   };
 
   return (
     <article
-      className={`audio-player-card relative overflow-hidden rounded-[2rem] border p-3 shadow-player backdrop-blur-2xl ${
+      className={`audio-player-card relative overflow-hidden rounded-[2rem] border p-3 ${
         isActive ? "is-active" : "is-dimmed"
       }`}
       aria-label={track.title}
     >
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-light/90 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent"
         aria-hidden="true"
       />
+
       <div
-        className="audio-card-glow pointer-events-none absolute -right-16 -top-16 size-48 rounded-full bg-light/20 blur-3xl"
+        className="audio-card-glow pointer-events-none absolute -right-16 -top-16 z-0 size-48 rounded-full bg-white/10 blur-3xl"
         aria-hidden="true"
       />
 
-      {unlocked ? <audio ref={audioRef} src={track.src} preload="metadata" /> : null}
+      {unlocked ? (
+        <audio
+          ref={audioRef}
+          src={track.src}
+          preload="metadata"
+        />
+      ) : null}
 
-      <div className="relative aspect-square overflow-hidden rounded-[1.45rem]">
+      <div className="relative z-10 aspect-square overflow-hidden rounded-[1.45rem]">
         <img
           src={track.cover}
           alt={track.coverAlt}
@@ -130,33 +161,55 @@ export function AudioCard({
           height={1024}
           loading="lazy"
           className={`h-full w-full object-cover transition-all duration-700 ${
-            unlocked ? "" : "scale-105 blur-lg saturate-50"
+            unlocked
+              ? ""
+              : "scale-105 blur-lg saturate-50"
           }`}
         />
-        <span className="absolute left-4 top-4 rounded-full border border-light/35 bg-surface/45 px-3 py-1.5 text-[9px] font-medium uppercase text-foreground backdrop-blur-xl">
+
+        <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-black/10 px-3 py-1.5 text-[9px] font-medium uppercase tracking-[0.08em] text-white shadow-sm backdrop-blur-md">
           {track.eyebrow}
         </span>
+
         {!unlocked ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-primary/25 px-6 text-center backdrop-blur-sm">
-            <span className="flex size-12 items-center justify-center rounded-full border border-light/40 bg-surface/60 backdrop-blur-xl">
-              <Lock className="size-5" strokeWidth={1.5} />
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/15 px-6 text-center backdrop-blur-[5px]">
+            <span className="flex size-12 items-center justify-center rounded-full border border-white/40 bg-white/15 text-white shadow-lg backdrop-blur-xl">
+              <Lock
+                className="size-5"
+                strokeWidth={1.5}
+              />
             </span>
-            <p className="max-w-[15rem] text-sm font-medium leading-6 text-light drop-shadow">{track.unlockLabel}</p>
+
+            <p className="max-w-[15rem] text-sm font-medium leading-6 text-white drop-shadow-md">
+              {track.unlockLabel}
+            </p>
           </div>
         ) : null}
       </div>
 
-      <div className="px-3 pb-3 pt-5">
-        <h3 className="font-display text-2xl font-medium leading-tight">{track.title}</h3>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">{track.quote}</p>
-        <p className="mt-2 text-xs leading-6 text-muted-foreground/80">{track.description}</p>
+      <div className="relative z-10 px-3 pb-3 pt-5">
+        <h3 className="font-display text-2xl font-medium leading-tight">
+          {track.title}
+        </h3>
+
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          {track.quote}
+        </p>
+
+        <p className="mt-2 text-xs leading-6 text-muted-foreground/80">
+          {track.description}
+        </p>
 
         {unlocked ? (
           <>
             <div className="mt-6">
-              <label className="sr-only" htmlFor={`progress-${track.id}`}>
+              <label
+                className="sr-only"
+                htmlFor={`progress-${track.id}`}
+              >
                 Wiedergabeposition
               </label>
+
               <input
                 id={`progress-${track.id}`}
                 type="range"
@@ -167,20 +220,32 @@ export function AudioCard({
                 onChange={(event) => {
                   const audio = audioRef.current;
                   if (!audio) return;
+
                   const next = Number(event.target.value);
+
                   audio.currentTime = next;
                   setCurrentTime(next);
                 }}
                 className="player-range w-full"
                 style={
                   {
-                    "--player-progress": `${duration ? (currentTime / duration) * 100 : 0}%`,
+                    "--player-progress": `${
+                      duration
+                        ? (currentTime / duration) * 100
+                        : 0
+                    }%`,
                   } as React.CSSProperties
                 }
               />
+
               <div className="mt-3 flex justify-between text-xs font-medium tabular-nums text-muted-foreground">
                 <span>{formatTime(currentTime)}</span>
-                <span>{duration ? formatTime(duration) : track.duration ?? "—"}</span>
+
+                <span>
+                  {duration
+                    ? formatTime(duration)
+                    : track.duration ?? "—"}
+                </span>
               </div>
             </div>
 
@@ -188,16 +253,22 @@ export function AudioCard({
               <Button
                 variant="ghost"
                 size="icon"
-                className="size-11 rounded-full text-muted-foreground hover:bg-secondary"
+                className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
                 onClick={() => skip(-15)}
                 aria-label="15 Sekunden zurück"
               >
-                <RotateCcw className="size-5" strokeWidth={1.4} />
+                <RotateCcw
+                  className="size-5"
+                  strokeWidth={1.4}
+                />
               </Button>
+
               <Button
                 className="size-[4.6rem] rounded-full bg-primary text-primary-foreground shadow-play transition-transform hover:bg-primary/90 active:scale-95"
                 onClick={togglePlay}
-                aria-label={isPlaying ? "Pause" : "Abspielen"}
+                aria-label={
+                  isPlaying ? "Pause" : "Abspielen"
+                }
               >
                 {isPlaying ? (
                   <Pause className="size-7 fill-current" />
@@ -205,33 +276,48 @@ export function AudioCard({
                   <Play className="ml-1 size-7 fill-current" />
                 )}
               </Button>
+
               <Button
                 variant="ghost"
                 size="icon"
-                className="size-11 rounded-full text-muted-foreground hover:bg-secondary"
+                className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
                 onClick={() => skip(15)}
                 aria-label="15 Sekunden vor"
               >
-                <RotateCw className="size-5" strokeWidth={1.4} />
+                <RotateCw
+                  className="size-5"
+                  strokeWidth={1.4}
+                />
               </Button>
             </div>
           </>
         ) : (
-          <p className="mt-6 rounded-2xl border border-border bg-secondary/40 px-4 py-4 text-center text-xs leading-6 text-muted-foreground">
+          <p className="mt-6 rounded-2xl border border-white/25 bg-white/10 px-4 py-4 text-center text-xs leading-6 text-muted-foreground backdrop-blur-md">
             Bis dahin bleibt dieses Audio eine Überraschung.
           </p>
         )}
 
         {unlocked && track.downloadUrl ? (
-          <Button asChild variant="outline" className="mt-6 h-11 w-full rounded-full border-border bg-surface shadow-none">
-            <a href={track.downloadUrl} target="_blank" rel="noreferrer">
-              <Download className="size-4" /> {track.downloadLabel ?? "Impuls öffnen"}
+          <Button
+            asChild
+            variant="outline"
+            className="mt-6 h-11 w-full rounded-full border-white/35 bg-white/15 shadow-none backdrop-blur-md transition-all hover:bg-white/25"
+          >
+            <a
+              href={track.downloadUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Download className="size-4" />
+              {track.downloadLabel ?? "Impuls öffnen"}
             </a>
           </Button>
         ) : null}
 
         {track.credit ? (
-          <p className="mt-5 text-[10px] leading-5 text-muted-foreground/70">{track.credit}</p>
+          <p className="mt-5 text-[10px] leading-5 text-muted-foreground/70">
+            {track.credit}
+          </p>
         ) : null}
       </div>
     </article>
