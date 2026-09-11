@@ -100,7 +100,7 @@ function Lichtblicke() {
       <section className="mx-auto w-full max-w-[430px] px-5 pb-10 pt-5 sm:px-7 sm:pt-7">
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <div className="min-w-0">
-            <p className="font-display text-[15px] font-semibold uppercase">KLARTeXt.</p>
+            <img src="/logo.png" alt="KLARTeXt." className="h-6 w-auto" />
             <p className="mt-0.5 text-[9px] uppercase text-muted-foreground">Das Magazin mit Haltung</p>
           </div>
           <Button
