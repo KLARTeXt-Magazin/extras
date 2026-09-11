@@ -97,7 +97,7 @@ const tracks: AudioTrack[] = [
       "Music by Alexandr Kazantsev from Pixabay · Content License Pixabay.",
   },
   {
-    id: "weihnachtsgruss",
+    id: "heiligabend",
     eyebrow: "24. Dezember",
     title:
       "Ein kleiner Weihnachtsimpuls für dich",
