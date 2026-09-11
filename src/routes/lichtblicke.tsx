@@ -141,9 +141,10 @@ function Lichtblicke() {
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
-        if (!visible.length) return;
+        const top = visible[0];
+        if (!top) return;
 
-        const index = slideRefs.current.findIndex((node) => node === visible[0].target);
+        const index = slideRefs.current.findIndex((node) => node === top.target);
         if (index >= 0) setActiveIndex(index);
       },
       {
