@@ -140,7 +140,6 @@ function Index() {
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <div className="min-w-0">
             <img src="/logo.png" alt="KLARTeXt." className="h-6 w-auto" />
-            <p className="mt-0.5 text-[9px] uppercase text-muted-foreground">Das Magazin mit Haltung</p>
           </div>
 
           <Sheet>
@@ -253,7 +252,6 @@ function Index() {
                 <h2 className="truncate font-display text-2xl font-medium">Zeit für Dich</h2>
                 <p className="mt-1 truncate text-xs text-muted-foreground">"Du musst nicht immer stark sein"</p>
               </div>
-              <span className="pb-0.5 text-[10px] uppercase text-muted-foreground">8 min</span>
             </div>
 
             <div className="mt-6">
