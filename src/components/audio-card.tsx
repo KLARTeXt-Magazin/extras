@@ -33,7 +33,7 @@ export function AudioCard({
 }: {
   track: AudioTrack;
   isActive: boolean;
-  onPlay: (id: string) => void;
+  onPlay: (id: string | null) => void;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -49,14 +49,20 @@ export function AudioCard({
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
-    const stop = () => setIsPlaying(false);
+    const stop = () => {
+      setIsPlaying(false);
+      onPlay(null);
+    };
+
     audio.addEventListener("timeupdate", updateTime);
     audio.addEventListener("loadedmetadata", updateDuration);
     audio.addEventListener("durationchange", updateDuration);
     audio.addEventListener("ended", stop);
     audio.addEventListener("pause", stop);
+
     return () => {
       audio.removeEventListener("timeupdate", updateTime);
       audio.removeEventListener("loadedmetadata", updateDuration);
@@ -64,7 +70,7 @@ export function AudioCard({
       audio.removeEventListener("ended", stop);
       audio.removeEventListener("pause", stop);
     };
-  }, [unlocked]);
+  }, [onPlay, unlocked]);
 
   useEffect(() => {
     if (!isActive && audioRef.current && !audioRef.current.paused) {
@@ -75,6 +81,7 @@ export function AudioCard({
   const togglePlay = async () => {
     const audio = audioRef.current;
     if (!audio) return;
+
     if (audio.paused) {
       onPlay(track.id);
       try {
@@ -82,10 +89,12 @@ export function AudioCard({
         setIsPlaying(true);
       } catch {
         setIsPlaying(false);
+        onPlay(null);
       }
     } else {
       audio.pause();
       setIsPlaying(false);
+      onPlay(null);
     }
   };
 
@@ -97,13 +106,20 @@ export function AudioCard({
 
   return (
     <article
-      className="relative overflow-hidden rounded-[2rem] border border-panel-border bg-surface/60 p-3 shadow-player backdrop-blur-2xl"
+      className={`audio-player-card relative overflow-hidden rounded-[2rem] border p-3 shadow-player backdrop-blur-2xl ${
+        isActive ? "is-active" : "is-dimmed"
+      }`}
       aria-label={track.title}
     >
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-light/80 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-light/90 to-transparent"
         aria-hidden="true"
       />
+      <div
+        className="audio-card-glow pointer-events-none absolute -right-16 -top-16 size-48 rounded-full bg-light/20 blur-3xl"
+        aria-hidden="true"
+      />
+
       {unlocked ? <audio ref={audioRef} src={track.src} preload="metadata" /> : null}
 
       <div className="relative aspect-square overflow-hidden rounded-[1.45rem]">
@@ -113,7 +129,9 @@ export function AudioCard({
           width={1024}
           height={1024}
           loading="lazy"
-          className={`h-full w-full object-cover transition-all duration-700 ${unlocked ? "" : "scale-105 blur-lg saturate-50"}`}
+          className={`h-full w-full object-cover transition-all duration-700 ${
+            unlocked ? "" : "scale-105 blur-lg saturate-50"
+          }`}
         />
         <span className="absolute left-4 top-4 rounded-full border border-light/35 bg-surface/45 px-3 py-1.5 text-[9px] font-medium uppercase text-foreground backdrop-blur-xl">
           {track.eyebrow}
@@ -123,9 +141,7 @@ export function AudioCard({
             <span className="flex size-12 items-center justify-center rounded-full border border-light/40 bg-surface/60 backdrop-blur-xl">
               <Lock className="size-5" strokeWidth={1.5} />
             </span>
-            <p className="max-w-[15rem] text-sm font-medium leading-6 text-light drop-shadow">
-              {track.unlockLabel}
-            </p>
+            <p className="max-w-[15rem] text-sm font-medium leading-6 text-light drop-shadow">{track.unlockLabel}</p>
           </div>
         ) : null}
       </div>
@@ -156,9 +172,11 @@ export function AudioCard({
                   setCurrentTime(next);
                 }}
                 className="player-range w-full"
-                style={{
-                  "--player-progress": `${duration ? (currentTime / duration) * 100 : 0}%`,
-                } as React.CSSProperties}
+                style={
+                  {
+                    "--player-progress": `${duration ? (currentTime / duration) * 100 : 0}%`,
+                  } as React.CSSProperties
+                }
               />
               <div className="mt-3 flex justify-between text-xs font-medium tabular-nums text-muted-foreground">
                 <span>{formatTime(currentTime)}</span>
