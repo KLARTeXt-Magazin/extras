@@ -310,7 +310,7 @@ function Lichtblicke() {
                       Alle Ausgaben
                     </SheetTitle>
 
-                    <SheetDescription className="font-body">
+                    <SheetDescription className="font-body text-foreground/65">
                       Audio-Experiences und Impulse
                       zum Magazin.
                     </SheetDescription>
@@ -368,7 +368,7 @@ function Lichtblicke() {
                     href="https://www.magazin-klartext.de/"
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-8 inline-block text-xs font-medium underline underline-offset-4"
+                    className="mt-8 inline-block text-xs font-medium text-foreground underline underline-offset-4"
                   >
                     Zum Magazin
                   </a>
