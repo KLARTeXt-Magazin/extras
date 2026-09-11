@@ -233,7 +233,34 @@ function Lichtblicke() {
       if (slide) observer.observe(slide);
     });
 
-    return () => observer.disconnect();
+  return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (!hash) return;
+
+    const index = tracks.findIndex(
+      (track) => track.id === hash,
+    );
+
+    if (index < 0) return;
+
+    setActiveIndex(index);
+
+    const scrollToSlide = () => {
+      const card = slideRefs.current[index];
+
+      card?.scrollIntoView({
+        behavior: "auto",
+        block: "nearest",
+        inline: "start",
+      });
+    };
+
+    // Wait a frame so the slide refs and layout are ready
+    // before jumping, otherwise scrollIntoView can miss.
+    requestAnimationFrame(scrollToSlide);
   }, []);
 
   const goTo = (index: number) => {
