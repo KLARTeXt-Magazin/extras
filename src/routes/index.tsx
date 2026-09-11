@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Download, Menu, Pause, Play, RotateCcw, RotateCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { LiquidGlass } from "@/components/liquid-glass";
 
 import coverImage from "../assets/zeit-fuer-dich-cover.jpg";
 import { Button } from "@/components/ui/button";
@@ -136,40 +138,92 @@ function Index() {
           </div>
 
           <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="size-10 shrink-0 rounded-full border-border bg-surface/70 shadow-none backdrop-blur-xl" aria-label="Ausgaben öffnen">
-                <Menu className="size-[18px]" strokeWidth={1.5} />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="issue-sheet w-[88%] border-panel-border px-7 py-10 shadow-player sm:max-w-sm">
-              <SheetHeader className="mt-8 text-left">
-                <p className="text-[10px] uppercase text-muted-foreground">KLARTeXt. Extras</p>
-                <SheetTitle className="font-display text-3xl font-medium">Alle Ausgaben</SheetTitle>
-                <SheetDescription className="font-body">Audio-Experiences und Impulse zum Magazin.</SheetDescription>
-              </SheetHeader>
-              <nav className="mt-10 divide-y divide-border" aria-label="Ausgaben">
-                {issues.map((issue) => {
-                  const content = (
-                    <>
-                      <span className="text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">{issue.eyebrow}</span>
-                      <span className="mt-2 block font-display text-3xl font-semibold leading-[1.05] tracking-[-0.02em]">{issue.title}</span>
-                      <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-muted-foreground">{issue.subtitle}</span>
-                    </>
-                  );
-                  return issue.to ? (
-                    <SheetClose asChild key={issue.title}>
-                      <Link to={issue.to} className="issue-entry block py-7">{content}</Link>
-                    </SheetClose>
-                  ) : (
-                    <div key={issue.title} className="issue-entry block py-7 opacity-45">{content}</div>
-                  );
-                })}
-              </nav>
-              <a href="https://www.magazin-klartext.de/" target="_blank" rel="noreferrer" className="mt-9 inline-block text-xs font-medium underline underline-offset-4">
-                Zum Magazin
-              </a>
-            </SheetContent>
-          </Sheet>
+  <SheetTrigger asChild>
+    <Button
+      variant="ghost"
+      size="icon"
+      className="liquid-glass-button size-10 shrink-0 rounded-full"
+      aria-label="Ausgaben öffnen"
+    >
+      <Menu className="size-[18px]" strokeWidth={1.5} />
+    </Button>
+  </SheetTrigger>
+
+  <SheetContent
+    side="right"
+    className="issue-sheet w-[92%] border-0 bg-transparent p-3 shadow-none sm:max-w-sm"
+  >
+    <LiquidGlass
+      className="issue-panel h-full w-full overflow-y-auto rounded-[2rem]"
+      intensity="strong"
+    >
+      <div className="px-7 py-10">
+        <SheetHeader className="mt-8 text-left">
+          <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-foreground/65">
+            KLARTeXt. Extras
+          </p>
+
+          <SheetTitle className="font-display text-3xl font-semibold text-foreground">
+            Alle Ausgaben
+          </SheetTitle>
+
+          <SheetDescription className="font-body text-foreground/65">
+            Audio-Experiences und Impulse zum Magazin.
+          </SheetDescription>
+        </SheetHeader>
+
+        <nav className="mt-10" aria-label="Ausgaben">
+          {issues.map((issue, index) => {
+            const content = (
+              <>
+                <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-foreground/60">
+                  {issue.eyebrow}
+                </span>
+
+                <span className="mt-2 block font-display text-[2rem] font-semibold leading-[1.02] tracking-[-0.025em] text-foreground">
+                  {issue.title}
+                </span>
+
+                <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-foreground/65">
+                  {issue.subtitle}
+                </span>
+              </>
+            );
+
+            return issue.to ? (
+              <SheetClose asChild key={issue.title}>
+                <Link
+                  to={issue.to}
+                  className={`issue-entry ${
+                    index === 1 ? "issue-entry-current" : ""
+                  }`}
+                >
+                  {content}
+                </Link>
+              </SheetClose>
+            ) : (
+              <div
+                key={issue.title}
+                className="issue-entry opacity-40"
+              >
+                {content}
+              </div>
+            );
+          })}
+        </nav>
+
+        <a
+          href="https://www.magazin-klartext.de/"
+          target="_blank"
+          rel="noreferrer"
+          className="mt-8 inline-block text-xs font-medium text-foreground underline underline-offset-4"
+        >
+          Zum Magazin
+        </a>
+      </div>
+    </LiquidGlass>
+  </SheetContent>
+</Sheet>
         </header>
 
         <div className="mt-8">
