@@ -29,7 +29,7 @@ export const Route = createFileRoute("/lichtblicke")({
       {
         name: "description",
         content:
-          "Drei Audio-Impulse der zweiten KLARTeXt-Ausgabe: Momente zum Innehalten im Dezember.",
+          "Drei Audio-Impulse der zweiten KLARTeXt.-Ausgabe: Momente zum Innehalten im Dezember.",
       },
       {
         property: "og:title",
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/lichtblicke")({
       {
         property: "og:description",
         content:
-          "Drei Audio-Impulse der zweiten KLARTeXt-Ausgabe: Momente zum Innehalten im Dezember.",
+          "Drei Audio-Impulse der zweiten KLARTeXt.-Ausgabe: Momente zum Innehalten im Dezember.",
       },
       {
         property: "og:type",
