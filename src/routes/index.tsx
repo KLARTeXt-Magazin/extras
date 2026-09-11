@@ -70,6 +70,14 @@ function Index() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    const update = () => setHasScrolled(window.scrollY > 24);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -116,7 +124,11 @@ function Index() {
     <main className="min-h-screen overflow-hidden bg-background font-body text-foreground">
       <audio ref={audioRef} src="/audio/2026-q3_extra01.m4a" preload="metadata" />
 
-      <section className="mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-5 sm:px-7 sm:pt-7">
+      <section
+        className={`hero-presentation mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-5 sm:px-7 sm:pt-7 ${
+          hasScrolled || isPlaying ? "is-compact" : ""
+        }`}
+      >
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <div className="min-w-0">
             <img src="/logo.png" alt="KLARTeXt." className="h-6 w-auto" />
@@ -129,27 +141,27 @@ function Index() {
                 <Menu className="size-[18px]" strokeWidth={1.5} />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[88%] border-border bg-background px-7 py-10 sm:max-w-sm">
+            <SheetContent side="right" className="issue-sheet w-[88%] border-panel-border px-7 py-10 shadow-player sm:max-w-sm">
               <SheetHeader className="mt-8 text-left">
                 <p className="text-[10px] uppercase text-muted-foreground">KLARTeXt. Extras</p>
                 <SheetTitle className="font-display text-3xl font-medium">Alle Ausgaben</SheetTitle>
                 <SheetDescription className="font-body">Audio-Experiences und Impulse zum Magazin.</SheetDescription>
               </SheetHeader>
-              <nav className="mt-12 divide-y divide-border" aria-label="Ausgaben">
+              <nav className="mt-10 divide-y divide-border" aria-label="Ausgaben">
                 {issues.map((issue) => {
                   const content = (
                     <>
-                      <span className="text-[9px] uppercase text-muted-foreground">{issue.eyebrow}</span>
-                      <span className="mt-2 block font-display text-xl font-medium">{issue.title}</span>
-                      <span className="mt-1 block text-xs leading-5 text-muted-foreground">{issue.subtitle}</span>
+                      <span className="text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">{issue.eyebrow}</span>
+                      <span className="mt-2 block font-display text-3xl font-semibold leading-[1.05] tracking-[-0.02em]">{issue.title}</span>
+                      <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-muted-foreground">{issue.subtitle}</span>
                     </>
                   );
                   return issue.to ? (
                     <SheetClose asChild key={issue.title}>
-                      <Link to={issue.to} className="block py-6">{content}</Link>
+                      <Link to={issue.to} className="issue-entry block py-7">{content}</Link>
                     </SheetClose>
                   ) : (
-                    <div key={issue.title} className="py-6 opacity-50">{content}</div>
+                    <div key={issue.title} className="issue-entry block py-7 opacity-45">{content}</div>
                   );
                 })}
               </nav>
@@ -162,12 +174,12 @@ function Index() {
 
         <div className="mt-8">
           <p className="text-[10px] font-medium uppercase text-muted-foreground">Ausgabe 01 · 08/26</p>
-          <h1 className="mt-3 max-w-[340px] font-display text-[clamp(2.7rem,13vw,4rem)] font-medium leading-[0.93]">
+          <h1 className="hero-title mt-3 max-w-[340px] font-display text-[clamp(2.7rem,13vw,4rem)] font-semibold leading-[0.93] tracking-[-0.02em]">
             Warum Ehrlichkeit Mut braucht
           </h1>
         </div>
 
-        <section className="mt-7 rounded-[2rem] border border-panel-border bg-surface/75 p-3 shadow-player backdrop-blur-2xl" aria-label="Audio-Player">
+        <section className="audio-player-card is-active relative mt-7 overflow-hidden rounded-[2rem] border p-3 backdrop-blur-2xl" aria-label="Audio-Player">
           <div className="relative aspect-square overflow-hidden rounded-[1.45rem]">
             <img src={coverImage} alt="Ruhiger Stein auf dunklem Holz im warmen Morgenlicht" width={1024} height={1024} className="h-full w-full object-cover" />
             <span className="absolute left-4 top-4 rounded-full border border-light/35 bg-surface/45 px-3 py-1.5 text-[9px] font-medium uppercase text-foreground backdrop-blur-xl">

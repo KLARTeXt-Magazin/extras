@@ -141,9 +141,10 @@ function Lichtblicke() {
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
-        if (!visible.length) return;
+        const top = visible[0];
+        if (!top) return;
 
-        const index = slideRefs.current.findIndex((node) => node === visible[0].target);
+        const index = slideRefs.current.findIndex((node) => node === top.target);
         if (index >= 0) setActiveIndex(index);
       },
       {
@@ -209,7 +210,7 @@ function Lichtblicke() {
                       <span className="text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
                         {issue.eyebrow}
                       </span>
-                      <span className="mt-2 block font-display text-[1.35rem] font-medium leading-tight">
+                      <span className="mt-2 block font-display text-3xl font-semibold leading-[1.05] tracking-[-0.02em]">
                         {issue.title}
                       </span>
                       <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-muted-foreground">
@@ -248,10 +249,10 @@ function Lichtblicke() {
           <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
             Ausgabe 02 · 12/26
           </p>
-          <h1 className="mt-3 max-w-[340px] font-display text-[clamp(2.5rem,12vw,3.7rem)] font-medium leading-[0.95]">
+          <h1 className="hero-title mt-3 max-w-[340px] font-display text-[clamp(2.5rem,12vw,3.7rem)] font-semibold leading-[0.95] tracking-[-0.02em]">
             Lichtblicke.
           </h1>
-          <p className="mt-4 max-w-[19rem] text-sm leading-7 text-muted-foreground">
+          <p className="hero-sub mt-4 max-w-[19rem] text-sm leading-7 text-muted-foreground">
             Zwei der 24 Lichtblicke im Adventskalender sind Audios. Sie werden am 6. und am 24. Dezember hörbar.
           </p>
         </div>
