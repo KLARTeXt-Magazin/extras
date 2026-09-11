@@ -24,22 +24,22 @@ export const Route = createFileRoute("/lichtblicke")({
   head: () => ({
     meta: [
       {
-        title: "Lichtblicke — KLARTeXt. Audio zu Ausgabe 02",
+        title: "KLARTeXt. Extras zu Ausgabe 02: Lichtblicke",
       },
       {
         name: "description",
         content:
-          "Drei Audio-Lichtblicke aus dem Adventskalender der zweiten KLARTeXt-Ausgabe: Momente zum Innehalten im Dezember.",
+          "Drei Audio-Impulse der zweiten KLARTeXt-Ausgabe: Momente zum Innehalten im Dezember.",
       },
       {
         property: "og:title",
         content:
-          "Lichtblicke — KLARTeXt. Audio zu Ausgabe 02",
+          "KLARTeXt. Audio zu Ausgabe 02",
       },
       {
         property: "og:description",
         content:
-          "Drei Audio-Lichtblicke aus dem Adventskalender der zweiten KLARTeXt-Ausgabe: Momente zum Innehalten im Dezember.",
+          "Drei Audio-Impulse der zweiten KLARTeXt-Ausgabe: Momente zum Innehalten im Dezember.",
       },
       {
         property: "og:type",
