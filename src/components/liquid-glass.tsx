@@ -25,7 +25,7 @@ export function LiquidGlass({
   const displacementScale = {
     soft: 7,
     medium: 12,
-    strong: 17,
+    strong: 24,
   }[intensity];
 
   const blur = {
