@@ -108,30 +108,71 @@ const tracks: AudioTrack[] = [
 
 function Lichtblicke() {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
-    const onScroll = () => {
-      const width = scroller.clientWidth * 0.86;
-      setActiveIndex(Math.round(scroller.scrollLeft / Math.max(width, 1)));
+
+    const updateScrollState = () => {
+      setHasScrolled(scroller.scrollTop > 24 || window.scrollY > 24);
     };
-    scroller.addEventListener("scroll", onScroll, { passive: true });
-    return () => scroller.removeEventListener("scroll", onScroll);
+
+    updateScrollState();
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    scroller.addEventListener("scroll", updateScrollState, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", updateScrollState);
+      scroller.removeEventListener("scroll", updateScrollState);
+    };
+  }, []);
+
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (!visible.length) return;
+
+        const index = slideRefs.current.findIndex((node) => node === visible[0].target);
+        if (index >= 0) setActiveIndex(index);
+      },
+      {
+        root: scroller,
+        threshold: [0.45, 0.6, 0.75, 0.9],
+      },
+    );
+
+    slideRefs.current.forEach((slide) => {
+      if (slide) observer.observe(slide);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const goTo = (index: number) => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-    const card = scroller.children[index] as HTMLElement | undefined;
+    const card = slideRefs.current[index];
     card?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
   };
 
+  const presentationCompact = hasScrolled || activeId !== null;
+
   return (
     <main className="min-h-screen bg-background font-body text-foreground">
-      <section className="mx-auto w-full max-w-[430px] px-5 pb-10 pt-5 sm:px-7 sm:pt-7">
+      <section
+        className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-10 pt-5 sm:px-7 sm:pt-7 ${
+          presentationCompact ? "is-compact" : ""
+        }`}
+      >
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <div className="min-w-0">
             <img src="/logo.png" alt="KLARTeXt." className="h-6 w-auto" />
@@ -140,35 +181,63 @@ function Lichtblicke() {
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="size-10 shrink-0 rounded-full border-border bg-surface/70 shadow-none backdrop-blur-xl" aria-label="Ausgaben öffnen">
+              <Button
+                variant="outline"
+                size="icon"
+                className="size-10 shrink-0 rounded-full border-border bg-surface/70 shadow-none backdrop-blur-xl"
+                aria-label="Ausgaben öffnen"
+              >
                 <Menu className="size-[18px]" strokeWidth={1.5} />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[88%] border-border bg-background px-7 py-10 sm:max-w-sm">
+            <SheetContent
+              side="right"
+              className="issue-sheet w-[88%] border-panel-border px-7 py-10 shadow-player sm:max-w-sm"
+            >
               <SheetHeader className="mt-8 text-left">
                 <p className="text-[10px] uppercase text-muted-foreground">KLARTeXt. Extras</p>
                 <SheetTitle className="font-display text-3xl font-medium">Alle Ausgaben</SheetTitle>
-                <SheetDescription className="font-body">Audio-Experiences und Impulse zum Magazin.</SheetDescription>
+                <SheetDescription className="font-body">
+                  Audio-Experiences und Impulse zum Magazin.
+                </SheetDescription>
               </SheetHeader>
-              <nav className="mt-12 divide-y divide-border" aria-label="Ausgaben">
+
+              <nav className="mt-10 divide-y divide-border" aria-label="Ausgaben">
                 {issues.map((issue) => {
                   const content = (
                     <>
-                      <span className="text-[9px] uppercase text-muted-foreground">{issue.eyebrow}</span>
-                      <span className="mt-2 block font-display text-xl font-medium">{issue.title}</span>
-                      <span className="mt-1 block text-xs leading-5 text-muted-foreground">{issue.subtitle}</span>
+                      <span className="text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                        {issue.eyebrow}
+                      </span>
+                      <span className="mt-2 block font-display text-[1.35rem] font-medium leading-tight">
+                        {issue.title}
+                      </span>
+                      <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-muted-foreground">
+                        {issue.subtitle}
+                      </span>
                     </>
                   );
+
                   return issue.to ? (
                     <SheetClose asChild key={issue.title}>
-                      <Link to={issue.to} className="block py-6">{content}</Link>
+                      <Link to={issue.to} className="issue-entry block py-7">
+                        {content}
+                      </Link>
                     </SheetClose>
                   ) : (
-                    <div key={issue.title} className="py-6 opacity-50">{content}</div>
+                    <div key={issue.title} className="issue-entry block py-7 opacity-45">
+                      {content}
+                    </div>
                   );
                 })}
               </nav>
-              <a href="https://www.magazin-klartext.de/" target="_blank" rel="noreferrer" className="mt-9 inline-block text-xs font-medium underline underline-offset-4">
+
+              <a
+                href="https://www.magazin-klartext.de/"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-8 inline-block text-xs font-medium underline underline-offset-4"
+              >
                 Zum Magazin
               </a>
             </SheetContent>
@@ -176,7 +245,9 @@ function Lichtblicke() {
         </header>
 
         <div className="mt-8">
-          <p className="text-[10px] font-medium uppercase text-muted-foreground">Ausgabe 02 · 12/26</p>
+          <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+            Ausgabe 02 · 12/26
+          </p>
           <h1 className="mt-3 max-w-[340px] font-display text-[clamp(2.5rem,12vw,3.7rem)] font-medium leading-[0.95]">
             Lichtblicke.
           </h1>
@@ -186,7 +257,7 @@ function Lichtblicke() {
         </div>
 
         <div className="mt-8 flex items-center justify-between">
-          <p className="text-[10px] font-medium uppercase text-muted-foreground">
+          <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
             Audio {activeIndex + 1} von {tracks.length}
           </p>
           <div className="flex gap-2" role="tablist" aria-label="Audios wechseln">
@@ -212,21 +283,31 @@ function Lichtblicke() {
         className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-4 [scrollbar-width:none] sm:px-7 [&::-webkit-scrollbar]:hidden"
         style={{ scrollPaddingInline: "1.25rem" }}
       >
-        {tracks.map((track) => (
-          <div key={track.id} className="w-[86%] max-w-[380px] shrink-0 snap-start">
-            <AudioCard track={track} isActive={activeId === null || activeId === track.id} onPlay={setActiveId} />
+        {tracks.map((track, index) => (
+          <div
+            key={track.id}
+            ref={(node) => {
+              slideRefs.current[index] = node;
+            }}
+            className="w-[86%] max-w-[380px] shrink-0 snap-start"
+          >
+            <AudioCard
+              track={track}
+              isActive={activeId === null || activeId === track.id}
+              onPlay={setActiveId}
+            />
           </div>
         ))}
       </div>
 
-      <p className="mt-2 px-5 text-center text-[9px] uppercase text-muted-foreground sm:px-7">
+      <p className="mt-2 px-5 text-center text-[9px] uppercase tracking-[0.1em] text-muted-foreground sm:px-7">
         Zum Wechseln seitlich wischen
       </p>
 
       <section className="mt-16 border-t border-border bg-secondary/45 px-6 py-20">
         <div className="mx-auto max-w-[430px]">
-          <p className="text-[10px] font-medium uppercase text-muted-foreground">Momente zum Innehalten</p>
-                <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
+          <h2 className="font-display text-3xl font-medium leading-tight">Momente zum Innehalten</h2>
+          <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
             Der Adventskalender der zweiten Ausgabe begleitet dich durch den Dezember. Zwei der Lichtblicke kannst du
             hier als Audio hören, die Auszeit-Audio ist jetzt schon jederzeit für dich da.
           </p>
