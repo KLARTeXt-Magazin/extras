@@ -25,15 +25,15 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Zeit für dich — KLARTeXt. Audio" },
+      { title: "KLARTeXt. Extras zu Ausgabe 01: Warum Ehrlichkeit Mut braucht" },
       {
         name: "description",
-        content: "Eine Achtsamkeitsübung zum Entschleunigen aus der ersten Ausgabe von KLARTeXt.",
+        content: "Eine Achtsamkeitsübung der ersten Ausgabe von KLARTeXt.: Zeit für Dich",
       },
-      { property: "og:title", content: "Zeit für dich — KLARTeXt. Audio" },
+      { property: "og:title", content: "KLARTeXt. Audio zu Ausgabe 01" },
       {
         property: "og:description",
-        content: "Eine Achtsamkeitsübung zum Entschleunigen aus der ersten Ausgabe von KLARTeXt.",
+        content: "Eine Achtsamkeitsübung der ersten Ausgabe von KLARTeXt.: Zeit für Dich",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
