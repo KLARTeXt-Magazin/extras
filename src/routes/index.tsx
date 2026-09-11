@@ -147,21 +147,21 @@ function Index() {
                 <SheetTitle className="font-display text-3xl font-medium">Alle Ausgaben</SheetTitle>
                 <SheetDescription className="font-body">Audio-Experiences und Impulse zum Magazin.</SheetDescription>
               </SheetHeader>
-              <nav className="mt-12 divide-y divide-border" aria-label="Ausgaben">
+              <nav className="mt-10 divide-y divide-border" aria-label="Ausgaben">
                 {issues.map((issue) => {
                   const content = (
                     <>
-                      <span className="text-[9px] uppercase text-muted-foreground">{issue.eyebrow}</span>
-                      <span className="mt-2 block font-display text-xl font-medium">{issue.title}</span>
-                      <span className="mt-1 block text-xs leading-5 text-muted-foreground">{issue.subtitle}</span>
+                      <span className="text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">{issue.eyebrow}</span>
+                      <span className="mt-2 block font-display text-3xl font-semibold leading-[1.05] tracking-[-0.02em]">{issue.title}</span>
+                      <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-muted-foreground">{issue.subtitle}</span>
                     </>
                   );
                   return issue.to ? (
                     <SheetClose asChild key={issue.title}>
-                      <Link to={issue.to} className="block py-6">{content}</Link>
+                      <Link to={issue.to} className="issue-entry block py-7">{content}</Link>
                     </SheetClose>
                   ) : (
-                    <div key={issue.title} className="py-6 opacity-50">{content}</div>
+                    <div key={issue.title} className="issue-entry block py-7 opacity-45">{content}</div>
                   );
                 })}
               </nav>
@@ -179,7 +179,7 @@ function Index() {
           </h1>
         </div>
 
-        <section className="mt-7 rounded-[2rem] border border-panel-border bg-surface/75 p-3 shadow-player backdrop-blur-2xl" aria-label="Audio-Player">
+        <section className="audio-player-card is-active relative mt-7 overflow-hidden rounded-[2rem] border p-3 backdrop-blur-2xl" aria-label="Audio-Player">
           <div className="relative aspect-square overflow-hidden rounded-[1.45rem]">
             <img src={coverImage} alt="Ruhiger Stein auf dunklem Holz im warmen Morgenlicht" width={1024} height={1024} className="h-full w-full object-cover" />
             <span className="absolute left-4 top-4 rounded-full border border-light/35 bg-surface/45 px-3 py-1.5 text-[9px] font-medium uppercase text-foreground backdrop-blur-xl">
