@@ -124,7 +124,11 @@ function Index() {
     <main className="min-h-screen overflow-hidden bg-background font-body text-foreground">
       <audio ref={audioRef} src="/audio/2026-q3_extra01.m4a" preload="metadata" />
 
-      <section className="mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-5 sm:px-7 sm:pt-7">
+      <section
+        className={`hero-presentation mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-5 sm:px-7 sm:pt-7 ${
+          hasScrolled || isPlaying ? "is-compact" : ""
+        }`}
+      >
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <div className="min-w-0">
             <img src="/logo.png" alt="KLARTeXt." className="h-6 w-auto" />
@@ -137,7 +141,7 @@ function Index() {
                 <Menu className="size-[18px]" strokeWidth={1.5} />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[88%] border-border bg-background px-7 py-10 sm:max-w-sm">
+            <SheetContent side="right" className="issue-sheet w-[88%] border-panel-border px-7 py-10 shadow-player sm:max-w-sm">
               <SheetHeader className="mt-8 text-left">
                 <p className="text-[10px] uppercase text-muted-foreground">KLARTeXt. Extras</p>
                 <SheetTitle className="font-display text-3xl font-medium">Alle Ausgaben</SheetTitle>
@@ -170,7 +174,7 @@ function Index() {
 
         <div className="mt-8">
           <p className="text-[10px] font-medium uppercase text-muted-foreground">Ausgabe 01 · 08/26</p>
-          <h1 className="mt-3 max-w-[340px] font-display text-[clamp(2.7rem,13vw,4rem)] font-medium leading-[0.93]">
+          <h1 className="hero-title mt-3 max-w-[340px] font-display text-[clamp(2.7rem,13vw,4rem)] font-semibold leading-[0.93] tracking-[-0.02em]">
             Warum Ehrlichkeit Mut braucht
           </h1>
         </div>
