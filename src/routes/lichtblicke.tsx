@@ -86,8 +86,6 @@ const tracks: AudioTrack[] = [
     title: "Einen Moment zum Nikolaus",
     quote:
       "„Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“",
-    description:
-      "Ein kurzes Innehalten mitten im Dezember.",
     cover: coverNikolaus,
     coverAlt:
       "Brennende Kerze neben einem Tannenzweig auf dunklem Holz",
@@ -106,8 +104,6 @@ const tracks: AudioTrack[] = [
       "Ein kleiner Weihnachtsimpuls für dich",
     quote:
       "„Nicht das Perfekte zählt, sondern das Gemeinsame und Bewusste im Augenblick.“",
-    description:
-      "Ein Impuls für den Heiligen Abend.",
     cover: coverGruss,
     coverAlt:
       "Warme Lichterkette hinter Leinentuch und Keramiktasse",
@@ -126,8 +122,6 @@ const tracks: AudioTrack[] = [
       "Ein kleiner Moment für dich",
     quote:
       "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
-    description:
-      "Eine Pause, um an dich zu denken.",
     cover: coverMoment,
     coverAlt:
       "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
