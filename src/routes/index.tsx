@@ -250,7 +250,7 @@ function Index() {
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
               <div className="min-w-0">
                 <h2 className="truncate font-display text-2xl font-medium">Zeit für Dich</h2>
-                <p className="mt-1 truncate text-xs text-muted-foreground">"Du musst nicht immer stark sein"</p>
+                <p className="mt-1 truncate text-xs text-muted-foreground">„Du musst nicht immer stark sein"</p>
               </div>
             </div>
 
