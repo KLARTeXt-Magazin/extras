@@ -1,10 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Download, Menu, Pause, Play, RotateCcw, RotateCw } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { LiquidGlass } from "@/components/liquid-glass";
+import {
+  Download,
+  Menu,
+  Pause,
+  Play,
+  RotateCcw,
+  RotateCw,
+} from "lucide-react";
 
 import coverImage from "../assets/zeit-fuer-dich-cover.jpg";
+import { LiquidGlass } from "@/components/liquid-glass";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
