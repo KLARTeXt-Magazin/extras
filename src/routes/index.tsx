@@ -133,13 +133,25 @@ function Index() {
       <audio ref={audioRef} src="/audio/2026-q3_extra01.m4a" preload="metadata" />
 
       <section
-        className={`hero-presentation mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-5 sm:px-7 sm:pt-7 ${
+        className={`hero-presentation mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-24 sm:px-7 ${
           hasScrolled || isPlaying ? "is-compact" : ""
         }`}
       >
-        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
+        <header
+          className={`floating-site-header fixed inset-x-0 top-0 z-50 mx-auto grid h-16 w-full max-w-[430px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:px-7 ${
+            hasScrolled ? "is-scrolled" : ""
+          }`}
+        >
           <div className="min-w-0">
-            <img src="/logo.png" alt="KLARTeXt." className="h-6 w-auto" />
+            <a
+              href="https://www.magazin-klartext.de/"
+              target="_blank"
+              rel="noreferrer"
+              className="block w-fit"
+              aria-label="Zum KLARTeXt. Magazin"
+            >
+              <img src="/logo.png" alt="KLARTeXt." className="h-6 w-auto" />
+            </a>
           </div>
 
           <Sheet>
@@ -231,7 +243,7 @@ function Index() {
 </Sheet>
         </header>
 
-        <div className="mt-8">
+        <div className="mt-4">
           <p className="text-[10px] font-medium uppercase text-muted-foreground">Ausgabe 01 · 08/26</p>
           <h1 className="hero-title mt-3 max-w-[340px] font-display text-[clamp(2.7rem,13vw,4rem)] font-semibold leading-[0.93] tracking-[-0.02em]">
             Warum Ehrlichkeit Mut braucht
