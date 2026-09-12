@@ -589,7 +589,7 @@ function Lichtblicke() {
       <Button
         asChild
         variant="outline"
-        className="mt-7 h-11 rounded-full border-[#A9BF7A] bg-[#A9BF7A]/10 px-5 shadow-none""
+        className="mt-7 h-11 rounded-full border-[#A9BF7A] bg-[#A9BF7A]/10 px-5 shadow-none"
       >
         <a
           href="/pdf/2026-q4_Auszeit01.pdf"
