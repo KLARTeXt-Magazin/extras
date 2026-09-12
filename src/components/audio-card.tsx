@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  Download,
   Lock,
   Pause,
   Play,
@@ -8,7 +7,6 @@ import {
   RotateCw,
 } from "lucide-react";
 
-import { LiquidGlass } from "@/components/liquid-glass";
 import { Button } from "@/components/ui/button";
 
 export type AudioTrack = {
@@ -16,6 +14,7 @@ export type AudioTrack = {
   eyebrow: string;
   title: string;
   quote: string;
+  note?: string;
   cover: string;
   coverAlt: string;
   src: string;
@@ -186,14 +185,10 @@ export function AudioCard({
         ) : null}
       </div>
 
-<div className="relative z-10 px-3 pb-3 pt-5">
+<div className="relative z-10 px-3 pb-4 pt-5">
   <h3 className="font-display text-2xl font-medium leading-tight">
     {track.title}
   </h3>
-
-  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-    {track.quote}
-  </p>
 
   {unlocked ? (
     <>
@@ -287,29 +282,6 @@ export function AudioCard({
       </div>
     </>
   ) : null}
-
-  {unlocked && track.downloadUrl ? (
-    <Button
-      asChild
-      variant="outline"
-            className="mt-6 h-11 w-full rounded-full border-white/35 bg-white/15 shadow-none backdrop-blur-md transition-all hover:bg-white/25"
-          >
-            <a
-              href={track.downloadUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Download className="size-4" />
-              {track.downloadLabel ?? "Impuls öffnen"}
-            </a>
-          </Button>
-        ) : null}
-
-        {track.credit ? (
-          <p className="mt-5 text-[10px] leading-5 text-muted-foreground/70">
-            {track.credit}
-          </p>
-        ) : null}
       </div>
     </article>
   );

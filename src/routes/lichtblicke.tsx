@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Menu } from "lucide-react";
+import { Download, Menu } from "lucide-react";
 
 import coverNikolaus from "../assets/lichtblicke-nikolaus.jpg";
 import coverGruss from "../assets/lichtblicke-weihnachtsgruss.jpg";
@@ -85,6 +85,8 @@ const tracks: AudioTrack[] = [
     title: "Einen Moment zum Nikolaus",
     quote:
       "„Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“",
+    note:
+      "Ein kurzer Moment aus dem Adventskalender – zum Anhören am 6. Dezember.",
     cover: coverNikolaus,
     coverAlt:
       "Brennende Kerze neben einem Tannenzweig auf dunklem Holz",
@@ -103,6 +105,8 @@ const tracks: AudioTrack[] = [
       "Ein Moment an Heiligabend",
     quote:
       "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
+    note:
+      "Der zweite Lichtblick aus dem Adventskalender – zum Anhören an Heiligabend.",
     cover: coverGruss,
     coverAlt:
       "Warme Lichterkette hinter Leinentuch und Keramiktasse",
@@ -121,6 +125,8 @@ const tracks: AudioTrack[] = [
       "Ein kleiner Moment für dich",
     quote:
       "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
+    note:
+      "Eine kurze Auszeit für dich, jederzeit abrufbar. Den Impuls kannst du dir auch ausdrucken.",
     cover: coverMoment,
     coverAlt:
       "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
@@ -137,6 +143,8 @@ const tracks: AudioTrack[] = [
     eyebrow: "Progressive Muskelentspannung",
     title: "Spannung trifft Entspannung",
     quote: "„Zitat folgt.“",
+    note:
+      "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
     cover: coverMoment,
     coverAlt:
       "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
@@ -488,6 +496,62 @@ function Lichtblicke() {
       <p className="mt-2 px-5 text-center text-[9px] uppercase tracking-[0.1em] text-muted-foreground sm:px-7">
         Zum Wechseln seitlich wischen
       </p>
+
+      <section className="mx-auto mt-10 w-full max-w-[430px] px-6 sm:px-7">
+        {tracks.map((track, index) => {
+          const isCurrent = index === activeIndex;
+
+          return (
+            <div
+              key={track.id}
+              aria-hidden={!isCurrent}
+              className={`transition-all duration-500 ${
+                isCurrent
+                  ? "opacity-100 translate-y-0"
+                  : "pointer-events-none absolute h-0 -translate-y-1 overflow-hidden opacity-0"
+              }`}
+            >
+              <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                {track.eyebrow}
+              </p>
+
+              <p className="mt-4 font-display text-xl font-medium leading-8">
+                {track.quote}
+              </p>
+
+              {track.note ? (
+                <p className="mt-5 text-sm leading-7 text-muted-foreground">
+                  {track.note}
+                </p>
+              ) : null}
+
+              {track.downloadUrl ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
+                >
+                  <a
+                    href={track.downloadUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Download className="size-4" />
+                    {track.downloadLabel ?? "Impuls öffnen"}
+                  </a>
+                </Button>
+              ) : null}
+
+              {track.credit ? (
+                <p className="mt-7 text-[10px] leading-5 text-muted-foreground/70">
+                  {track.credit}
+                </p>
+              ) : null}
+            </div>
+          );
+        })}
+      </section>
+
 
 <section className="mt-16 border-t border-border bg-secondary/45 px-6 py-20">
   <div className="mx-auto max-w-[430px]">
