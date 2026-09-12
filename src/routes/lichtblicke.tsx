@@ -489,7 +489,7 @@ function Lichtblicke() {
         Zum Wechseln seitlich wischen
       </p>
 
-  <section className="mt-16 border-t border-border bg-secondary/45 px-6 py-20">
+<section className="mt-16 border-t border-border bg-secondary/45 px-6 py-20">
   <div className="mx-auto max-w-[430px]">
     <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
       Zum Anhören und Ausprobieren
@@ -503,10 +503,10 @@ function Lichtblicke() {
       jederzeit abrufbar.
     </p>
 
-    <div className="mt-12 rounded-[1.75rem] border border-border bg-surface/70 p-6">
-        <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
-          Progressive Muskelentspannung
-        </p>
+    <div className="mt-12 rounded-[1.75rem] border border-[#A9BF7A]/30 bg-[#A9BF7A]/[0.08] p-6">
+<p className="text-[10px] font-medium uppercase tracking-[0.12em] text-[#6F7F52]">
+  Progressive Muskelentspannung
+</p>
 
       <h2 className="mt-3 font-display text-3xl font-medium leading-tight">
         Spannung trifft Entspannung
@@ -514,81 +514,91 @@ function Lichtblicke() {
 
       <p className="mt-5 text-sm leading-7 text-muted-foreground">
         Die progressive Muskelentspannung, kurz PMR, ist
-        eine kurze Übung, die du jederzeit zwischendurch anwenden kannst. Dabei werden
-        einzelne Muskelgruppen für wenige Sekunden bewusst
-        angespannt und anschließend wieder gelöst. 
+        eine kurze Übung, die du jederzeit zwischendurch
+        anwenden kannst. Dabei werden einzelne
+        Muskelgruppen für wenige Sekunden bewusst
+        angespannt und anschließend wieder gelöst.
       </p>
 
-        <div className="mt-6 space-y-6">
-          <div>
-            <p className="text-sm font-medium">
-              01 · Schultern & Nacken
-            </p>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              Schultern bewusst für einige Sekunden zu den Ohren ziehen, die
-              Spannung halten · Beim Ausatmen wieder
-              lösen · Spüre, wie die Last abfällt
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium">
-              02 · Hände & Arme
-            </p>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              Hände zu Fäusten schließen und die Spannung
-              halten · Beim Ausatmen wieder loslassen, die
-              Arme locker werden lassen · Spüre das wohlige Kribbeln
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium">
-              03 · Gesicht
-            </p>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              Augen leicht zusammenkneifen, die Nase
-              rümpfen und die Zähne sanft aufeinanderbeißen.
-              Kurz bewusst halten · Gesicht, Kiefer und
-              Stirn Lockerlassen und vollständig entspannen
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium">
-              04 · Nachspüren
-            </p>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Spüre, wie sich die Entspannung in deinem gesamten Körper ausbreitet · Bewege sanft deine Finger und Zehen und komme in deinem Tempo wieder an
-            </p>
-          </div>
-          
-        </div>
-
-        <div className="mt-7 border-t border-border pt-5">
-          <p className="text-sm leading-6 text-muted-foreground">
-            Die Übung braucht keine besonderen Hilfsmittel
-            und lässt sich im Sitzen, Stehen, Gehen oder Liegen durchführen, zum
-            Beispiel zu Hause im Sessel oder im Wartezimmer.
-            Wenn du diese Übung regelmäßig machst, kannst du durch Achtsamkeit die verschiedenen Spannungszustände besser erkennen und regulieren.
-            
+      <div className="mt-8 space-y-6">
+        <div>
+         <p className="text-sm font-medium">
+  <span className="text-[#6F7F52]">01 ·</span>{" "}
+  Schultern & Nacken
+</p>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            Schultern bewusst für einige Sekunden zu den
+            Ohren ziehen, die Spannung halten · Beim
+            Ausatmen wieder lösen · Spüre, wie die Last
+            abfällt.
           </p>
         </div>
 
-        <Button
-          asChild
-          variant="outline"
-          className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
-        >
-          <a
-            href="/pdf/2026-q4_Auszeit01.pdf"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Anleitung zum Download
-          </a>
-        </Button>
+        <div>
+          <p className="text-sm font-medium">
+  <span className="text-[#6F7F52]">02 ·</span>{" "}
+  Hände & Arme
+</p>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            Hände zu Fäusten schließen und die Spannung
+            halten · Beim Ausatmen wieder loslassen, die
+            Arme locker werden lassen · Spüre das wohlige
+            Kribbeln.
+          </p>
+        </div>
+
+        <div>
+ <p className="text-sm font-medium">
+  <span className="text-[#6F7F52]">03 ·</span>{" "}
+  Gesicht
+</p>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            Augen leicht zusammenkneifen, die Nase rümpfen
+            und die Zähne sanft aufeinanderbeißen. Kurz
+            bewusst halten · Gesicht, Kiefer und Stirn
+            lockerlassen und vollständig entspannen.
+          </p>
+        </div>
+
+        <div>
+<p className="text-sm font-medium">
+  <span className="text-[#6F7F52]">04 ·</span>{" "}
+  Nachspüren
+</p>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            Spüre, wie sich die Entspannung in deinem
+            gesamten Körper ausbreitet · Bewege sanft deine
+            Finger und Zehen und komme in deinem Tempo
+            wieder an.
+          </p>
+        </div>
       </div>
+
+      <div className="mt-7 border-t border-border pt-5">
+        <p className="text-sm leading-6 text-muted-foreground">
+          Die Übung braucht keine besonderen Hilfsmittel
+          und lässt sich im Sitzen, Stehen, Gehen oder
+          Liegen durchführen – zum Beispiel zu Hause im
+          Sessel oder im Wartezimmer. Wenn du diese Übung
+          regelmäßig machst, kannst du durch Achtsamkeit
+          die verschiedenen Spannungszustände besser
+          erkennen und regulieren.
+        </p>
+      </div>
+
+      <Button
+        asChild
+        variant="outline"
+        className="mt-7 h-11 rounded-full border-[#A9BF7A] bg-[#A9BF7A]/10 px-5 shadow-none""
+      >
+        <a
+          href="/pdf/2026-q4_Auszeit01.pdf"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Anleitung zum Download
+        </a>
+      </Button>
     </div>
 
     <Button
