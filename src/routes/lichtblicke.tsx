@@ -53,6 +53,7 @@ head: () => ({
   component: Lichtblicke,
 });
 
+
 const issues: {
   eyebrow: string;
   title: string;
@@ -78,6 +79,7 @@ const issues: {
   },
 ];
 
+const PREVIEW_UNLOCKED = true;
 const tracks: AudioTrack[] = [
   {
     id: "nikolaus",
@@ -91,8 +93,9 @@ const tracks: AudioTrack[] = [
     coverAlt:
       "Brennende Kerze neben einem Tannenzweig auf dunklem Holz",
     src: "/audio/2026-q4_extra01.m4a",
-    unlockAt:
-      "2026-12-06T00:00:00+01:00",
+unlockAt: PREVIEW_UNLOCKED
+      ? undefined
+      : "2026-12-06T00:00:00+01:00",
     unlockLabel:
       "Öffnet sich am 6. Dezember",
     credit:
@@ -111,8 +114,9 @@ const tracks: AudioTrack[] = [
     coverAlt:
       "Warme Lichterkette hinter Leinentuch und Keramiktasse",
     src: "/audio/2026-q4_extra02.m4a",
-    unlockAt:
-      "2026-12-24T00:00:00+01:00",
+    unlockAt: PREVIEW_UNLOCKED
+      ? undefined
+      : "2026-12-24T00:00:00+01:00",
     unlockLabel:
       "Öffnet sich am 24. Dezember",
     credit:
