@@ -100,9 +100,9 @@ const tracks: AudioTrack[] = [
     id: "heiligabend",
     eyebrow: "24. Dezember",
     title:
-      "Ein kleiner Weihnachtsimpuls für dich",
+      "Ein Moment an Heiligabend",
     quote:
-      "„Nicht das Perfekte zählt, sondern das Gemeinsame und Bewusste im Augenblick.“",
+      "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
     cover: coverGruss,
     coverAlt:
       "Warme Lichterkette hinter Leinentuch und Keramiktasse",
