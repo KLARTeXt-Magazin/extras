@@ -29,7 +29,7 @@ head: () => ({
     {
       name: "description",
       content:
-        "Drei Audio-Impulse der zweiten KLARTeXt.-Ausgabe: Momente zum Innehalten im Dezember.",
+        "Vier Audio-Impulse der zweiten KLARTeXt.-Ausgabe: Momente zum Innehalten und eine kurze Entspannungsübung.",
     },
     {
       property: "og:title",
@@ -38,7 +38,7 @@ head: () => ({
     {
       property: "og:description",
       content:
-        "Drei Audio-Momente zum Innehalten im Dezember – dein Advents-Extra zur zweiten KLARTeXt.-Ausgabe.",
+        "Vier Audio-Momente zum Innehalten und Entspannen – dein Extra zur zweiten KLARTeXt.-Ausgabe.",
     },
     {
       property: "og:type",
@@ -62,7 +62,7 @@ const issues: {
   {
     eyebrow: "Ausgabe 02 · 12/26",
     title: "Lichtblicke",
-    subtitle: "Momente zum Innehalten · 3 Audios",
+    subtitle: "Momente zum Innehalten · 4 Audios",
     to: "/lichtblicke",
   },
   {
@@ -131,6 +131,22 @@ const tracks: AudioTrack[] = [
       "Impuls zum Ausdrucken",
     credit:
       "Music by Elijah K from Pixabay · Content License Pixabay.",
+  },
+  {
+    id: "pmr",
+    eyebrow: "Entspannungsübung",
+    title: "Progressive Muskelentspannung",
+    quote: "„Zitat folgt.“",
+    cover: coverMoment,
+    coverAlt:
+      "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
+    src: "/audio/2026-q4_extra03.m4a",
+    downloadUrl:
+      "/pdf/2026-q4_PMR_Uebungsblatt.pdf",
+    downloadLabel:
+      "Übungsblatt zur Übung",
+    credit:
+      "Audio vorläufig als Platzhalter · wird später ersetzt.",
   },
 ];
 
@@ -410,7 +426,9 @@ function Lichtblicke() {
           <p className="hero-sub mt-4 max-w-[19rem] text-sm leading-7 text-muted-foreground">
             Zwei der 24 Lichtblicke im Adventskalender
             sind Audios. Sie werden am 6. und am
-            24. Dezember hörbar.
+            24. Dezember hörbar. Dazu findest du hier
+            eine jederzeit verfügbare Auszeit und eine
+            kurze Entspannungsübung.
           </p>
         </div>
 
@@ -488,8 +506,10 @@ function Lichtblicke() {
             Der Adventskalender der zweiten Ausgabe
             begleitet dich durch den Dezember. Zwei
             der Lichtblicke kannst du hier als Audio
-            hören, die Auszeit-Audio ist jetzt schon
-            jederzeit für dich da.
+            hören. Dazu findest du eine Auszeit und
+            eine kurze Übung zur progressiven
+            Muskelentspannung, die jederzeit für dich
+            da sind.
           </p>
 
           <Button
