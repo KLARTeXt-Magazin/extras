@@ -150,7 +150,7 @@ function Index() {
               className="block w-fit"
               aria-label="Zum KLARTeXt. Magazin"
             >
-              <img src="/logo.png" alt="KLARTeXt." className="h-6 w-auto" />
+              <img src="/logo.png" alt="KLARTeXt." className="h-10 w-auto" />
             </a>
           </div>
 
