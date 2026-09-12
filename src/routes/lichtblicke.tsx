@@ -504,9 +504,9 @@ function Lichtblicke() {
     </p>
 
     <div className="mt-12 rounded-[1.75rem] border border-border bg-surface/70 p-6">
-      <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
-        Entspannungsübung
-      </p>
+        <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+          Progressive Muskelentspannung
+        </p>
 
       <h2 className="mt-3 font-display text-3xl font-medium leading-tight">
         Spannung trifft Entspannung
@@ -518,11 +518,6 @@ function Lichtblicke() {
         einzelne Muskelgruppen für wenige Sekunden bewusst
         angespannt und anschließend wieder gelöst. 
       </p>
-
-      <div className="mt-8">
-        <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
-          Progressive Muskelentspannung
-        </p>
 
         <div className="mt-6 space-y-6">
           <div>
