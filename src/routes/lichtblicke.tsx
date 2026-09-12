@@ -128,7 +128,7 @@ const tracks: AudioTrack[] = [
     downloadUrl:
       "/pdf/2026-q4_Auszeit01.pdf",
     downloadLabel:
-      "Impuls zum Ausdrucken",
+      "Impuls zum Downloaden",
     credit:
       "Music by Elijah K from Pixabay · Content License Pixabay.",
   },
@@ -142,9 +142,9 @@ const tracks: AudioTrack[] = [
       "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
     src: "/audio/2026-q4_extra03.m4a",
     downloadUrl:
-      "/pdf/2026-q4_PMR_Uebungsblatt.pdf",
+      "/pdf/2026-q4_Auszeit01.pdf",
     downloadLabel:
-      "Übungsblatt zur Übung",
+      "PMR-Anleitung zum Downloaden",
     credit:
       "Audio vorläufig als Platzhalter · wird später ersetzt.",
   },
@@ -308,9 +308,6 @@ function Lichtblicke() {
               className="h-6 w-auto"
             />
 
-            <p className="mt-0.5 text-[9px] uppercase text-muted-foreground">
-              Das Magazin mit Haltung
-            </p>
           </div>
 
           <Sheet>
@@ -427,8 +424,8 @@ function Lichtblicke() {
             Zwei der 24 Lichtblicke im Adventskalender
             sind Audios. Sie werden am 6. und am
             24. Dezember hörbar. Dazu findest du hier
-            eine jederzeit verfügbare Auszeit und eine
-            kurze Entspannungsübung.
+            eine jederzeit verfügbare kurze Auszeit und eine
+            Entspannungsübung.
           </p>
         </div>
 
