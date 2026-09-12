@@ -422,10 +422,8 @@ function Lichtblicke() {
 
           <p className="hero-sub mt-4 max-w-[19rem] text-sm leading-7 text-muted-foreground">
             Zwei der 24 Lichtblicke im Adventskalender
-            sind Audios. Sie werden am 6. und am
-            24. Dezember hörbar. Dazu findest du hier
-            eine jederzeit verfügbare kurze Auszeit und eine
-            Entspannungsübung.
+            gibt es hier zum Anhören. Dazu findest du hier
+            eine jederzeit verfügbare Auszeit und Entspannungsübung.
           </p>
         </div>
 
