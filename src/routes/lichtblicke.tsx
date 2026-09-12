@@ -489,6 +489,62 @@ function Lichtblicke() {
         Zum Wechseln seitlich wischen
       </p>
 
+      <section className="mx-auto mt-10 w-full max-w-[430px] px-6 sm:px-7">
+        {tracks.map((track, index) => {
+          const isCurrent = index === activeIndex;
+
+          return (
+            <div
+              key={track.id}
+              aria-hidden={!isCurrent}
+              className={`transition-all duration-500 ${
+                isCurrent
+                  ? "opacity-100 translate-y-0"
+                  : "pointer-events-none absolute h-0 -translate-y-1 overflow-hidden opacity-0"
+              }`}
+            >
+              <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                {track.eyebrow}
+              </p>
+
+              <p className="mt-4 font-display text-xl font-medium leading-8">
+                {track.quote}
+              </p>
+
+              {track.note ? (
+                <p className="mt-5 text-sm leading-7 text-muted-foreground">
+                  {track.note}
+                </p>
+              ) : null}
+
+              {track.downloadUrl ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
+                >
+                  <a
+                    href={track.downloadUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Download className="size-4" />
+                    {track.downloadLabel ?? "Impuls öffnen"}
+                  </a>
+                </Button>
+              ) : null}
+
+              {track.credit ? (
+                <p className="mt-7 text-[10px] leading-5 text-muted-foreground/70">
+                  {track.credit}
+                </p>
+              ) : null}
+            </div>
+          );
+        })}
+      </section>
+
+
 <section className="mt-16 border-t border-border bg-secondary/45 px-6 py-20">
   <div className="mx-auto max-w-[430px]">
     <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
