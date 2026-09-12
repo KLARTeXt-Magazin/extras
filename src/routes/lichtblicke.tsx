@@ -344,8 +344,7 @@ function Lichtblicke() {
                     </SheetTitle>
 
                     <SheetDescription className="font-body text-foreground/65">
-                      Audio-Experiences und Impulse
-                      zum Magazin.
+                      Extras zu den Ausgaben
                     </SheetDescription>
                   </SheetHeader>
 
@@ -421,9 +420,8 @@ function Lichtblicke() {
           </h1>
 
           <p className="hero-sub mt-4 max-w-[19rem] text-sm leading-7 text-muted-foreground">
-            Zwei der 24 Lichtblicke im Adventskalender
-            gibt es hier zum Anhören. Dazu findest du hier
-            eine jederzeit verfügbare Auszeit und Entspannungsübung.
+            Zwei Lichtblicke aus dem Adventskalender zum
+            Anhören · Dazu eine Auszeit und eine Übung zur progressiven Muskelentspannung.
           </p>
         </div>
 
@@ -491,34 +489,114 @@ function Lichtblicke() {
         Zum Wechseln seitlich wischen
       </p>
 
-      <section className="mt-16 border-t border-border bg-secondary/45 px-6 py-20">
-        <div className="mx-auto max-w-[430px]">
-          <h2 className="font-display text-3xl font-medium leading-tight">
-            Momente zum Innehalten
-          </h2>
+  <section className="mt-16 border-t border-border bg-secondary/45 px-6 py-20">
+  <div className="mx-auto max-w-[430px]">
+    <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+      Zum Anhören und Ausprobieren
+    </p>
 
-          <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
-            Der Adventskalender der zweiten Ausgabe
-            begleitet dich durch den Dezember. Zwei
-            der Lichtblicke kannst du hier als Audio
-            hören. Dazu findest du eine Auszeit und
-            eine kurze Übung zur progressiven
-            Muskelentspannung, die jederzeit für dich
-            da sind.
-          </p>
+    <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
+      Zwei Lichtblicke aus dem Adventskalender sind
+      hier als Audio verfügbar. Dazu findest du eine
+      Auszeit und eine Übung zur progressiven
+      Muskelentspannung – unabhängig vom Dezember
+      jederzeit abrufbar.
+    </p>
 
-          <Button
-            asChild
-            variant="outline"
-            className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none"
-          >
-            <Link to="/">
-              <Menu className="size-4" />
-              Zu Ausgabe 01
-            </Link>
-          </Button>
+    <div className="mt-12 rounded-[1.75rem] border border-border bg-surface/70 p-6">
+      <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+        Entspannungsübung
+      </p>
+
+      <h2 className="mt-3 font-display text-3xl font-medium leading-tight">
+        Spannung trifft Entspannung
+      </h2>
+
+      <p className="mt-5 text-sm leading-7 text-muted-foreground">
+        Die progressive Muskelentspannung, kurz PMR, ist
+        eine kurze Übung, die du jederzeit zwischendurch anwenden kannst. Dabei werden
+        einzelne Muskelgruppen für wenige Sekunden bewusst
+        angespannt und anschließend wieder gelöst. 
+      </p>
+
+      <div className="mt-8">
+        <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+          Progressive Muskelentspannung
+        </p>
+
+        <div className="mt-6 space-y-6">
+          <div>
+            <p className="text-sm font-medium">
+              01 · Schultern & Nacken
+            </p>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              Schultern bewusst für einige Sekunden zu den Ohren ziehen, die
+              Spannung halten ... und beim Ausatmen wieder
+              lösen. Spüre einen Moment nach um den Unterschied zu erkennen.
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm font-medium">
+              02 · Hände & Arme
+            </p>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              Hände zu Fäusten schließen und die Spannung
+              halten! ... Anschließend wieder die Hände öffnen und die
+              Arme locker werden lassen.
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm font-medium">
+              03 · Gesicht
+            </p>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              Augen leicht zusammenkneifen, die Nase
+              kräuseln und die Zähne sanft aufeinanderbeißen.
+              Kurz bewusst halten! ... und danach Gesicht, Kiefer und
+              Stirn wieder entspannen.
+            </p>
+          </div>
         </div>
-      </section>
+
+        <div className="mt-7 border-t border-border pt-5">
+          <p className="text-sm leading-6 text-muted-foreground">
+            Die Übung braucht keine besonderen Hilfsmittel
+            und lässt sich im Sitzen, Stehen, Gehen oder Liegen durchführen, zum
+            Beispiel zu Hause, im Wartezimmer oder einer vollen Bahn.
+            Wichtig ist, dass du die Übung regelmäßig machst um bewusst die Spannungszustände zu erzielen aber auch wieder loszulassen. Besonders Wenn du dazu neigst unterbewusst zu reagieren kannst du durch diese kleine Übung die Aufmerksamkeit darauf trainieren und steuern.
+          </p>
+        </div>
+
+        <Button
+          asChild
+          variant="outline"
+          className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
+        >
+          <a
+            href="/pdf/2026-q4_Auszeit01.pdf"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Anleitung zum Download
+          </a>
+        </Button>
+      </div>
+    </div>
+
+    <Button
+      asChild
+      variant="outline"
+      className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none"
+    >
+      <Link to="/">
+        <Menu className="size-4" />
+        Zu Ausgabe 01
+      </Link>
+    </Button>
+  </div>
+</section>
 
       <footer className="bg-primary px-6 py-12 text-primary-foreground">
         <div className="mx-auto flex max-w-[430px] items-end justify-between gap-6">
