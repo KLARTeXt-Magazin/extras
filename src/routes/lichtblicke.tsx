@@ -143,6 +143,8 @@ const tracks: AudioTrack[] = [
     eyebrow: "Progressive Muskelentspannung",
     title: "Spannung trifft Entspannung",
     quote: "„Zitat folgt.“",
+    note:
+      "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
     cover: coverMoment,
     coverAlt:
       "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
