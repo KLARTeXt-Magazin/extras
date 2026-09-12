@@ -85,6 +85,8 @@ const tracks: AudioTrack[] = [
     title: "Einen Moment zum Nikolaus",
     quote:
       "„Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“",
+    note:
+      "Ein kurzer Moment aus dem Adventskalender – zum Anhören am 6. Dezember.",
     cover: coverNikolaus,
     coverAlt:
       "Brennende Kerze neben einem Tannenzweig auf dunklem Holz",
