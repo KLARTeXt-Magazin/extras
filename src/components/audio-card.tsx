@@ -7,7 +7,6 @@ import {
   RotateCw,
 } from "lucide-react";
 
-import { LiquidGlass } from "@/components/liquid-glass";
 import { Button } from "@/components/ui/button";
 
 export type AudioTrack = {
@@ -15,6 +14,7 @@ export type AudioTrack = {
   eyebrow: string;
   title: string;
   quote: string;
+  note?: string;
   cover: string;
   coverAlt: string;
   src: string;
