@@ -5,6 +5,11 @@ import { Download, Menu } from "lucide-react";
 import coverNikolaus from "../assets/lichtblicke-nikolaus.jpg";
 import coverGruss from "../assets/lichtblicke-weihnachtsgruss.jpg";
 import coverMoment from "../assets/lichtblicke-moment.jpg";
+import coverPMR from "../assets/PMR.jpg";
+import coverNikolausNeu from "../assets/Pic2_N.jpg";
+import coverGrussNeu from "../assets/Pic3_N_H.jpg";
+import coverMomentNeu from "../assets/pic_Z_M.jpg";
+
 
 import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { LiquidGlass } from "@/components/liquid-glass";
@@ -89,7 +94,7 @@ const tracks: AudioTrack[] = [
       "„Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“",
     note:
       "Ein kurzer Moment aus dem Adventskalender – zum Anhören am 6. Dezember.",
-    cover: coverNikolaus,
+    cover: coverNikolausNeu,
     coverAlt:
       "Brennende Kerze neben einem Tannenzweig auf dunklem Holz",
     src: "/audio/2026-q4_extra01.m4a",
@@ -110,7 +115,7 @@ unlockAt: PREVIEW_UNLOCKED
       "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
     note:
       "Der zweite Lichtblick aus dem Adventskalender – zum Anhören an Heiligabend.",
-    cover: coverGruss,
+    cover: coverGrussNeu,
     coverAlt:
       "Warme Lichterkette hinter Leinentuch und Keramiktasse",
     src: "/audio/2026-q4_extra02.m4a",
@@ -131,7 +136,7 @@ unlockAt: PREVIEW_UNLOCKED
       "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
     note:
       "Eine kurze Auszeit für dich, jederzeit abrufbar. Den Impuls kannst du dir auch ausdrucken.",
-    cover: coverMoment,
+    cover: coverMomentNeu,
     coverAlt:
       "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
     src: "/audio/2026-q4_extra03.m4a",
@@ -149,7 +154,7 @@ unlockAt: PREVIEW_UNLOCKED
     quote: "„Zitat folgt.“",
     note:
       "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
-    cover: coverMoment,
+    cover: coverPMR,
     coverAlt:
       "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
     src: "/audio/2026-q4_extra03.m4a",
