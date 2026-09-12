@@ -105,6 +105,8 @@ const tracks: AudioTrack[] = [
       "Ein Moment an Heiligabend",
     quote:
       "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
+    note:
+      "Der zweite Lichtblick aus dem Adventskalender – zum Anhören an Heiligabend.",
     cover: coverGruss,
     coverAlt:
       "Warme Lichterkette hinter Leinentuch und Keramiktasse",
