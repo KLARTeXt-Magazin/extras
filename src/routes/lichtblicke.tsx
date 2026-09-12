@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Menu } from "lucide-react";
+import { Download, Menu } from "lucide-react";
 
 import coverNikolaus from "../assets/lichtblicke-nikolaus.jpg";
 import coverGruss from "../assets/lichtblicke-weihnachtsgruss.jpg";
