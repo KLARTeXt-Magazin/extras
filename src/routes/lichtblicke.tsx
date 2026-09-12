@@ -134,8 +134,8 @@ const tracks: AudioTrack[] = [
   },
   {
     id: "pmr",
-    eyebrow: "Entspannungsübung",
-    title: "Progressive Muskelentspannung",
+    eyebrow: "Progressive Muskelentspannung",
+    title: "Spannung trifft Entspannung",
     quote: "„Zitat folgt.“",
     cover: coverMoment,
     coverAlt:
@@ -144,9 +144,9 @@ const tracks: AudioTrack[] = [
     downloadUrl:
       "/pdf/2026-q4_Auszeit01.pdf",
     downloadLabel:
-      "PMR-Anleitung zum Downloaden",
+      "Anleitung zum Downloaden",
     credit:
-      "Audio vorläufig als Platzhalter · wird später ersetzt.",
+      "AMusic by ",
   },
 ];
 
@@ -526,8 +526,8 @@ function Lichtblicke() {
             </p>
             <p className="mt-1 text-sm leading-6 text-muted-foreground">
               Schultern bewusst für einige Sekunden zu den Ohren ziehen, die
-              Spannung halten ... und beim Ausatmen wieder
-              lösen. Spüre einen Moment nach um den Unterschied zu erkennen.
+              Spannung halten · Beim Ausatmen wieder
+              lösen · Spüre, wie die Last abfällt
             </p>
           </div>
 
@@ -537,8 +537,8 @@ function Lichtblicke() {
             </p>
             <p className="mt-1 text-sm leading-6 text-muted-foreground">
               Hände zu Fäusten schließen und die Spannung
-              halten! ... Anschließend wieder die Hände öffnen und die
-              Arme locker werden lassen.
+              halten · Beim Ausatmen wieder loslassen, die
+              Arme locker werden lassen · Spüre das wohlige Kribbeln
             </p>
           </div>
 
@@ -548,19 +548,30 @@ function Lichtblicke() {
             </p>
             <p className="mt-1 text-sm leading-6 text-muted-foreground">
               Augen leicht zusammenkneifen, die Nase
-              kräuseln und die Zähne sanft aufeinanderbeißen.
-              Kurz bewusst halten! ... und danach Gesicht, Kiefer und
-              Stirn wieder entspannen.
+              rümpfen und die Zähne sanft aufeinanderbeißen.
+              Kurz bewusst halten · Gesicht, Kiefer und
+              Stirn Lockerlassen und vollständig entspannen
             </p>
           </div>
+
+          <div>
+            <p className="text-sm font-medium">
+              04 · Nachspüren
+            </p>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            Spüre, wie sich die Entspannung in deinem gesamten Körper ausbreitet · Bewege sanft deine Finger und Zehen und komme in deinem Tempo wieder an
+            </p>
+          </div>
+          
         </div>
 
         <div className="mt-7 border-t border-border pt-5">
           <p className="text-sm leading-6 text-muted-foreground">
             Die Übung braucht keine besonderen Hilfsmittel
             und lässt sich im Sitzen, Stehen, Gehen oder Liegen durchführen, zum
-            Beispiel zu Hause, im Wartezimmer oder einer vollen Bahn.
-            Wichtig ist, dass du die Übung regelmäßig machst um bewusst die Spannungszustände zu erzielen aber auch wieder loszulassen. Besonders Wenn du dazu neigst unterbewusst zu reagieren kannst du durch diese kleine Übung die Aufmerksamkeit darauf trainieren und steuern.
+            Beispiel zu Hause im Sessel oder im Wartezimmer.
+            Wenn du diese Übung regelmäßig machst, kannst du durch Achtsamkeit die verschiedenen Spannungszustände besser erkennen und regulieren.
+            
           </p>
         </div>
 
