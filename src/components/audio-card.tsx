@@ -16,7 +16,6 @@ export type AudioTrack = {
   eyebrow: string;
   title: string;
   quote: string;
-  description: string;
   cover: string;
   coverAlt: string;
   src: string;
@@ -196,9 +195,6 @@ export function AudioCard({
           {track.quote}
         </p>
 
-        <p className="mt-2 text-xs leading-6 text-muted-foreground/80">
-          {track.description}
-        </p>
 
         {unlocked ? (
           <>
@@ -291,11 +287,7 @@ export function AudioCard({
               </Button>
             </div>
           </>
-        ) : (
-          <p className="mt-6 rounded-2xl border border-white/25 bg-white/10 px-4 py-4 text-center text-xs leading-6 text-muted-foreground backdrop-blur-md">
-            Bis dahin bleibt dieses Audio eine Überraschung.
-          </p>
-        )}
+        }
 
         {unlocked && track.downloadUrl ? (
           <Button
