@@ -173,7 +173,7 @@ function Index() {
           </SheetTitle>
 
           <SheetDescription className="font-body text-foreground/65">
-            Audio-Experiences und Impulse zum Magazin.
+            Extras zu den Ausgaben.
           </SheetDescription>
         </SheetHeader>
 
@@ -298,10 +298,10 @@ function Index() {
 
       <section className="border-t border-border bg-secondary/45 px-6 py-24">
         <div className="mx-auto max-w-[430px]">
-          <p className="text-[10px] font-medium uppercase text-muted-foreground">Ein Moment nur für dich</p>
-          <h2 className="mt-5 font-display text-4xl font-medium leading-tight">„DWie geht es mir eigentlich gerade wirklich? Nicht, wie es sein sollte.“</h2>
+          <p className="text-[10px] font-medium uppercase text-muted-foreground">Ein Moment für dich</p>
+          <h2 className="mt-5 font-display text-4xl font-medium leading-tight">„Wie geht es mir eigentlich gerade wirklich, nicht, wie es sein sollte?“</h2>
           <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
-            Das Audio-Extra der ersten Ausgabe ist eine kurze Pause, wenn der Kopf voll ist, oder du gerade einfach einen Moment für dich brauchst. Nimm dir ein paar Minuten ohne etwas leisten zu müssen: nur kurz ankommen und wahrnehmen, wie es dir gerade wirklich geht.
+            Das Audio-Extra der ersten Ausgabe ist eine kurze Pause, wenn gerade viel im Kopf los ist. Ein paar Minuten, in denen es einmal nicht darum geht, etwas zu schaffen oder zu lösen, sondern wahrzunehmen, wie es dir gerade geht.
           </p>
           <Button asChild variant="outline" className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none">
             <a href={"/pdf/2026-q3_Auszeit01.pdf"} target="_blank" rel="noreferrer">
