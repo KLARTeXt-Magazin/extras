@@ -57,7 +57,7 @@ const issues: {
   {
     eyebrow: "Ausgabe 02 · 12/26",
     title: "Lichtblicke",
-    subtitle: "Momente zum Innehalten · 3 Audios",
+    subtitle: "Momente zum Innehalten · 4 Audios",
     to: "/lichtblicke",
   },
   {
@@ -242,7 +242,7 @@ function Index() {
           <div className="relative aspect-square overflow-hidden rounded-[1.45rem]">
             <img src={coverImage} alt="Ruhiger Stein auf dunklem Holz im warmen Morgenlicht" width={1024} height={1024} className="h-full w-full object-cover" />
             <span className="absolute left-4 top-4 rounded-full border border-light/35 bg-surface/45 px-3 py-1.5 text-[9px] font-medium uppercase text-foreground backdrop-blur-xl">
-              Achtsamkeitsübung
+              Auszeit
             </span>
           </div>
 
@@ -250,7 +250,7 @@ function Index() {
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
               <div className="min-w-0">
                 <h2 className="truncate font-display text-2xl font-medium">Zeit für Dich</h2>
-                <p className="mt-1 truncate text-xs text-muted-foreground">„Du musst nicht immer stark sein"</p>
+                <p className="mt-1 truncate text-xs text-muted-foreground">„Du musst nicht immer stark sein."</p>
               </div>
             </div>
 
@@ -299,9 +299,9 @@ function Index() {
       <section className="border-t border-border bg-secondary/45 px-6 py-24">
         <div className="mx-auto max-w-[430px]">
           <p className="text-[10px] font-medium uppercase text-muted-foreground">Ein Moment nur für dich</p>
-          <h2 className="mt-5 font-display text-4xl font-medium leading-tight">„Du musst nicht immer stark sein.“</h2>
+          <h2 className="mt-5 font-display text-4xl font-medium leading-tight">„DWie geht es mir eigentlich gerade wirklich? Nicht, wie es sein sollte.“</h2>
           <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
-            Das Audio-Extra der ersten Ausgabe ist eine Auszeit zum Entschleunigen. Nimm dir ein paar Minuten, atme durch und komme bei dir an.
+            Das Audio-Extra der ersten Ausgabe ist eine kurze Pause, wenn der Kopf voll ist, oder du gerade einfach einen Moment für dich brauchst. Nimm dir ein paar Minuten ohne etwas leisten zu müssen: nur kurz ankommen und wahrnehmen, wie es dir gerade wirklich geht.
           </p>
           <Button asChild variant="outline" className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none">
             <a href={"/pdf/2026-q3_Auszeit01.pdf"} target="_blank" rel="noreferrer">
