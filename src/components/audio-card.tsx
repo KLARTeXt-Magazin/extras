@@ -186,113 +186,112 @@ export function AudioCard({
         ) : null}
       </div>
 
-      <div className="relative z-10 px-3 pb-3 pt-5">
-        <h3 className="font-display text-2xl font-medium leading-tight">
-          {track.title}
-        </h3>
+<div className="relative z-10 px-3 pb-3 pt-5">
+  <h3 className="font-display text-2xl font-medium leading-tight">
+    {track.title}
+  </h3>
 
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-          {track.quote}
-        </p>
+  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+    {track.quote}
+  </p>
 
+  {unlocked ? (
+    <>
+      <div className="mt-6">
+        <label
+          className="sr-only"
+          htmlFor={`progress-${track.id}`}
+        >
+          Wiedergabeposition
+        </label>
 
-        {unlocked ? (
-          <>
-            <div className="mt-6">
-              <label
-                className="sr-only"
-                htmlFor={`progress-${track.id}`}
-              >
-                Wiedergabeposition
-              </label>
+        <input
+          id={`progress-${track.id}`}
+          type="range"
+          min={0}
+          max={duration || 1}
+          step={0.1}
+          value={currentTime}
+          onChange={(event) => {
+            const audio = audioRef.current;
+            if (!audio) return;
 
-              <input
-                id={`progress-${track.id}`}
-                type="range"
-                min={0}
-                max={duration || 1}
-                step={0.1}
-                value={currentTime}
-                onChange={(event) => {
-                  const audio = audioRef.current;
-                  if (!audio) return;
+            const next = Number(event.target.value);
 
-                  const next = Number(event.target.value);
+            audio.currentTime = next;
+            setCurrentTime(next);
+          }}
+          className="player-range w-full"
+          style={
+            {
+              "--player-progress": `${
+                duration
+                  ? (currentTime / duration) * 100
+                  : 0
+              }%`,
+            } as React.CSSProperties
+          }
+        />
 
-                  audio.currentTime = next;
-                  setCurrentTime(next);
-                }}
-                className="player-range w-full"
-                style={
-                  {
-                    "--player-progress": `${
-                      duration
-                        ? (currentTime / duration) * 100
-                        : 0
-                    }%`,
-                  } as React.CSSProperties
-                }
-              />
+        <div className="mt-3 flex justify-between text-xs font-medium tabular-nums text-muted-foreground">
+          <span>{formatTime(currentTime)}</span>
 
-              <div className="mt-3 flex justify-between text-xs font-medium tabular-nums text-muted-foreground">
-                <span>{formatTime(currentTime)}</span>
+          <span>
+            {duration
+              ? formatTime(duration)
+              : track.duration ?? "—"}
+          </span>
+        </div>
+      </div>
 
-                <span>
-                  {duration
-                    ? formatTime(duration)
-                    : track.duration ?? "—"}
-                </span>
-              </div>
-            </div>
+      <div className="mt-4 flex items-center justify-center gap-8">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
+          onClick={() => skip(-15)}
+          aria-label="15 Sekunden zurück"
+        >
+          <RotateCcw
+            className="size-5"
+            strokeWidth={1.4}
+          />
+        </Button>
 
-            <div className="mt-4 flex items-center justify-center gap-8">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
-                onClick={() => skip(-15)}
-                aria-label="15 Sekunden zurück"
-              >
-                <RotateCcw
-                  className="size-5"
-                  strokeWidth={1.4}
-                />
-              </Button>
+        <Button
+          className="size-[4.6rem] rounded-full bg-primary text-primary-foreground shadow-play transition-transform hover:bg-primary/90 active:scale-95"
+          onClick={togglePlay}
+          aria-label={
+            isPlaying ? "Pause" : "Abspielen"
+          }
+        >
+          {isPlaying ? (
+            <Pause className="size-7 fill-current" />
+          ) : (
+            <Play className="ml-1 size-7 fill-current" />
+          )}
+        </Button>
 
-              <Button
-                className="size-[4.6rem] rounded-full bg-primary text-primary-foreground shadow-play transition-transform hover:bg-primary/90 active:scale-95"
-                onClick={togglePlay}
-                aria-label={
-                  isPlaying ? "Pause" : "Abspielen"
-                }
-              >
-                {isPlaying ? (
-                  <Pause className="size-7 fill-current" />
-                ) : (
-                  <Play className="ml-1 size-7 fill-current" />
-                )}
-              </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
+          onClick={() => skip(15)}
+          aria-label="15 Sekunden vor"
+        >
+          <RotateCw
+            className="size-5"
+            strokeWidth={1.4}
+          />
+        </Button>
+      </div>
+    </>
+  ) : null}
 
-              <Button
-                variant="ghost"
-                size="icon"
-                className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
-                onClick={() => skip(15)}
-                aria-label="15 Sekunden vor"
-              >
-                <RotateCw
-                  className="size-5"
-                  strokeWidth={1.4}
-                />
-              </Button>
-            </div>
-          </>
-        }
-
-        {unlocked && track.downloadUrl ? (
-          <Button
-            asChild
-            variant="outline"
+  {unlocked && track.downloadUrl ? (
+    <Button
+      asChild
+      variant="outline"
             className="mt-6 h-11 w-full rounded-full border-white/35 bg-white/15 shadow-none backdrop-blur-md transition-all hover:bg-white/25"
           >
             <a
