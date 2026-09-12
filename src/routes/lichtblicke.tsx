@@ -301,22 +301,25 @@ function Lichtblicke() {
 
   return (
     <main className="min-h-screen bg-background font-body text-foreground">
-      <section
-        className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-10 pt-5 sm:px-7 sm:pt-7 ${
-          presentationCompact
-            ? "is-compact"
-            : ""
+      <header
+        className={`floating-site-header fixed inset-x-0 top-0 z-50 ${
+          hasScrolled ? "is-scrolled" : ""
         }`}
       >
-        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
-          <div className="min-w-0">
+        <div className="mx-auto grid h-16 w-full max-w-[430px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:px-7">
+          <a
+            href="https://www.magazin-klartext.de/"
+            target="_blank"
+            rel="noreferrer"
+            className="w-fit"
+            aria-label="Zum KLARTeXt. Magazin"
+          >
             <img
               src="/logo.png"
               alt="KLARTeXt."
               className="h-6 w-auto"
             />
-
-          </div>
+          </a>
 
           <Sheet>
             <SheetTrigger asChild>
@@ -416,9 +419,17 @@ function Lichtblicke() {
               </LiquidGlass>
             </SheetContent>
           </Sheet>
-        </header>
+        </div>
+      </header>
 
-        <div className="mt-8">
+      <section
+        className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-10 pt-24 sm:px-7 ${
+          presentationCompact
+            ? "is-compact"
+            : ""
+        }`}
+      >
+        <div className="mt-4">
           <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
             Ausgabe 02 · 12/26
           </p>
@@ -553,130 +564,94 @@ function Lichtblicke() {
       </section>
 
 
-<section className="mt-16 border-t border-border bg-secondary/45 px-6 py-20">
-  <div className="mx-auto max-w-[430px]">
-    <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
-      Zum Anhören und Ausprobieren
-    </p>
-
-    <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
-      Zwei Lichtblicke aus dem Adventskalender sind
-      hier als Audio verfügbar. Dazu findest du eine
-      Auszeit und eine Übung zur progressiven
-      Muskelentspannung – unabhängig vom Dezember
-      jederzeit abrufbar.
-    </p>
-
-    <div className="mt-12 rounded-[1.75rem] border border-[#A9BF7A]/30 bg-[#A9BF7A]/[0.08] p-6">
-<p className="text-[10px] font-medium uppercase tracking-[0.12em] text-[#6F7F52]">
-  Progressive Muskelentspannung
-</p>
-
-      <h2 className="mt-3 font-display text-3xl font-medium leading-tight">
-        Spannung trifft Entspannung
-      </h2>
-
-      <p className="mt-5 text-sm leading-7 text-muted-foreground">
-        Die progressive Muskelentspannung, kurz PMR, ist
-        eine kurze Übung, die du jederzeit zwischendurch
-        anwenden kannst. Dabei werden einzelne
-        Muskelgruppen für wenige Sekunden bewusst
-        angespannt und anschließend wieder gelöst.
-      </p>
-
-      <div className="mt-8 space-y-6">
-        <div>
-         <p className="text-sm font-medium">
-  <span className="text-[#6F7F52]">01 ·</span>{" "}
-  Schultern & Nacken
-</p>
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Schultern bewusst für einige Sekunden zu den
-            Ohren ziehen, die Spannung halten · Beim
-            Ausatmen wieder lösen · Spüre, wie die Last
-            abfällt.
+      <section className="mt-16 border-t border-border bg-sage-soft px-6 py-20">
+        <div className="mx-auto max-w-[430px]">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-sage-foreground">
+            Progressive Muskelentspannung
           </p>
-        </div>
 
-        <div>
-          <p className="text-sm font-medium">
-  <span className="text-[#6F7F52]">02 ·</span>{" "}
-  Hände & Arme
-</p>
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Hände zu Fäusten schließen und die Spannung
-            halten · Beim Ausatmen wieder loslassen, die
-            Arme locker werden lassen · Spüre das wohlige
-            Kribbeln.
+          <h2 className="mt-4 max-w-sm font-display text-[2.5rem] font-semibold leading-[1.02]">
+            Spannung lösen. Ruhe finden.
+          </h2>
+
+          <p className="mt-6 max-w-sm text-sm leading-7 text-foreground/70">
+            Bei dieser kurzen Übung spannst du einzelne
+            Muskelgruppen bewusst an und lässt sie wieder
+            los. So wird der Unterschied zwischen Spannung
+            und Entspannung spürbar.
           </p>
-        </div>
 
-        <div>
- <p className="text-sm font-medium">
-  <span className="text-[#6F7F52]">03 ·</span>{" "}
-  Gesicht
-</p>
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Augen leicht zusammenkneifen, die Nase rümpfen
-            und die Zähne sanft aufeinanderbeißen. Kurz
-            bewusst halten · Gesicht, Kiefer und Stirn
-            lockerlassen und vollständig entspannen.
+          <ol className="mt-12 border-y border-sage/25">
+            {[
+              [
+                "Schultern & Nacken",
+                "Schultern für einige Sekunden zu den Ohren ziehen. Beim Ausatmen lösen und spüren, wie die Last abfällt.",
+              ],
+              [
+                "Hände & Arme",
+                "Hände zu Fäusten schließen und halten. Beim Ausatmen loslassen und die Arme locker werden lassen.",
+              ],
+              [
+                "Gesicht",
+                "Augen leicht zusammenkneifen, Nase rümpfen und Zähne sanft aufeinanderbeißen. Danach vollständig lockerlassen.",
+              ],
+              [
+                "Nachspüren",
+                "Die Entspannung im Körper wahrnehmen. Finger und Zehen sanft bewegen und in deinem Tempo zurückkommen.",
+              ],
+            ].map(([title, description], index) => (
+              <li
+                key={title}
+                className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 border-b border-sage/20 py-6 last:border-b-0"
+              >
+                <span className="pt-0.5 font-display text-lg font-semibold text-sage">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="text-sm font-semibold">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-foreground/65">
+                    {description}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <p className="mt-7 text-sm leading-7 text-foreground/65">
+            Du brauchst keine Hilfsmittel. Die Übung
+            funktioniert im Sitzen, Stehen, Gehen oder
+            Liegen und lässt sich gut in deinen Alltag
+            integrieren.
           </p>
+
+          <Button
+            asChild
+            variant="outline"
+            className="mt-8 h-12 rounded-full border-sage/45 bg-background/45 px-5 text-sage-foreground shadow-none"
+          >
+            <a
+              href="/pdf/2026-q4_Auszeit01.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Download className="size-4" />
+              Anleitung herunterladen
+            </a>
+          </Button>
+
+          <div className="mt-14 border-t border-sage/25 pt-8">
+            <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-foreground/50">
+              Weiterhören
+            </p>
+            <Link
+              to="/"
+              className="mt-3 block font-display text-2xl font-semibold text-foreground"
+            >
+              Ausgabe 01 · Warum Ehrlichkeit Mut braucht
+            </Link>
+          </div>
         </div>
-
-        <div>
-<p className="text-sm font-medium">
-  <span className="text-[#6F7F52]">04 ·</span>{" "}
-  Nachspüren
-</p>
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Spüre, wie sich die Entspannung in deinem
-            gesamten Körper ausbreitet · Bewege sanft deine
-            Finger und Zehen und komme in deinem Tempo
-            wieder an.
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-7 border-t border-border pt-5">
-        <p className="text-sm leading-6 text-muted-foreground">
-          Die Übung braucht keine besonderen Hilfsmittel
-          und lässt sich im Sitzen, Stehen, Gehen oder
-          Liegen durchführen – zum Beispiel zu Hause im
-          Sessel oder im Wartezimmer. Wenn du diese Übung
-          regelmäßig machst, kannst du durch Achtsamkeit
-          die verschiedenen Spannungszustände besser
-          erkennen und regulieren.
-        </p>
-      </div>
-
-      <Button
-        asChild
-        variant="outline"
-        className="mt-7 h-11 rounded-full border-[#A9BF7A] bg-[#A9BF7A]/10 px-5 shadow-none"
-      >
-        <a
-          href="/pdf/2026-q4_Auszeit01.pdf"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Anleitung zum Download
-        </a>
-      </Button>
-    </div>
-
-    <Button
-      asChild
-      variant="outline"
-      className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none"
-    >
-      <Link to="/">
-        <Menu className="size-4" />
-        Zu Ausgabe 01
-      </Link>
-    </Button>
-  </div>
-</section>
+      </section>
 
       <footer className="bg-primary px-6 py-12 text-primary-foreground">
         <div className="mx-auto flex max-w-[430px] items-end justify-between gap-6">
