@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import coverImage from "../assets/zeit-fuer-dich-cover.jpg";
+import coverImageNeu from "@/assets/pic_Z_M.jpg";
 import { LiquidGlass } from "@/components/liquid-glass";
 import { Button } from "@/components/ui/button";
 import {
@@ -249,10 +250,10 @@ function Index() {
             Warum Ehrlichkeit Mut braucht
           </h1>
         </div>
-
+        
         <section className="audio-player-card is-active relative mt-7 overflow-hidden rounded-[2rem] border p-3 backdrop-blur-2xl" aria-label="Audio-Player">
           <div className="relative aspect-square overflow-hidden rounded-[1.45rem]">
-            <img src={coverImage} alt="Ruhiger Stein auf dunklem Holz im warmen Morgenlicht" width={1024} height={1024} className="h-full w-full object-cover" />
+            <img src={coverImageNeu} alt="Ruhiger Stein auf dunklem Holz im warmen Morgenlicht" width={1024} height={1024} className="h-full w-full object-cover" />
             <span className="absolute left-4 top-4 rounded-full border border-light/35 bg-surface/45 px-3 py-1.5 text-[9px] font-medium uppercase text-foreground backdrop-blur-xl">
               Auszeit
             </span>
