@@ -2,18 +2,17 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Download, Menu } from "lucide-react";
 
-import coverNikolaus from "../assets/lichtblicke-nikolaus.jpg";
-import coverGruss from "../assets/lichtblicke-weihnachtsgruss.jpg";
 import coverMoment from "../assets/lichtblicke-moment.jpg";
-import coverPMR from "../assets/PMR.jpg";
-import coverNikolausNeu from "../assets/Pic2_N.jpg";
-import coverGrussNeu from "../assets/Pic3_N_H.jpg";
+import coverNikolausNeu from "../assets/Pic1_N.jpg";
+import coverGrussNeu from "../assets/lichtblicke-weihnachtsgruss.jpg";
 import coverMomentNeu from "../assets/pic_Z_M.jpg";
 
 
 import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { LiquidGlass } from "@/components/liquid-glass";
+import { InstallHint } from "@/components/install-hint";
 import { Button } from "@/components/ui/button";
+
 
 import {
   Sheet,
@@ -101,6 +100,7 @@ const tracks: AudioTrack[] = [
     ...(PREVIEW_UNLOCKED
       ? {}
       : { unlockAt: "2026-12-06T00:00:00+01:00" }),
+
     unlockLabel:
       "Öffnet sich am 6. Dezember",
     credit:
@@ -122,6 +122,7 @@ const tracks: AudioTrack[] = [
     ...(PREVIEW_UNLOCKED
       ? {}
       : { unlockAt: "2026-12-24T00:00:00+01:00" }),
+
     unlockLabel:
       "Öffnet sich am 24. Dezember",
     credit:
@@ -154,7 +155,7 @@ const tracks: AudioTrack[] = [
     quote: "„Zitat folgt.“",
     note:
       "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
-    cover: coverPMR,
+    cover: coverMoment,
     coverAlt:
       "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
     src: "/audio/2026-q4_extra03.m4a",
@@ -309,8 +310,17 @@ function Lichtblicke() {
     hasScrolled || activeId !== null;
 
   return (
-    <main className="min-h-screen bg-background font-body text-foreground">
+    <>
+      <a className="skip-link" href="#inhalt">
+        Zum Inhalt springen
+      </a>
+
+      <main
+        id="inhalt"
+        className="min-h-screen bg-background font-body text-foreground"
+      >
       <header
+
         className={`floating-site-header fixed inset-x-0 top-0 z-50 ${
           hasScrolled ? "is-scrolled" : ""
         }`}
@@ -420,11 +430,14 @@ function Lichtblicke() {
                     href="https://www.magazin-klartext.de/"
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-8 inline-block text-xs font-medium text-foreground underline underline-offset-4"
+                    className="mt-8 inline-flex min-h-[44px] items-center text-sm font-medium text-foreground underline underline-offset-4"
                   >
                     Zum Magazin
                   </a>
+
+                  <InstallHint />
                 </div>
+
               </LiquidGlass>
             </SheetContent>
           </Sheet>
@@ -454,32 +467,36 @@ function Lichtblicke() {
         </div>
 
         <div className="mt-8 flex items-center justify-between">
-          <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+          <p
+            className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground"
+            aria-live="polite"
+          >
             Audio {activeIndex + 1} von{" "}
             {tracks.length}
           </p>
 
           <div
-            className="flex gap-2"
-            role="tablist"
+            className="flex"
+            role="group"
             aria-label="Audios wechseln"
           >
             {tracks.map((track, index) => (
               <button
                 key={track.id}
                 type="button"
-                role="tab"
-                aria-selected={
-                  index === activeIndex
-                }
-                aria-label={track.title}
+                aria-current={index === activeIndex}
+                aria-label={`Audio ${index + 1} von ${tracks.length}: ${track.title}`}
                 onClick={() => goTo(index)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  index === activeIndex
-                    ? "w-6 bg-primary"
-                    : "w-1.5 bg-secondary"
-                }`}
-              />
+                className="tap-target"
+              >
+                <span
+                  aria-hidden="true"
+                  aria-selected={index === activeIndex}
+                  className={`carousel-dot ${
+                    index === activeIndex ? "w-6" : "w-1.5"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>
@@ -487,9 +504,23 @@ function Lichtblicke() {
 
       <div
         ref={scrollerRef}
+        role="group"
+        aria-label="Audios – seitlich wischen oder mit den Pfeiltasten wechseln"
+        tabIndex={0}
         className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-4 [scrollbar-width:none] sm:px-7 [&::-webkit-scrollbar]:hidden"
         style={{
           scrollPaddingInline: "1.25rem",
+        }}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            goTo(Math.min(tracks.length - 1, activeIndex + 1));
+          }
+
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            goTo(Math.max(0, activeIndex - 1));
+          }
         }}
       >
         {tracks.map((track, index) => (
@@ -513,9 +544,10 @@ function Lichtblicke() {
         ))}
       </div>
 
-      <p className="mt-2 px-5 text-center text-[9px] uppercase tracking-[0.1em] text-muted-foreground sm:px-7">
-        Zum Wechseln seitlich wischen
+      <p className="mt-2 px-5 text-center text-xs tracking-[0.02em] text-muted-foreground sm:px-7">
+        Zum Wechseln seitlich wischen oder oben einen Punkt antippen
       </p>
+
 
       <section className="mx-auto mt-10 w-full max-w-[430px] px-6 sm:px-7">
         {tracks.map((track, index) => {
@@ -669,13 +701,14 @@ function Lichtblicke() {
               KLARTeXt.
             </p>
 
-            <p className="mt-1 text-[10px] uppercase opacity-60">
+            <p className="mt-1 text-[11px] uppercase tracking-[0.1em] opacity-80">
               Echt. Mutig. Klar.
             </p>
           </div>
 
-          <div className="flex gap-4 text-[10px] opacity-70">
+          <nav className="flex gap-4 text-xs" aria-label="Rechtliches">
             <a
+              className="inline-flex min-h-[44px] items-end underline underline-offset-4"
               href="https://www.magazin-klartext.de/impressum/"
               target="_blank"
               rel="noreferrer"
@@ -684,15 +717,18 @@ function Lichtblicke() {
             </a>
 
             <a
+              className="inline-flex min-h-[44px] items-end underline underline-offset-4"
               href="https://www.magazin-klartext.de/datenschutzerklaerung/"
               target="_blank"
               rel="noreferrer"
             >
               Datenschutz
             </a>
-          </div>
+          </nav>
         </div>
       </footer>
-    </main>
+      </main>
+    </>
   );
+
 }
