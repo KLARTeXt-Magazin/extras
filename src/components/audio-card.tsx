@@ -197,7 +197,7 @@ export function AudioCard({
           className="sr-only"
           htmlFor={`progress-${track.id}`}
         >
-          Wiedergabeposition
+          Wiedergabeposition in „{track.title}“
         </label>
 
         <input
@@ -207,6 +207,9 @@ export function AudioCard({
           max={duration || 1}
           step={0.1}
           value={currentTime}
+          aria-valuetext={`${formatTime(currentTime)} von ${
+            duration ? formatTime(duration) : track.duration ?? "unbekannt"
+          } Minuten`}
           onChange={(event) => {
             const audio = audioRef.current;
             if (!audio) return;
@@ -228,7 +231,7 @@ export function AudioCard({
           }
         />
 
-        <div className="mt-3 flex justify-between text-xs font-medium tabular-nums text-muted-foreground">
+        <div className="mt-1 flex justify-between text-xs font-medium tabular-nums text-muted-foreground">
           <span>{formatTime(currentTime)}</span>
 
           <span>
@@ -245,7 +248,7 @@ export function AudioCard({
           size="icon"
           className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
           onClick={() => skip(-15)}
-          aria-label="15 Sekunden zurück"
+          aria-label={`15 Sekunden zurückspringen in „${track.title}“`}
         >
           <RotateCcw
             className="size-5"
@@ -256,8 +259,11 @@ export function AudioCard({
         <Button
           className="size-[4.6rem] rounded-full bg-primary text-primary-foreground shadow-play transition-transform hover:bg-primary/90 active:scale-95"
           onClick={togglePlay}
+          aria-pressed={isPlaying}
           aria-label={
-            isPlaying ? "Pause" : "Abspielen"
+            isPlaying
+              ? `„${track.title}“ pausieren`
+              : `„${track.title}“ abspielen`
           }
         >
           {isPlaying ? (
@@ -272,7 +278,7 @@ export function AudioCard({
           size="icon"
           className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
           onClick={() => skip(15)}
-          aria-label="15 Sekunden vor"
+          aria-label={`15 Sekunden vorspringen in „${track.title}“`}
         >
           <RotateCw
             className="size-5"
@@ -280,8 +286,20 @@ export function AudioCard({
           />
         </Button>
       </div>
+
+      <p
+        className="mt-4 text-center text-xs text-muted-foreground"
+        aria-live="polite"
+      >
+        {isPlaying ? "Läuft gerade" : "Pausiert"}
+      </p>
     </>
-  ) : null}
+  ) : (
+    <p className="mt-5 text-sm leading-6 text-muted-foreground">
+      Noch nicht verfügbar. {track.unlockLabel}
+    </p>
+  )}
+
       </div>
     </article>
   );

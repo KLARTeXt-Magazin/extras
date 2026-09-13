@@ -12,7 +12,9 @@ import {
 import coverImage from "../assets/zeit-fuer-dich-cover.jpg";
 import coverImageNeu from "@/assets/pic_Z_M.jpg";
 import { LiquidGlass } from "@/components/liquid-glass";
+import { InstallHint } from "@/components/install-hint";
 import { Button } from "@/components/ui/button";
+
 import {
   Sheet,
   SheetClose,
@@ -130,8 +132,17 @@ function Index() {
   };
 
   return (
-    <main className="min-h-screen overflow-hidden bg-background font-body text-foreground">
+    <>
+      <a className="skip-link" href="#inhalt">
+        Zum Inhalt springen
+      </a>
+
+      <main
+        id="inhalt"
+        className="min-h-screen overflow-hidden bg-background font-body text-foreground"
+      >
       <audio ref={audioRef} src="/audio/2026-q3_extra01.m4a" preload="metadata" />
+
 
       <section
         className={`hero-presentation mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-24 sm:px-7 ${
@@ -234,14 +245,17 @@ function Index() {
           href="https://www.magazin-klartext.de/"
           target="_blank"
           rel="noreferrer"
-          className="mt-8 inline-block text-xs font-medium text-foreground underline underline-offset-4"
+          className="mt-8 inline-flex min-h-[44px] items-center text-sm font-medium text-foreground underline underline-offset-4"
         >
           Zum Magazin
         </a>
+
+        <InstallHint />
       </div>
     </LiquidGlass>
   </SheetContent>
 </Sheet>
+
         </header>
 
         <div className="mt-4">
@@ -268,7 +282,7 @@ function Index() {
             </div>
 
             <div className="mt-6">
-              <label className="sr-only" htmlFor="audio-progress">Wiedergabeposition</label>
+              <label className="sr-only" htmlFor="audio-progress">Wiedergabeposition in der Aufnahme</label>
               <input
                 id="audio-progress"
                 type="range"
@@ -276,6 +290,7 @@ function Index() {
                 max={duration || 1}
                 step={0.1}
                 value={currentTime}
+                aria-valuetext={`${formatTime(currentTime)} von ${formatTime(duration)} Minuten`}
                 onChange={(event) => {
                   const audio = audioRef.current;
                   if (!audio) return;
@@ -286,23 +301,28 @@ function Index() {
                 className="player-range w-full"
                 style={{ "--player-progress": `${duration ? (currentTime / duration) * 100 : 0}%` } as React.CSSProperties}
               />
-              <div className="mt-2.5 flex justify-between text-[10px] tabular-nums text-muted-foreground">
+              <div className="mt-1 flex justify-between text-xs tabular-nums text-muted-foreground">
                 <span>{formatTime(currentTime)}</span>
                 <span>{formatTime(duration)}</span>
               </div>
             </div>
 
             <div className="mt-4 flex items-center justify-center gap-8">
-              <Button variant="ghost" size="icon" className="size-11 rounded-full text-muted-foreground hover:bg-secondary" onClick={() => skip(-15)} aria-label="15 Sekunden zurück">
+              <Button variant="ghost" size="icon" className="size-11 rounded-full text-muted-foreground hover:bg-secondary" onClick={() => skip(-15)} aria-label="15 Sekunden zurückspringen">
                 <RotateCcw className="size-5" strokeWidth={1.4} />
               </Button>
-              <Button className="size-[4.6rem] rounded-full bg-primary text-primary-foreground shadow-play hover:bg-primary/90 active:scale-95" onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Abspielen"}>
+              <Button className="size-[4.6rem] rounded-full bg-primary text-primary-foreground shadow-play hover:bg-primary/90 active:scale-95" onClick={togglePlay} aria-pressed={isPlaying} aria-label={isPlaying ? "Audio „Zeit für Dich“ pausieren" : "Audio „Zeit für Dich“ abspielen"}>
                 {isPlaying ? <Pause className="size-7 fill-current" /> : <Play className="ml-1 size-7 fill-current" />}
               </Button>
-              <Button variant="ghost" size="icon" className="size-11 rounded-full text-muted-foreground hover:bg-secondary" onClick={() => skip(15)} aria-label="15 Sekunden vor">
+              <Button variant="ghost" size="icon" className="size-11 rounded-full text-muted-foreground hover:bg-secondary" onClick={() => skip(15)} aria-label="15 Sekunden vorspringen">
                 <RotateCw className="size-5" strokeWidth={1.4} />
               </Button>
             </div>
+
+            <p className="mt-4 text-center text-xs text-muted-foreground" aria-live="polite">
+              {isPlaying ? "Läuft gerade" : "Pausiert"}
+            </p>
+
           </div>
         </section>
 
@@ -328,14 +348,16 @@ function Index() {
         <div className="mx-auto flex max-w-[430px] items-end justify-between gap-6">
           <div>
             <p className="font-display text-lg font-semibold">KLARTeXt.</p>
-            <p className="mt-1 text-[10px] uppercase opacity-60">Echt. Mutig. Klar.</p>
+            <p className="mt-1 text-[11px] uppercase tracking-[0.1em] opacity-80">Echt. Mutig. Klar.</p>
           </div>
-          <div className="flex gap-4 text-[10px] opacity-70">
-            <a href="https://www.magazin-klartext.de/impressum/" target="_blank" rel="noreferrer">Impressum</a>
-            <a href="https://www.magazin-klartext.de/datenschutzerklaerung/" target="_blank" rel="noreferrer">Datenschutz</a>
-          </div>
+          <nav className="flex gap-4 text-xs" aria-label="Rechtliches">
+            <a className="inline-flex min-h-[44px] items-end underline underline-offset-4" href="https://www.magazin-klartext.de/impressum/" target="_blank" rel="noreferrer">Impressum</a>
+            <a className="inline-flex min-h-[44px] items-end underline underline-offset-4" href="https://www.magazin-klartext.de/datenschutzerklaerung/" target="_blank" rel="noreferrer">Datenschutz</a>
+          </nav>
         </div>
       </footer>
-    </main>
+      </main>
+    </>
   );
 }
+
