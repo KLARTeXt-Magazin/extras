@@ -637,12 +637,6 @@
    AUSGABE 1
    -------------------------------------------------------
 
-   PLATZHALTER:
-   /images/audio-ausgabe-1.jpg
-
-   Später einfach dein Unsplash-Bild unter diesem Namen
-   ablegen.
-   */
 
 .audio-band--ausgabe-1 {
   background-image:
@@ -659,10 +653,6 @@
    AUSGABE 2
    -------------------------------------------------------
 
-   PLATZHALTER:
-   /images/audio-ausgabe-2.jpg
-   */
-
 .audio-band--ausgabe-2 {
   background-image:
     linear-gradient(
@@ -670,7 +660,7 @@
       rgb(246 242 235 / 0.12),
       rgb(193 176 148 / 0.20)
     ),
-    url("/background-02.jpg");
+    url("/background-03.jpg");
 }
 
 
