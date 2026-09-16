@@ -541,20 +541,19 @@
    =======================================================
 
    WICHTIG:
-
-   .audio-band
-   → blauer Hintergrund der gesamten Audio-Sektion
-
-   .audio-player-card
-   → einzelne neutrale/gläserne Kachel
-
-   .is-active
-   → aktuell aktive Kachel
-
-   .is-dimmed
-   → übrige Kacheln
+   • Die Kachel selbst hat immer dieselbe Größe.
+   • Das Hintergrundbild beeinflusst NICHT die Größe.
+   • Die Kachel bleibt neutral / warm.
+   • Das Bild liegt ausschließlich hinter der Kachel.
    ======================================================= */
+
 .audio-player-card {
+  position: relative;
+
+  width: 100%;
+  max-width: 720px;
+  box-sizing: border-box;
+
   background: rgb(255 254 251 / 0.55);
 
   border-color:
@@ -580,6 +579,19 @@
 }
 
 
+/* Desktop:
+   etwas mehr Deckkraft, damit die Kachel auf Fotos
+   nicht deutlich transparenter wirkt als mobil. */
+@media (min-width: 768px) {
+
+  .audio-player-card {
+    background:
+      rgb(255 254 251 / 0.72);
+  }
+}
+
+
+/* Feiner Lichtreflex auf der Kachel */
 .audio-player-card::before {
   content: "";
 
@@ -605,15 +617,18 @@
    AUDIO-SECTIONS
    =======================================================
 
-   Die Audio-Section bekommt ein eigenes Hintergrundbild.
+   Die Größe der Section ist vollständig unabhängig
+   vom verwendeten Foto.
 
-   WICHTIG:
-   • Das Bild liegt HINTER den Audio-Kacheln.
-   • Die Audio-Kacheln selbst bleiben unverändert.
-   • Ausgabe 1 und Ausgabe 2 können unterschiedliche Bilder
-     verwenden.
-   • Die bisherigen KLARTeXt.-Farben bleiben als dezentes
-     Overlay erhalten.
+   background-image:
+   → rein visuell
+
+   min-height:
+   → bestimmt die tatsächliche Section-Größe
+
+   background-size: cover:
+   → Foto wird zugeschnitten, niemals die Section
+     vergrößert oder verkleinert.
    ======================================================= */
 
 .audio-band {
@@ -621,21 +636,25 @@
   isolation: isolate;
   overflow: hidden;
 
-  /*
-   * Fallback, falls noch kein Bild vorhanden ist.
-   * Entspricht weiterhin der bisherigen warmen KLARTeXt.-Farbe.
-   */
+  /* Feste Mindesthöhe – unabhängig vom Bild */
+  min-height: 620px;
+
+  /* KLARTeXt. Grundfarbe als Fallback */
   background-color: #C1B094;
 
+  /* Foto bleibt immer innerhalb dieser Fläche */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
 }
 
 
 /* -------------------------------------------------------
    AUSGABE 1
-   -------------------------------------------------------*/
+   ------------------------------------------------------- */
 
 .audio-band--ausgabe-1 {
   background-image:
@@ -650,7 +669,7 @@
 
 /* -------------------------------------------------------
    AUSGABE 2
-   -------------------------------------------------------*/
+   ------------------------------------------------------- */
 
 .audio-band--ausgabe-2 {
   background-image:
@@ -665,14 +684,7 @@
 
 /* -------------------------------------------------------
    DEZENTE BILDVEREDLUNG
-   -------------------------------------------------------
-
-   Das Bild selbst bleibt sichtbar.
-   Es wird NICHT stark abgedunkelt.
-
-   Dadurch kann backdrop-filter der Audio-Kacheln
-   tatsächlich mit dem Bild arbeiten.
-   */
+   ------------------------------------------------------- */
 
 .audio-band::before {
   content: "";
@@ -696,7 +708,7 @@
 
 
 /* -------------------------------------------------------
-   FALLBACK / BILD NICHT GELADEN
+   FALLBACK
    ------------------------------------------------------- */
 
 .audio-band:not(
@@ -707,6 +719,21 @@
 }
 
 
+/* =======================================================
+   MOBILE
+   =======================================================
+
+   Die Section bleibt auch auf kleinen Displays
+   bildunabhängig dimensioniert.
+   ======================================================= */
+
+@media (max-width: 767px) {
+
+  .audio-band {
+    min-height: 620px;
+  }
+
+}
 /* -------------------------------------------------------
    DIE ANDEREN SECTIONS BLEIBEN WIE BISHER
    ------------------------------------------------------- */
