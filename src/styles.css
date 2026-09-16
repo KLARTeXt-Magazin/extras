@@ -569,7 +569,9 @@
     rgb(255 255 255 / 0.82);
 
   /* großer weicher Schatten + innere Lichtkante */
-  box-shadow:
+box-shadow:
+    0 12px 30px rgb(70 58 45 / 0.10),
+    0 4px 12px rgb(70 58 45 / 0.04),
     inset 0 1px 0 rgb(255 255 255 / 0.96),
     inset 0 -1px 0 rgb(255 255 255 / 0.18);
 
@@ -674,9 +676,9 @@
     translateY(0)
     scale(1);
 
-  box-shadow:
-    0 28px 72px rgb(70 58 45 / 0.14),
-    inset 0 1px 0 rgb(255 255 255 / 0.96);
+box-shadow:
+  0 12px 30px rgb(70 58 45 / 0.10),
+  inset 0 1px 0 rgb(255 255 255 / 0.96);
 }
 
 
