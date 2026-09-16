@@ -539,7 +539,7 @@ function Index() {
            ================================================= */}
 
         <section
-          className="audio-band px-5 py-12 sm:px-7"
+          cclassName="audio-band audio-band--ausgabe-1"
           aria-label="Audio"
         >
           <div className="mx-auto w-full max-w-[430px]">
