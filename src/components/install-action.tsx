@@ -8,9 +8,20 @@ type BeforeInstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 
+let deferredInstallPrompt: BeforeInstallPromptEvent | null = null;
+const promptListeners = new Set<(prompt: BeforeInstallPromptEvent) => void>();
+
+if (typeof window !== "undefined") {
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event as BeforeInstallPromptEvent;
+    promptListeners.forEach((listener) => listener(deferredInstallPrompt));
+  });
+}
+
 export function InstallAction() {
   const [installPrompt, setInstallPrompt] =
-    useState<BeforeInstallPromptEvent | null>(null);
+    useState<BeforeInstallPromptEvent | null>(deferredInstallPrompt);
   const [isIos, setIsIos] = useState(false);
   const [isStandalone, setIsStandalone] = useState(true);
   const [showIosHelp, setShowIosHelp] = useState(false);
@@ -28,17 +39,14 @@ export function InstallAction() {
     setIsStandalone(standalone);
     setIsIos(ios);
 
-    const capturePrompt = (event: Event) => {
-      event.preventDefault();
-      setInstallPrompt(event as BeforeInstallPromptEvent);
-    };
+    const capturePrompt = (prompt: BeforeInstallPromptEvent) => setInstallPrompt(prompt);
     const markInstalled = () => setIsStandalone(true);
 
-    window.addEventListener("beforeinstallprompt", capturePrompt);
+    promptListeners.add(capturePrompt);
     window.addEventListener("appinstalled", markInstalled);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", capturePrompt);
+      promptListeners.delete(capturePrompt);
       window.removeEventListener("appinstalled", markInstalled);
     };
   }, []);
@@ -54,6 +62,7 @@ export function InstallAction() {
     if (!installPrompt) return;
     await installPrompt.prompt();
     await installPrompt.userChoice;
+    deferredInstallPrompt = null;
     setInstallPrompt(null);
   };
 
