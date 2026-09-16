@@ -1,98 +1,50 @@
 /* =======================================================
    KLARTeXt. EXTRAS – GLOBALE STYLES
-   =======================================================
 
-   Diese Datei steuert das grundlegende Aussehen der Website:
-
-   - Farben
-   - Schriftarten
-   - Abstände und Rundungen
-   - Glass-Effekte
-   - Header
-   - Hero-Bereich
-   - Audio-Kacheln
-   - Audio-Player
-   - Ausgabe-Menü
-   - Animationen
-   - Barrierefreiheit
-
-   WICHTIG FÜR ANFÄNGER:
-
-   CSS funktioniert grundsätzlich nach dem Prinzip:
-
-   .klasse {
-     eigenschaft: wert;
-   }
-
-   Beispiel:
-
-   .audio-band {
-     background: blue;
-   }
-
-   bedeutet:
-   Alle Elemente mit der Klasse "audio-band"
-   bekommen einen blauen Hintergrund.
-
-   Wenn dieselbe Klasse später in der Datei noch einmal
-   auftaucht, kann die spätere Regel die frühere Regel
-   überschreiben oder ergänzen.
-
-   Deshalb ist die Reihenfolge in dieser Datei wichtig.
+   Enthält:
+   • Farben & Schriften
+   • Glass-Effekte
+   • Header & Hero
+   • Audio-Kacheln & Player
+   • Ausgaben-Menü
+   • Animationen
+   • Barrierefreiheit
    ======================================================= */
 
 
-/* =======================================================
-   1. TAILWIND / GRUNDLEGENDE EINSTELLUNGEN
-   =======================================================
-
-   Tailwind CSS stellt hier seine CSS-Grundlagen bereit.
-   Diese Zeilen musst du normalerweise nicht verändern.
-   ======================================================= */
+/* -------------------------------------------------------
+   TAILWIND / GRUNDLAGEN
+   • Tailwind CSS laden
+   • eigene Source-Dateien festlegen
+   • Animationserweiterung laden
+   ------------------------------------------------------- */
 
 @import "tailwindcss" source(none);
 @source "../src";
-@import "tw-animate-css";
+@import "tw-animate.css";
 
 @custom-variant dark (&:is(.dark *));
 
 
 /* =======================================================
-   2. DESIGN-SYSTEM / THEME
+   DESIGN-SYSTEM
+   =======================================================
 
-   @theme legt fest, welche eigenen Design-Werte später
-   auch innerhalb von Tailwind verwendet werden können.
+   Hier werden:
+   • Farben
+   • Rundungen
+   • Schatten
+   • Schriften
 
-   Hier werden z.B. Farben, Radien, Schatten und Schriften
-   mit CSS-Variablen verbunden.
+   mit Tailwind verbunden.
 
-   Vereinfacht:
-
-   --color-primary: var(--primary);
-
-   bedeutet:
-
-   Tailwind-Farbe "primary"
-   → verwendet den Wert aus "--primary".
-
-   Die eigentlichen Farbwerte stehen weiter unten
-   im Bereich ":root".
+   Die eigentlichen Farbwerte stehen weiter unten bei
+   :root.
    ======================================================= */
 
 @theme inline {
 
-  /* -----------------------------------------------------
-     RUNDUNGEN
-
-     --radius ist unser Grundwert.
-
-     Daraus werden kleinere und größere Rundungen
-     automatisch berechnet.
-
-     Wenn du --radius änderst, verändern sich dadurch
-     mehrere UI-Elemente gleichzeitig.
-     ----------------------------------------------------- */
-
+  /* Rundungen */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -100,79 +52,54 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
 
-
-  /* -----------------------------------------------------
-     FARBEN
-
-     Diese Variablen verbinden Tailwind mit unserem
-     eigenen KLARTeXt.-Farbsystem.
-
-     Die tatsächlichen Farben werden weiter unten
-     bei ":root" definiert.
-     ----------------------------------------------------- */
-
+  /* Grundfarben */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
 
+  /* Hauptfarben */
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
 
+  /* Dezente Farben */
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
+  /* Fehler / Formulare / Fokus */
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-
   --color-ring-offset-background: var(--background);
 
-  /* Zusätzliche KLARTeXt.-Farben */
+  /* Eigene KLARTeXt.-Farben */
   --color-surface: var(--surface);
   --color-panel-border: var(--panel-border);
   --color-light: var(--light);
 
-  /* Grüntöne */
+  /* Sage */
   --color-sage: var(--sage);
   --color-sage-foreground: var(--sage-foreground);
   --color-sage-soft: var(--sage-soft);
 
-  /* Mineral-/Blautöne */
+  /* Mineralblau */
   --color-accent-mineral: var(--accent-mineral);
   --color-accent-mineral-soft: var(--accent-mineral-soft);
   --color-mineral-band: var(--mineral-band);
 
-  /* Weitere Abschnittshintergründe */
+  /* Weitere Abschnittsfarben */
   --color-companion-band: var(--companion-band);
   --color-continue-band: var(--continue-band);
 
-
-  /* -----------------------------------------------------
-     SCHATTEN
-
-     Diese Werte werden für größere UI-Elemente verwendet.
-
-     shadow-player:
-     → allgemeiner Schatten für größere Player-/Panel-Elemente
-
-     shadow-play:
-     → Schatten speziell für den Play-Button
-     ----------------------------------------------------- */
-
+  /* Schatten */
   --shadow-player:
     0 24px 70px color-mix(
       in oklab,
@@ -187,219 +114,104 @@
       transparent
     );
 
-
-  /* -----------------------------------------------------
-     SCHRIFTEN
-
-     Urbanist:
-     → Überschriften / Display-Schrift
-
-     Plus Jakarta Sans:
-     → normale Texte / UI
-     ----------------------------------------------------- */
-
+  /* Schriften */
   --font-display: "Urbanist", sans-serif;
   --font-body: "Plus Jakarta Sans", sans-serif;
 }
 
 
 /* =======================================================
-   3. FARBPALETTE
+   FARBPALETTE
+   =======================================================
 
-   :root enthält die tatsächlichen Werte unseres
-   Designsystems.
+   HIER kannst du die globale Farbwelt verändern.
 
-   HIER kannst du später relativ einfach die gesamte
-   Farbwelt der Website verändern.
+   • background       → Seitenhintergrund
+   • foreground       → Haupttext
+   • primary          → Braun / Play-Button
+   • secondary        → warme Nebenfarbe
+   • muted            → dezente Texte
+   • sage             → grüner Übungsbereich
+   • mineral-band     → blauer Abschnitt
+   • accent-mineral   → kräftigeres Blau für Akzente
 
-   Beispiel:
-
-   --primary: ...
-
-   verändert die Hauptfarbe vieler UI-Elemente.
-
-   Die Werte verwenden OKLCH.
-
-   Du musst OKLCH nicht verstehen, um die Website
-   zu bearbeiten. Für gezielte Farbänderungen ist es
-   aber hilfreich, die vorhandenen Variablen zu verwenden,
-   statt überall einzelne Farben einzubauen.
+   Das Mineralblau soll NICHT die Audio-Kacheln färben.
    ======================================================= */
 
 :root {
 
-  /* Grundradius der Website */
   --radius: 0.625rem;
 
-
-  /* -----------------------------------------------------
-     GRUNDHINTERGRUND
-
-     Sehr helles warmes Off-White / Papier.
-     ----------------------------------------------------- */
-
+  /* Grundfarben */
   --background: oklch(0.9588 0.0086 84.57);
-
-  /* Haupttext */
   --foreground: oklch(0.1969 0.0067 78.16);
 
-
-  /* -----------------------------------------------------
-     KARTEN
-
-     Grundfarbe für allgemeine Karten und Panels.
-     ----------------------------------------------------- */
-
+  /* Karten */
   --card: oklch(0.98 0.005 84.57);
   --card-foreground: oklch(0.1969 0.0067 78.16);
 
-
-  /* Popover = z.B. aufklappende Menüs */
+  /* Popover */
   --popover: oklch(0.98 0.005 84.57);
   --popover-foreground: oklch(0.1969 0.0067 78.16);
 
-
-  /* -----------------------------------------------------
-     PRIMARY
-
-     Die warme Hauptfarbe der Website.
-
-     Aktuell:
-     → warmes Braun
-
-     Wird z.B. für den Play-Button verwendet.
-     ----------------------------------------------------- */
-
+  /* Hauptfarbe: warmes Braun */
   --primary: oklch(0.3474 0.0362 45.47);
   --primary-foreground: oklch(0.9588 0.0086 84.57);
 
-
-  /* Sekundäre warme Farbe */
+  /* Sekundärfarbe */
   --secondary: oklch(0.8501 0.0279 78.17);
   --secondary-foreground: oklch(0.1969 0.0067 78.16);
 
-
-  /* -----------------------------------------------------
-     MUTED
-
-     Für weniger wichtige / zurückgenommene Elemente.
-
-     muted-foreground wird z.B. für kleine Zusatztexte
-     verwendet.
-     ----------------------------------------------------- */
-
+  /* Dezente Farben */
   --muted: oklch(0.91 0.015 80);
   --muted-foreground: oklch(0.49 0.021 65);
 
-
-  /* Akzentfarbe */
   --accent: oklch(0.8501 0.0279 78.17);
   --accent-foreground: oklch(0.1969 0.0067 78.16);
 
-
-  /* Fehlermeldungen / destructive actions */
+  /* Fehler */
   --destructive: oklch(0.58 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
 
-
-  /* -----------------------------------------------------
-     RÄNDER UND FORMULARFELDER
-     ----------------------------------------------------- */
-
+  /* Rahmen / Formulare */
   --border: oklch(0.80 0.023 78 / 55%);
   --input: oklch(0.80 0.023 78);
 
-
-  /* -----------------------------------------------------
-     FOCUS-RING
-
-     Wird bei Tastaturbedienung verwendet.
-     ----------------------------------------------------- */
-
+  /* Fokus */
   --ring: oklch(0.3474 0.0362 45.47);
 
-
-  /* -----------------------------------------------------
-     GLASS / OBERFLÄCHEN
-     ----------------------------------------------------- */
-
+  /* Glass / Oberflächen */
   --surface: oklch(0.985 0.004 85 / 52%);
   --panel-border: oklch(1 0 0 / 62%);
   --light: oklch(1 0 0);
 
-
-  /* -----------------------------------------------------
-     SAGE-FARBSYSTEM
-
-     Wird hauptsächlich für den Bereich rund um
-     Übungen / Entspannung verwendet.
-     ----------------------------------------------------- */
-
+  /* Sage-Farben */
   --sage: oklch(0.53 0.055 124);
   --sage-foreground: oklch(0.29 0.035 116);
   --sage-soft: oklch(0.91 0.025 108);
 
-
-  /* -----------------------------------------------------
-     MINERALISCHES BLAU
-
-     Das Blau ist bewusst Teil der Gestaltung.
-
-     WICHTIG:
-
-     --mineral-band
-     → heller blauer Hintergrund einer Sektion
-
-     --accent-mineral
-     → kräftigeres Blau für kleine Akzente,
-       Fokuszustände und den Fortschrittsbalken
-
-     Das Blau soll NICHT die einzelnen Audiokacheln
-     einfärben.
-     ----------------------------------------------------- */
-
+  /* Mineralblau */
   --mineral-band: oklch(0.965 0.012 214);
+  --accent-mineral: oklch(0.47 0.098 254);
+  --accent-mineral-soft: oklch(0.47 0.098 254 / 14%);
 
   /* Weitere Abschnittsfarben */
   --companion-band: oklch(0.938 0.018 82);
   --continue-band: oklch(0.835 0.035 74);
 
-
-  /* Gedämpftes Kobaltblau */
-  --accent-mineral: oklch(0.47 0.098 254);
-
-  /* Sehr schwache Version des Blaus,
-     z.B. für dezente Akzente */
-  --accent-mineral-soft: oklch(0.47 0.098 254 / 14%);
-
-
-  /* Tastatur-Fokus verwendet ebenfalls das Mineralblau */
+  /* Fokus verwendet Mineralblau */
   --ring: oklch(0.47 0.098 254);
 }
 
 
 /* =======================================================
-   4. FOKUSZUSTAND / TASTATURBEDIENUNG
-   =======================================================
-
-   Wenn jemand mit der Tastatur durch die Seite navigiert,
-   bekommt das aktuell ausgewählte Element einen sichtbaren
-   blauen Rand.
-
-   Das ist wichtig für Barrierefreiheit.
+   FOKUS / TASTATUR
+   • sichtbarer Fokusrahmen
+   • wichtig für Barrierefreiheit
    ======================================================= */
 
 @layer base {
-
-  :where(
-    a,
-    button,
-    input,
-    select,
-    textarea,
-    [tabindex]
-  ):focus-visible {
-
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
     outline: 2px solid var(--accent-mineral);
     outline-offset: 2px;
     border-radius: 0.5rem;
@@ -408,16 +220,9 @@
 
 
 /* =======================================================
-   5. SKIP-LINK
-
-   "Zum Inhalt springen"
-
-   Dieser Link ist für Tastatur-/Screenreader-Nutzer gedacht.
-
-   Normalerweise ist er außerhalb des sichtbaren Bereichs.
-   Wenn er fokussiert wird, erscheint er oben links.
-
-   Du musst diesen Bereich normalerweise nicht verändern.
+   SKIP-LINK
+   • "Zum Inhalt springen"
+   • nur bei Tastatur-Fokus sichtbar
    ======================================================= */
 
 .skip-link {
@@ -427,7 +232,6 @@
   z-index: 100;
 
   padding: 0.75rem 1.15rem;
-
   border-radius: 999px;
 
   background: var(--card);
@@ -436,8 +240,7 @@
   font-size: 0.875rem;
   font-weight: 600;
 
-  box-shadow:
-    0 10px 30px rgb(70 58 45 / 0.18);
+  box-shadow: 0 10px 30px rgb(70 58 45 / 0.18);
 
   transform: translateY(-160%);
   transition: transform 180ms ease;
@@ -449,19 +252,11 @@
 
 
 /* =======================================================
-   6. GLOBALE BASISREGELN
-   =======================================================
-
-   Diese Regeln gelten für die gesamte Website.
-
-   border-color:
-   → Standardfarbe für Ränder
-
-   scroll-behavior:
-   → sanftes Scrollen bei internen Links
-
-   body:
-   → Grundfarbe und Hintergrund der gesamten Seite
+   GLOBALE BASISREGELN
+   • Standardrahmen
+   • Scrollverhalten
+   • Seitenhintergrund
+   • Mobile Tap-Effekt
    ======================================================= */
 
 @layer base {
@@ -480,8 +275,6 @@
     letter-spacing: 0;
   }
 
-  /* Entfernt den blauen/grauen Tap-Effekt auf
-     mobilen Geräten. */
   button,
   a,
   input {
@@ -491,46 +284,24 @@
 
 
 /* =======================================================
-   7. LIQUID GLASS
+   LIQUID GLASS
    =======================================================
 
-   Dieser Bereich definiert den allgemeinen "Glass"-Look.
+   Allgemeiner Glass-Effekt für:
+   • Header
+   • Panels
+   • schwebende UI-Elemente
 
-   Wird z.B. für:
-   - Header
-   - Panels
-   - Buttons
-   - bestimmte schwebende Elemente
-
-   verwendet.
-
-   WICHTIG:
-
-   Das ist NICHT dasselbe wie die Audio-Kachel.
-
-   Die Audio-Kachel hat weiter unten ihre eigene,
-   etwas stärkere Glass-Gestaltung.
+   Die Audio-Kacheln haben weiter unten ihren eigenen
+   Glass-Effekt.
    ======================================================= */
 
 .liquid-glass {
-
-  /* Kann bei Bedarf einen zusätzlichen Filter aufnehmen */
   --liquid-filter: none;
-
-  /* Stärke der Hintergrundunschärfe */
   --liquid-blur: 20px;
 
   position: relative;
-
-  /* Erzeugt eine eigene Ebenen-/Stacking-Umgebung */
   isolation: isolate;
-
-
-  /* -----------------------------------------------------
-     TRANSPARENTER GLAS-HINTERGRUND
-
-     Weiß mit Transparenz erzeugt den Glas-Eindruck.
-     ----------------------------------------------------- */
 
   background:
     linear-gradient(
@@ -539,26 +310,18 @@
       rgb(255 255 255 / 0.06)
     );
 
+  border: 1px solid rgb(255 255 255 / 0.42);
 
-  /* heller Glasrand */
-  border:
-    1px solid rgb(255 255 255 / 0.42);
-
-
-  /* Schatten + helle innere Lichtkante */
   box-shadow:
     0 24px 70px rgb(70 58 45 / 0.10),
     inset 0 1px 0 rgb(255 255 255 / 0.72),
     inset 0 -1px 0 rgb(255 255 255 / 0.10);
 
-
-  /* Hintergrund hinter dem Glas wird verschwommen */
   backdrop-filter:
     var(--liquid-filter)
     blur(var(--liquid-blur))
     saturate(135%);
 
-  /* Safari / ältere WebKit-Browser */
   -webkit-backdrop-filter:
     var(--liquid-filter)
     blur(var(--liquid-blur))
@@ -568,21 +331,9 @@
 }
 
 
-/* -------------------------------------------------------
-   GLAS-LICHTREFLEX
-
-   ::before erzeugt eine zusätzliche transparente
-   Licht-/Glanzfläche über dem Element.
-
-   ::before bedeutet:
-   "Erzeuge ein virtuelles zusätzliches Element."
-
-   Es ist kein zusätzliches HTML nötig.
-   ------------------------------------------------------- */
-
+/* Glass-Lichtreflex */
 .liquid-glass::before {
   content: "";
-
   position: absolute;
   inset: 0;
 
@@ -603,15 +354,9 @@
 }
 
 
-/* -------------------------------------------------------
-   ZWEITE GLAS-LICHTKANTE
-
-   Erzeugt eine sehr feine innere Linie am Rand.
-   ------------------------------------------------------- */
-
+/* Feine innere Glas-Kante */
 .liquid-glass::after {
   content: "";
-
   position: absolute;
   inset: 1px;
 
@@ -627,7 +372,7 @@
 }
 
 
-/* Inhalt muss über den Glass-Ebenen liegen */
+/* Inhalt über den Glass-Ebenen */
 .liquid-glass-content {
   position: relative;
   z-index: 10;
@@ -635,19 +380,16 @@
 
 
 /* =======================================================
-   8. GLASS-BUTTON IM HEADER
-   =======================================================
-
-   Spezielle Variante des Glass-Effekts für den
-   Menü-/Header-Button.
+   HEADER – GLASS-BUTTON
+   • Menübutton
+   • transparenter Glass-Look
+   • Hover-Effekt
    ======================================================= */
 
 .liquid-glass-button {
-
   position: relative;
 
-  border:
-    1px solid rgb(255 255 255 / 0.55) !important;
+  border: 1px solid rgb(255 255 255 / 0.55) !important;
 
   background:
     linear-gradient(
@@ -668,17 +410,13 @@
     blur(18px)
     saturate(140%);
 
-  /* Hover- und Bewegungsanimation */
   transition:
     transform 220ms ease,
     background 220ms ease,
     box-shadow 220ms ease;
 }
 
-
-/* Zustand, wenn die Maus über dem Button liegt */
 .liquid-glass-button:hover {
-
   transform: translateY(-1px);
 
   background:
@@ -695,26 +433,12 @@
 
 
 /* =======================================================
-   9. SCHWEBENDER HEADER
-   =======================================================
-
-   Der Header verändert sich beim Scrollen.
-
-   Normal:
-   → fast transparenter Hintergrund
-   → kaum Blur
-
-   Beim Scrollen:
-   → stärkerer Hintergrund
-   → Blur
-   → sichtbarer Rand
-
-   Die Klasse ".is-scrolled" wird vermutlich durch
-   TypeScript/React gesetzt.
+   SCHWEBENDER HEADER
+   • normal: fast transparent
+   • beim Scrollen: stärkerer Glass-Effekt
    ======================================================= */
 
 .floating-site-header {
-
   background:
     color-mix(
       in oklab,
@@ -724,13 +448,8 @@
 
   border-bottom: 1px solid transparent;
 
-  backdrop-filter:
-    blur(0)
-    saturate(100%);
-
-  -webkit-backdrop-filter:
-    blur(0)
-    saturate(100%);
+  backdrop-filter: blur(0) saturate(100%);
+  -webkit-backdrop-filter: blur(0) saturate(100%);
 
   transition:
     background-color 300ms ease,
@@ -739,9 +458,8 @@
 }
 
 
-/* Header-Zustand NACH dem Scrollen */
+/* Zustand nach dem Scrollen */
 .floating-site-header.is-scrolled {
-
   background:
     color-mix(
       in oklab,
@@ -767,17 +485,13 @@
 
 
 /* =======================================================
-   10. HERO-BEREICH
-   =======================================================
-
-   Der Hero ist der große Einstiegsbereich der Seite.
-
-   Hier werden die Scroll-Animationen für Überschrift
-   und Untertitel definiert.
+   HERO
+   • große Einstiegsüberschrift
+   • Scroll-Animation
+   • Überschrift bleibt beim Komprimieren gleich breit
    ======================================================= */
 
 .hero-presentation {
-
   transform-origin: top center;
 
   transition:
@@ -786,124 +500,65 @@
 }
 
 
-/*
-   WICHTIG:
-
-   Die Container-Höhe wird beim Scrollen nicht verändert.
-
-   Dadurch springt der restliche Seiteninhalt nicht
-   plötzlich nach oben.
-
-   "padding-bottom" bestimmt den unteren Innenabstand.
-*/
-
+/* Verhindert Verschiebung des restlichen Inhalts */
 .hero-presentation.is-compact {
   padding-bottom: 2.5rem;
 }
 
 
-/* -------------------------------------------------------
-   HERO-ÜBERSCHRIFT
-   ------------------------------------------------------- */
-
+/* Hero-Titel */
 .hero-title {
-
   transform-origin: left top;
 
-  /*
-     Nur Transparenz und Position werden animiert.
-
-     Bewusst KEIN scale() und KEIN letter-spacing.
-
-     Warum?
-
-     Eine Skalierung oder veränderte Buchstabenbreite
-     könnte den Zeilenumbruch verändern.
-
-     Dadurch könnte die Überschrift beim Scrollen
-     plötzlich anders umbrechen.
-  */
-
+  /* Nur Position + Transparenz animieren */
   transition:
     opacity 480ms ease,
     transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 
-/* Kompakter Zustand beim Scrollen */
+/* Titel beim Scrollen zurücknehmen */
 .hero-presentation.is-compact .hero-title {
-
   opacity: 0.35;
-
-  transform:
-    translateY(-0.75rem);
+  transform: translateY(-0.75rem);
 }
 
 
-/* -------------------------------------------------------
-   HERO-UNTERTITEL
-   ------------------------------------------------------- */
-
+/* Hero-Untertitel */
 .hero-sub {
-
   transition:
     opacity 480ms ease,
     transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-
-/* Untertitel wird beim Scrollen zurückgenommen */
 .hero-presentation.is-compact .hero-sub {
-
   opacity: 0.5;
-
-  transform:
-    translateY(-0.4rem);
+  transform: translateY(-0.4rem);
 }
 
 
 /* =======================================================
-   11. AUDIO-KACHELN
+   AUDIO-KACHELN
    =======================================================
 
-   HIER wird das Aussehen der einzelnen Audio-Karten
-   festgelegt.
-
-   WICHTIGE UNTERSCHEIDUNG:
+   WICHTIG:
 
    .audio-band
    → blauer Hintergrund der gesamten Audio-Sektion
 
    .audio-player-card
-   → einzelne helle/gläserne Audio-Kachel
+   → einzelne neutrale/gläserne Kachel
 
-   .audio-player-card.is-active
+   .is-active
    → aktuell aktive Kachel
 
-   .audio-player-card.is-dimmed
-   → andere Kacheln
-
-   Das Blau soll NICHT in die Kachel selbst wandern.
+   .is-dimmed
+   → übrige Kacheln
    ======================================================= */
-
-
-/* -------------------------------------------------------
-   GRUNDGESTALT DER AUDIO-KACHEL
-   ------------------------------------------------------- */
 
 .audio-player-card {
 
-  /* -----------------------------------------------------
-     GLAS-HINTERGRUND
-
-     Die Kachel ist weißlich und transparent.
-
-     Deshalb sieht sie auf dem blauen Hintergrund
-     wie eine helle Glasscheibe aus.
-
-     NICHT blau machen.
-     ----------------------------------------------------- */
-
+  /* Heller Glass-Hintergrund – bewusst NICHT blau */
   background:
     linear-gradient(
       145deg,
@@ -911,33 +566,18 @@
       rgb(255 255 255 / 0.22)
     );
 
-
   /* heller Glasrand */
   border-color:
     rgb(255 255 255 / 0.82);
 
-
-  /* -----------------------------------------------------
-     SCHATTEN
-
-     Die ersten beiden Schatten liegen außerhalb der Karte.
-
-     Die "inset"-Schatten liegen innerhalb der Karte.
-
-     Dadurch entsteht der Eindruck einer leicht
-     erhabenen/gläsernen Oberfläche.
-     ----------------------------------------------------- */
-
+  /* großer weicher Schatten + innere Lichtkante */
   box-shadow:
     0 28px 72px rgb(70 58 45 / 0.14),
     0 8px 24px rgb(70 58 45 / 0.06),
     inset 0 1px 0 rgb(255 255 255 / 0.96),
     inset 0 -1px 0 rgb(255 255 255 / 0.18);
 
-
-  /* Hintergrund wird durch die Glasscheibe leicht
-     verschwommen dargestellt. */
-
+  /* Glasunschärfe */
   backdrop-filter:
     blur(24px)
     saturate(138%);
@@ -946,25 +586,7 @@
     blur(24px)
     saturate(138%);
 
-
-  /* -----------------------------------------------------
-     ANIMATIONEN
-
-     opacity
-     → Transparenz
-
-     transform
-     → Größe/Position
-
-     filter
-     → Sättigung
-
-     box-shadow
-     → Schatten
-
-     Die Dauer bestimmt, wie weich der Wechsel wirkt.
-     ----------------------------------------------------- */
-
+  /* sanfte Zustandswechsel */
   transition:
     opacity 420ms ease,
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -973,23 +595,13 @@
 }
 
 
-/* -------------------------------------------------------
-   GLANZ AUF DER AUDIO-KACHEL
-
-   ::before erzeugt eine zusätzliche Lichtreflexion.
-
-   Dadurch wirkt die Kachel weniger wie eine normale
-   weiße Box und mehr wie eine Glasfläche.
-   ------------------------------------------------------- */
-
+/* Lichtreflex auf der Audiokachel */
 .audio-player-card::before {
-
   content: "";
 
   position: absolute;
   inset: 0;
 
-  /* Der Glanz soll keine Buttons blockieren. */
   pointer-events: none;
 
   background:
@@ -1006,22 +618,15 @@
 
 
 /* -------------------------------------------------------
-   AUDIO-BEREICH / BLAUER HINTERGRUND
+   BLAUER AUDIO-BEREICH
 
-   DAS hier ist der blaue Bereich.
-
-   Nicht die einzelne Kachel.
-
-   Dadurch bleibt die Mineral-/Blauthematik sichtbar,
-   während die Karten selbst neutral bleiben.
+   Blau = Hintergrund der Sektion.
+   Nicht die einzelne Audiokachel.
    ------------------------------------------------------- */
 
 .audio-band {
+  background: var(--mineral-band);
 
-  background:
-    var(--mineral-band);
-
-  /* Sehr feiner blauer Rand oben und unten */
   border-block:
     1px solid
     color-mix(
@@ -1032,29 +637,18 @@
 }
 
 
-/* -------------------------------------------------------
-   WEITERE SEKTIONSFARBEN
-   ------------------------------------------------------- */
-
+/* Weitere Abschnittshintergründe */
 .companion-band {
-  background:
-    var(--companion-band);
+  background: var(--companion-band);
 }
 
 .continue-band {
-  background:
-    var(--continue-band);
+  background: var(--continue-band);
 }
 
 
-/* =======================================================
-   12. "WEITER"-LINK
-   ======================================================= */
-
+/* "Weiter"-Link */
 .continue-link {
-
-  /* Damit der Link auch auf Touch-Geräten
-     ausreichend groß bleibt. */
   display: block;
   min-height: 44px;
 
@@ -1062,86 +656,57 @@
     transform 220ms ease;
 }
 
-
-/* Beim Darüberfahren leicht nach rechts */
 .continue-link:hover {
   transform: translateX(3px);
 }
 
 
-/* Stärkeres Gewicht für wichtige Installationshinweise */
+/* Hervorgehobener Text */
 .install-action strong {
   font-weight: 600;
 }
 
 
-/* =======================================================
-   13. AKTIVE AUDIO-KACHEL
-   =======================================================
+/* -------------------------------------------------------
+   AKTIVE AUDIO-KACHEL
 
-   Die aktuell ausgewählte Kachel ist vollständig sichtbar.
+   • vollständig sichtbar
+   • normale Größe
+   • neutraler Glass-Schatten
 
-   WICHTIG:
-
-   Hier wird KEIN blauer Rand verwendet.
-
-   Der blaue Akzent bleibt für Progressbar, Fokus usw.
-   ======================================================= */
+   KEIN blauer Rand!
+   ------------------------------------------------------- */
 
 .audio-player-card.is-active {
-
   opacity: 1;
 
   transform:
     translateY(0)
     scale(1);
 
-  /* Neutraler Glass-Schatten */
   box-shadow:
     0 28px 72px rgb(70 58 45 / 0.14),
     inset 0 1px 0 rgb(255 255 255 / 0.96);
 }
 
 
-/* =======================================================
-   14. NICHT AKTIVE AUDIO-KACHELN
-   =======================================================
+/* -------------------------------------------------------
+   NICHT AKTIVE KACHELN
 
-   Die anderen Karten werden leicht zurückgenommen.
-
-   opacity: 0.58
-   → etwas transparenter
-
-   scale(0.975)
-   → minimal kleiner
-
-   saturate(0.82)
-   → etwas weniger farbintensiv
-   ======================================================= */
+   • etwas transparenter
+   • minimal kleiner
+   • weniger gesättigt
+   ------------------------------------------------------- */
 
 .audio-player-card.is-dimmed {
-
   opacity: 0.58;
-
-  transform:
-    scale(0.975);
-
-  filter:
-    saturate(0.82);
+  transform: scale(0.975);
+  filter: saturate(0.82);
 }
 
 
-/* -------------------------------------------------------
-   SCHWEBENDER GLANZ
-
-   Diese Animation betrifft den kleinen Licht-/Glow-Effekt
-   innerhalb der Audio-Karte.
-
-   Die eigentliche Kachel bewegt sich dadurch nicht.
-   ------------------------------------------------------- */
-
+/* Beweglicher Lichtreflex */
 .audio-card-glow {
-
   animation:
     audio-card-glow
     8s
@@ -1151,28 +716,21 @@
 
 
 /* =======================================================
-   15. AUSGABEN-MENÜ / SLIDE-OUT PANEL
+   AUSGABEN-MENÜ / SLIDE-OUT PANEL
    =======================================================
 
-   Dieses Panel erscheint z.B. beim Öffnen des
-   Ausgabe-Menüs.
+   • Hintergrund des geöffneten Ausgabe-Menüs
+   • einzelne Ausgabe-Einträge
    ======================================================= */
 
 .issue-sheet {
-  background:
-    transparent !important;
+  background: transparent !important;
 }
 
 
-/* -------------------------------------------------------
-   PANEL
-   ------------------------------------------------------- */
-
 .issue-panel {
-
   min-height: 100%;
 
-  /* Fast deckendes warmes Glas */
   background:
     linear-gradient(
       145deg,
@@ -1190,14 +748,9 @@
 }
 
 
-/* -------------------------------------------------------
-   EINZELNER AUSGABE-EINTRAG
-   ------------------------------------------------------- */
-
+/* Einzelne Ausgabe */
 .issue-entry {
-
   position: relative;
-
   display: block;
 
   padding:
@@ -1205,11 +758,9 @@
     1rem
     1.35rem;
 
-  margin-top:
-    0.35rem;
+  margin-top: 0.35rem;
 
-  border-radius:
-    1.25rem;
+  border-radius: 1.25rem;
 
   transition:
     background-color 220ms ease,
@@ -1218,15 +769,14 @@
 }
 
 
-/* Erster Eintrag braucht keinen oberen Abstand */
+/* Erster Eintrag ohne oberen Abstand */
 .issue-entry:first-child {
   margin-top: 0;
 }
 
 
-/* Hover-Effekt */
+/* Hover */
 .issue-entry:hover {
-
   background:
     rgb(255 255 255 / 0.16);
 
@@ -1238,44 +788,35 @@
 }
 
 
-/* Aktuell ausgewählte Ausgabe */
+/* Aktuelle Ausgabe */
 .issue-entry-current {
-
   background:
     rgb(255 255 255 / 0.10);
 }
 
 
 /* =======================================================
-   16. AUDIO-PLAYER – FORTSCHRITTSBALKEN
+   AUDIO-PLAYER / FORTSCHRITTSBALKEN
    =======================================================
 
-   .player-range ist der Slider unter dem Audio.
+   Steuert:
+   • Fortschrittslinie
+   • Fortschrittspunkt
+   • Farbe
+   • Fokus
 
-   Beispiel:
-
-   [========------]
-   0:32        1:15
-
-   --player-progress wird von React/TypeScript
-   dynamisch gesetzt.
-
-   Dadurch weiß CSS, wie viel bereits abgespielt wurde.
+   Der Wert --player-progress wird von React aktualisiert.
    ======================================================= */
 
 .player-range {
-
-  /* Wird dynamisch aktualisiert */
   --player-progress: 0%;
 
-  /* Standarddarstellung des Browsers entfernen */
   appearance: none;
 
   height: 2px;
 
   border-radius: 999px;
 
-  /* Grundversion des Fortschrittsbalkens */
   background:
     linear-gradient(
       to right,
@@ -1291,12 +832,8 @@
 }
 
 
-/* -------------------------------------------------------
-   PLAYHEAD / SCHIEBEPUNKT – CHROME / SAFARI
-   ------------------------------------------------------- */
-
+/* Fortschrittspunkt – Chrome/Safari */
 .player-range::-webkit-slider-thumb {
-
   appearance: none;
 
   width: 10px;
@@ -1317,9 +854,8 @@
 }
 
 
-/* Firefox */
+/* Fortschrittspunkt – Firefox */
 .player-range::-moz-range-thumb {
-
   width: 6px;
   height: 6px;
 
@@ -1335,28 +871,14 @@
 
 
 /* =======================================================
-   17. ANIMATION DES GLANZ-EFFEKTS
-   =======================================================
-
-   Hier wird definiert, WAS "audio-card-glow"
-   eigentlich bedeutet.
-
-   0% und 100%:
-   → Ausgangsposition
-
-   50%:
-   → leicht verschoben und größer
-
-   Danach geht es wieder zurück.
-
-   8s = eine komplette Animation dauert 8 Sekunden.
+   ANIMATIONEN
    ======================================================= */
 
 @keyframes audio-card-glow {
 
+  /* Start / Ende */
   0%,
   100% {
-
     transform:
       translate3d(0, 0, 0)
       scale(1);
@@ -1364,8 +886,8 @@
     opacity: 0.45;
   }
 
+  /* Mitte */
   50% {
-
     transform:
       translate3d(-10px, 8px, 0)
       scale(1.08);
@@ -1376,15 +898,9 @@
 
 
 /* =======================================================
-   18. REDUZIERTE BEWEGUNG
-
-   Manche Nutzer möchten oder benötigen möglichst
-   wenig Animation.
-
-   Wenn das Betriebssystem "Reduce Motion" aktiviert hat,
-   werden Animationen praktisch abgeschaltet.
-
-   Das ist eine wichtige Accessibility-Regel.
+   REDUCED MOTION
+   • Animationen reduzieren, wenn Nutzer das wünscht
+   • wichtig für Accessibility
    ======================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1396,69 +912,45 @@
   *,
   *::before,
   *::after {
-
-    animation-duration:
-      0.01ms !important;
-
-    transition-duration:
-      0.01ms !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 
 /* =======================================================
-   19. AUDIO-PLAYER – BARRIEREFREUNDLICHE VERSION
+   AUDIO-PLAYER – BARRIEREFREUNDLICHER SLIDER
    =======================================================
 
-   WICHTIG:
+   Dieser Block überschreibt teilweise die Einstellungen
+   des ersten .player-range-Blocks.
 
-   .player-range wurde weiter oben bereits definiert.
-
-   Hier wird er ABSICHTLICH noch einmal angepasst.
-
-   Das ist erlaubt:
-   CSS verwendet hier die späteren Werte, wenn dieselbe
-   Eigenschaft erneut definiert wird.
-
-   Ergebnis:
-
-   Der Slider bekommt eine größere Bedienfläche,
-   obwohl die sichtbare Linie weiterhin dünn bleibt.
+   Ziel:
+   • größere Tippfläche
+   • sichtbare 4px-Linie
+   • Mineralblau für den abgespielten Bereich
+   • größere Bedienfläche
    ======================================================= */
 
 .player-range {
-
-  /* Größere Touch-/Mausfläche */
   height: 1.5rem;
-
-  /* Der eigentliche Hintergrund wird jetzt über
-     die Browser-spezifischen Tracks definiert. */
   background: none;
-
   border-radius: 999px;
 }
 
 
-/* -------------------------------------------------------
-   SICHTBARE SLIDER-LINIE – CHROME / SAFARI
-   ------------------------------------------------------- */
-
+/* Slider-Linie – Chrome/Safari */
 .player-range::-webkit-slider-runnable-track {
-
   height: 4px;
-
   border-radius: 999px;
 
   background:
     linear-gradient(
       to right,
-
-      /* Bereits abgespielter Teil = Mineralblau */
       var(--accent-mineral)
         0
         var(--player-progress),
 
-      /* Noch nicht abgespielter Teil */
       color-mix(
         in oklab,
         var(--foreground) 18%,
@@ -1470,14 +962,9 @@
 }
 
 
-/* -------------------------------------------------------
-   SLIDER-LINIE – FIREFOX
-   ------------------------------------------------------- */
-
+/* Slider-Linie – Firefox */
 .player-range::-moz-range-track {
-
   height: 4px;
-
   border-radius: 999px;
 
   background:
@@ -1489,11 +976,9 @@
 }
 
 
-/* Bereits abgespielter Bereich – Firefox */
+/* Abgespielter Bereich – Firefox */
 .player-range::-moz-range-progress {
-
   height: 4px;
-
   border-radius: 999px;
 
   background:
@@ -1501,16 +986,8 @@
 }
 
 
-/* -------------------------------------------------------
-   SLIDER-PUNKT – CHROME / SAFARI
-   -------------------------------------------------------
-
-   Der kleine Punkt ist bewusst größer geworden,
-   damit er besser mit Maus und Touch bedient werden kann.
-   ------------------------------------------------------- */
-
+/* Größerer Bedienpunkt – Chrome/Safari */
 .player-range::-webkit-slider-thumb {
-
   width: 16px;
   height: 16px;
 
@@ -1528,9 +1005,8 @@
 }
 
 
-/* Firefox */
+/* Größerer Bedienpunkt – Firefox */
 .player-range::-moz-range-thumb {
-
   width: 12px;
   height: 12px;
 
@@ -1543,15 +1019,8 @@
 }
 
 
-/* -------------------------------------------------------
-   FOKUS DES AUDIO-SLIDERS
-
-   Sichtbarer blauer Rand, wenn der Slider mit der
-   Tastatur ausgewählt wurde.
-   ------------------------------------------------------- */
-
+/* Fokus des Sliders */
 .player-range:focus-visible {
-
   outline:
     2px solid
     var(--accent-mineral);
@@ -1561,16 +1030,12 @@
 
 
 /* =======================================================
-   20. TOUCH-ZIELE
-
-   Kleine Buttons/Punkte sollen mindestens 44 × 44 px
-   groß bedienbar sein.
-
-   Das ist besonders für Smartphones wichtig.
+   TOUCH-ZIELE
+   • mindestens 44 × 44 px
+   • wichtig für Smartphone-Bedienung
    ======================================================= */
 
 .tap-target {
-
   position: relative;
 
   min-width: 44px;
@@ -1584,26 +1049,16 @@
 
 
 /* =======================================================
-   21. CAROUSEL-PUNKTE
-   =======================================================
-
-   Die kleinen Punkte zeigen an, welche Audio-Kachel
-   gerade ausgewählt ist.
-
-   Normal:
-   → dezentes Grau
-
-   Aktiv:
-   → Mineralblau
+   CAROUSEL-PUNKTE
+   • zeigen die aktuelle Audio-Kachel
+   • normal = dezent
+   • aktiv = Mineralblau
    ======================================================= */
 
 .carousel-dot {
+  height: 0.375rem;
 
-  height:
-    0.375rem;
-
-  border-radius:
-    999px;
+  border-radius: 999px;
 
   background:
     color-mix(
@@ -1618,36 +1073,27 @@
 }
 
 
-/* Aktiver Carousel-Punkt */
+/* Aktiver Punkt */
 .carousel-dot[aria-selected="true"] {
-
   background:
     var(--accent-mineral);
 }
 
 
 /* =======================================================
-   22. REDUZIERTE BEWEGUNG – AUDIO / CAROUSEL
-   =======================================================
-
-   Zweiter Accessibility-Block.
-
-   Hier werden speziell die Audio-Glow-Animation und
-   das horizontale Scroll-Verhalten angepasst.
+   REDUCED MOTION – AUDIO / CAROUSEL
    ======================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
-  /* Der schwebende Licht-Effekt wird abgeschaltet */
+  /* Glow abschalten */
   .audio-card-glow {
     animation: none !important;
   }
 
-  /* Sanftes Scrollen wird deaktiviert */
+  /* Smooth Scrolling abschalten */
   .scroll-smooth,
   [class*="scroll-smooth"] {
-
-    scroll-behavior:
-      auto !important;
+    scroll-behavior: auto !important;
   }
 }
