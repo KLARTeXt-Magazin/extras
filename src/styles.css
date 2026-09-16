@@ -626,13 +626,7 @@
 .audio-band {
   background: var(--mineral-band);
 
-  border-block:
-    1px solid
-    color-mix(
-      in oklab,
-      var(--accent-mineral) 10%,
-      transparent
-    );
+
 }
 
 
