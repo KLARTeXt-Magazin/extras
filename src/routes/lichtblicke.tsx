@@ -785,8 +785,7 @@ function Lichtblicke() {
 //          sondern in components/audio-card.tsx.
 //         ================================================= */}
 
-        <section
-          className="audio-band py-10"
+<section className="audio-band audio-band--ausgabe-2" py-10"
           aria-label="Audio-Karussell"
         >
 
