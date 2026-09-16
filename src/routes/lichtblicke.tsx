@@ -222,7 +222,7 @@ const tracks: AudioTrack[] = [
     quote:
       "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
     note:
-      "Eine kurze Auszeit für dich, jederzeit abrufbar. Den Impuls kannst du dir auch ausdrucken."
+      "Eine kurze Auszeit für dich, jederzeit abrufbar. Den Impuls kannst du dir auch ausdrucken.",
     cover: coverMomentNeu,
     coverAlt:
       "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
