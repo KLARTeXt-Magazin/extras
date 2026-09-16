@@ -31,7 +31,6 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
   --color-surface: var(--surface);
   --color-panel-border: var(--panel-border);
   --color-light: var(--light);
@@ -57,12 +56,6 @@
 :root {
   --radius: 0.625rem;
 
-  /* -----------------------------------------------------
-     KLARTeXt. Farbwelt
-     Warmes Sand als Basis.
-     Kühle Akzente nur sehr zurückhaltend.
-     ----------------------------------------------------- */
-
   --background: oklch(0.9588 0.0086 84.57);
   --foreground: oklch(0.1969 0.0067 78.16);
 
@@ -72,22 +65,15 @@
   --popover: oklch(0.98 0.005 84.57);
   --popover-foreground: oklch(0.1969 0.0067 78.16);
 
-  /* warmes, dunkles Erd-/Braun */
   --primary: oklch(0.3474 0.0362 45.47);
   --primary-foreground: oklch(0.9588 0.0086 84.57);
 
-  /* ursprünglicher Sandton */
   --secondary: oklch(0.8501 0.0279 78.17);
   --secondary-foreground: oklch(0.1969 0.0067 78.16);
 
   --muted: oklch(0.91 0.015 80);
   --muted-foreground: oklch(0.49 0.021 65);
 
-  /*
-     Wichtig:
-     Accent bleibt warm.
-     Das frühere kühle Blau wird NICHT als UI-Grundfarbe verwendet.
-  */
   --accent: oklch(0.8501 0.0279 78.17);
   --accent-foreground: oklch(0.1969 0.0067 78.16);
 
@@ -96,7 +82,6 @@
 
   --border: oklch(0.80 0.023 78 / 55%);
   --input: oklch(0.80 0.023 78);
-
   --ring: oklch(0.3474 0.0362 45.47);
 
   --surface: oklch(0.985 0.004 85 / 52%);
@@ -166,10 +151,8 @@
 
 .liquid-glass::before {
   content: "";
-
   position: absolute;
   inset: 0;
-
   pointer-events: none;
   z-index: -1;
 
@@ -188,13 +171,10 @@
 
 .liquid-glass::after {
   content: "";
-
   position: absolute;
   inset: 1px;
-
   pointer-events: none;
   z-index: 20;
-
   border-radius: inherit;
 
   box-shadow:
@@ -334,10 +314,8 @@
 
 .audio-player-card::before {
   content: "";
-
   position: absolute;
   inset: 0;
-
   pointer-events: none;
 
   background:
@@ -399,7 +377,6 @@
 
 .issue-entry {
   position: relative;
-
   display: block;
 
   padding:
@@ -408,7 +385,6 @@
     1.35rem;
 
   margin-top: 0.35rem;
-
   border-radius: 1.25rem;
 
   transition:
@@ -444,9 +420,7 @@
   --player-progress: 0%;
 
   appearance: none;
-
   height: 2px;
-
   border-radius: 999px;
 
   background:
