@@ -538,10 +538,10 @@ function Index() {
             • Audio-Datei oben bei <audio>
            ================================================= */}
 
-        <section
-          cclassName="audio-band audio-band--ausgabe-1"
-          aria-label="Audio"
-        >
+<section
+  className="audio-band audio-band--ausgabe-1"
+  aria-label="Audio"
+>
           <div className="mx-auto w-full max-w-[430px]">
 
             <section
