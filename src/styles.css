@@ -31,9 +31,19 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
   --color-surface: var(--surface);
   --color-panel-border: var(--panel-border);
   --color-light: var(--light);
+  --color-sage: var(--sage);
+  --color-sage-foreground: var(--sage-foreground);
+  --color-sage-soft: var(--sage-soft);
+  --color-accent-mineral: var(--accent-mineral);
+  --color-accent-mineral-soft: var(--accent-mineral-soft);
+  --color-mineral-band: var(--mineral-band);
+  --color-companion-band: var(--companion-band);
+  --color-continue-band: var(--continue-band);
+
 
   --shadow-player:
     0 24px 70px color-mix(
@@ -56,10 +66,6 @@
 :root {
   --radius: 0.625rem;
 
-  /* ---------------------------------------------------
-     KLARTeXt. Sand / Papier
-     --------------------------------------------------- */
-
   --background: oklch(0.9588 0.0086 84.57);
   --foreground: oklch(0.1969 0.0067 78.16);
 
@@ -69,11 +75,9 @@
   --popover: oklch(0.98 0.005 84.57);
   --popover-foreground: oklch(0.1969 0.0067 78.16);
 
-  /* warm dark brown instead of blue */
   --primary: oklch(0.3474 0.0362 45.47);
   --primary-foreground: oklch(0.9588 0.0086 84.57);
 
-  /* warm sand */
   --secondary: oklch(0.8501 0.0279 78.17);
   --secondary-foreground: oklch(0.1969 0.0067 78.16);
 
@@ -90,11 +94,58 @@
   --input: oklch(0.80 0.023 78);
   --ring: oklch(0.3474 0.0362 45.47);
 
-  /* neutral glass surface */
   --surface: oklch(0.985 0.004 85 / 52%);
   --panel-border: oklch(1 0 0 / 62%);
   --light: oklch(1 0 0);
+  --sage: oklch(0.53 0.055 124);
+  --sage-foreground: oklch(0.29 0.035 116);
+  --sage-soft: oklch(0.91 0.025 108);
+  --mineral-band: oklch(0.965 0.012 214);
+  --companion-band: oklch(0.938 0.018 82);
+  --continue-band: oklch(0.835 0.035 74);
+
+  /* Ruhiger, mineralischer Akzent: gedämpftes Kobaltblau.
+     Nur für Fokus, aktive Zustände und feine Details. */
+  --accent-mineral: oklch(0.47 0.098 254);
+  --accent-mineral-soft: oklch(0.47 0.098 254 / 14%);
+
+  --ring: oklch(0.47 0.098 254);
 }
+
+@layer base {
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--accent-mineral);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+
+  padding: 0.75rem 1.15rem;
+
+  border-radius: 999px;
+
+  background: var(--card);
+  color: var(--foreground);
+
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  box-shadow: 0 10px 30px rgb(70 58 45 / 0.18);
+
+  transform: translateY(-160%);
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
 
 @layer base {
   * {
@@ -118,9 +169,9 @@
   }
 }
 
-/* =======================================================
-   LIQUID GLASS
-   ======================================================= */
+/* -------------------------------------------------------
+   Liquid Glass
+   ------------------------------------------------------- */
 
 .liquid-glass {
   --liquid-filter: none;
@@ -200,9 +251,9 @@
   z-index: 10;
 }
 
-/* =======================================================
-   HEADER GLASS BUTTON
-   ======================================================= */
+/* -------------------------------------------------------
+   Header glass button
+   ------------------------------------------------------- */
 
 .liquid-glass-button {
   position: relative;
@@ -249,9 +300,27 @@
     inset 0 1px 0 rgb(255 255 255 / 0.78);
 }
 
-/* =======================================================
-   HERO
-   ======================================================= */
+.floating-site-header {
+  background: color-mix(in oklab, var(--background) 72%, transparent);
+  border-bottom: 1px solid transparent;
+  backdrop-filter: blur(0) saturate(100%);
+  -webkit-backdrop-filter: blur(0) saturate(100%);
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    backdrop-filter 300ms ease;
+}
+
+.floating-site-header.is-scrolled {
+  background: color-mix(in oklab, var(--background) 86%, transparent);
+  border-color: color-mix(in oklab, var(--border) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(125%);
+  -webkit-backdrop-filter: blur(20px) saturate(125%);
+}
+
+/* -------------------------------------------------------
+   Hero
+   ------------------------------------------------------- */
 
 .hero-presentation {
   transform-origin: top center;
@@ -261,6 +330,11 @@
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/*
+   Wichtig:
+   Die Container-Höhe verändert sich beim Scrollen nicht.
+   Dadurch verschiebt sich der restliche Inhalt nicht.
+*/
 .hero-presentation.is-compact {
   padding-bottom: 2.5rem;
 }
@@ -268,6 +342,11 @@
 .hero-title {
   transform-origin: left top;
 
+  /*
+     Nur Position und Transparenz animieren.
+     Keine scale()- oder letter-spacing-Änderung,
+     damit sich der Zeilenumbruch nicht verändert.
+  */
   transition:
     opacity 480ms ease,
     transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -275,6 +354,7 @@
 
 .hero-presentation.is-compact .hero-title {
   opacity: 0.35;
+
   transform: translateY(-0.75rem);
 }
 
@@ -289,41 +369,34 @@
   transform: translateY(-0.4rem);
 }
 
-/* =======================================================
-   AUDIO CARDS
-   -------------------------------------------------------
-   WICHTIG:
-   Die Kachel selbst bleibt neutral/glasig.
-   Keine blaue Hintergrundfarbe.
-   Die Farbe kommt NICHT aus bg-secondary.
-   ======================================================= */
+/* -------------------------------------------------------
+   Audio cards
+   ------------------------------------------------------- */
 
 .audio-player-card {
-  position: relative;
-
-  /* neutral warm-white glass */
   background:
     linear-gradient(
       145deg,
-      rgb(255 255 255 / 0.21),
-      rgb(255 255 255 / 0.055)
-    ) !important;
+      rgb(255 255 255 / 0.62),
+      rgb(255 255 255 / 0.22)
+    );
 
   border-color:
-    rgb(255 255 255 / 0.55) !important;
+    rgb(255 255 255 / 0.82);
 
   box-shadow:
-    0 26px 70px rgb(70 58 45 / 0.11),
-    inset 0 1px 0 rgb(255 255 255 / 0.76),
-    inset 0 -1px 0 rgb(255 255 255 / 0.08);
+    0 28px 72px rgb(70 58 45 / 0.14),
+    0 8px 24px rgb(70 58 45 / 0.06),
+    inset 0 1px 0 rgb(255 255 255 / 0.96),
+    inset 0 -1px 0 rgb(255 255 255 / 0.18);
 
   backdrop-filter:
-    blur(18px)
-    saturate(128%);
+    blur(24px)
+    saturate(138%);
 
   -webkit-backdrop-filter:
-    blur(18px)
-    saturate(128%);
+    blur(24px)
+    saturate(138%);
 
   transition:
     opacity 420ms ease,
@@ -343,13 +416,40 @@
   background:
     linear-gradient(
       135deg,
-      rgb(255 255 255 / 0.22),
+      rgb(255 255 255 / 0.48),
       transparent 32%,
       transparent 72%,
-      rgb(255 255 255 / 0.07)
+      rgb(255 255 255 / 0.14)
     );
 
-  opacity: 0.75;
+  opacity: 0.9;
+}
+
+.audio-band {
+  background: var(--mineral-band);
+  border-block: 1px solid color-mix(in oklab, var(--accent-mineral) 10%, transparent);
+}
+
+.companion-band {
+  background: var(--companion-band);
+}
+
+.continue-band {
+  background: var(--continue-band);
+}
+
+.continue-link {
+  display: block;
+  min-height: 44px;
+  transition: transform 220ms ease;
+}
+
+.continue-link:hover {
+  transform: translateX(3px);
+}
+
+.install-action strong {
+  font-weight: 600;
 }
 
 .audio-player-card.is-active {
@@ -371,27 +471,9 @@
     infinite;
 }
 
-/* =======================================================
-   AUDIO SECTION / PAPER BACKGROUND
-   -------------------------------------------------------
-   Diese Klasse kann die umgebende Fläche einfärben,
-   NICHT die Audio-Kachel.
-   ======================================================= */
-
-.audio-section-paper {
-  background:
-    var(--background);
-}
-
-/* Alternative leicht abgesetzte Papierfläche */
-.audio-section-paper-soft {
-  background:
-    oklch(0.945 0.012 82);
-}
-
-/* =======================================================
-   ISSUE PANEL
-   ======================================================= */
+/* -------------------------------------------------------
+   Slide-out issue panel
+   ------------------------------------------------------- */
 
 .issue-sheet {
   background: transparent !important;
@@ -407,8 +489,7 @@
       rgb(246 242 235 / 0.94)
     );
 
-  border-color:
-    rgb(255 255 255 / 0.72);
+  border-color: rgb(255 255 255 / 0.72);
 
   box-shadow:
     0 24px 70px rgb(70 58 45 / 0.14),
@@ -455,9 +536,9 @@
     rgb(255 255 255 / 0.10);
 }
 
-/* =======================================================
-   PLAYER
-   ======================================================= */
+/* -------------------------------------------------------
+   Player
+   ------------------------------------------------------- */
 
 .player-range {
   --player-progress: 0%;
@@ -512,9 +593,9 @@
   background: var(--primary);
 }
 
-/* =======================================================
-   MOTION
-   ======================================================= */
+/* -------------------------------------------------------
+   Motion
+   ------------------------------------------------------- */
 
 @keyframes audio-card-glow {
   0%,
@@ -545,5 +626,102 @@
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* -------------------------------------------------------
+   Barrierefreiheit & mineralischer Akzent
+   ------------------------------------------------------- */
+
+.player-range {
+  height: 1.5rem;
+  background: none;
+  border-radius: 999px;
+}
+
+.player-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      to right,
+      var(--accent-mineral) 0 var(--player-progress),
+      color-mix(in oklab, var(--foreground) 18%, transparent)
+        var(--player-progress) 100%
+    );
+}
+
+.player-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 18%, transparent);
+}
+
+.player-range::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--accent-mineral);
+}
+
+.player-range::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border: 3px solid var(--light);
+  background: var(--accent-mineral);
+  box-shadow: 0 2px 8px rgb(70 58 45 / 0.22);
+}
+
+.player-range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 3px solid var(--light);
+  background: var(--accent-mineral);
+}
+
+.player-range:focus-visible {
+  outline: 2px solid var(--accent-mineral);
+  outline-offset: 4px;
+}
+
+/* Mindestens 44px Tippfläche für kleine Bedienpunkte */
+.tap-target {
+  position: relative;
+  min-width: 44px;
+  min-height: 44px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-dot {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 22%, transparent);
+  transition:
+    width 300ms ease,
+    background-color 300ms ease;
+}
+
+.carousel-dot[aria-selected="true"] {
+  background: var(--accent-mineral);
+}
+
+.audio-player-card.is-active {
+  box-shadow:
+    0 28px 72px rgb(70 58 45 / 0.14),
+    inset 0 1px 0 rgb(255 255 255 / 0.96),
+    inset 0 0 0 1px var(--accent-mineral-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .audio-card-glow {
+    animation: none !important;
+  }
+
+  .scroll-smooth,
+  [class*="scroll-smooth"] {
+    scroll-behavior: auto !important;
   }
 }
