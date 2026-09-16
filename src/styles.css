@@ -570,8 +570,6 @@
 
   /* großer weicher Schatten + innere Lichtkante */
   box-shadow:
-    0 28px 72px rgb(70 58 45 / 0.14),
-    0 8px 24px rgb(70 58 45 / 0.06),
     inset 0 1px 0 rgb(255 255 255 / 0.96),
     inset 0 -1px 0 rgb(255 255 255 / 0.18);
 
@@ -631,7 +629,7 @@
 
 /* Weitere Abschnittshintergründe */
 .companion-band {
-  background: var(--mineral-band);
+  background: var(--companion-band);
 }
 
 .continue-band {
