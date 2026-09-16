@@ -14,8 +14,9 @@ const promptListeners = new Set<(prompt: BeforeInstallPromptEvent) => void>();
 if (typeof window !== "undefined") {
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
-    deferredInstallPrompt = event as BeforeInstallPromptEvent;
-    promptListeners.forEach((listener) => listener(deferredInstallPrompt));
+    const prompt = event as BeforeInstallPromptEvent;
+    deferredInstallPrompt = prompt;
+    promptListeners.forEach((listener) => listener(prompt));
   });
 }
 
