@@ -9,7 +9,6 @@ import {
   RotateCw,
 } from "lucide-react";
 
-import coverImage from "../assets/zeit-fuer-dich-cover.jpg";
 import coverImageNeu from "@/assets/pic_Z_M.jpg";
 import { LiquidGlass } from "@/components/liquid-glass";
 import { InstallAction } from "@/components/install-action";
