@@ -602,13 +602,125 @@
 
 
 /* =======================================================
-   SECTION-FARBEN
+   AUDIO-SECTIONS
+   =======================================================
+
+   Die Audio-Section bekommt ein eigenes Hintergrundbild.
+
+   WICHTIG:
+   • Das Bild liegt HINTER den Audio-Kacheln.
+   • Die Audio-Kacheln selbst bleiben unverändert.
+   • Ausgabe 1 und Ausgabe 2 können unterschiedliche Bilder
+     verwenden.
+   • Die bisherigen KLARTeXt.-Farben bleiben als dezentes
+     Overlay erhalten.
    ======================================================= */
 
 .audio-band {
-  background: #C1B094;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  /*
+   * Fallback, falls noch kein Bild vorhanden ist.
+   * Entspricht weiterhin der bisherigen warmen KLARTeXt.-Farbe.
+   */
+  background-color: #C1B094;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
+
+/* -------------------------------------------------------
+   AUSGABE 1
+   -------------------------------------------------------
+
+   PLATZHALTER:
+   /images/audio-ausgabe-1.jpg
+
+   Später einfach dein Unsplash-Bild unter diesem Namen
+   ablegen.
+   */
+
+.audio-band--ausgabe-1 {
+  background-image:
+    linear-gradient(
+      180deg,
+      rgb(246 242 235 / 0.16),
+      rgb(193 176 148 / 0.24)
+    ),
+    url("/images/audio-ausgabe-1.jpg");
+}
+
+
+/* -------------------------------------------------------
+   AUSGABE 2
+   -------------------------------------------------------
+
+   PLATZHALTER:
+   /images/audio-ausgabe-2.jpg
+   */
+
+.audio-band--ausgabe-2 {
+  background-image:
+    linear-gradient(
+      180deg,
+      rgb(246 242 235 / 0.12),
+      rgb(193 176 148 / 0.20)
+    ),
+    url("/images/audio-ausgabe-2.jpg");
+}
+
+
+/* -------------------------------------------------------
+   DEZENTE BILDVEREDLUNG
+   -------------------------------------------------------
+
+   Das Bild selbst bleibt sichtbar.
+   Es wird NICHT stark abgedunkelt.
+
+   Dadurch kann backdrop-filter der Audio-Kacheln
+   tatsächlich mit dem Bild arbeiten.
+   */
+
+.audio-band::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgb(255 254 251 / 0.06),
+      rgb(53 38 31 / 0.08)
+    );
+
+  mix-blend-mode: normal;
+}
+
+
+/* -------------------------------------------------------
+   FALLBACK / BILD NICHT GELADEN
+   ------------------------------------------------------- */
+
+.audio-band:not(
+  .audio-band--ausgabe-1,
+  .audio-band--ausgabe-2
+) {
+  background-color: #C1B094;
+}
+
+
+/* -------------------------------------------------------
+   DIE ANDEREN SECTIONS BLEIBEN WIE BISHER
+   ------------------------------------------------------- */
 
 .companion-band {
   background: #F6F2EB;
@@ -618,7 +730,6 @@
 .continue-band {
   background: #767154;
 }
-
 
 /* =======================================================
    AKTIVE AUDIO-KACHEL
