@@ -56,6 +56,10 @@
 :root {
   --radius: 0.625rem;
 
+  /* ---------------------------------------------------
+     KLARTeXt. Sand / Papier
+     --------------------------------------------------- */
+
   --background: oklch(0.9588 0.0086 84.57);
   --foreground: oklch(0.1969 0.0067 78.16);
 
@@ -65,9 +69,11 @@
   --popover: oklch(0.98 0.005 84.57);
   --popover-foreground: oklch(0.1969 0.0067 78.16);
 
+  /* warm dark brown instead of blue */
   --primary: oklch(0.3474 0.0362 45.47);
   --primary-foreground: oklch(0.9588 0.0086 84.57);
 
+  /* warm sand */
   --secondary: oklch(0.8501 0.0279 78.17);
   --secondary-foreground: oklch(0.1969 0.0067 78.16);
 
@@ -84,6 +90,7 @@
   --input: oklch(0.80 0.023 78);
   --ring: oklch(0.3474 0.0362 45.47);
 
+  /* neutral glass surface */
   --surface: oklch(0.985 0.004 85 / 52%);
   --panel-border: oklch(1 0 0 / 62%);
   --light: oklch(1 0 0);
@@ -111,9 +118,9 @@
   }
 }
 
-/* -------------------------------------------------------
-   Liquid Glass
-   ------------------------------------------------------- */
+/* =======================================================
+   LIQUID GLASS
+   ======================================================= */
 
 .liquid-glass {
   --liquid-filter: none;
@@ -151,8 +158,10 @@
 
 .liquid-glass::before {
   content: "";
+
   position: absolute;
   inset: 0;
+
   pointer-events: none;
   z-index: -1;
 
@@ -171,10 +180,13 @@
 
 .liquid-glass::after {
   content: "";
+
   position: absolute;
   inset: 1px;
+
   pointer-events: none;
   z-index: 20;
+
   border-radius: inherit;
 
   box-shadow:
@@ -188,9 +200,9 @@
   z-index: 10;
 }
 
-/* -------------------------------------------------------
-   Header glass button
-   ------------------------------------------------------- */
+/* =======================================================
+   HEADER GLASS BUTTON
+   ======================================================= */
 
 .liquid-glass-button {
   position: relative;
@@ -237,9 +249,9 @@
     inset 0 1px 0 rgb(255 255 255 / 0.78);
 }
 
-/* -------------------------------------------------------
-   Hero
-   ------------------------------------------------------- */
+/* =======================================================
+   HERO
+   ======================================================= */
 
 .hero-presentation {
   transform-origin: top center;
@@ -277,20 +289,28 @@
   transform: translateY(-0.4rem);
 }
 
-/* -------------------------------------------------------
-   Audio cards
-   ------------------------------------------------------- */
+/* =======================================================
+   AUDIO CARDS
+   -------------------------------------------------------
+   WICHTIG:
+   Die Kachel selbst bleibt neutral/glasig.
+   Keine blaue Hintergrundfarbe.
+   Die Farbe kommt NICHT aus bg-secondary.
+   ======================================================= */
 
 .audio-player-card {
+  position: relative;
+
+  /* neutral warm-white glass */
   background:
     linear-gradient(
       145deg,
       rgb(255 255 255 / 0.21),
       rgb(255 255 255 / 0.055)
-    );
+    ) !important;
 
   border-color:
-    rgb(255 255 255 / 0.55);
+    rgb(255 255 255 / 0.55) !important;
 
   box-shadow:
     0 26px 70px rgb(70 58 45 / 0.11),
@@ -314,8 +334,10 @@
 
 .audio-player-card::before {
   content: "";
+
   position: absolute;
   inset: 0;
+
   pointer-events: none;
 
   background:
@@ -349,9 +371,27 @@
     infinite;
 }
 
-/* -------------------------------------------------------
-   Slide-out issue panel
-   ------------------------------------------------------- */
+/* =======================================================
+   AUDIO SECTION / PAPER BACKGROUND
+   -------------------------------------------------------
+   Diese Klasse kann die umgebende Fläche einfärben,
+   NICHT die Audio-Kachel.
+   ======================================================= */
+
+.audio-section-paper {
+  background:
+    var(--background);
+}
+
+/* Alternative leicht abgesetzte Papierfläche */
+.audio-section-paper-soft {
+  background:
+    oklch(0.945 0.012 82);
+}
+
+/* =======================================================
+   ISSUE PANEL
+   ======================================================= */
 
 .issue-sheet {
   background: transparent !important;
@@ -367,7 +407,8 @@
       rgb(246 242 235 / 0.94)
     );
 
-  border-color: rgb(255 255 255 / 0.72);
+  border-color:
+    rgb(255 255 255 / 0.72);
 
   box-shadow:
     0 24px 70px rgb(70 58 45 / 0.14),
@@ -377,6 +418,7 @@
 
 .issue-entry {
   position: relative;
+
   display: block;
 
   padding:
@@ -385,6 +427,7 @@
     1.35rem;
 
   margin-top: 0.35rem;
+
   border-radius: 1.25rem;
 
   transition:
@@ -412,15 +455,17 @@
     rgb(255 255 255 / 0.10);
 }
 
-/* -------------------------------------------------------
-   Player
-   ------------------------------------------------------- */
+/* =======================================================
+   PLAYER
+   ======================================================= */
 
 .player-range {
   --player-progress: 0%;
 
   appearance: none;
+
   height: 2px;
+
   border-radius: 999px;
 
   background:
@@ -467,9 +512,9 @@
   background: var(--primary);
 }
 
-/* -------------------------------------------------------
-   Motion
-   ------------------------------------------------------- */
+/* =======================================================
+   MOTION
+   ======================================================= */
 
 @keyframes audio-card-glow {
   0%,
