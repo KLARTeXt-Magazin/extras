@@ -425,6 +425,9 @@
   opacity: 0.9;
 }
 
+
+/* Der blaue/mineralische Bereich gehört zur Audio-Sektion,
+   nicht zur einzelnen Audiokachel. */
 .audio-band {
   background: var(--mineral-band);
   border-block: 1px solid color-mix(in oklab, var(--accent-mineral) 10%, transparent);
@@ -452,11 +455,17 @@
   font-weight: 600;
 }
 
+/* Aktive Kachel bleibt neutral/gläsern */
 .audio-player-card.is-active {
   opacity: 1;
   transform: translateY(0) scale(1);
+
+  box-shadow:
+    0 28px 72px rgb(70 58 45 / 0.14),
+    inset 0 1px 0 rgb(255 255 255 / 0.96);
 }
 
+/* Nicht aktive Kacheln werden nur etwas zurückgenommen */
 .audio-player-card.is-dimmed {
   opacity: 0.58;
   transform: scale(0.975);
@@ -708,12 +717,6 @@
   background: var(--accent-mineral);
 }
 
-.audio-player-card.is-active {
-  box-shadow:
-    0 28px 72px rgb(70 58 45 / 0.14),
-    inset 0 1px 0 rgb(255 255 255 / 0.96),
-    inset 0 0 0 1px var(--accent-mineral-soft);
-}
 
 @media (prefers-reduced-motion: reduce) {
   .audio-card-glow {
