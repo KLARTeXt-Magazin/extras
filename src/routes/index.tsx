@@ -12,7 +12,7 @@ import {
 import coverImage from "../assets/zeit-fuer-dich-cover.jpg";
 import coverImageNeu from "@/assets/pic_Z_M.jpg";
 import { LiquidGlass } from "@/components/liquid-glass";
-import { InstallHint } from "@/components/install-hint";
+import { InstallAction } from "@/components/install-action";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -145,7 +145,7 @@ function Index() {
 
 
       <section
-        className={`hero-presentation mx-auto flex min-h-[100svh] w-full max-w-[430px] flex-col px-5 pb-7 pt-24 sm:px-7 ${
+        className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-12 pt-24 sm:px-7 ${
           hasScrolled || isPlaying ? "is-compact" : ""
         }`}
       >
@@ -250,7 +250,7 @@ function Index() {
           Zum Magazin
         </a>
 
-        <InstallHint />
+        <InstallAction />
       </div>
     </LiquidGlass>
   </SheetContent>
@@ -264,8 +264,11 @@ function Index() {
             Warum Ehrlichkeit Mut braucht
           </h1>
         </div>
-        
-        <section className="audio-player-card is-active relative mt-7 overflow-hidden rounded-[2rem] border p-3 backdrop-blur-2xl" aria-label="Audio-Player">
+      </section>
+
+      <section className="audio-band px-5 py-12 sm:px-7" aria-label="Audio">
+        <div className="mx-auto w-full max-w-[430px]">
+        <section className="audio-player-card is-active relative overflow-hidden rounded-[2rem] border p-3 backdrop-blur-2xl" aria-label="Audio-Player">
           <div className="relative aspect-square overflow-hidden rounded-[1.45rem]">
             <img src={coverImageNeu} alt="Ruhiger Stein auf dunklem Holz im warmen Morgenlicht" width={1024} height={1024} className="h-full w-full object-cover" />
             <span className="absolute left-4 top-4 rounded-full border border-light/35 bg-surface/45 px-3 py-1.5 text-[9px] font-medium uppercase text-foreground backdrop-blur-xl">
@@ -326,10 +329,11 @@ function Index() {
           </div>
         </section>
 
-        <p className="mt-auto pt-8 text-center text-[9px] uppercase text-muted-foreground">Scroll für mehr</p>
+        <p className="pt-8 text-center text-[9px] uppercase text-muted-foreground">Scroll für mehr</p>
+        </div>
       </section>
 
-      <section className="border-t border-border bg-secondary/45 px-6 py-24">
+      <section className="companion-band px-6 py-24">
         <div className="mx-auto max-w-[430px]">
           <p className="text-[10px] font-medium uppercase text-muted-foreground">Ein Moment für dich</p>
           <h2 className="mt-5 font-display text-4xl font-medium leading-tight">„Wie geht es mir eigentlich gerade wirklich, nicht, wie es sein sollte?“</h2>

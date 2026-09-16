@@ -10,7 +10,7 @@ import coverMomentNeu from "../assets/pic_Z_M.jpg";
 
 import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { LiquidGlass } from "@/components/liquid-glass";
-import { InstallHint } from "@/components/install-hint";
+import { InstallAction } from "@/components/install-action";
 import { Button } from "@/components/ui/button";
 
 
@@ -435,7 +435,7 @@ function Lichtblicke() {
                     Zum Magazin
                   </a>
 
-                  <InstallHint />
+                  <InstallAction />
                 </div>
 
               </LiquidGlass>
@@ -502,6 +502,7 @@ function Lichtblicke() {
         </div>
       </section>
 
+      <section className="audio-band py-10" aria-label="Audio-Karussell">
       <div
         ref={scrollerRef}
         role="group"
@@ -547,9 +548,11 @@ function Lichtblicke() {
       <p className="mt-2 px-5 text-center text-xs tracking-[0.02em] text-muted-foreground sm:px-7">
         Zum Wechseln seitlich wischen oder oben einen Punkt antippen
       </p>
+      </section>
 
 
-      <section className="mx-auto mt-10 w-full max-w-[430px] px-6 sm:px-7">
+      <section className="companion-band px-6 py-16 sm:px-7" aria-live="polite">
+        <div className="mx-auto w-full max-w-[430px]">
         {tracks.map((track, index) => {
           const isCurrent = index === activeIndex;
 
@@ -602,6 +605,7 @@ function Lichtblicke() {
             </div>
           );
         })}
+        </div>
       </section>
 
 
@@ -680,17 +684,23 @@ function Lichtblicke() {
             </a>
           </Button>
 
-          <div className="mt-14 border-t border-sage/25 pt-8">
-            <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-foreground/50">
-              Weiterhören
-            </p>
-            <Link
-              to="/"
-              className="mt-3 block font-display text-2xl font-semibold text-foreground"
-            >
-              Ausgabe 01 · Warum Ehrlichkeit Mut braucht
-            </Link>
-          </div>
+        </div>
+      </section>
+
+      <section className="continue-band px-6 py-14">
+        <div className="mx-auto max-w-[430px]">
+          <p className="text-[10px] font-semibold uppercase text-foreground/65">
+            Weiterhören · Ausgabe 01
+          </p>
+          <Link
+            to="/"
+            className="continue-link mt-3 font-display text-2xl font-semibold leading-tight text-foreground"
+          >
+            Warum Ehrlichkeit Mut braucht
+            <span className="mt-3 block text-sm font-medium text-foreground/70">
+              Zur Audio-Auszeit
+            </span>
+          </Link>
         </div>
       </section>
 
