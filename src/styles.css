@@ -631,7 +631,7 @@
 
 /* Weitere Abschnittshintergründe */
 .companion-band {
-  background: var(--companion-band);
+  background: var(--mineral-band);
 }
 
 .continue-band {
