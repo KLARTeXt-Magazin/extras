@@ -651,7 +651,7 @@
       rgb(246 242 235 / 0.16),
       rgb(193 176 148 / 0.24)
     ),
-    url("public/background-01.jpg");
+    url("/background-01.jpg");
 }
 
 
@@ -670,7 +670,7 @@
       rgb(246 242 235 / 0.12),
       rgb(193 176 148 / 0.20)
     ),
-    url("public/background-02.jpg");
+    url("/background-02.jpg");
 }
 
 
