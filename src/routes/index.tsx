@@ -31,7 +31,7 @@ import {
 import coverImageNeu from "@/assets/cover-moment-tactile.jpg";
 import { LiquidGlass } from "@/components/liquid-glass";
 import { InstallAction } from "@/components/install-action";
-import { ListeningMode } from "@/components/listening-mode";
+
 import { Button } from "@/components/ui/button";
 
 import {
@@ -713,24 +713,6 @@ function Index() {
           </div>
         </section>
 
-        <ListeningMode
-          open={listeningOpen}
-          onOpenChange={setListeningOpen}
-          title="Zeit für Dich"
-          eyebrow="Auszeit · Ausgabe 01"
-          cover={coverImageNeu}
-          isPlaying={isPlaying}
-          currentTime={currentTime}
-          duration={duration}
-          onTogglePlay={togglePlay}
-          onSkip={skip}
-          onSeek={(seconds) => {
-            const audio = audioRef.current;
-            if (!audio) return;
-            audio.currentTime = seconds;
-            setCurrentTime(seconds);
-          }}
-        />
 
 
         {/* =================================================
