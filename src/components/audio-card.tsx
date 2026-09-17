@@ -25,7 +25,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { ListeningMode } from "@/components/listening-mode";
 
 
 // =======================================================
@@ -157,8 +156,6 @@ export function AudioCard({
   const [duration, setDuration] =
     useState(0);
 
-  const [listeningOpen, setListeningOpen] =
-    useState(false);
 
 
   // -----------------------------------------------------
@@ -328,7 +325,6 @@ export function AudioCard({
 
       // Diese Kachel als aktive Audio melden
       onPlay(track.id);
-      setListeningOpen(true);
 
       try {
         await audio.play();
@@ -380,15 +376,14 @@ export function AudioCard({
   // =====================================================
 
   return (
-    <>
-      <article
-        className={`audio-player-card relative overflow-hidden rounded-[1.35rem] border p-3 ${
-          isActive
-            ? "is-active"
-            : "is-dimmed"
-        }`}
-        aria-label={track.title}
-      >
+    <article
+      className={`audio-player-card relative overflow-hidden rounded-[1.35rem] border p-3 ${
+        isActive
+          ? "is-active"
+          : "is-dimmed"
+      }`}
+      aria-label={track.title}
+    >
 
 
       {/* =================================================
@@ -680,26 +675,5 @@ export function AudioCard({
 
       </div>
     </article>
-
-      <ListeningMode
-        open={listeningOpen}
-        onOpenChange={setListeningOpen}
-        title={track.title}
-        eyebrow={track.eyebrow}
-        cover={track.cover}
-        isPlaying={isPlaying}
-        currentTime={currentTime}
-        duration={duration}
-        {...(track.duration ? { durationLabel: track.duration } : {})}
-        onTogglePlay={togglePlay}
-        onSkip={skip}
-        onSeek={(seconds) => {
-          const audio = audioRef.current;
-          if (!audio) return;
-          audio.currentTime = seconds;
-          setCurrentTime(seconds);
-        }}
-      />
-    </>
   );
 }
