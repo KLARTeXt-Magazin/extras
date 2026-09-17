@@ -23,10 +23,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Download, Menu } from "lucide-react";
 
-import coverMoment from "../assets/lichtblicke-moment.jpg";
-import coverNikolausNeu from "../assets/Pic1_N.jpg";
-import coverGrussNeu from "../assets/lichtblicke-weihnachtsgruss.jpg";
-import coverMomentNeu from "../assets/pic_Z_M.jpg";
+import coverMoment from "../assets/cover-pmr-tactile.jpg";
+import coverNikolausNeu from "../assets/cover-nikolaus-tactile.jpg";
+import coverGrussNeu from "../assets/cover-heiligabend-tactile.jpg";
+import coverMomentNeu from "../assets/cover-moment-tactile.jpg";
 
 import {
   AudioCard,
@@ -175,7 +175,7 @@ const tracks: AudioTrack[] = [
       "Ein kurzer Moment aus dem Adventskalender – zum Anhören am 6. Dezember.",
     cover: coverNikolausNeu,
     coverAlt:
-      "Brennende Kerze neben einem Tannenzweig auf dunklem Holz",
+      "Handgeschöpftes Papier, Olivenzweig und blaue Keramik auf Leinen",
     src: "/audio/2026-q4_extra01.m4a",
     ...(PREVIEW_UNLOCKED
       ? {}
@@ -200,7 +200,7 @@ const tracks: AudioTrack[] = [
       "Der zweite Lichtblick aus dem Adventskalender – zum Anhören an Heiligabend.",
     cover: coverGrussNeu,
     coverAlt:
-      "Warme Lichterkette hinter Leinentuch und Keramiktasse",
+      "Weinroter Stoff auf fliederfarbenem Papier mit kleiner Porzellanform",
     src: "/audio/2026-q4_extra02.m4a",
     ...(PREVIEW_UNLOCKED
       ? {}
@@ -225,7 +225,7 @@ const tracks: AudioTrack[] = [
       "Eine kurze Auszeit für dich, jederzeit abrufbar. Den Impuls kannst du dir auch ausdrucken.",
     cover: coverMomentNeu,
     coverAlt:
-      "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
+      "Fliederfarbenes Büttenpapier mit Keramikring und olivfarbenem Faden",
     src: "/audio/2026-q4_extra03.m4a",
     downloadUrl:
       "/pdf/2026-q4_Auszeit01.pdf",
@@ -245,7 +245,7 @@ const tracks: AudioTrack[] = [
       "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
     cover: coverMoment,
     coverAlt:
-      "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
+      "Helle und fliederfarbene Stofffalten mit dunkler Tonform",
     src:
       "/audio/2026-q4_extra03.m4a",
     credit:
@@ -342,9 +342,9 @@ function Lichtblicke() {
 
 
   // =====================================================
-  // CAROUSEL-BEOBACHTER
+  // CAROUSEL-AUSWAHL
   // Zweck:
-  // • erkennt automatisch, welche Audiokachel sichtbar ist
+  // • erkennt nach dem Wischen, welche Audiokachel sichtbar ist
   // • aktualisiert Punkte + Begleittext
   //
   // Nicht entfernen:
@@ -353,52 +353,44 @@ function Lichtblicke() {
 
   useEffect(() => {
     const scroller = scrollerRef.current;
-   
+
     if (!scroller) return;
-    const observer =
-      new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter(
-              (entry) =>
-                entry.isIntersecting,
-            )
-            .sort(
-              (a, b) =>
-                b.intersectionRatio -
-                a.intersectionRatio,
-            );
-          const top = visible[0];
-          if (!top) return;
-          const index =
-            slideRefs.current.findIndex(
-              (node) =>
-                node === top.target,
-            );
-          if (index >= 0) {
-            setActiveIndex(index);
-          }
-        },
-        {
-          root: scroller,
-          threshold: [
-            0.45,
-            0.6,
-            0.75,
-            0.9,
-          ],
-        },
-      );
 
-    slideRefs.current.forEach(
-      (slide) => {
-        if (slide)
-          observer.observe(slide);
-      },
-    );
+    let settleTimer: ReturnType<typeof setTimeout> | undefined;
 
-    return () =>
-      observer.disconnect();
+    const selectNearestSlide = () => {
+      const scrollerCenter =
+        scroller.getBoundingClientRect().left +
+        scroller.clientWidth / 2;
+
+      let nearestIndex = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+
+      slideRefs.current.forEach((slide, index) => {
+        if (!slide) return;
+        const rect = slide.getBoundingClientRect();
+        const distance = Math.abs(rect.left + rect.width / 2 - scrollerCenter);
+
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+
+      setActiveIndex(nearestIndex);
+    };
+
+    const handleScroll = () => {
+      if (settleTimer) clearTimeout(settleTimer);
+      settleTimer = setTimeout(selectNearestSlide, 140);
+    };
+
+    scroller.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      scroller.removeEventListener("scroll", handleScroll);
+      if (settleTimer) clearTimeout(settleTimer);
+    };
   }, []);
 
 
@@ -459,6 +451,8 @@ function Lichtblicke() {
   // =====================================================
 
   const goTo = (index: number) => {
+    setActiveIndex(index);
+
     const card =
       slideRefs.current[index];
 
@@ -706,65 +700,6 @@ function Lichtblicke() {
           </div>
 
 
-          {/* Carousel-Status */}
-          <div className="mt-8 flex items-center justify-between">
-
-            <p
-              className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground"
-              aria-live="polite"
-            >
-              Audio {activeIndex + 1} von{" "}
-              {tracks.length}
-            </p>
-
-
-            {/* Carousel-Punkte */}
-            <div
-              className="flex"
-              role="group"
-              aria-label="Audios wechseln"
-            >
-              {tracks.map(
-                (track, index) => (
-                  <button
-                    key={track.id}
-                    type="button"
-                    aria-current={
-                      index ===
-                      activeIndex
-                    }
-                    aria-label={`Audio ${
-                      index + 1
-                    } von ${
-                      tracks.length
-                    }: ${
-                      track.title
-                    }`}
-                    onClick={() =>
-                      goTo(index)
-                    }
-                    className="tap-target"
-                  >
-                    <span
-                      aria-hidden="true"
-                      aria-selected={
-                        index ===
-                        activeIndex
-                      }
-                      className={`carousel-dot ${
-                        index ===
-                        activeIndex
-                          ? "w-6"
-                          : "w-1.5"
-                      }`}
-                    />
-                  </button>
-                ),
-              )}
-            </div>
-
-          </div>
-
         </section>
 
 
@@ -786,10 +721,11 @@ function Lichtblicke() {
 //         ================================================= */}
 
 <section
-  className="audio-band audio-band--ausgabe-2 py-10"
+  className={`audio-band audio-band--ausgabe-2 audio-tone-${activeIndex + 1} py-10`}
   aria-label="Audio-Karussell"
 >
 
+          <div className="audio-carousel-shell mx-auto w-full max-w-[430px]">
           <div
             ref={scrollerRef}
             role="group"
@@ -863,10 +799,36 @@ function Lichtblicke() {
 
           </div>
 
+          <div className="mt-2 flex items-center justify-between gap-4 px-5 sm:px-7">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground" aria-live="polite">
+              Audio {activeIndex + 1} von {tracks.length}
+            </p>
+            <div className="flex" role="group" aria-label="Audios wechseln">
+              {tracks.map((track, index) => (
+                <Button
+                  key={track.id}
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  aria-current={index === activeIndex}
+                  aria-label={`Audio ${index + 1} von ${tracks.length}: ${track.title}`}
+                  onClick={() => goTo(index)}
+                  className="tap-target size-11 rounded-full"
+                >
+                  <span
+                    aria-hidden="true"
+                    aria-selected={index === activeIndex}
+                    className={`carousel-dot ${index === activeIndex ? "w-6" : "w-1.5"}`}
+                  />
+                </Button>
+              ))}
+            </div>
+          </div>
 
-          <p className="mt-2 px-5 text-center text-xs tracking-[0.02em] text-muted-foreground sm:px-7">
-            Zum Wechseln seitlich wischen oder oben einen Punkt antippen
+          <p className="px-5 pt-2 text-center text-xs tracking-[0.02em] text-muted-foreground sm:px-7">
+            Zum Wechseln seitlich wischen oder einen Punkt antippen
           </p>
+          </div>
 
         </section>
 
@@ -886,10 +848,11 @@ function Lichtblicke() {
 //         ================================================= */}
 
         <section
-          className="companion-band px-6 py-16 sm:px-7"
+          className={`companion-band companion-tone-${activeIndex + 1} px-6 pb-14 pt-9 sm:px-7`}
+          aria-label={`Begleitimpuls zu ${tracks[activeIndex]?.title ?? "diesem Audio"}`}
           aria-live="polite"
         >
-          <div className="mx-auto w-full max-w-[430px]">
+          <div className="companion-inner mx-auto w-full max-w-[430px] border-l-4 pl-5">
 
             {tracks.map(
               (track, index) => {
@@ -912,16 +875,16 @@ function Lichtblicke() {
                   >
 
                     <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
-                      {
-                        track.eyebrow
-                      }
+                      Begleitimpuls · {track.eyebrow}
                     </p>
 
-                    <p className="mt-4 font-display text-xl font-medium leading-8">
-                      {
-                        track.quote
-                      }
-                    </p>
+                    {track.quote ? (
+                      <p className="mt-4 font-display text-xl font-medium leading-8">
+                        {
+                          track.quote
+                        }
+                      </p>
+                    ) : null}
 
 
                     {track.note ? (
