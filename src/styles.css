@@ -653,8 +653,11 @@
   background-position: center;
   background-repeat: no-repeat;
 
+  /* Kacheln und Wisch-Hinweis stehen untereinander,
+     vertikal zentriert im Farbband */
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 
