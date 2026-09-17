@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ListeningMode } from "@/components/listening-mode";
 
 
 // =======================================================
@@ -49,8 +50,8 @@ export type AudioTrack = {
   // Haupttitel der Audio
   title: string;
 
-  // Begleitendes Zitat unterhalb des Carousels
-  quote: string;
+  // Begleitendes Zitat unterhalb des Carousels (optional)
+  quote?: string;
 
   // Optionaler Erklärungstext
   note?: string;
@@ -155,6 +156,9 @@ export function AudioCard({
 
   const [duration, setDuration] =
     useState(0);
+
+  const [listeningOpen, setListeningOpen] =
+    useState(false);
 
 
   // -----------------------------------------------------
@@ -324,6 +328,7 @@ export function AudioCard({
 
       // Diese Kachel als aktive Audio melden
       onPlay(track.id);
+      setListeningOpen(true);
 
       try {
         await audio.play();
@@ -375,14 +380,15 @@ export function AudioCard({
   // =====================================================
 
   return (
-    <article
-      className={`audio-player-card relative overflow-hidden rounded-[2rem] border p-3 ${
-        isActive
-          ? "is-active"
-          : "is-dimmed"
-      }`}
-      aria-label={track.title}
-    >
+    <>
+      <article
+        className={`audio-player-card relative overflow-hidden rounded-[1.35rem] border p-3 ${
+          isActive
+            ? "is-active"
+            : "is-dimmed"
+        }`}
+        aria-label={track.title}
+      >
 
 
       {/* =================================================
@@ -390,24 +396,6 @@ export function AudioCard({
           • dezenter Lichtreflex am oberen Kartenrand
           • rein dekorativ
          ================================================= */}
-
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent"
-        aria-hidden="true"
-      />
-
-
-      {/* =================================================
-          GLASS-GLOW
-          • sehr dezenter Lichtschein innerhalb der Karte
-          • rein dekorativ
-         ================================================= */}
-
-      <div
-        className="audio-card-glow pointer-events-none absolute -right-16 -top-16 z-0 size-48 rounded-full bg-white/10 blur-3xl"
-        aria-hidden="true"
-      />
-
 
       {/* =================================================
           AUDIO-ELEMENT
@@ -432,7 +420,7 @@ export function AudioCard({
           • optionaler Sperrzustand
          ================================================= */}
 
-      <div className="relative z-10 aspect-square overflow-hidden rounded-[1.45rem]">
+      <div className="relative z-10 aspect-[4/3] overflow-hidden rounded-[0.95rem]">
 
         <img
           src={track.cover}
@@ -449,7 +437,7 @@ export function AudioCard({
 
 
         {/* Kategorie / Datum */}
-        <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-black/10 px-3 py-1.5 text-[9px] font-medium uppercase tracking-[0.08em] text-white shadow-sm backdrop-blur-md">
+        <span className="audio-cover-badge absolute left-4 top-4 rounded-full border px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.08em] shadow-sm backdrop-blur-md">
           {track.eyebrow}
         </span>
 
@@ -464,14 +452,14 @@ export function AudioCard({
         {!unlocked ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/15 px-6 text-center backdrop-blur-[5px]">
 
-            <span className="flex size-12 items-center justify-center rounded-full border border-white/40 bg-white/15 text-white shadow-lg backdrop-blur-xl">
+            <span className="audio-lock flex size-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-xl">
               <Lock
                 className="size-5"
                 strokeWidth={1.5}
               />
             </span>
 
-            <p className="max-w-[15rem] text-sm font-medium leading-6 text-white drop-shadow-md">
+            <p className="max-w-[15rem] text-sm font-medium leading-6 text-listening drop-shadow-md">
               {track.unlockLabel}
             </p>
 
@@ -574,7 +562,7 @@ export function AudioCard({
 
 
               {/* Zeitangaben */}
-              <div className="mt-1 flex justify-between text-xs font-medium tabular-nums text-muted-foreground">
+              <div className="mt-1.5 flex justify-between text-sm font-medium tabular-nums text-foreground/75">
 
                 <span>
                   {formatTime(
@@ -609,7 +597,7 @@ export function AudioCard({
               <Button
                 variant="ghost"
                 size="icon"
-                className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
+                className="size-11 rounded-full text-muted-foreground transition-all hover:bg-secondary"
                 onClick={() =>
                   skip(-15)
                 }
@@ -649,7 +637,7 @@ export function AudioCard({
               <Button
                 variant="ghost"
                 size="icon"
-                className="size-11 rounded-full text-muted-foreground transition-all hover:bg-white/25"
+                className="size-11 rounded-full text-muted-foreground transition-all hover:bg-secondary"
                 onClick={() =>
                   skip(15)
                 }
@@ -692,5 +680,26 @@ export function AudioCard({
 
       </div>
     </article>
+
+      <ListeningMode
+        open={listeningOpen}
+        onOpenChange={setListeningOpen}
+        title={track.title}
+        eyebrow={track.eyebrow}
+        cover={track.cover}
+        isPlaying={isPlaying}
+        currentTime={currentTime}
+        duration={duration}
+        {...(track.duration ? { durationLabel: track.duration } : {})}
+        onTogglePlay={togglePlay}
+        onSkip={skip}
+        onSeek={(seconds) => {
+          const audio = audioRef.current;
+          if (!audio) return;
+          audio.currentTime = seconds;
+          setCurrentTime(seconds);
+        }}
+      />
+    </>
   );
 }
