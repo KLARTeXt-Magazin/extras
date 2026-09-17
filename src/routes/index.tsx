@@ -22,16 +22,13 @@ import { useEffect, useRef, useState } from "react";
 import {
   Download,
   Menu,
-  Pause,
   Play,
-  RotateCcw,
-  RotateCw,
 } from "lucide-react";
 
 import coverImageNeu from "@/assets/cover-moment-tactile.jpg";
 import { LiquidGlass } from "@/components/liquid-glass";
 import { InstallAction } from "@/components/install-action";
-
+import { ListeningMode } from "@/components/listening-mode";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -90,25 +87,6 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
-
-
-// =======================================================
-// AUDIO-ZEIT FORMATIEREN
-// Zweck:
-// • Sekunden → Minuten:Sekunden
-//
-// Nicht ändern, außer das Zeitformat soll sich ändern.
-// =======================================================
-
-function formatTime(seconds: number) {
-  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
-
-  const minutes = Math.floor(seconds / 60);
-
-  return `${minutes}:${String(
-    Math.floor(seconds % 60),
-  ).padStart(2, "0")}`;
-}
 
 
 // =======================================================
@@ -292,6 +270,19 @@ function Index() {
       audio.pause();
       setIsPlaying(false);
     }
+  };
+
+  const openListeningMode = async () => {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    if (audio.paused) {
+      await togglePlay();
+      return;
+    }
+
+    setListeningOpen(true);
   };
 
 
@@ -586,121 +577,26 @@ function Index() {
                 </div>
 
 
-                {/* Fortschrittsanzeige */}
                 <div className="mt-6">
-                  <label
-                    className="sr-only"
-                    htmlFor="audio-progress"
-                  >
-                    Wiedergabeposition in der Aufnahme
-                  </label>
-
-                  <input
-                    id="audio-progress"
-                    type="range"
-                    min={0}
-                    max={duration || 1}
-                    step={0.1}
-                    value={currentTime}
-                    aria-valuetext={`${formatTime(currentTime)} von ${formatTime(duration)} Minuten`}
-                    onChange={(event) => {
-                      const audio =
-                        audioRef.current;
-
-                      if (!audio) return;
-
-                      const next =
-                        Number(event.target.value);
-
-                      audio.currentTime = next;
-                      setCurrentTime(next);
-                    }}
-                    className="player-range w-full"
-                    style={
-                      {
-                        "--player-progress": `${
-                          duration
-                            ? (currentTime /
-                                duration) *
-                              100
-                            : 0
-                        }%`,
-                      } as React.CSSProperties
-                    }
-                  />
-
-                  <div className="mt-1.5 flex justify-between text-sm font-medium tabular-nums text-foreground/75">
-                    <span>
-                      {formatTime(currentTime)}
-                    </span>
-
-                    <span>
-                      {formatTime(duration)}
-                    </span>
-                  </div>
-                </div>
-
-
-                {/* Player-Bedienelemente */}
-                <div className="mt-4 flex items-center justify-center gap-8">
-
                   <Button
-                    variant="ghost"
-                    size="icon"
-                    className="size-11 rounded-full text-muted-foreground hover:bg-secondary"
-                    onClick={() => skip(-15)}
-                    aria-label="15 Sekunden zurückspringen"
-                  >
-                    <RotateCcw
-                      className="size-5"
-                      strokeWidth={1.4}
-                    />
-                  </Button>
-
-
-                  <Button
-                    className="size-[4.6rem] rounded-full bg-primary text-primary-foreground shadow-play hover:bg-primary/90 active:scale-95"
-                    onClick={togglePlay}
-                    aria-pressed={isPlaying}
+                    className="min-h-12 w-full justify-center gap-2 rounded-full bg-primary px-5 text-primary-foreground shadow-play hover:bg-primary/90"
+                    onClick={openListeningMode}
                     aria-label={
                       isPlaying
-                        ? 'Audio „Zeit für Dich“ pausieren'
-                        : 'Audio „Zeit für Dich“ abspielen'
+                        ? 'Hörmodus für „Zeit für Dich“ öffnen'
+                        : '„Zeit für Dich“ anhören'
                     }
                   >
-                    {isPlaying ? (
-                      <Pause className="size-7 fill-current" />
-                    ) : (
-                      <Play className="ml-1 size-7 fill-current" />
-                    )}
+                    <Play className="size-4 fill-current" aria-hidden="true" />
+                    {isPlaying ? "Hörmodus öffnen" : "Anhören"}
                   </Button>
 
-
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="size-11 rounded-full text-muted-foreground hover:bg-secondary"
-                    onClick={() => skip(15)}
-                    aria-label="15 Sekunden vorspringen"
-                  >
-                    <RotateCw
-                      className="size-5"
-                      strokeWidth={1.4}
-                    />
-                  </Button>
-
+                  {isPlaying ? (
+                    <p className="mt-3 text-center text-xs font-medium text-muted-foreground" aria-live="polite">
+                      Läuft gerade
+                    </p>
+                  ) : null}
                 </div>
-
-
-                {/* Status unter dem Player */}
-                <p
-                  className="mt-4 text-center text-xs text-muted-foreground"
-                  aria-live="polite"
-                >
-                  {isPlaying
-                    ? "Läuft gerade"
-                    : "Pausiert"}
-                </p>
 
               </div>
             </section>
@@ -713,6 +609,24 @@ function Index() {
           </div>
         </section>
 
+        <ListeningMode
+          open={listeningOpen}
+          onOpenChange={setListeningOpen}
+          title="Zeit für Dich"
+          eyebrow="Auszeit · Ausgabe 01"
+          cover={coverImageNeu}
+          isPlaying={isPlaying}
+          currentTime={currentTime}
+          duration={duration}
+          onTogglePlay={togglePlay}
+          onSkip={skip}
+          onSeek={(seconds) => {
+            const audio = audioRef.current;
+            if (!audio) return;
+            audio.currentTime = seconds;
+            setCurrentTime(seconds);
+          }}
+        />
 
 
         {/* =================================================
