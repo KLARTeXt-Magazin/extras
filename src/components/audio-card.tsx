@@ -1,3 +1,4 @@
+```tsx
 // =======================================================
 // KOMPONENTE: AUDIOCARD
 // Zweck:
@@ -27,67 +28,28 @@ import { ListeningMode } from "@/components/listening-mode";
 
 // =======================================================
 // DATENSTRUKTUR FÜR EINE AUDIO-KACHEL
-// Zweck:
-// • legt fest, welche Informationen eine AudioCard
-//   bekommen kann.
-//
-// Neue Inhalte werden normalerweise NICHT hier ergänzt,
-// sondern in `tracks` der jeweiligen Route.
-//
-// Hier wird nur festgelegt, welche Felder möglich sind.
 // =======================================================
 
 export type AudioTrack = {
-  // Interne ID – wichtig für Carousel und #Hash-Links
   id: string;
-
-  // Kleine Zeile über dem Titel, z. B. Datum / Kategorie
   eyebrow: string;
-
-  // Haupttitel der Audio
   title: string;
-
-  // Begleitendes Zitat unterhalb des Carousels (optional)
   quote?: string;
-
-  // Optionaler Erklärungstext
   note?: string;
-
-  // Coverbild der Audio
   cover: string;
-
-  // Beschreibung des Bildes für Accessibility
   coverAlt: string;
-
-  // Audio-Datei
   src: string;
-
-  // Optional: feste Dauer als Fallback
   duration?: string;
-
-  // Musik-/Quellenhinweis
   credit?: string;
-
-  // Optionales Zusatz-PDF
   downloadUrl?: string;
-
-  // Beschriftung des PDF-Buttons
   downloadLabel?: string;
-
-  // Optionaler Freischaltzeitpunkt
   unlockAt?: string;
-
-  // Text für gesperrte Audio
   unlockLabel?: string;
 };
 
 
 // =======================================================
 // ZEITFORMAT
-// Zweck:
-// • Sekunden → Minuten:Sekunden
-//
-// Wird vom Player und vom Fortschrittsbalken verwendet.
 // =======================================================
 
 export function formatTime(seconds: number) {
@@ -109,13 +71,6 @@ export function formatTime(seconds: number) {
 
 // =======================================================
 // AUDIOCARD
-// Zweck:
-// • einzelne vollständige Audiokachel
-//
-// Props:
-// • track   = Inhalt der Kachel
-// • isActive = Kachel darf aktiv abgespielt werden
-// • onPlay = meldet der Seite, welche Audio aktiv ist
 // =======================================================
 
 export function AudioCard({
@@ -130,8 +85,6 @@ export function AudioCard({
 
   // -----------------------------------------------------
   // AUDIO-ELEMENT
-  // • direkte Referenz auf das HTML-Audio-Element
-  // • notwendig für Play, Pause und Springen
   // -----------------------------------------------------
 
   const audioRef =
@@ -142,7 +95,6 @@ export function AudioCard({
 
   // -----------------------------------------------------
   // PLAYER-ZUSTAND
-  // • lokale Zustände dieser einen Audiokachel
   // -----------------------------------------------------
 
   const [isPlaying, setIsPlaying] =
@@ -160,9 +112,6 @@ export function AudioCard({
 
   // -----------------------------------------------------
   // FREISCHALTUNG
-  // • Audio ohne unlockAt ist sofort verfügbar
-  // • Audio mit unlockAt wird erst zum angegebenen
-  //   Zeitpunkt freigeschaltet
   // -----------------------------------------------------
 
   const [unlocked, setUnlocked] =
@@ -171,11 +120,6 @@ export function AudioCard({
 
   // =====================================================
   // FREISCHALTZEIT PRÜFEN
-  // Zweck:
-  // • prüft, ob ein geplantes Audio bereits verfügbar ist
-  //
-  // Später ändern:
-  // • normalerweise nichts
   // =====================================================
 
   useEffect(() => {
@@ -192,12 +136,13 @@ export function AudioCard({
 
   // =====================================================
   // AUDIO-EVENTS
-  // Zweck:
-  // • hält React-Zustand und Audio-Element synchron
-  // • erkennt Wiedergabe, Dauer und Ende
   //
-  // Nicht unnötig ändern:
-  // • wichtig für den Player
+  // WICHTIG:
+  // `pause` setzt nur den lokalen Wiedergabestatus zurück.
+  // Es wird NICHT mehr automatisch `onPlay(null)` aufgerufen.
+  //
+  // Nur `ended` meldet der übergeordneten Seite,
+  // dass wirklich kein Track mehr aktiv ist.
   // =====================================================
 
   useEffect(() => {
@@ -225,8 +170,20 @@ export function AudioCard({
       );
 
 
-    // Audio wurde pausiert oder beendet
-    const stop = () => {
+    // Audio startet tatsächlich
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
+
+
+    // Audio wird pausiert
+    const handlePause = () => {
+      setIsPlaying(false);
+    };
+
+
+    // Audio ist vollständig zu Ende
+    const handleEnded = () => {
       setIsPlaying(false);
       onPlay(null);
     };
@@ -248,13 +205,18 @@ export function AudioCard({
     );
 
     audio.addEventListener(
-      "ended",
-      stop,
+      "play",
+      handlePlay,
     );
 
     audio.addEventListener(
       "pause",
-      stop,
+      handlePause,
+    );
+
+    audio.addEventListener(
+      "ended",
+      handleEnded,
     );
 
 
@@ -275,13 +237,18 @@ export function AudioCard({
       );
 
       audio.removeEventListener(
-        "ended",
-        stop,
+        "play",
+        handlePlay,
       );
 
       audio.removeEventListener(
         "pause",
-        stop,
+        handlePause,
+      );
+
+      audio.removeEventListener(
+        "ended",
+        handleEnded,
       );
     };
   }, [onPlay, unlocked]);
@@ -289,11 +256,9 @@ export function AudioCard({
 
   // =====================================================
   // NUR EINE AUDIO GLEICHZEITIG
-  // Zweck:
-  // • pausiert diese Audio, wenn sie nicht mehr aktiv ist
   //
-  // Wichtig für das Carousel:
-  // • beim Wechseln wird die vorherige Audio gestoppt
+  // Wenn eine andere Karte aktiv wird, wird diese Audio
+  // pausiert.
   // =====================================================
 
   useEffect(() => {
@@ -309,9 +274,6 @@ export function AudioCard({
 
   // =====================================================
   // PLAY / PAUSE
-  // Zweck:
-  // • startet oder pausiert die aktuelle Audio
-  // • meldet aktive Audio an die übergeordnete Seite
   // =====================================================
 
   const togglePlay = async () => {
@@ -321,29 +283,42 @@ export function AudioCard({
     if (!audio) return;
 
 
+    // ---------------------------------------------------
+    // PLAY
+    // ---------------------------------------------------
+
     if (audio.paused) {
 
-      // Diese Kachel als aktive Audio melden
+      // Diese Karte als aktive Audio melden
       onPlay(track.id);
+
       setListeningOpen(true);
 
       try {
         await audio.play();
-
-        setIsPlaying(true);
       } catch {
         setIsPlaying(false);
         onPlay(null);
       }
 
+
+    // ---------------------------------------------------
+    // PAUSE
+    // ---------------------------------------------------
+
     } else {
 
       audio.pause();
 
-      setIsPlaying(false);
-      onPlay(null);
+      // Der pause-Event setzt isPlaying zurück.
+      // Hier NICHT noch einmal onPlay(null) aufrufen.
     }
   };
+
+
+  // =====================================================
+  // HÖRMODUS ÖFFNEN
+  // =====================================================
 
   const openListeningMode = async () => {
     const audio = audioRef.current;
@@ -361,8 +336,6 @@ export function AudioCard({
 
   // =====================================================
   // AUDIO SPRINGEN
-  // Zweck:
-  // • 15 Sekunden zurück / vor
   // =====================================================
 
   const skip = (
@@ -400,138 +373,141 @@ export function AudioCard({
         aria-label={track.title}
       >
 
+        {/* =================================================
+            AUDIO-ELEMENT
+           ================================================= */}
 
-      {/* =================================================
-          FEINE LICHTKANTE
-          • dezenter Lichtreflex am oberen Kartenrand
-          • rein dekorativ
-         ================================================= */}
-
-      {/* =================================================
-          AUDIO-ELEMENT
-          • wird bei gesperrten Audios bewusst nicht geladen
-          • src kommt aus track.src
-         ================================================= */}
-
-      {unlocked ? (
-        <audio
-          ref={audioRef}
-          src={track.src}
-          preload="metadata"
-        />
-      ) : null}
-
-
-      {/* =================================================
-          COVER-BEREICH
-          Zweck:
-          • Audio-Bild
-          • Kategorie / Datum
-          • optionaler Sperrzustand
-         ================================================= */}
-
-      <div className="relative z-10 aspect-[4/3] overflow-hidden rounded-[0.95rem]">
-
-        <img
-          src={track.cover}
-          alt={track.coverAlt}
-          width={1024}
-          height={1024}
-          loading="lazy"
-          className={`h-full w-full object-cover transition-all duration-700 ${
-            unlocked
-              ? ""
-              : "scale-105 blur-lg saturate-50"
-          }`}
-        />
-
-
-        {/* Kategorie / Datum */}
-        <span className="audio-cover-badge absolute left-4 top-4 rounded-full border px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.08em] shadow-sm backdrop-blur-md">
-          {track.eyebrow}
-        </span>
+        {unlocked ? (
+          <audio
+            ref={audioRef}
+            src={track.src}
+            preload="metadata"
+          />
+        ) : null}
 
 
         {/* =================================================
-            GESPERRTER ZUSTAND
-            • Cover bleibt sichtbar
-            • Audio selbst wird nicht geladen
-            • unlockLabel erklärt den Zeitpunkt
+            COVER-BEREICH
            ================================================= */}
 
-        {!unlocked ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/15 px-6 text-center backdrop-blur-[5px]">
+        <div className="relative z-10 aspect-[4/3] overflow-hidden rounded-[0.95rem]">
 
-            <span className="audio-lock flex size-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-xl">
-              <Lock
-                className="size-5"
-                strokeWidth={1.5}
-              />
-            </span>
+          <img
+            src={track.cover}
+            alt={track.coverAlt}
+            width={1024}
+            height={1024}
+            loading="lazy"
+            className={`h-full w-full object-cover transition-all duration-700 ${
+              unlocked
+                ? ""
+                : "scale-105 blur-lg saturate-50"
+            }`}
+          />
 
-            <p className="max-w-[15rem] text-sm font-medium leading-6 text-listening drop-shadow-md">
+
+          {/* Kategorie / Datum */}
+
+          <span className="audio-cover-badge absolute left-4 top-4 rounded-full border px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.08em] shadow-sm backdrop-blur-md">
+            {track.eyebrow}
+          </span>
+
+
+          {/* =================================================
+              GESPERRTER ZUSTAND
+             ================================================= */}
+
+          {!unlocked ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/15 px-6 text-center backdrop-blur-[5px]">
+
+              <span className="audio-lock flex size-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-xl">
+                <Lock
+                  className="size-5"
+                  strokeWidth={1.5}
+                />
+              </span>
+
+              <p className="max-w-[15rem] text-sm font-medium leading-6 text-listening drop-shadow-md">
+                {track.unlockLabel}
+              </p>
+
+            </div>
+          ) : null}
+
+        </div>
+
+
+        {/* =================================================
+            AUDIO-INHALT
+           ================================================= */}
+
+        <div className="relative z-10 px-3 pb-4 pt-5">
+
+          {/* Audio-Titel */}
+
+          <h3 className="font-display text-2xl font-medium leading-tight">
+            {track.title}
+          </h3>
+
+
+          {unlocked ? (
+
+            <div className="mt-6">
+
+              <Button
+                className="min-h-12 w-full justify-center gap-2 rounded-full bg-primary px-5 text-primary-foreground shadow-play hover:bg-primary/90"
+                onClick={openListeningMode}
+                aria-label={
+                  isPlaying
+                    ? `Hörmodus für „${track.title}“ öffnen`
+                    : `„${track.title}“ anhören`
+                }
+              >
+
+                <Play
+                  className="size-4 fill-current"
+                  aria-hidden="true"
+                />
+
+                {isPlaying
+                  ? "Hörmodus öffnen"
+                  : "Anhören"}
+
+              </Button>
+
+
+              {isPlaying ? (
+                <p
+                  className="mt-3 text-center text-xs font-medium text-muted-foreground"
+                  aria-live="polite"
+                >
+                  Läuft gerade
+                </p>
+              ) : null}
+
+            </div>
+
+          ) : (
+
+            /* =================================================
+               GESPERRTER PLAYER
+               ================================================= */
+
+            <p className="mt-5 text-sm leading-6 text-muted-foreground">
+              Noch nicht verfügbar.{" "}
               {track.unlockLabel}
             </p>
 
-          </div>
-        ) : null}
+          )}
 
-      </div>
+        </div>
 
-
-      {/* =================================================
-          AUDIO-INHALT
-          Zweck:
-          • Titel
-          • Einstieg in den großflächigen Hörmodus
-         ================================================= */}
-
-      <div className="relative z-10 px-3 pb-4 pt-5">
-
-        {/* Audio-Titel */}
-        <h3 className="font-display text-2xl font-medium leading-tight">
-          {track.title}
-        </h3>
+      </article>
 
 
-        {unlocked ? (
-          <div className="mt-6">
-            <Button
-              className="min-h-12 w-full justify-center gap-2 rounded-full bg-primary px-5 text-primary-foreground shadow-play hover:bg-primary/90"
-              onClick={openListeningMode}
-              aria-label={
-                isPlaying
-                  ? `Hörmodus für „${track.title}“ öffnen`
-                  : `„${track.title}“ anhören`
-              }
-            >
-              <Play className="size-4 fill-current" aria-hidden="true" />
-              {isPlaying ? "Hörmodus öffnen" : "Anhören"}
-            </Button>
-
-            {isPlaying ? (
-              <p className="mt-3 text-center text-xs font-medium text-muted-foreground" aria-live="polite">
-                Läuft gerade
-              </p>
-            ) : null}
-          </div>
-
-        ) : (
-
-          /* =================================================
-             GESPERRTER PLAYER
-             • kein Player
-             • nur Hinweis auf Freischaltung
-             ================================================= */
-
-          <p className="mt-5 text-sm leading-6 text-muted-foreground">
-            Noch nicht verfügbar.{" "}
-            {track.unlockLabel}
-          </p>
-        )}
-
-      </div>
-    </article>
+      {/* ===================================================
+          GROSSER HÖRMODUS
+         =================================================== */}
 
       <ListeningMode
         open={listeningOpen}
@@ -542,16 +518,29 @@ export function AudioCard({
         isPlaying={isPlaying}
         currentTime={currentTime}
         duration={duration}
-        {...(track.duration ? { durationLabel: track.duration } : {})}
+        {...(track.duration
+          ? {
+              durationLabel:
+                track.duration,
+            }
+          : {})}
         onTogglePlay={togglePlay}
         onSkip={skip}
         onSeek={(seconds) => {
-          const audio = audioRef.current;
+          const audio =
+            audioRef.current;
+
           if (!audio) return;
-          audio.currentTime = seconds;
-          setCurrentTime(seconds);
+
+          audio.currentTime =
+            seconds;
+
+          setCurrentTime(
+            seconds,
+          );
         }}
       />
     </>
   );
 }
+```
