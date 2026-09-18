@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { useId, type CSSProperties } from "react";
 import { Pause, Play, RotateCcw, RotateCw, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -44,6 +44,7 @@ export function ListeningMode({
   onSkip,
   onSeek,
 }: ListeningModeProps) {
+  const progressId = useId();
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
   return (
@@ -72,32 +73,46 @@ export function ListeningMode({
             <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-listening-muted">
               {eyebrow}
             </p>
+
             <DialogTitle className="mt-3 max-w-sm font-display text-[2.6rem] font-semibold leading-[0.98] text-listening">
               {title}
             </DialogTitle>
+
             <DialogDescription className="sr-only">
               Großflächige Höransicht für „{title}“
             </DialogDescription>
 
             <div className="mt-10">
-              <label className="sr-only" htmlFor={`listening-progress-${title}`}>
+              <label className="sr-only" htmlFor={progressId}>
                 Wiedergabeposition in „{title}“
               </label>
+
               <input
-                id={`listening-progress-${title}`}
+                id={progressId}
                 type="range"
                 min={0}
                 max={duration || 1}
                 step={0.1}
                 value={currentTime}
                 onChange={(event) => onSeek(Number(event.target.value))}
-                aria-valuetext={`${formatTime(currentTime)} von ${duration ? formatTime(duration) : durationLabel ?? "unbekannt"} Minuten`}
+                aria-valuetext={`${formatTime(currentTime)} von ${
+                  duration
+                    ? formatTime(duration)
+                    : durationLabel ?? "unbekannt"
+                } Minuten`}
                 className="player-range listening-range w-full"
-                style={{ "--player-progress": `${progress}%` } as CSSProperties}
+                style={
+                  {
+                    "--player-progress": `${progress}%`,
+                  } as CSSProperties
+                }
               />
+
               <div className="mt-2 flex justify-between text-sm font-semibold tabular-nums text-listening-muted">
                 <span>{formatTime(currentTime)}</span>
-                <span>{duration ? formatTime(duration) : durationLabel ?? "—"}</span>
+                <span>
+                  {duration ? formatTime(duration) : durationLabel ?? "—"}
+                </span>
               </div>
             </div>
 
@@ -111,18 +126,30 @@ export function ListeningMode({
               >
                 <RotateCcw className="size-5" aria-hidden="true" />
               </Button>
+
               <Button
                 className="listening-play size-20 rounded-full"
                 onClick={onTogglePlay}
                 aria-pressed={isPlaying}
-                aria-label={isPlaying ? `„${title}“ pausieren` : `„${title}“ abspielen`}
+                aria-label={
+                  isPlaying
+                    ? `„${title}“ pausieren`
+                    : `„${title}“ abspielen`
+                }
               >
                 {isPlaying ? (
-                  <Pause className="size-8 fill-current" aria-hidden="true" />
+                  <Pause
+                    className="size-8 fill-current"
+                    aria-hidden="true"
+                  />
                 ) : (
-                  <Play className="ml-1 size-8 fill-current" aria-hidden="true" />
+                  <Play
+                    className="ml-1 size-8 fill-current"
+                    aria-hidden="true"
+                  />
                 )}
               </Button>
+
               <Button
                 variant="ghost"
                 size="icon"
@@ -133,7 +160,11 @@ export function ListeningMode({
                 <RotateCw className="size-5" aria-hidden="true" />
               </Button>
             </div>
-            <p className="mt-5 text-center text-xs font-medium text-listening-muted" aria-live="polite">
+
+            <p
+              className="mt-5 text-center text-xs font-medium text-listening-muted"
+              aria-live="polite"
+            >
               {isPlaying ? "Läuft gerade" : "Pausiert"}
             </p>
           </div>
