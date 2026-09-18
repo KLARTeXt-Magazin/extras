@@ -75,23 +75,83 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Stillness — Audio für Achtsamkeit" },
-      { name: "description", content: "Scanne den QR-Code und tauche ein in eine kurze Audio-Übung für mehr Achtsamkeit und Ruhe." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Stillness — Audio für Achtsamkeit" },
-      { property: "og:description", content: "Scanne den QR-Code und tauche ein in eine kurze Audio-Übung für mehr Achtsamkeit und Ruhe." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "theme-color", content: "#F6F4E9" },
-      { name: "apple-mobile-web-app-capable", content: "yes" },
-      { name: "mobile-web-app-capable", content: "yes" },
-      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
-      { name: "apple-mobile-web-app-title", content: "KLARTeXt." },
-      { name: "application-name", content: "KLARTeXt." },
-    ],
+  {
+    charSet: "utf-8",
+  },
+  {
+    name: "viewport",
+    content:
+      "width=device-width, initial-scale=1",
+  },
+
+  {
+    title:
+      "KLARTeXt. Extras – Audio & Impulse",
+  },
+
+  {
+    name: "description",
+    content:
+      "Audio-Extras, Übungen und Impulse zu den Ausgaben von KLARTeXt.",
+  },
+
+  {
+    name: "author",
+    content: "KLARTeXt.",
+  },
+
+  {
+    property: "og:title",
+    content:
+      "KLARTeXt. Extras – Audio & Impulse",
+  },
+
+  {
+    property: "og:description",
+    content:
+      "Audio-Extras, Übungen und Impulse zu den Ausgaben von KLARTeXt.",
+  },
+
+  {
+    property: "og:type",
+    content: "website",
+  },
+
+  {
+    name: "twitter:card",
+    content: "summary_large_image",
+  },
+
+  {
+    name: "theme-color",
+    content: "#F6F4E9",
+  },
+
+  {
+    name: "apple-mobile-web-app-capable",
+    content: "yes",
+  },
+
+  {
+    name: "mobile-web-app-capable",
+    content: "yes",
+  },
+
+  {
+    name: "apple-mobile-web-app-status-bar-style",
+    content: "default",
+  },
+
+  {
+    name: "apple-mobile-web-app-title",
+    content: "KLARTeXt.",
+  },
+
+  {
+    name: "application-name",
+    content: "KLARTeXt.",
+  },
+],
     links: [
       {
         rel: "stylesheet",
