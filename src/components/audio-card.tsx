@@ -1,4 +1,3 @@
-```tsx
 // =======================================================
 // KOMPONENTE: AUDIOCARD
 // Zweck:
@@ -543,4 +542,3 @@ export function AudioCard({
     </>
   );
 }
-```
