@@ -1219,3 +1219,722 @@
     scroll-behavior: auto !important;
   }
 }
+/* =======================================================
+   KLARTeXt. EXTRAS — FARBWELT 2026
+   =======================================================
+
+   DESIGNPRINZIP:
+
+   WARM FOUNDATION
+   → Linen / Pearl / Sand
+
+   DEEP IDENTITY
+   → Wine / Midnight / Aubergine / Deep Green
+
+   CLEAR ACCENT
+   → Blush / Lavender / Mint / Lime / Orange
+
+   Die Audio-Kachel selbst bleibt hell und gläsern.
+   Die FARBE sitzt in der Welt um die Kachel.
+
+   Ziel:
+   Warm genug für KLARTeXt.
+   Modern genug für die Extras.
+   Expressiv genug, um nicht wie eine beige
+   Lifestyle-/KI-Website auszusehen.
+   ======================================================= */
+
+
+/* =======================================================
+   01 — KLARTeXt. CORE PALETTE
+   ======================================================= */
+
+:root {
+
+  /* -----------------------------------------------------
+     LIGHT FOUNDATION
+     ----------------------------------------------------- */
+
+  --linen: #FAF0E6;
+  --pearl: #FFFFFA;
+
+  /* -----------------------------------------------------
+     WARM MATERIAL
+     Verbindung zum Magazin
+     ----------------------------------------------------- */
+
+  --sand: #9A785D;
+  --clay: #BC9E87;
+
+  /* -----------------------------------------------------
+     DEEP CHROMATIC
+     eigentliche Identität der Extras
+     ----------------------------------------------------- */
+
+  --wine: #4A0404;
+  --deep-wine: #3A0C0C;
+
+  --midnight: #08071D;
+  --deep-violet: #272757;
+
+  --aubergine: #30130D;
+
+  --deep-green: #093412;
+  --deep-blue: #072D5C;
+
+  /* -----------------------------------------------------
+     SOFT CHROMATIC
+     weich, aber nicht muddy
+     ----------------------------------------------------- */
+
+  --blush: #E484AC;
+  --mauve: #AA8ECE;
+  --lavender: #B6B6D6;
+  --periwinkle: #9A9FDA;
+
+  --mint: #C6F5D0;
+  --honeydew: #EAFFDA;
+
+  /* -----------------------------------------------------
+     CLEAR POP
+     sparsam verwenden
+     ----------------------------------------------------- */
+
+  --pink-pop: #FAA3FC;
+  --lime-pop: #B6E826;
+  --orange-pop: #FF5E29;
+
+  /* -----------------------------------------------------
+     EXISTING SEMANTIC COLORS
+     ----------------------------------------------------- */
+
+  --background: var(--linen);
+  --foreground: #260808;
+
+  --card: var(--pearl);
+  --card-foreground: #260808;
+
+  --popover: var(--pearl);
+  --popover-foreground: #260808;
+
+  /* Hauptfarbe:
+     nicht mehr neutrales Braun,
+     sondern KLARTeXt. Wine */
+
+  --primary: var(--wine);
+  --primary-foreground: var(--pearl);
+
+  /* Secondary bleibt warm,
+     damit die Verbindung zum Magazin erhalten bleibt */
+
+  --secondary: #E8DCCB;
+  --secondary-foreground: #260808;
+
+  /* ruhige Flächen */
+
+  --muted: #EEE7DD;
+  --muted-foreground: #705F55;
+
+  /* Accent:
+     warmes, klares Pink */
+
+  --accent: var(--blush);
+  --accent-foreground: #260808;
+
+  /* Linien */
+
+  --border: rgb(74 4 4 / 0.16);
+  --input: rgb(74 4 4 / 0.20);
+
+  --ring: var(--wine);
+
+  /* Glass */
+
+  --surface: rgb(255 255 250 / 0.58);
+
+  --panel-border:
+    rgb(255 255 250 / 0.72);
+
+  --light: #FFFFFA;
+}
+
+
+/* =======================================================
+   02 — BASIS
+   ======================================================= */
+
+body {
+  background:
+    var(--linen);
+
+  color:
+    var(--foreground);
+}
+
+
+/* =======================================================
+   03 — LIQUID GLASS
+   =======================================================
+
+   Wichtig:
+   Nicht beige färben.
+
+   Das Glass bleibt hell.
+   Die Farbe kommt von der Fläche darunter.
+   ======================================================= */
+
+.liquid-glass {
+  background:
+    linear-gradient(
+      145deg,
+      rgb(255 255 250 / 0.62),
+      rgb(255 255 250 / 0.20)
+    );
+
+  border-color:
+    rgb(255 255 250 / 0.70);
+
+  box-shadow:
+    0 24px 70px rgb(38 8 8 / 0.10),
+    inset 0 1px 0 rgb(255 255 250 / 0.90),
+    inset 0 -1px 0 rgb(255 255 250 / 0.14);
+
+  backdrop-filter:
+    blur(22px)
+    saturate(135%);
+
+  -webkit-backdrop-filter:
+    blur(22px)
+    saturate(135%);
+}
+
+
+/* =======================================================
+   04 — HEADER GLASS
+   ======================================================= */
+
+.liquid-glass-button {
+  border-color:
+    rgb(255 255 250 / 0.72) !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgb(255 255 250 / 0.62),
+      rgb(255 255 250 / 0.18)
+    ) !important;
+
+  box-shadow:
+    0 10px 30px rgb(38 8 8 / 0.08),
+    inset 0 1px 0 rgb(255 255 250 / 0.88);
+
+  backdrop-filter:
+    blur(18px)
+    saturate(140%);
+
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(140%);
+}
+
+.liquid-glass-button:hover {
+  background:
+    linear-gradient(
+      145deg,
+      rgb(255 255 250 / 0.78),
+      rgb(255 255 250 / 0.25)
+    ) !important;
+
+  box-shadow:
+    0 14px 34px rgb(38 8 8 / 0.12),
+    inset 0 1px 0 rgb(255 255 250 / 0.94);
+}
+
+
+/* =======================================================
+   05 — HERO
+   ======================================================= */
+
+.hero-presentation {
+  background:
+    var(--linen);
+}
+
+
+/* =======================================================
+   06 — AUDIO-KACHEL
+   =======================================================
+
+   DIE KACHEL BLEIBT NEUTRAL.
+
+   Kein blau.
+   Kein Burgundy.
+   Kein Sand.
+
+   Sie liegt wie ein Objekt auf der farbigen Fläche.
+   ======================================================= */
+
+.audio-player-card {
+
+  background:
+    linear-gradient(
+      145deg,
+      rgb(255 255 250 / 0.54),
+      rgb(255 255 250 / 0.22)
+    );
+
+  border-color:
+    rgb(255 255 250 / 0.78);
+
+  box-shadow:
+    0 26px 70px rgb(38 8 8 / 0.14),
+    inset 0 1px 0 rgb(255 255 250 / 0.96),
+    inset 0 -1px 0 rgb(255 255 250 / 0.18);
+
+  backdrop-filter:
+    blur(24px)
+    saturate(138%);
+
+  -webkit-backdrop-filter:
+    blur(24px)
+    saturate(138%);
+}
+
+
+/* Lichtreflex */
+
+.audio-player-card::before {
+  background:
+    linear-gradient(
+      135deg,
+      rgb(255 255 250 / 0.34),
+      transparent 32%,
+      transparent 70%,
+      rgb(255 255 250 / 0.10)
+    );
+
+  opacity: 0.82;
+}
+
+
+/* =======================================================
+   07 — AUDIO-SECTIONEN
+   =======================================================
+
+   Hier kommt die eigentliche Expressivität rein.
+
+   Die Karte bleibt neutral.
+   Die Umgebung bekommt die Farbe.
+   ======================================================= */
+
+.audio-band {
+  position: relative;
+  isolation: isolate;
+
+  transition:
+    background-color 700ms ease,
+    color 500ms ease;
+
+  overflow: hidden;
+}
+
+
+/* -------------------------------------------------------
+   AUSGABE 01
+   WINE + BLUSH
+
+   Warm genug für KLARTeXt.
+   Tief genug für deine Präferenz.
+   ------------------------------------------------------- */
+
+.audio-band--ausgabe-1 {
+  background:
+    var(--wine);
+
+  color:
+    var(--pearl);
+}
+
+
+/* -------------------------------------------------------
+   AUSGABE 02
+   MIDNIGHT / VIOLET + LAVENDER
+
+   Moderner, stärkerer digitaler Kontrast.
+   ------------------------------------------------------- */
+
+.audio-band--ausgabe-2 {
+  background:
+    var(--deep-violet);
+
+  color:
+    var(--pearl);
+}
+
+
+/* =======================================================
+   08 — AUDIO-TONES
+   =======================================================
+
+   Nicht vier Beige-Abstufungen.
+
+   Jede Kachel bekommt eine echte chromatische Identität.
+   ======================================================= */
+
+
+/* Tone 1
+   Wine + Blush */
+
+.audio-band.audio-tone-1,
+.companion-band.companion-tone-1 {
+  background:
+    var(--wine);
+
+  color:
+    var(--pearl);
+}
+
+.audio-band.audio-tone-1 {
+  --section-accent: var(--blush);
+}
+
+
+/* Tone 2
+   Midnight + Lavender */
+
+.audio-band.audio-tone-2,
+.companion-band.companion-tone-2 {
+  background:
+    var(--midnight);
+
+  color:
+    var(--pearl);
+}
+
+.audio-band.audio-tone-2 {
+  --section-accent: var(--lavender);
+}
+
+
+/* Tone 3
+   Deep Green + Mint */
+
+.audio-band.audio-tone-3,
+.companion-band.companion-tone-3 {
+  background:
+    var(--deep-green);
+
+  color:
+    var(--pearl);
+}
+
+.audio-band.audio-tone-3 {
+  --section-accent: var(--mint);
+}
+
+
+/* Tone 4
+   Deep Blue + Pink/Orange */
+
+.audio-band.audio-tone-4,
+.companion-band.companion-tone-4 {
+  background:
+    var(--deep-blue);
+
+  color:
+    var(--pearl);
+}
+
+.audio-band.audio-tone-4 {
+  --section-accent: var(--pink-pop);
+}
+
+
+/* =======================================================
+   09 — ORGANISCHE FARBAKZENTE
+   =======================================================
+
+   Kein Verlauf als Hauptdesign.
+   Nur sehr subtiler Farbimpuls.
+   ======================================================= */
+
+.audio-band::after {
+  content: "";
+
+  position: absolute;
+
+  width: 190px;
+  height: 190px;
+
+  right: -70px;
+  top: 16%;
+
+  border-radius: 999px;
+
+  background:
+    var(--section-accent, var(--blush));
+
+  opacity: 0.11;
+
+  filter:
+    blur(34px);
+
+  pointer-events: none;
+
+  z-index: -1;
+
+  transform:
+    rotate(-12deg);
+}
+
+
+/* zweite organische Form */
+
+.audio-band::before {
+  content: "";
+
+  position: absolute;
+
+  width: 130px;
+  height: 130px;
+
+  left: -65px;
+  bottom: 12%;
+
+  border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%;
+
+  background:
+    var(--section-accent, var(--blush));
+
+  opacity: 0.075;
+
+  filter:
+    blur(28px);
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+
+/* =======================================================
+   10 — COMPANION SECTION
+   ======================================================= */
+
+.companion-band {
+  border-top:
+    1px solid
+    rgb(255 255 250 / 0.24);
+
+  transition:
+    background-color 600ms ease,
+    border-color 400ms ease;
+}
+
+
+/* Companion-Innenfläche */
+
+.companion-inner {
+  border-color:
+    rgb(255 255 250 / 0.34);
+}
+
+
+/* =======================================================
+   11 — WEITERFÜHRENDE SECTIONS
+   ======================================================= */
+
+.continue-band {
+  background:
+    var(--linen);
+}
+
+
+/* =======================================================
+   12 — ISSUE MENU
+   ======================================================= */
+
+.issue-panel {
+  background:
+    linear-gradient(
+      145deg,
+      rgb(255 255 250 / 0.94),
+      rgb(250 240 230 / 0.91)
+    );
+
+  border-color:
+    rgb(255 255 250 / 0.74);
+
+  box-shadow:
+    0 24px 70px rgb(38 8 8 / 0.16),
+    inset 0 1px 0 rgb(255 255 250 / 0.92),
+    inset 0 -1px 0 rgb(255 255 250 / 0.14);
+}
+
+
+/* Aktuelle Ausgabe */
+
+.issue-entry-current {
+  background:
+    color-mix(
+      in srgb,
+      var(--wine) 8%,
+      transparent
+    );
+
+  box-shadow:
+    inset 3px 0 0 var(--wine);
+}
+
+
+/* Hover */
+
+.issue-entry:hover {
+  background:
+    color-mix(
+      in srgb,
+      var(--blush) 13%,
+      transparent
+    );
+}
+
+
+/* =======================================================
+   13 — PLAYER
+   ======================================================= */
+
+.player-range {
+
+  background:
+    linear-gradient(
+      to right,
+      var(--primary)
+        0
+        var(--player-progress),
+      rgb(74 4 4 / 0.14)
+        var(--player-progress)
+        100%
+    );
+}
+
+
+.player-range::-webkit-slider-thumb {
+  background:
+    var(--primary);
+
+  box-shadow:
+    0 0 0 1px var(--primary),
+    0 2px 8px rgb(38 8 8 / 0.20);
+}
+
+
+.player-range::-moz-range-thumb {
+  background:
+    var(--primary);
+}
+
+
+/* =======================================================
+   14 — PLAY BUTTON
+   =======================================================
+
+   Der Button bleibt Teil der KLARTeXt.-Identität:
+   Wine statt neutralem Braun.
+   ======================================================= */
+
+.shadow-play {
+  box-shadow:
+    0 12px 24px
+    color-mix(
+      in srgb,
+      var(--wine) 28%,
+      transparent
+    );
+}
+
+
+/* =======================================================
+   15 — BADGES / LOCKS
+   ======================================================= */
+
+.audio-cover-badge,
+.audio-lock {
+
+  border-color:
+    rgb(255 255 250 / 0.48);
+
+  background:
+    rgb(38 8 8 / 0.58);
+
+  color:
+    var(--pearl);
+
+  backdrop-filter:
+    blur(14px)
+    saturate(125%);
+
+  -webkit-backdrop-filter:
+    blur(14px)
+    saturate(125%);
+}
+
+
+/* =======================================================
+   16 — FOOTER
+   ======================================================= */
+
+footer.bg-primary {
+  background:
+    var(--wine) !important;
+
+  color:
+    var(--pearl);
+}
+
+
+/* =======================================================
+   17 — SMALL POPS
+   =======================================================
+
+   Utility classes für spätere Inhalte.
+   ======================================================= */
+
+.kl-pop-pink {
+  color: var(--pink-pop);
+}
+
+.kl-pop-lavender {
+  color: var(--lavender);
+}
+
+.kl-pop-mint {
+  color: var(--mint);
+}
+
+.kl-pop-lime {
+  color: var(--lime-pop);
+}
+
+.kl-pop-orange {
+  color: var(--orange-pop);
+}
+
+
+/* =======================================================
+   18 — SEHR WICHTIG:
+   KEINE FARBSUPPE
+   =======================================================
+
+   Die Seite benutzt NICHT alle Farben gleichzeitig.
+
+   Primär:
+   Linen + Wine
+
+   Ausgabe 02:
+   Pearl/Linen + Deep Violet
+
+   Tone:
+   maximal eine zusätzliche Accent-Farbe.
+
+   Dadurch bleibt die Seite ruhig UND expressiv.
+   ======================================================= */
