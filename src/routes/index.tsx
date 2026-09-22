@@ -551,7 +551,7 @@ function Index() {
            ================================================= */}
 
 <section
-  className="audio-band audio-band--ausgabe-1 audio-tone-3"
+  className="audio-band audio-band--ausgabe-1"
 
   aria-label="Audio"
 >
@@ -587,6 +587,10 @@ function Index() {
                     <h2 className="audio-art-title">
                       ZEIT FÜR DICH.
                     </h2>
+
+                    <p className="mt-1 truncate text-xs text-muted-foreground">
+                      „Du musst nicht immer stark sein."
+                    </p>
 
                   </div>
                 </div>
