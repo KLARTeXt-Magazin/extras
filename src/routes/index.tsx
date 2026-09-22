@@ -588,10 +588,6 @@ function Index() {
                       ZEIT FÜR DICH.
                     </h2>
 
-                    <p className="mt-1 truncate text-xs text-muted-foreground">
-                      „Du musst nicht immer stark sein."
-                    </p>
-
                   </div>
                 </div>
 

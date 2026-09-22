@@ -2809,10 +2809,10 @@ body {
 }
 
 .audio-player-card .audio-art-title {
-  max-width: 10ch;
+  max-width: 16ch;
   color: var(--primary-foreground);
-  font-size: clamp(2.55rem, 11vw, 4rem);
-  line-height: 0.86;
+  font-size: clamp(1.7rem, 8vw, 2.6rem);
+  line-height: 0.92;
   text-transform: uppercase;
 }
 
@@ -2870,17 +2870,31 @@ body {
   color: var(--audio-accent-ink);
 }
 
-/* Titel negativ auf Ton-Farbe statt neutralem Braun */
+/* Kachel hell in der Ton-Farbe statt dunklem Braun */
 .audio-band[class*="audio-tone-"] .audio-player-card {
-  background: var(--audio-accent-ink);
+  background: var(--audio-accent);
+  border-color: color-mix(in srgb, var(--audio-accent-ink) 18%, transparent);
 }
 
 .audio-band[class*="audio-tone-"] .audio-player-card .audio-art-title {
-  color: var(--audio-accent);
+  color: var(--audio-accent-ink);
 }
 
 .audio-band[class*="audio-tone-"] .audio-player-card .audio-track-title {
-  color: color-mix(in srgb, var(--audio-accent) 75%, white);
+  color: color-mix(in srgb, var(--audio-accent-ink) 78%, transparent);
+}
+
+.audio-band[class*="audio-tone-"] .audio-player-card .bg-primary {
+  background: var(--audio-accent-ink);
+  color: var(--audio-accent);
+}
+
+.audio-band[class*="audio-tone-"] .audio-player-card .bg-primary:hover {
+  background: color-mix(in srgb, var(--audio-accent-ink) 88%, black);
+}
+
+.audio-band[class*="audio-tone-"] .audio-player-card .text-muted-foreground {
+  color: color-mix(in srgb, var(--audio-accent-ink) 65%, transparent);
 }
 
 .audio-carousel-shell {
