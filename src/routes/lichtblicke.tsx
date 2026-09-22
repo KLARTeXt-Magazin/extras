@@ -169,6 +169,7 @@ const tracks: AudioTrack[] = [
   {
     id: "nikolaus",
     eyebrow: "6. Dezember",
+    title: "Einen Moment zum Nikolaus.",
     quote:
       "„Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“",
     note:
@@ -193,6 +194,7 @@ const tracks: AudioTrack[] = [
   {
     id: "heiligabend",
     eyebrow: "24. Dezember",
+     title: "Ein Moment an Heiligabend.",
     quote:
       "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
     note:
@@ -217,6 +219,7 @@ const tracks: AudioTrack[] = [
   {
     id: "moment",
     eyebrow: "Achtsamkeitsübung",
+    title: "Ein kleiner Moment für dich.",
     quote:
       "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
     note:
@@ -238,6 +241,7 @@ const tracks: AudioTrack[] = [
     id: "pmr",
     eyebrow:
       "Progressive Muskelentspannung",
+    title: "Spannung trifft Entspannung.",
     note:
       "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
     cover: coverMoment,
