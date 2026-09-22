@@ -193,7 +193,6 @@ const tracks: AudioTrack[] = [
   {
     id: "heiligabend",
     eyebrow: "24. Dezember",
-    title:
     quote:
       "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
     note:
