@@ -169,7 +169,6 @@ const tracks: AudioTrack[] = [
   {
     id: "nikolaus",
     eyebrow: "6. Dezember",
-    title: "Einen Moment zum Nikolaus",
     quote:
       "„Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“",
     note:
@@ -177,7 +176,7 @@ const tracks: AudioTrack[] = [
     cover: coverNikolausNeu,
     coverAlt:
       "Editoriales Stillleben aus petrolfarbenem Papier, eisblauem Transparentpapier, Silberfaden und roter Beere",
-    coverWord: "LICHT BLICK.",
+    coverWord: "Einen Moment zum Nikolaus.",
     src: "/audio/2026-q4_extra01.m4a",
     ...(PREVIEW_UNLOCKED
       ? {}
@@ -195,7 +194,6 @@ const tracks: AudioTrack[] = [
     id: "heiligabend",
     eyebrow: "24. Dezember",
     title:
-      "Ein Moment an Heiligabend",
     quote:
       "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
     note:
@@ -203,7 +201,7 @@ const tracks: AudioTrack[] = [
     cover: coverGrussNeu,
     coverAlt:
       "Editoriales Stillleben aus weinrotem Samt, lavendelfarbenem Acryl und rosafarbener Kerze",
-    coverWord: "HEUTE GENUG.",
+    coverWord: "Ein Moment an Heiligabend.",
     src: "/audio/2026-q4_extra02.m4a",
     ...(PREVIEW_UNLOCKED
       ? {}
@@ -220,8 +218,6 @@ const tracks: AudioTrack[] = [
   {
     id: "moment",
     eyebrow: "Achtsamkeitsübung",
-    title:
-      "Ein kleiner Moment für dich",
     quote:
       "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
     note:
@@ -229,7 +225,7 @@ const tracks: AudioTrack[] = [
     cover: coverMomentNeu,
     coverAlt:
       "Abstrakte Collage aus auberginefarbenem Papier, Flieder, blauem Band und pinkfarbenem Blütenblatt",
-    coverWord: "NUR FÜR DICH.",
+    coverWord: "Ein kleiner Moment für dich.",
     src: "/audio/2026-q4_extra03.m4a",
     downloadUrl:
       "/pdf/moment-fuer-dich-begleitimpuls.pdf",
@@ -243,14 +239,12 @@ const tracks: AudioTrack[] = [
     id: "pmr",
     eyebrow:
       "Progressive Muskelentspannung",
-    title:
-      "Spannung trifft Entspannung",
     note:
       "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
     cover: coverMoment,
     coverAlt:
       "Materialstudie aus gerafftem mitternachtsblauem Stoff, lavendelfarbenem Band und mintfarbenem Stein",
-    coverWord: "LÖSEN. LOS.",
+    coverWord: "Spannung trifft Entspannung.",
     src:
       "/audio/2026-q4_extra03.m4a",
     credit:
