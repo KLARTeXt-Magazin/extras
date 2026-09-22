@@ -169,89 +169,55 @@ const tracks: AudioTrack[] = [
   {
     id: "nikolaus",
     eyebrow: "6. Dezember",
-    title: "Einen Moment zum Nikolaus.",
+    title: "Einen Moment zum Nikolaus",
     quote:
       "„Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“",
-    note:
-      "Ein kurzer Moment aus dem Adventskalender – zum Anhören am 6. Dezember.",
-    cover: coverNikolausNeu,
+    cover: coverNikolaus,
     coverAlt:
-      "Editoriales Stillleben aus petrolfarbenem Papier, eisblauem Transparentpapier, Silberfaden und roter Beere",
-    coverWord: "Einen Moment zum Nikolaus.",
+      "Brennende Kerze neben einem Tannenzweig auf dunklem Holz",
     src: "/audio/2026-q4_extra01.m4a",
-    ...(PREVIEW_UNLOCKED
-      ? {}
-      : {
-          unlockAt:
-            "2026-12-06T00:00:00+01:00",
-        }),
+    unlockAt:
+      "2026-12-06T00:00:00+01:00",
     unlockLabel:
       "Öffnet sich am 6. Dezember",
     credit:
       "Music by Alexandr Kazantsev from Pixabay · Content License Pixabay.",
   },
-
   {
     id: "heiligabend",
     eyebrow: "24. Dezember",
-     title: "Ein Moment an Heiligabend.",
+    title:
+      "Ein kleiner Weihnachtsimpuls für dich",
     quote:
-      "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
-    note:
-      "Der zweite Lichtblick aus dem Adventskalender – zum Anhören an Heiligabend.",
-    cover: coverGrussNeu,
+      "„Nicht das Perfekte zählt, sondern das Gemeinsame und Bewusste im Augenblick.“",
+    cover: coverGruss,
     coverAlt:
-      "Editoriales Stillleben aus weinrotem Samt, lavendelfarbenem Acryl und rosafarbener Kerze",
-    coverWord: "Ein Moment an Heiligabend.",
+      "Warme Lichterkette hinter Leinentuch und Keramiktasse",
     src: "/audio/2026-q4_extra02.m4a",
-    ...(PREVIEW_UNLOCKED
-      ? {}
-      : {
-          unlockAt:
-            "2026-12-24T00:00:00+01:00",
-        }),
+    unlockAt:
+      "2026-12-24T00:00:00+01:00",
     unlockLabel:
       "Öffnet sich am 24. Dezember",
     credit:
       "Music by AudioCoffee (audiocoffee.net) / Denys Kyshchuk from Pixabay · Content License Pixabay.",
   },
-
   {
     id: "moment",
     eyebrow: "Achtsamkeitsübung",
-    title: "Ein kleiner Moment für dich.",
+    title:
+      "Ein kleiner Moment für dich",
     quote:
       "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
-    note:
-      "Eine kurze Auszeit für dich, jederzeit abrufbar. Den Impuls kannst du dir auch ausdrucken.",
-    cover: coverMomentNeu,
-    coverAlt:
-      "Abstrakte Collage aus auberginefarbenem Papier, Flieder, blauem Band und pinkfarbenem Blütenblatt",
-    coverWord: "Ein kleiner Moment für dich.",
-    src: "/audio/2026-q4_extra03.m4a",
-    downloadUrl:
-      "/pdf/moment-fuer-dich-begleitimpuls.pdf",
-    downloadLabel:
-      "Impuls zum Downloaden",
-    credit:
-      "Music by Elijah K from Pixabay · Content License Pixabay.",
-  },
-
-  {
-    id: "pmr",
-    eyebrow:
-      "Progressive Muskelentspannung",
-    title: "Spannung trifft Entspannung.",
-    note:
-      "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
     cover: coverMoment,
     coverAlt:
-      "Materialstudie aus gerafftem mitternachtsblauem Stoff, lavendelfarbenem Band und mintfarbenem Stein",
-    coverWord: "Spannung trifft Entspannung.",
-    src:
-      "/audio/2026-q4_extra03.m4a",
+      "Helle Keramikschale und Wolldecke an einem winterlichen Fenster",
+    src: "/audio/2026-q4_extra03.m4a",
+    downloadUrl:
+      "/pdf/2026-q4_Auszeit01.pdf",
+    downloadLabel:
+      "Impuls zum Ausdrucken",
     credit:
-      "Music by ",
+      "Music by Elijah K from Pixabay · Content License Pixabay.",
   },
 ];
 
