@@ -37,6 +37,7 @@ export type AudioTrack = {
   note?: string;
   cover: string;
   coverAlt: string;
+  coverWord?: string;
   src: string;
   duration?: string;
   credit?: string;
@@ -76,10 +77,12 @@ export function AudioCard({
   track,
   isActive,
   onPlay,
+  tone,
 }: {
   track: AudioTrack;
   isActive: boolean;
   onPlay: (id: string | null) => void;
+  tone: "wine" | "petrol" | "violet" | "midnight";
 }) {
 
   // -----------------------------------------------------
@@ -364,11 +367,7 @@ export function AudioCard({
   return (
     <>
       <article
-        className={`audio-player-card relative overflow-hidden rounded-[1.35rem] border p-3 ${
-          isActive
-            ? "is-active"
-            : "is-dimmed"
-        }`}
+        className="audio-player-card is-active relative overflow-hidden rounded-[1.35rem] border p-3"
         aria-label={track.title}
       >
 
@@ -389,7 +388,7 @@ export function AudioCard({
             COVER-BEREICH
            ================================================= */}
 
-        <div className="relative z-10 aspect-[4/3] overflow-hidden rounded-[0.95rem]">
+        <div className="audio-cover-layout audio-cover-layout--image-only relative z-10 aspect-[4/3] overflow-hidden rounded-[0.95rem]">
 
           <img
             src={track.cover}
@@ -397,13 +396,12 @@ export function AudioCard({
             width={1024}
             height={1024}
             loading="lazy"
-            className={`h-full w-full object-cover transition-all duration-700 ${
+            className={`audio-cover-image h-full w-full object-cover transition-all duration-700 ${
               unlocked
                 ? ""
                 : "scale-105 blur-lg saturate-50"
             }`}
           />
-
 
           {/* Kategorie / Datum */}
 
@@ -444,9 +442,13 @@ export function AudioCard({
 
           {/* Audio-Titel */}
 
-          <h3 className="font-display text-2xl font-medium leading-tight">
-            {track.title}
+          <h3 className={track.coverWord ? "audio-art-title" : "font-display text-2xl font-medium leading-tight"}>
+            {track.coverWord ?? track.title}
           </h3>
+
+          {track.coverWord ? (
+            <p className="audio-track-title">{track.title}</p>
+          ) : null}
 
 
           {unlocked ? (
@@ -538,6 +540,7 @@ export function AudioCard({
             seconds,
           );
         }}
+        tone={tone}
       />
     </>
   );

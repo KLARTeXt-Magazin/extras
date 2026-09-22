@@ -21,12 +21,12 @@
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Download, Menu } from "lucide-react";
+import { Download, Menu, Smartphone } from "lucide-react";
 
-import coverMoment from "../assets/cover-pmr-tactile.jpg";
-import coverNikolausNeu from "../assets/cover-nikolaus-tactile.jpg";
-import coverGrussNeu from "../assets/cover-heiligabend-tactile.jpg";
-import coverMomentNeu from "../assets/cover-moment-tactile.jpg";
+import coverMoment from "../assets/cover-pmr-collage-v3.jpg";
+import coverNikolausNeu from "../assets/cover-nikolaus-collage-v3.jpg";
+import coverGrussNeu from "../assets/cover-heiligabend-collage-v3.jpg";
+import coverMomentNeu from "../assets/cover-moment-collage-v3.jpg";
 
 import {
   AudioCard,
@@ -35,6 +35,7 @@ import {
 
 import { LiquidGlass } from "@/components/liquid-glass";
 import { InstallAction } from "@/components/install-action";
+import { HomescreenGuide } from "@/components/homescreen-guide";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -175,7 +176,8 @@ const tracks: AudioTrack[] = [
       "Ein kurzer Moment aus dem Adventskalender – zum Anhören am 6. Dezember.",
     cover: coverNikolausNeu,
     coverAlt:
-      "Handgeschöpftes Papier, Olivenzweig und blaue Keramik auf Leinen",
+      "Editoriales Stillleben aus petrolfarbenem Papier, eisblauem Transparentpapier, Silberfaden und roter Beere",
+    coverWord: "LICHT BLICK.",
     src: "/audio/2026-q4_extra01.m4a",
     ...(PREVIEW_UNLOCKED
       ? {}
@@ -200,7 +202,8 @@ const tracks: AudioTrack[] = [
       "Der zweite Lichtblick aus dem Adventskalender – zum Anhören an Heiligabend.",
     cover: coverGrussNeu,
     coverAlt:
-      "Weinroter Stoff auf fliederfarbenem Papier mit kleiner Porzellanform",
+      "Editoriales Stillleben aus weinrotem Samt, lavendelfarbenem Acryl und rosafarbener Kerze",
+    coverWord: "HEUTE GENUG.",
     src: "/audio/2026-q4_extra02.m4a",
     ...(PREVIEW_UNLOCKED
       ? {}
@@ -225,10 +228,11 @@ const tracks: AudioTrack[] = [
       "Eine kurze Auszeit für dich, jederzeit abrufbar. Den Impuls kannst du dir auch ausdrucken.",
     cover: coverMomentNeu,
     coverAlt:
-      "Fliederfarbenes Büttenpapier mit Keramikring und olivfarbenem Faden",
+      "Abstrakte Collage aus auberginefarbenem Papier, Flieder, blauem Band und pinkfarbenem Blütenblatt",
+    coverWord: "NUR FÜR DICH.",
     src: "/audio/2026-q4_extra03.m4a",
     downloadUrl:
-      "/pdf/2026-q4_Auszeit01.pdf",
+      "/pdf/moment-fuer-dich-begleitimpuls.pdf",
     downloadLabel:
       "Impuls zum Downloaden",
     credit:
@@ -245,7 +249,8 @@ const tracks: AudioTrack[] = [
       "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
     cover: coverMoment,
     coverAlt:
-      "Helle und fliederfarbene Stofffalten mit dunkler Tonform",
+      "Materialstudie aus gerafftem mitternachtsblauem Stoff, lavendelfarbenem Band und mintfarbenem Stein",
+    coverWord: "LÖSEN. LOS.",
     src:
       "/audio/2026-q4_extra03.m4a",
     credit:
@@ -519,12 +524,24 @@ function Lichtblicke() {
               <img
                 src="/logo.png"
                 alt="KLARTeXt."
-                className="h-10 w-auto"
+                className="site-logo"
               />
             </a>
 
 
             {/* Ausgaben-Menü */}
+            <div className="flex items-center gap-2">
+              <Button
+                asChild
+                variant="outline"
+                className="install-guide-jump h-10 rounded-full px-3"
+              >
+                <a href="#app-installieren" aria-label="Zur Anleitung: Als App speichern">
+                  <Smartphone className="size-4" />
+                  <span>App speichern</span>
+                </a>
+              </Button>
+
             <Sheet>
 
               <SheetTrigger asChild>
@@ -544,10 +561,10 @@ function Lichtblicke() {
 
               <SheetContent
                 side="right"
-                className="issue-sheet w-[92%] border-0 bg-transparent p-3 shadow-none sm:max-w-sm"
+                className="issue-sheet w-full border-0 bg-transparent p-0 shadow-none sm:w-[92%] sm:max-w-sm sm:p-3"
               >
                 <LiquidGlass
-                  className="issue-panel h-full w-full overflow-y-auto rounded-[2rem]"
+                  className="issue-panel h-full w-full overflow-y-auto rounded-none sm:rounded-[2rem]"
                   intensity="strong"
                 >
                   <div className="px-7 py-10">
@@ -658,6 +675,7 @@ function Lichtblicke() {
                 </LiquidGlass>
               </SheetContent>
             </Sheet>
+            </div>
 
           </div>
         </header>
@@ -675,8 +693,9 @@ function Lichtblicke() {
             • Beschreibung
            ================================================= */}
 
+        <div className="editorial-stage">
         <section
-          className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-10 pt-24 sm:px-7 ${
+          className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-10 sm:px-7 ${
             presentationCompact
               ? "is-compact"
               : ""
@@ -725,7 +744,7 @@ function Lichtblicke() {
   aria-label="Audio-Karussell"
 >
 
-          <div className="audio-carousel-shell mx-auto w-full max-w-[430px]">
+          <div className="audio-carousel-shell mx-auto w-full max-w-[860px]">
           <div
             ref={scrollerRef}
             role="group"
@@ -778,7 +797,7 @@ function Lichtblicke() {
                       index
                     ] = node;
                   }}
-                  className="w-[86%] max-w-[380px] shrink-0 snap-start"
+                  className="w-[calc(100%-2.5rem)] max-w-[380px] shrink-0 snap-start"
                 >
 
                   <AudioCard
@@ -790,6 +809,9 @@ function Lichtblicke() {
                     }
                     onPlay={
                       setActiveId
+                    }
+                    tone={
+                      (["petrol", "wine", "violet", "midnight"] as const)[index] ?? "wine"
                     }
                   />
 
@@ -825,12 +847,14 @@ function Lichtblicke() {
             </div>
           </div>
 
-          <p className="px-5 pt-2 text-center text-xs tracking-[0.02em] text-muted-foreground sm:px-7">
-            Zum Wechseln seitlich wischen oder einen Punkt antippen
+          <p className="carousel-change-hint px-5 pt-2 text-center text-xs sm:px-7">
+            Mitwischen: Audio, Farbe und Begleitimpuls wechseln gemeinsam
           </p>
           </div>
 
         </section>
+
+        </div>
 
 
         {/* =================================================
@@ -874,8 +898,8 @@ function Lichtblicke() {
                     }`}
                   >
 
-                    <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
-                      Begleitimpuls · {track.eyebrow}
+                    <p className="companion-kicker text-[10px] font-medium uppercase tracking-[0.12em]">
+                      Audio {index + 1} · Begleitimpuls · {track.eyebrow}
                     </p>
 
                     {track.quote ? (
@@ -919,7 +943,7 @@ function Lichtblicke() {
 
 
                     {track.credit ? (
-                      <p className="mt-7 text-[10px] leading-5 text-muted-foreground/70">
+                      <p className="mt-7 text-[10px] leading-5 text-muted-foreground">
                         {
                           track.credit
                         }
@@ -953,7 +977,7 @@ function Lichtblicke() {
 //          nicht Teil der Audiokachel.
 //         ================================================= */}
 
-        <section className="mt-16 border-t border-border bg-sage-soft px-6 py-20">
+        <section className="pmr-band mt-16 px-6 py-20">
 
           <div className="mx-auto max-w-[430px]">
 
@@ -1045,7 +1069,7 @@ function Lichtblicke() {
               className="mt-8 h-12 rounded-full border-sage/45 bg-background/45 px-5 text-sage-foreground shadow-none"
             >
               <a
-                href="/pdf/2026-q4_Auszeit01.pdf"
+                href="/pdf/pmr-spannung-trifft-entspannung.pdf"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -1135,6 +1159,10 @@ function Lichtblicke() {
 
             </nav>
 
+          </div>
+
+          <div className="mx-auto max-w-[430px]">
+            <HomescreenGuide />
           </div>
 
         </footer>
