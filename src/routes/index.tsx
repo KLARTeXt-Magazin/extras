@@ -551,7 +551,7 @@ function Index() {
            ================================================= */}
 
 <section
-  className="audio-band audio-band--ausgabe-1"
+  className="audio-band audio-band--ausgabe-1 audio-tone-3"
 
   aria-label="Audio"
 >
