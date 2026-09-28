@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
  */
 
 const PHASES = [
-  { label: "Einatmen", hint: "vier Sekunden", duration: 4000, grow: true },
-  { label: "Ausatmen", hint: "sechs Sekunden", duration: 6000, grow: false },
+  { label: "Einatmen", hint: "vier Sekunden", duration: 4000, mode: "in" },
+  { label: "Halten", hint: "vier Sekunden", duration: 4000, mode: "full" },
+  { label: "Ausatmen", hint: "vier Sekunden", duration: 4000, mode: "out" },
+  { label: "Halten", hint: "vier Sekunden", duration: 4000, mode: "empty" },
 ] as const;
 
 const SESSION_KEY = "klartext-breath-intro";
@@ -33,8 +35,14 @@ export function BreathIntro() {
 
     const total = PHASES.reduce((sum, item) => sum + item.duration, 0);
 
+    let t = 0;
+    PHASES.forEach((p, i) => {
+      t += p.duration;
+      if (i < PHASES.length - 1) {
+        timers.current.push(window.setTimeout(() => setPhase(i + 1), t));
+      }
+    });
     timers.current.push(
-      window.setTimeout(() => setPhase(1), PHASES[0].duration),
       window.setTimeout(() => setIsLeaving(true), total),
       window.setTimeout(() => setIsVisible(false), total + 700),
     );
@@ -64,7 +72,7 @@ export function BreathIntro() {
     >
       <div className="breath-intro__stage">
         <div
-          className={`breath-intro__art${current.grow ? " is-in" : " is-out"}`}
+         className={`breath-intro__art is-${current.mode}`}
           style={{ animationDuration: `${current.duration}ms` }}
           aria-hidden="true"
         >
