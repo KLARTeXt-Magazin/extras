@@ -52,7 +52,7 @@ export function ListeningMode({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className={`listening-mode listening-tone-${tone} fixed inset-0 left-0 top-0 z-[70] h-[100dvh] max-h-none w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden border-0 p-0 shadow-none sm:rounded-none [&>button]:hidden`}
+        className={`listening-mode listening-tone-${tone} fixed inset-0 left-0 top-0 z-[150] h-[100dvh] max-h-none w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden border-0 p-0 shadow-none sm:rounded-none [&>button]:hidden`}
         style={{ "--listening-image": `url(${cover})` } as CSSProperties}
       >
         <div className="listening-mode__image" aria-hidden="true" />
@@ -63,11 +63,11 @@ export function ListeningMode({
             <Button
               variant="ghost"
               size="icon"
-              className="listening-control size-11 rounded-full"
+              className="listening-control listening-close size-12 rounded-full"
               onClick={() => onOpenChange(false)}
               aria-label="Höransicht schließen"
             >
-              <X className="size-5" aria-hidden="true" />
+              <X className="size-6" strokeWidth={2.5} aria-hidden="true" />
             </Button>
           </div>
 
