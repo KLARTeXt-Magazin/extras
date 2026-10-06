@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { BreathIntro } from "../components/breath-intro";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -76,23 +77,99 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
-    ],
+  {
+    charSet: "utf-8",
+  },
+  {
+    name: "viewport",
+    content:
+      "width=device-width, initial-scale=1, viewport-fit=cover",
+  },
+
+  {
+    title:
+      "KLARTeXt. Extras – Audio & Impulse",
+  },
+
+  {
+    name: "description",
+    content:
+      "Audio-Extras, Übungen und Impulse zu den Ausgaben von KLARTeXt.",
+  },
+
+  {
+    name: "author",
+    content: "KLARTeXt.",
+  },
+
+  {
+    property: "og:title",
+    content:
+      "KLARTeXt. Extras – Audio & Impulse",
+  },
+
+  {
+    property: "og:description",
+    content:
+      "Audio-Extras, Übungen und Impulse zu den Ausgaben von KLARTeXt.",
+  },
+
+  {
+    property: "og:type",
+    content: "website",
+  },
+
+  {
+    name: "twitter:card",
+    content: "summary_large_image",
+  },
+
+  {
+    name: "theme-color",
+    content: "#F6F4E9",
+  },
+
+  {
+    name: "apple-mobile-web-app-capable",
+    content: "yes",
+  },
+
+  {
+    name: "mobile-web-app-capable",
+    content: "yes",
+  },
+
+  {
+    name: "apple-mobile-web-app-status-bar-style",
+    content: "black-translucent",
+  },
+
+  {
+    name: "apple-mobile-web-app-title",
+    content: "KLARTeXt.",
+  },
+
+  {
+    name: "application-name",
+    content: "KLARTeXt.",
+  },
+],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -103,7 +180,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="de">
       <head>
         <HeadContent />
       </head>
@@ -120,6 +197,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <BreathIntro />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
