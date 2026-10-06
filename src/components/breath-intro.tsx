@@ -1,0 +1,92 @@
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+
+/**
+ * Ruhige Atem-Sequenz beim Öffnen der App (nur als installierte Web-App).
+ * Einatmen · Ausatmen, dann öffnet sich die Seite.
+ */
+
+const PHASES = [
+  { label: "Einatmen", hint: "vier Sekunden", duration: 4000, mode: "in" },
+  { label: "Halten", hint: "vier Sekunden", duration: 4000, mode: "full" },
+  { label: "Ausatmen", hint: "vier Sekunden", duration: 4000, mode: "out" },
+  { label: "Halten", hint: "vier Sekunden", duration: 4000, mode: "empty" },
+] as const;
+
+const SESSION_KEY = "klartext-breath-intro";
+
+export function BreathIntro() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(false);
+  const [phase, setPhase] = useState(0);
+  const timers = useRef<number[]>([]);
+
+  useEffect(() => {
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const seen = window.sessionStorage.getItem(SESSION_KEY) === "1";
+
+    if (!standalone || reduced || seen) return;
+
+    window.sessionStorage.setItem(SESSION_KEY, "1");
+    setIsVisible(true);
+
+    const total = PHASES.reduce((sum, item) => sum + item.duration, 0);
+
+    let t = 0;
+    PHASES.forEach((p, i) => {
+      t += p.duration;
+      if (i < PHASES.length - 1) {
+        timers.current.push(window.setTimeout(() => setPhase(i + 1), t));
+      }
+    });
+    timers.current.push(
+      window.setTimeout(() => setIsLeaving(true), total),
+      window.setTimeout(() => setIsVisible(false), total + 700),
+    );
+
+    return () => {
+      timers.current.forEach((id) => window.clearTimeout(id));
+      timers.current = [];
+    };
+  }, []);
+
+  if (!isVisible) return null;
+
+  const current = PHASES[phase] ?? PHASES[0];
+
+  const skip = () => {
+    timers.current.forEach((id) => window.clearTimeout(id));
+    timers.current = [];
+    setIsLeaving(true);
+    window.setTimeout(() => setIsVisible(false), 500);
+  };
+
+  return (
+    <div
+      className={`breath-intro${isLeaving ? " is-leaving" : ""}`}
+      role="status"
+      aria-live="polite"
+    >
+      <div className="breath-intro__stage">
+        <div
+         className={`breath-intro__art is-${current.mode}`}
+          style={{ animationDuration: `${current.duration}ms` }}
+          aria-hidden="true"
+        >
+          <span className="breath-blob breath-blob--outer" />
+          <span className="breath-blob breath-blob--mid" />
+          <span className="breath-blob breath-blob--core" />
+        </div>
+        <p className="breath-intro__label">{current.label}</p>
+        <p className="breath-intro__hint">{current.hint}</p>
+      </div>
+
+      <Button type="button" variant="ghost" className="breath-intro__skip" onClick={skip}>
+        Überspringen
+      </Button>
+    </div>
+  );
+}
