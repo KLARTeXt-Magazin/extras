@@ -136,7 +136,20 @@ export function SiteFooter() {
         </nav>
       </div>
 
+      <p className="mx-auto mt-6 max-w-[430px] text-[10px] leading-relaxed opacity-70">
+        Schriften:{" "}
+        <a className="underline underline-offset-2" href="/font-licenses/syne-OFL.txt" target="_blank" rel="noreferrer">
+          Syne
+        </a>
+        {" "}und{" "}
+        <a className="underline underline-offset-2" href="/font-licenses/plus-jakarta-sans-OFL.txt" target="_blank" rel="noreferrer">
+          Plus Jakarta Sans
+        </a>
+        , lizenziert unter der SIL Open Font License.
+      </p>
+
       <div className="mx-auto max-w-[430px]">
+
         <HomescreenGuide />
       </div>
     </footer>
