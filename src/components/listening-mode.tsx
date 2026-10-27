@@ -8,6 +8,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { formatTime } from "@/lib/utils";
 
 type ListeningModeProps = {
   open: boolean;
@@ -25,11 +26,6 @@ type ListeningModeProps = {
   tone: "wine" | "petrol" | "violet" | "midnight";
 };
 
-function formatTime(seconds: number) {
-  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
-  const minutes = Math.floor(seconds / 60);
-  return `${minutes}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
-}
 
 export function ListeningMode({
   open,
