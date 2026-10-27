@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Shared header, issue menu and footer live in src/components/site-chrome.tsx; every issue page uses AudioCard — avoids duplicated markup per issue.
+- Fonts are self-hosted via @fontsource imported in styles.css; never load Google Fonts remotely (GDPR).
