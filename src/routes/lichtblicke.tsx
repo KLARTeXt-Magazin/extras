@@ -95,7 +95,7 @@ export const Route = createFileRoute("/lichtblicke")({
 // • true → alles sofort verfügbar
 // =======================================================
 
-const PREVIEW_UNLOCKED = true;
+const PREVIEW_UNLOCKED = false;
 
 
 // =======================================================
