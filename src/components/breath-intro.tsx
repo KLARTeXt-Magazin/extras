@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { isStandaloneApp } from "@/lib/app-mode";
 
 /**
  * Ein ruhiger Atemzug beim Öffnen der App (nur als installierte Web-App).
@@ -38,11 +39,8 @@ export function BreathIntro() {
   const timers = useRef<number[]>([]);
 
   useEffect(() => {
-    const standalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!standalone || reduced || hasSeenIntro()) return;
+    if (!isStandaloneApp() || reduced || hasSeenIntro()) return;
 
     markIntroSeen();
     setIsVisible(true);

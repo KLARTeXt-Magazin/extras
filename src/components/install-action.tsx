@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Download, Share2, Smartphone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { isIosDevice, isStandaloneApp } from "@/lib/app-mode";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -29,15 +30,8 @@ export function InstallAction() {
   const [showIosHelp, setShowIosHelp] = useState(false);
 
   useEffect(() => {
-    const standalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
-    const touch = window.matchMedia("(pointer: coarse)").matches;
-    const userAgent = window.navigator.userAgent;
-    const ios = /iPad|iPhone|iPod/.test(userAgent) || (userAgent.includes("Macintosh") && touch);
-
-    setIsStandalone(standalone);
-    setIsIos(ios);
+    setIsStandalone(isStandaloneApp());
+    setIsIos(isIosDevice());
 
     const capturePrompt = (prompt: BeforeInstallPromptEvent) => setInstallPrompt(prompt);
     const markInstalled = () => setIsStandalone(true);
