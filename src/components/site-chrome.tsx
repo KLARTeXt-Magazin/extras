@@ -2,7 +2,7 @@
 // GEMEINSAMER RAHMEN ALLER AUSGABEN
 // • Header mit Logo, „App speichern“ und Ausgaben-Menü
 // • Footer mit Impressum / Datenschutz
-// Neue Ausgabe → nur `issues` ergänzen.
+// Neue Ausgabe → nur `issues` in src/lib/issues.ts ergänzen.
 // =======================================================
 
 import { Link } from "@tanstack/react-router";
@@ -11,6 +11,7 @@ import { Menu, Smartphone } from "lucide-react";
 import { HomescreenGuide } from "@/components/homescreen-guide";
 import { InstallAction } from "@/components/install-action";
 import { Button } from "@/components/ui/button";
+import { issues, type SiteRoute } from "@/lib/issues";
 import {
   Sheet,
   SheetClose,
@@ -21,33 +22,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-type IssueRoute = "/" | "/lichtblicke";
-
-const issues: { eyebrow: string; title: string; subtitle: string; to?: IssueRoute }[] = [
-  {
-    eyebrow: "Ausgabe 02 · 12/26",
-    title: "Lichtblicke",
-    subtitle: "Momente zum Innehalten · 4 Audios",
-    to: "/lichtblicke",
-  },
-  {
-    eyebrow: "Ausgabe 01 · 08/26",
-    title: "Warum Ehrlichkeit Mut braucht",
-    subtitle: "Zwischen Anpassung, Angst und Wahrheit",
-    to: "/",
-  },
-  { eyebrow: "Ausgabe 03 · 2027", title: "Demnächst", subtitle: "Neue Themen in Vorbereitung" },
+const pages: { label: string; to: "/" | "/events" }[] = [
+  { label: "Übersicht", to: "/" },
+  { label: "Events", to: "/events" },
 ];
 
 const MAGAZIN_URL = "https://www.magazin-klartext.de/";
 
-export function SiteHeader({
-  hasScrolled,
-  current,
-}: {
-  hasScrolled: boolean;
-  current: IssueRoute;
-}) {
+export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; current: SiteRoute }) {
   return (
     <header
       className={`floating-site-header fixed inset-x-0 top-0 z-50 ${hasScrolled ? "is-scrolled" : ""}`}
@@ -131,11 +113,25 @@ export function SiteHeader({
                     })}
                   </nav>
 
+                  <nav className="mt-8 flex flex-wrap gap-x-6" aria-label="Weitere Seiten">
+                    {pages.map((page) => (
+                      <SheetClose asChild key={page.to}>
+                        <Link
+                          to={page.to}
+                          aria-current={page.to === current ? "page" : undefined}
+                          className="inline-flex min-h-[44px] items-center text-sm font-medium text-foreground underline underline-offset-4"
+                        >
+                          {page.label}
+                        </Link>
+                      </SheetClose>
+                    ))}
+                  </nav>
+
                   <a
                     href={MAGAZIN_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-8 inline-flex min-h-[44px] items-center text-sm font-medium text-foreground underline underline-offset-4"
+                    className="mt-2 inline-flex min-h-[44px] items-center text-sm font-medium text-foreground underline underline-offset-4"
                   >
                     Zum Magazin
                   </a>

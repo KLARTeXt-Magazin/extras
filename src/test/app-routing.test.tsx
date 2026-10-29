@@ -14,9 +14,22 @@ describe("App routing", () => {
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
 
+  it("matches the overview page for /", () => {
+    const router = createRouter({ routeTree });
+
+    expect(router.matchRoutes("/").at(-1)?.routeId).toBe("/");
+  });
+
   it("matches the Lichtblicke page for /lichtblicke", () => {
     const router = createRouter({ routeTree });
 
     expect(router.matchRoutes("/lichtblicke").at(-1)?.routeId).toBe("/lichtblicke");
+  });
+
+  it("matches Ausgabe 01 for /ehrlichkeit and the events page for /events", () => {
+    const router = createRouter({ routeTree });
+
+    expect(router.matchRoutes("/ehrlichkeit").at(-1)?.routeId).toBe("/ehrlichkeit");
+    expect(router.matchRoutes("/events").at(-1)?.routeId).toBe("/events");
   });
 });
