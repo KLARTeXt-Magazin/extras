@@ -336,7 +336,25 @@
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
 }
 
-/* Icon-Chip für „Übersicht“ und „Events“ im Menü */
+/* Menü-Überschrift „Alle Ausgaben →“ als Link zur Übersicht */
+.issue-sheet-title-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--secondary);
+  text-underline-offset: 6px;
+  transition: text-decoration-color 220ms ease;
+}
+
+.issue-sheet-title-link:hover,
+.issue-sheet-title-link[aria-current="page"] {
+  text-decoration-color: currentColor;
+}
+
+/* Icon-Chip für „Events“ im Menü */
 .issue-page-icon {
   background: var(--secondary);
   color: var(--foreground);
@@ -349,13 +367,10 @@
 
 /* Kachel einer Ausgabe auf der Übersicht */
 .overview-card {
-  display: grid;
-  grid-template-columns: 4.5rem minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem 0.75rem 0.75rem;
+  display: block;
+  overflow: hidden;
   border: 1px solid var(--neutral-line);
-  border-radius: 1.25rem;
+  border-radius: 1.5rem;
   background: var(--neutral-pearl);
   transition:
     background-color 220ms ease,
@@ -364,19 +379,75 @@
 
 .overview-card:hover {
   background: var(--neutral-mist);
-  transform: translateX(2px);
+  transform: translateY(-2px);
 }
 
-.overview-card-cover {
-  width: 4.5rem;
-  aspect-ratio: 1;
-  border-radius: 0.85rem;
+.overview-card-body {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+/* Cover im Duoton: Grauwerte → Weinrot (Tiefen) bis Peony (Lichter) */
+.overview-card-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--wine);
+  isolation: isolate;
+}
+
+.overview-card-media img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  background: var(--neutral-mist);
+  filter: grayscale(1) contrast(1.15);
+  mix-blend-mode: screen;
+  transition:
+    filter 500ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.overview-card--events .overview-card-cover {
+.overview-card-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background: var(--secondary);
+  mix-blend-mode: multiply;
+  transition: opacity 500ms ease;
+}
+
+.overview-card:hover .overview-card-media img {
+  filter: none;
+  transform: scale(1.03);
+}
+
+.overview-card:hover .overview-card-media::after {
+  opacity: 0;
+}
+
+.overview-card--soon {
+  border-style: dashed;
+  background: transparent;
+  opacity: 0.5;
+}
+
+.overview-card--events {
+  border-color: var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 35%, var(--neutral-pearl));
+}
+
+.overview-card-icon {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--wine);
+  color: var(--secondary);
 }
 
 /* =======================================================
@@ -864,12 +935,11 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  justify-items: center;
   align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-  padding: calc(2rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
+  padding: calc(2.5rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
   background: var(--neutral-ivory);
   color: var(--foreground);
   animation: breath-intro-in 600ms ease both;
@@ -879,80 +949,65 @@
   animation: breath-intro-out 650ms ease both;
 }
 
+.breath-intro__eyebrow {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
 .breath-intro__stage {
   display: grid;
   justify-items: center;
-  gap: 1.25rem;
+  gap: 2.25rem;
 }
 
+/* Feiner Ring = volle Lunge, Scheibe atmet darin */
 .breath-intro__art {
   position: relative;
-  width: 13rem;
-  height: 13rem;
-  transform-origin: 50% 50%;
+  display: grid;
+  place-items: center;
+  width: min(15rem, 64vw);
+  aspect-ratio: 1;
 }
 
-.breath-intro__art.is-in {
-  animation: breath-grow ease-in-out both;
-}
-
-.breath-intro__art.is-out {
-  animation: breath-shrink ease-in-out both;
-}
-
-.breath-intro__art.is-full {
-  transform: scale(1.45);
-  opacity: 1;
-}
-
-.breath-intro__art.is-empty {
-  transform: scale(0.45);
-  opacity: 0.6;
-}
-
-.breath-blob {
+.breath-ring {
   position: absolute;
-  display: block;
   inset: 0;
-  margin: auto;
-  animation: blob-morph 7s ease-in-out infinite;
+  border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
+  border-radius: 50%;
 }
 
-.breath-blob--outer {
+.breath-disc {
   width: 100%;
   height: 100%;
-  background: color-mix(in srgb, #d9cbb6 65%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 42%,
+    color-mix(in srgb, var(--secondary) 70%, var(--neutral-pearl)) 0%,
+    var(--secondary) 58%,
+    color-mix(in srgb, var(--secondary) 80%, var(--wine)) 100%
+  );
+  box-shadow: 0 24px 60px -24px color-mix(in srgb, var(--wine) 45%, transparent);
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  animation-fill-mode: both;
 }
 
-.breath-blob--mid {
-  width: 76%;
-  height: 76%;
-  background: color-mix(in srgb, #b79a7a 75%, transparent);
-  animation-duration: 5.5s;
-  animation-direction: reverse;
+.breath-disc.is-in {
+  animation-name: breath-grow;
 }
 
-.breath-blob--core {
-  width: 48%;
-  height: 48%;
-  background: #8b6b4e;
+.breath-disc.is-out {
+  animation-name: breath-shrink;
 }
 
 .breath-intro__label {
-  color: #6b5240;
   font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.breath-intro__hint {
-  color: #6b5240;
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0.7;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+  animation: breath-label-in 700ms ease both;
 }
 
 .breath-intro__skip {
@@ -960,33 +1015,40 @@
   padding: 0 1.1rem;
   border: 1px solid var(--neutral-line);
   border-radius: 999px;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: inherit;
+  color: var(--muted-foreground);
   background: transparent;
   box-shadow: none;
 }
 
 @keyframes breath-grow {
   from {
-    transform: scale(0.45) rotate(-3deg);
-    opacity: 0.6;
+    transform: scale(0.42);
   }
   to {
-    transform: scale(1.45);
-    opacity: 1;
+    transform: scale(0.86);
   }
 }
 
 @keyframes breath-shrink {
   from {
-    transform: scale(1.45);
-    opacity: 1;
+    transform: scale(0.86);
   }
   to {
-    transform: scale(0.45) rotate(3deg);
-    opacity: 0.6;
+    transform: scale(0.42);
+  }
+}
+
+@keyframes breath-label-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -1006,22 +1068,6 @@
   to {
     opacity: 0;
     visibility: hidden;
-  }
-}
-
-@keyframes blob-morph {
-  0%,
-  100% {
-    border-radius: 58% 42% 55% 45% / 48% 58% 42% 52%;
-    transform: rotate(0deg);
-  }
-  33% {
-    border-radius: 42% 58% 46% 54% / 60% 40% 60% 40%;
-    transform: rotate(40deg);
-  }
-  66% {
-    border-radius: 52% 48% 38% 62% / 42% 55% 45% 58%;
-    transform: rotate(-30deg);
   }
 }
 
@@ -1153,12 +1199,7 @@
   }
 
   .breath-intro,
-  .breath-intro__art {
+  .breath-disc {
     animation: none !important;
-  }
-
-  .breath-blob {
-    animation: none;
-    border-radius: 50%;
   }
 }
