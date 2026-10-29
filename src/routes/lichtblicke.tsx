@@ -505,7 +505,7 @@ function Lichtblicke() {
             ================================================= */}
 
         <section
-          className={`companion-band companion-tone-${activeIndex + 1} px-6 pb-14 pt-9 sm:px-7`}
+          className={`companion-band companion-tone-${activeIndex + 1} px-6 py-10 sm:px-7`}
           aria-label={`Begleitimpuls zu ${tracks[activeIndex]?.title ?? "diesem Audio"}`}
           aria-live="polite"
         >
@@ -528,7 +528,9 @@ function Lichtblicke() {
                   </p>
 
                   {track.quote ? (
-                    <p className="mt-4 font-display text-xl font-medium leading-8">{track.quote}</p>
+                    <p className="companion-quote mt-4 font-display text-xl font-medium leading-8">
+                      {track.quote}
+                    </p>
                   ) : null}
 
                   {track.note ? (
@@ -578,7 +580,7 @@ function Lichtblicke() {
              nicht Teil der Audiokachel.
             ================================================= */}
 
-        <section className="pmr-band mt-16 px-6 py-20">
+        <section className="pmr-band px-6 py-14">
           <div className="mx-auto max-w-[430px]">
             <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-sage-foreground">
               Thema Prävention · Progressive Muskelentspannung
@@ -623,7 +625,7 @@ function Lichtblicke() {
             </dl>
 
             {/* Übungsschritte */}
-            <ol className="mt-12 border-y border-sage/25">
+            <ol className="mt-10 border-y border-sage/25">
               {[
                 [
                   "Schultern & Nacken",
@@ -644,9 +646,9 @@ function Lichtblicke() {
               ].map(([title, description], index) => (
                 <li
                   key={title}
-                  className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 border-b border-sage/20 py-6 last:border-b-0"
+                  className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 border-b border-sage/20 py-5 last:border-b-0"
                 >
-                  <span className="pt-0.5 font-display text-lg font-semibold text-sage">
+                  <span className="pmr-step-no font-display font-semibold text-sage">
                     {String(index + 1).padStart(2, "0")}
                   </span>
 
@@ -658,13 +660,6 @@ function Lichtblicke() {
                 </li>
               ))}
             </ol>
-
-            {/* Hinweis wie im Begleitimpuls-PDF: nur so weit üben, wie es guttut */}
-            <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm font-medium leading-7">
-              Dein Rhythmus zählt: Übe nur so lange und so weit, wie es sich für dich gut und
-              angenehm anfühlt. Tut etwas nicht gut, darfst du jederzeit pausieren oder
-              aufhören.
-            </p>
 
             <p className="mt-7 text-sm leading-7 text-muted-foreground">
               Du brauchst keine Hilfsmittel. Die Übung funktioniert im Sitzen, Stehen, Gehen oder
