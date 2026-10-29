@@ -2,15 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 /**
- * Ruhige Atem-Sequenz beim Öffnen der App (nur als installierte Web-App).
- * Einatmen · Ausatmen, dann öffnet sich die Seite.
+ * Ein ruhiger Atemzug beim Öffnen der App (nur als installierte Web-App).
+ * Einatmen · Ausatmen, dann öffnet sich die Seite – insgesamt rund 10 Sekunden.
  */
 
 const PHASES = [
-  { label: "Einatmen", hint: "vier Sekunden", duration: 4000, mode: "in" },
-  { label: "Halten", hint: "vier Sekunden", duration: 4000, mode: "full" },
-  { label: "Ausatmen", hint: "vier Sekunden", duration: 4000, mode: "out" },
-  { label: "Halten", hint: "vier Sekunden", duration: 4000, mode: "empty" },
+  { label: "Einatmen", duration: 4000, mode: "in" },
+  { label: "Ausatmen", duration: 6000, mode: "out" },
 ] as const;
 
 const SESSION_KEY = "klartext-breath-intro";
@@ -86,18 +84,19 @@ export function BreathIntro() {
       role="status"
       aria-live="polite"
     >
+      <p className="breath-intro__eyebrow">KLARTeXt. · Ein Atemzug</p>
+
       <div className="breath-intro__stage">
-        <div
-          className={`breath-intro__art is-${current.mode}`}
-          style={{ animationDuration: `${current.duration}ms` }}
-          aria-hidden="true"
-        >
-          <span className="breath-blob breath-blob--outer" />
-          <span className="breath-blob breath-blob--mid" />
-          <span className="breath-blob breath-blob--core" />
+        <div className="breath-intro__art" aria-hidden="true">
+          <span className="breath-ring" />
+          <span
+            className={`breath-disc is-${current.mode}`}
+            style={{ animationDuration: `${current.duration}ms` }}
+          />
         </div>
-        <p className="breath-intro__label">{current.label}</p>
-        <p className="breath-intro__hint">{current.hint}</p>
+        <p key={phase} className="breath-intro__label">
+          {current.label}
+        </p>
       </div>
 
       <Button type="button" variant="ghost" className="breath-intro__skip" onClick={skip}>
