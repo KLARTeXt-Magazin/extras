@@ -1,49 +1,36 @@
 // =======================================================
-// ROUTE: AUSGABE 01 – Startseite der KLARTeXt. Extras
-// • Audio „Zeit für Dich“ + Begleitimpuls (PDF)
-// Inhalte ändern → `track` und Begleittext unten.
+// ROUTE: ÜBERSICHT – Startseite der KLARTeXt. Extras
+// • führt zu allen Ausgaben (Liste `issues` in src/lib/issues.ts)
+//   und zur Events-Seite
+// • QR-Code aus Heft 01 zeigt auf `/` → Direktlink oben auf Ausgabe 01
 // =======================================================
 
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Download } from "lucide-react";
+import { ArrowRight, CalendarDays } from "lucide-react";
 
-import coverImage from "@/assets/cover-zeit-collage-v3.jpg";
-import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { Button } from "@/components/ui/button";
+import { issues } from "@/lib/issues";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "KLARTeXt. Extras zu Ausgabe 01: Warum Ehrlichkeit Mut braucht" },
+      { title: "KLARTeXt. Extras – Alle Ausgaben und Events" },
       {
         name: "description",
-        content: "Eine Achtsamkeitsübung der ersten Ausgabe von KLARTeXt.: Zeit für Dich",
+        content: "Audio-Übungen und Begleitimpulse zu allen Ausgaben von KLARTeXt. sowie Events.",
       },
-      { property: "og:title", content: "KLARTeXt. – Warum Ehrlichkeit Mut braucht" },
+      { property: "og:title", content: "KLARTeXt. Extras" },
       {
         property: "og:description",
-        content: "Die Audio-Übung „Zeit für dich“ zur ersten KLARTeXt.-Ausgabe.",
+        content: "Alle Extras zu den Ausgaben von KLARTeXt. – und unsere Events.",
       },
     ],
   }),
-  component: Index,
+  component: Overview,
 });
 
-const track: AudioTrack = {
-  id: "zeit-fuer-dich",
-  eyebrow: "Auszeit",
-  title: "Zeit für Dich",
-  cover: coverImage,
-  coverAlt:
-    "Editoriale Collage aus weinrotem Papier, rosafarbenem Organza, feinen Blüten und blauem Glas",
-  coverWord: "ZEIT FÜR DICH.",
-  src: "/audio/2026-q3_extra01.m4a",
-};
-
-function Index() {
-  const [activeId, setActiveId] = useState<string | null>(null);
+function Overview() {
   const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
@@ -65,57 +52,74 @@ function Index() {
       >
         <SiteHeader hasScrolled={hasScrolled} current="/" />
 
-        <div className="editorial-stage editorial-stage--single">
-          <section
-            className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-12 sm:px-7 ${
-              hasScrolled || activeId ? "is-compact" : ""
-            }`}
-          >
-            <div className="mt-4">
-              <p className="text-[10px] font-medium uppercase text-muted-foreground">
-                Ausgabe 01 · 08/26
-              </p>
-              <h1 className="hero-title mt-3 max-w-[340px]">Warum Ehrlichkeit Mut braucht</h1>
-            </div>
-          </section>
+        <section className="overview-hero mx-auto w-full max-w-[430px] px-5 pb-10 sm:px-7">
+          <p className="text-[10px] font-medium uppercase text-muted-foreground">
+            KLARTeXt. Extras
+          </p>
+          <h1 className="hero-title mt-3">Alle Extras</h1>
+          <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
+            Audio-Übungen und Begleitimpulse zu den Ausgaben – und was sonst noch los ist.
+          </p>
 
-          <section className="audio-band" aria-label="Audio">
-            <div className="mx-auto w-full max-w-[430px]">
-              <AudioCard track={track} isActive onPlay={setActiveId} />
+          <Link to="/ehrlichkeit" className="continue-link mt-8 block text-lg text-foreground">
+            Aus Heft 01 hier gelandet?
+            <span className="mt-1 block text-sm font-medium text-foreground/70">
+              Direkt zum Audio „Zeit für Dich“
+            </span>
+          </Link>
+        </section>
 
-              <p className="section-cue-badge mx-auto mt-8 w-fit text-center text-[10px] font-semibold uppercase tracking-[0.12em]">
-                Weiter zum Begleitimpuls
-              </p>
-            </div>
-          </section>
-        </div>
+        <section className="px-5 pb-20 sm:px-7" aria-label="Ausgaben">
+          <div className="mx-auto grid w-full max-w-[430px] gap-4">
+            {issues.map((issue) =>
+              issue.to ? (
+                <Link key={issue.title} to={issue.to} className="overview-card">
+                  {issue.cover && <img src={issue.cover} alt="" className="overview-card-cover" />}
+                  <span className="min-w-0">
+                    <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                      {issue.eyebrow}
+                    </span>
+                    <span className="mt-1 block font-display text-xl font-semibold leading-tight">
+                      {issue.title}
+                    </span>
+                    <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                      {issue.subtitle}
+                    </span>
+                  </span>
+                  <ArrowRight className="size-4 shrink-0" />
+                </Link>
+              ) : (
+                <div key={issue.title} className="overview-card opacity-40">
+                  <span className="overview-card-cover" />
+                  <span className="min-w-0">
+                    <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                      {issue.eyebrow}
+                    </span>
+                    <span className="mt-1 block font-display text-xl font-semibold leading-tight">
+                      {issue.title}
+                    </span>
+                  </span>
+                </div>
+              ),
+            )}
 
-        <section className="companion-band px-6 py-24">
-          <div className="companion-inner mx-auto max-w-[430px] border-l-4 pl-5">
-            <p className="text-[10px] font-medium uppercase text-muted-foreground">
-              Ein Moment für dich
-            </p>
-
-            <h2 className="mt-5 text-4xl leading-tight">
-              „Wie geht es mir eigentlich gerade wirklich, nicht, wie es sein sollte?“
-            </h2>
-
-            <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
-              Das Audio-Extra der ersten Ausgabe ist eine kurze Pause, wenn gerade viel im Kopf los
-              ist. Ein paar Minuten, in denen es einmal nicht darum geht, etwas zu schaffen oder zu
-              lösen, sondern wahrzunehmen, wie es dir gerade geht.
-            </p>
-
-            <Button
-              asChild
-              variant="outline"
-              className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none"
-            >
-              <a href="/pdf/zeit-fuer-dich-begleitimpuls.pdf" target="_blank" rel="noreferrer">
-                <Download className="size-4" />
-                Impuls zum Downloaden
-              </a>
-            </Button>
+            <Link to="/events" className="overview-card overview-card--events">
+              <span className="overview-card-cover grid place-items-center">
+                <CalendarDays className="size-7" strokeWidth={1.5} />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                  Neu
+                </span>
+                <span className="mt-1 block font-display text-xl font-semibold leading-tight">
+                  Events
+                </span>
+                <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                  Termine rund um KLARTeXt.
+                </span>
+              </span>
+              <ArrowRight className="size-4 shrink-0" />
+            </Link>
           </div>
         </section>
 

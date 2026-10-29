@@ -662,7 +662,10 @@ function Lichtblicke() {
               Weiterhören · Ausgabe 01
             </p>
 
-            <Link to="/" className="continue-link mt-3 text-2xl leading-tight text-foreground">
+            <Link
+              to="/ehrlichkeit"
+              className="continue-link mt-3 text-2xl leading-tight text-foreground"
+            >
               Warum Ehrlichkeit Mut braucht
               <span className="mt-3 block text-sm font-medium text-foreground/70">
                 Zur Audio-Auszeit
