@@ -581,7 +581,7 @@ function Lichtblicke() {
         <section className="pmr-band mt-16 px-6 py-20">
           <div className="mx-auto max-w-[430px]">
             <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-sage-foreground">
-              Progressive Muskelentspannung
+              Thema Prävention · Progressive Muskelentspannung
             </p>
 
             <h2 className="mt-4 max-w-sm text-[2.5rem] leading-[1.02]">
@@ -589,9 +589,38 @@ function Lichtblicke() {
             </h2>
 
             <p className="mt-6 max-w-sm text-sm leading-7 text-foreground/70">
-              Bei dieser kurzen Übung spannst du einzelne Muskelgruppen bewusst an und lässt sie
-              wieder los. So wird der Unterschied zwischen Spannung und Entspannung spürbar.
+              Die progressive Muskelentspannung – kurz PMR – ist eine sanfte Übung aus der
+              Prävention. Sie macht Spannung erst bewusst, damit du sie bewusst lösen kannst.
             </p>
+
+            <dl className="mt-8 max-w-sm">
+              {[
+                [
+                  "Was?",
+                  "Eine Entspannungsmethode, bei der du einzelne Muskelgruppen bewusst anspannst und wieder löst.",
+                ],
+                [
+                  "Wie?",
+                  "Gruppe für Gruppe: kurz anspannen, kurz halten und beim Ausatmen loslassen.",
+                ],
+                [
+                  "Wo?",
+                  "Überall – zu Hause, im Büro oder unterwegs, im Sitzen, Stehen oder Liegen.",
+                ],
+                [
+                  "Warum?",
+                  "Weil du so Spannung spürbar abgibst, Stress abbaust und besser zur Ruhe kommst.",
+                ],
+              ].map(([term, text]) => (
+                <div
+                  key={term}
+                  className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 border-b border-sage/15 py-4 last:border-b-0"
+                >
+                  <dt className="text-sm font-semibold text-sage-foreground">{term}</dt>
+                  <dd className="text-sm leading-6 text-muted-foreground">{text}</dd>
+                </div>
+              ))}
+            </dl>
 
             {/* Übungsschritte */}
             <ol className="mt-12 border-y border-sage/25">
