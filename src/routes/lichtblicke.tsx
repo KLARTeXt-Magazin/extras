@@ -29,6 +29,7 @@ import coverGrussNeu from "../assets/cover-heiligabend-collage-v3.jpg";
 import coverMomentNeu from "../assets/cover-moment-collage-v3.jpg";
 
 import { AudioCard, type AudioTrack } from "@/components/audio-card";
+import { PdfDownloadLink } from "@/components/pdf-download-link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
@@ -543,11 +544,11 @@ function Lichtblicke() {
                       variant="outline"
                       className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
                     >
-                      <a href={track.downloadUrl} target="_blank" rel="noreferrer">
+                      <PdfDownloadLink href={track.downloadUrl}>
                         <Download className="size-4" />
 
                         {track.downloadLabel ?? "Impuls öffnen"}
-                      </a>
+                      </PdfDownloadLink>
                     </Button>
                   ) : null}
 
@@ -672,10 +673,10 @@ function Lichtblicke() {
               variant="outline"
               className="mt-8 h-12 rounded-full border-sage/45 bg-background/45 px-5 text-sage-foreground shadow-none"
             >
-              <a href="/pdf/pmr-spannung-trifft-entspannung.pdf" target="_blank" rel="noreferrer">
+              <PdfDownloadLink href="/pdf/pmr-spannung-trifft-entspannung.pdf">
                 <Download className="size-4" />
                 Anleitung herunterladen
-              </a>
+              </PdfDownloadLink>
             </Button>
           </div>
         </section>

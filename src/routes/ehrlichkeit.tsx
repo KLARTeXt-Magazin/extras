@@ -12,6 +12,7 @@ import { Download } from "lucide-react";
 
 import coverImage from "@/assets/cover-zeit-collage-v3.jpg";
 import { AudioCard, type AudioTrack } from "@/components/audio-card";
+import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
 
@@ -113,10 +114,10 @@ function Ehrlichkeit() {
               variant="outline"
               className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none"
             >
-              <a href="/pdf/zeit-fuer-dich-begleitimpuls.pdf" target="_blank" rel="noreferrer">
+              <PdfDownloadLink href="/pdf/zeit-fuer-dich-begleitimpuls.pdf">
                 <Download className="size-4" />
                 Impuls zum Downloaden
-              </a>
+              </PdfDownloadLink>
             </Button>
           </div>
         </section>
