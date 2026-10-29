@@ -2,7 +2,7 @@
 // ROUTE: ÜBERSICHT – Startseite der KLARTeXt. Extras
 // • führt zu allen Ausgaben (Liste `issues` in src/lib/issues.ts)
 //   und zur Events-Seite
-// • QR-Code aus Heft 01 zeigt auf `/` → Direktlink oben auf Ausgabe 01
+// • Cover erscheinen im Duoton (Weinrot/Peony), farbig beim Hover
 // =======================================================
 
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -67,29 +67,36 @@ function Overview() {
             {issues.map((issue) =>
               issue.to ? (
                 <Link key={issue.title} to={issue.to} className="overview-card">
-                  {issue.cover && <img src={issue.cover} alt="" className="overview-card-cover" />}
-                  <span className="min-w-0">
-                    <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                      {issue.eyebrow}
+                  {issue.cover && (
+                    <span className="overview-card-media">
+                      <img src={issue.cover} alt="" />
                     </span>
-                    <span className="mt-1 block font-display text-xl font-semibold leading-tight">
-                      {issue.title}
+                  )}
+                  <span className="overview-card-body">
+                    <span className="min-w-0">
+                      <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                        {issue.eyebrow}
+                      </span>
+                      <span className="mt-1 block font-display text-2xl font-semibold leading-tight">
+                        {issue.title}
+                      </span>
+                      <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                        {issue.subtitle}
+                      </span>
                     </span>
-                    <span className="mt-1 block text-sm leading-6 text-muted-foreground">
-                      {issue.subtitle}
-                    </span>
+                    <ArrowRight className="size-5 shrink-0" />
                   </span>
-                  <ArrowRight className="size-4 shrink-0" />
                 </Link>
               ) : (
-                <div key={issue.title} className="overview-card opacity-40">
-                  <span className="overview-card-cover" />
-                  <span className="min-w-0">
-                    <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                      {issue.eyebrow}
-                    </span>
-                    <span className="mt-1 block font-display text-xl font-semibold leading-tight">
-                      {issue.title}
+                <div key={issue.title} className="overview-card overview-card--soon">
+                  <span className="overview-card-body">
+                    <span className="min-w-0">
+                      <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                        {issue.eyebrow}
+                      </span>
+                      <span className="mt-1 block font-display text-xl font-semibold leading-tight">
+                        {issue.title}
+                      </span>
                     </span>
                   </span>
                 </div>
@@ -97,21 +104,23 @@ function Overview() {
             )}
 
             <Link to="/events" className="overview-card overview-card--events">
-              <span className="overview-card-cover grid place-items-center">
-                <CalendarDays className="size-7" strokeWidth={1.5} />
+              <span className="overview-card-body">
+                <span className="overview-card-icon">
+                  <CalendarDays className="size-6" strokeWidth={1.5} />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                    Neu
+                  </span>
+                  <span className="mt-1 block font-display text-2xl font-semibold leading-tight">
+                    Events
+                  </span>
+                  <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                    Termine rund um KLARTeXt.
+                  </span>
+                </span>
+                <ArrowRight className="size-5 shrink-0" />
               </span>
-              <span className="min-w-0">
-                <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                  Neu
-                </span>
-                <span className="mt-1 block font-display text-xl font-semibold leading-tight">
-                  Events
-                </span>
-                <span className="mt-1 block text-sm leading-6 text-muted-foreground">
-                  Termine rund um KLARTeXt.
-                </span>
-              </span>
-              <ArrowRight className="size-4 shrink-0" />
             </Link>
           </div>
         </section>
