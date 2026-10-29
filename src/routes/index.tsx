@@ -60,13 +60,6 @@ function Overview() {
           <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
             Audio-Übungen und Begleitimpulse zu den Ausgaben – und was sonst noch los ist.
           </p>
-
-          <Link to="/ehrlichkeit" className="continue-link mt-8 block text-lg text-foreground">
-            Aus Heft 01 hier gelandet?
-            <span className="mt-1 block text-sm font-medium text-foreground/70">
-              Direkt zum Audio „Zeit für Dich“
-            </span>
-          </Link>
         </section>
 
         <section className="px-5 pb-20 sm:px-7" aria-label="Ausgaben">
