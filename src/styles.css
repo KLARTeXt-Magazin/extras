@@ -726,23 +726,40 @@
    6. BEGLEITIMPULS, PMR, WEITERHÖREN, FOOTER
    ======================================================= */
 
+/* Begleittext trägt die Farbwelt der gewählten Audiokachel:
+   zarte Fläche, Zitat in der dunklen Track-Farbe */
 .companion-band {
-  border-top: 1px solid var(--neutral-line);
-  background: var(--neutral-pearl);
+  border-top: 1px solid color-mix(in srgb, var(--audio-accent, var(--secondary)) 70%, transparent);
+  background: color-mix(in srgb, var(--audio-accent, var(--secondary)) 24%, var(--neutral-pearl));
   color: var(--foreground);
   box-shadow: inset 0 5px 0 var(--audio-accent, var(--secondary));
   transition:
     background-color 400ms ease,
+    border-color 400ms ease,
     box-shadow 400ms ease;
 }
 
 .companion-inner {
-  border-left-width: 1px;
+  border-left-width: 3px;
   border-color: var(--audio-accent, var(--primary));
+  transition: border-color 400ms ease;
 }
 
 .companion-kicker {
   color: var(--audio-accent-ink, var(--muted-foreground));
+}
+
+.companion-quote {
+  color: var(--audio-accent-ink, var(--foreground));
+  transition: color 400ms ease;
+}
+
+.companion-band .text-muted-foreground {
+  color: color-mix(
+    in srgb,
+    var(--audio-accent-ink, var(--foreground)) 72%,
+    var(--muted-foreground)
+  );
 }
 
 .companion-band h2,
@@ -752,30 +769,68 @@
 
 /* Download-Knopf im Begleittext */
 .companion-band .bg-surface {
-  background: var(--neutral-pearl);
-  border-color: var(--neutral-line);
-  color: var(--foreground);
+  background: color-mix(in srgb, var(--audio-accent, var(--secondary)) 45%, var(--neutral-pearl));
+  border-color: var(--audio-accent, var(--neutral-line));
+  color: var(--audio-accent-ink, var(--foreground));
 }
 
 .companion-band .bg-surface:hover {
-  background: var(--neutral-mist);
-  color: var(--foreground);
+  background: var(--audio-accent, var(--neutral-mist));
+  color: var(--audio-accent-ink, var(--foreground));
 }
 
-/* Progressive Muskelentspannung */
+/* Progressive Muskelentspannung – sanft in der Salbei-Welt der PMR-Kachel */
 .pmr-band {
-  border-top: 1px solid var(--neutral-line);
-  background: var(--neutral-linen-cool);
+  --pmr-accent: #bcd0bf;
+  --pmr-ink: #263b2c;
+  border-top: 1px solid color-mix(in srgb, var(--pmr-accent) 80%, transparent);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--pmr-accent) 30%, var(--neutral-linen-cool)) 0%,
+    var(--neutral-linen-cool) 70%
+  );
   color: var(--foreground);
 }
 
 .pmr-band .text-sage-foreground,
+.pmr-band .text-sage {
+  color: var(--pmr-ink);
+}
+
 .pmr-band .text-foreground\/70 {
   color: var(--muted-foreground);
 }
 
+.pmr-band h2 {
+  color: var(--pmr-ink);
+}
+
+.pmr-band .border-sage\/15,
+.pmr-band .border-sage\/20,
 .pmr-band .border-sage\/25 {
-  border-color: var(--neutral-line);
+  border-color: color-mix(in srgb, var(--pmr-ink) 16%, transparent);
+}
+
+/* Schrittnummer als zarter Salbei-Punkt */
+.pmr-step-no {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--pmr-accent) 70%, var(--neutral-pearl));
+  font-size: 0.85rem;
+}
+
+.pmr-band .border-sage\/45 {
+  border-color: var(--pmr-accent);
+  background: color-mix(in srgb, var(--pmr-accent) 45%, var(--neutral-pearl));
+  color: var(--pmr-ink);
+}
+
+.pmr-band .border-sage\/45:hover {
+  background: var(--pmr-accent);
+  color: var(--pmr-ink);
 }
 
 .pmr-band :focus-visible {
