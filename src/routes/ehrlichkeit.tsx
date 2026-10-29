@@ -15,6 +15,7 @@ import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
+import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/ehrlichkeit")({
   head: () => ({
@@ -29,7 +30,11 @@ export const Route = createFileRoute("/ehrlichkeit")({
         property: "og:description",
         content: "Die Audio-Übung „Zeit für dich“ zur ersten KLARTeXt.-Ausgabe.",
       },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: `${SITE_URL}/ehrlichkeit` },
+      ...shareImageMeta("KLARTeXt. – Warum Ehrlichkeit Mut braucht: Audio-Übung Zeit für Dich"),
     ],
+    links: [canonicalLink("/ehrlichkeit")],
   }),
   component: Ehrlichkeit,
 });

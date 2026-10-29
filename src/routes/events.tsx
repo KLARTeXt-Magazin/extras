@@ -8,6 +8,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/events")({
   head: () => ({
@@ -15,7 +16,12 @@ export const Route = createFileRoute("/events")({
       { title: "KLARTeXt. Extras – Events" },
       { name: "description", content: "Termine und Events rund um KLARTeXt." },
       { property: "og:title", content: "KLARTeXt. – Events" },
+      { property: "og:description", content: "Termine und Events rund um KLARTeXt." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/events` },
+      ...shareImageMeta("KLARTeXt. Extras – Audio-Impulse und Übungen zu jeder Ausgabe"),
     ],
+    links: [canonicalLink("/events")],
   }),
   component: Events,
 });

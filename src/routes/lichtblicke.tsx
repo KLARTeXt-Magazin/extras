@@ -33,6 +33,7 @@ import { PdfDownloadLink } from "@/components/pdf-download-link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
+import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 // =======================================================
 // SEITEN-METADATEN
@@ -65,7 +66,11 @@ export const Route = createFileRoute("/lichtblicke")({
         content:
           "Vier Audio-Momente zum Innehalten und Entspannen – dein Extra zur zweiten KLARTeXt.-Ausgabe.",
       },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: `${SITE_URL}/lichtblicke` },
+      ...shareImageMeta("KLARTeXt. – Lichtblicke: Audio-Momente zum Innehalten und Entspannen"),
     ],
+    links: [canonicalLink("/lichtblicke")],
   }),
   component: Lichtblicke,
 });
