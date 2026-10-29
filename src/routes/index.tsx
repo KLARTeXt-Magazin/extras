@@ -25,7 +25,11 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Alle Extras zu den Ausgaben von KLARTeXt. – und unsere Events.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/` },
+      ...shareImageMeta("KLARTeXt. Extras – Audio-Impulse und Übungen zu jeder Ausgabe"),
     ],
+    links: [canonicalLink("/")],
   }),
   component: Overview,
 });

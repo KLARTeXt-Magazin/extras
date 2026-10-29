@@ -65,7 +65,11 @@ export const Route = createFileRoute("/lichtblicke")({
         content:
           "Vier Audio-Momente zum Innehalten und Entspannen – dein Extra zur zweiten KLARTeXt.-Ausgabe.",
       },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: `${SITE_URL}/lichtblicke` },
+      ...shareImageMeta("KLARTeXt. – Lichtblicke: Audio-Momente zum Innehalten und Entspannen"),
     ],
+    links: [canonicalLink("/lichtblicke")],
   }),
   component: Lichtblicke,
 });
