@@ -2,7 +2,7 @@
 // ROUTE: ÜBERSICHT – Startseite der KLARTeXt. Extras
 // • führt zu allen Ausgaben (Liste `issues` in src/lib/issues.ts)
 //   und zur Events-Seite
-// • Cover erscheinen im Duoton (Weinrot/Peony), farbig beim Hover
+// • Heft-Cover leicht in Peony getönt, in Originalfarbe beim Hover
 // =======================================================
 
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -11,7 +11,6 @@ import { ArrowRight, CalendarDays } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { issues } from "@/lib/issues";
-import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,11 +25,7 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Alle Extras zu den Ausgaben von KLARTeXt. – und unsere Events.",
       },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: `${SITE_URL}/` },
-      ...shareImageMeta("KLARTeXt. Extras – Audio-Impulse und Übungen zu jeder Ausgabe"),
     ],
-    links: [canonicalLink("/")],
   }),
   component: Overview,
 });
@@ -71,10 +66,23 @@ function Overview() {
           <div className="mx-auto grid w-full max-w-[430px] gap-4">
             {issues.map((issue) =>
               issue.to ? (
-                <Link key={issue.title} to={issue.to} className="overview-card">
-                  {issue.cover && (
+                <Link
+                  key={issue.title}
+                  to={issue.to}
+                  className="overview-card overview-card--issue"
+                >
+                  {issue.cover ? (
                     <span className="overview-card-media">
                       <img src={issue.cover} alt="" />
+                    </span>
+                  ) : (
+                    <span
+                      className="overview-card-media overview-cover-placeholder"
+                      aria-hidden="true"
+                    >
+                      <span className="overview-cover-placeholder__brand">KLARTeXt.</span>
+                      <span className="overview-cover-placeholder__title">{issue.title}.</span>
+                      <span className="overview-cover-placeholder__note">Cover folgt</span>
                     </span>
                   )}
                   <span className="overview-card-body">
@@ -82,7 +90,7 @@ function Overview() {
                       <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                         {issue.eyebrow}
                       </span>
-                      <span className="mt-1 block font-display text-2xl font-semibold leading-tight">
+                      <span className="mt-1 block font-display text-xl font-semibold leading-tight">
                         {issue.title}
                       </span>
                       <span className="mt-1 block text-sm leading-6 text-muted-foreground">
