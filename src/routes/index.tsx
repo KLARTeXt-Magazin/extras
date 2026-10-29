@@ -11,6 +11,7 @@ import { ArrowRight, CalendarDays } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { issues } from "@/lib/issues";
+import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,7 +26,11 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Alle Extras zu den Ausgaben von KLARTeXt. – und unsere Events.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: SITE_URL },
+      ...shareImageMeta("KLARTeXt. Extras – Audio-Impulse und Übungen zu jeder Ausgabe"),
     ],
+    links: [canonicalLink("/")],
   }),
   component: Overview,
 });
