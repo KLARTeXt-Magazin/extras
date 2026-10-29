@@ -6,7 +6,7 @@
 // =======================================================
 
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, LayoutGrid, Menu, Smartphone } from "lucide-react";
+import { ArrowRight, CalendarDays, Menu, Smartphone } from "lucide-react";
 
 import { HomescreenGuide } from "@/components/homescreen-guide";
 import { InstallAction } from "@/components/install-action";
@@ -22,15 +22,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+// „Alle Ausgaben“ (Menü-Überschrift) führt zur Übersicht, daher hier nur Events.
 const pages: {
   label: string;
   hint: string;
-  to: "/" | "/events";
-  icon: typeof LayoutGrid;
-}[] = [
-  { label: "Übersicht", hint: "Alle Ausgaben auf einen Blick", to: "/", icon: LayoutGrid },
-  { label: "Events", hint: "Termine rund um KLARTeXt.", to: "/events", icon: CalendarDays },
-];
+  to: "/events";
+  icon: typeof CalendarDays;
+}[] = [{ label: "Events", hint: "Termine rund um KLARTeXt.", to: "/events", icon: CalendarDays }];
 
 const MAGAZIN_URL = "https://www.magazin-klartext.de/";
 
@@ -70,7 +68,7 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
               </Button>
             </SheetTrigger>
 
-            <SheetContent className="issue-sheet w-full border-0 bg-transparent p-0 shadow-none sm:w-[92%] sm:max-w-sm sm:p-3">
+            <SheetContent className="issue-sheet w-full font-body border-0 bg-transparent p-0 shadow-none sm:w-[92%] sm:max-w-sm sm:p-3">
               <div className="issue-panel h-full w-full overflow-y-auto rounded-none sm:rounded-[2rem]">
                 <div className="issue-panel-content px-7 py-10">
                   <SheetHeader className="mt-8 text-left">
@@ -78,7 +76,16 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
                       KLARTeXt. Extras
                     </p>
                     <SheetTitle className="font-display text-3xl font-semibold text-foreground">
-                      Alle Ausgaben
+                      <SheetClose asChild>
+                        <Link
+                          to="/"
+                          aria-current={current === "/" ? "page" : undefined}
+                          className="issue-sheet-title-link"
+                        >
+                          Alle Ausgaben
+                          <ArrowRight className="size-6" strokeWidth={1.75} />
+                        </Link>
+                      </SheetClose>
                     </SheetTitle>
                     <SheetDescription className="font-body text-muted-foreground">
                       Extras zu den Ausgaben.
