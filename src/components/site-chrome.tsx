@@ -6,7 +6,7 @@
 // =======================================================
 
 import { Link } from "@tanstack/react-router";
-import { Menu, Smartphone } from "lucide-react";
+import { CalendarDays, LayoutGrid, Menu, Smartphone } from "lucide-react";
 
 import { HomescreenGuide } from "@/components/homescreen-guide";
 import { InstallAction } from "@/components/install-action";
@@ -22,9 +22,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-const pages: { label: string; to: "/" | "/events" }[] = [
-  { label: "Übersicht", to: "/" },
-  { label: "Events", to: "/events" },
+const pages: {
+  label: string;
+  hint: string;
+  to: "/" | "/events";
+  icon: typeof LayoutGrid;
+}[] = [
+  { label: "Übersicht", hint: "Alle Ausgaben auf einen Blick", to: "/", icon: LayoutGrid },
+  { label: "Events", hint: "Termine rund um KLARTeXt.", to: "/events", icon: CalendarDays },
 ];
 
 const MAGAZIN_URL = "https://www.magazin-klartext.de/";
@@ -113,18 +118,36 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
                     })}
                   </nav>
 
-                  <nav className="mt-8 flex flex-wrap gap-x-6" aria-label="Weitere Seiten">
-                    {pages.map((page) => (
-                      <SheetClose asChild key={page.to}>
-                        <Link
-                          to={page.to}
-                          aria-current={page.to === current ? "page" : undefined}
-                          className="inline-flex min-h-[44px] items-center text-sm font-medium text-foreground underline underline-offset-4"
-                        >
-                          {page.label}
-                        </Link>
-                      </SheetClose>
-                    ))}
+                  <nav className="mt-8" aria-label="Weitere Seiten">
+                    <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
+                      Mehr entdecken
+                    </p>
+                    {pages.map((page) => {
+                      const Icon = page.icon;
+                      return (
+                        <SheetClose asChild key={page.to}>
+                          <Link
+                            to={page.to}
+                            aria-current={page.to === current ? "page" : undefined}
+                            className={`issue-entry ${page.to === current ? "issue-entry-current" : ""}`}
+                          >
+                            <span className="flex items-center gap-3.5">
+                              <span className="issue-page-icon grid size-11 shrink-0 place-items-center rounded-full">
+                                <Icon className="size-5" strokeWidth={1.5} />
+                              </span>
+                              <span className="min-w-0">
+                                <span className="block font-display text-lg font-semibold leading-tight">
+                                  {page.label}
+                                </span>
+                                <span className="block text-sm leading-6 text-muted-foreground">
+                                  {page.hint}
+                                </span>
+                              </span>
+                            </span>
+                          </Link>
+                        </SheetClose>
+                      );
+                    })}
                   </nav>
 
                   <a
