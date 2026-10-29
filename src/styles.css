@@ -336,6 +336,12 @@
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
 }
 
+/* Icon-Chip für „Übersicht“ und „Events“ im Menü */
+.issue-page-icon {
+  background: var(--secondary);
+  color: var(--foreground);
+}
+
 /* Übersicht (Startseite) und Events: Kopf ohne Audio-Bühne */
 .overview-hero {
   padding-top: calc(6rem + env(safe-area-inset-top));
