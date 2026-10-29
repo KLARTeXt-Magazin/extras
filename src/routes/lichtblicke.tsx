@@ -662,6 +662,11 @@ function Lichtblicke() {
               ))}
             </ol>
 
+            <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm leading-7 text-muted-foreground">
+              Dein Rhythmus zählt: Übe nur so lange und so weit, wie es sich für dich gut und
+              angenehm anfühlt. Tut etwas nicht gut, darfst du jederzeit pausieren oder aufhören.
+            </p>
+
             <p className="mt-7 text-sm leading-7 text-muted-foreground">
               Du brauchst keine Hilfsmittel. Die Übung funktioniert im Sitzen, Stehen, Gehen oder
               Liegen und lässt sich gut in deinen Alltag integrieren.
