@@ -15,6 +15,7 @@ import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
+import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/ehrlichkeit")({
   head: () => ({
