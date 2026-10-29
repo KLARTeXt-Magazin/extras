@@ -1,0 +1,1158 @@
+/* =======================================================
+   KLARTeXt. EXTRAS – GLOBALE STYLES
+
+   Aufbau:
+   1. Schriften, Tailwind, Design-Tokens
+   2. Basis (Fokus, Skip-Link, Body)
+   3. Header & Ausgaben-Menü
+   4. Hero
+   5. Audio-Bereich (Kacheln, Karussell, Farbwelten)
+   6. Begleitimpuls, PMR, Weiterhören, Footer
+   7. Hörmodus
+   8. Atem-Intro & Homescreen-Anleitung
+   9. Layout Tablet/Desktop, Reduced Motion
+   ======================================================= */
+
+/* Schriften lokal eingebunden (DSGVO: keine Verbindung zu Google Fonts).
+   Nur der lateinische Zeichensatz – deckt Deutsch inkl. „“ – · ab. */
+@import "@fontsource/plus-jakarta-sans/latin-400.css";
+@import "@fontsource/plus-jakarta-sans/latin-500.css";
+@import "@fontsource/plus-jakarta-sans/latin-600.css";
+@import "@fontsource/plus-jakarta-sans/latin-700.css";
+@import "@fontsource/syne/latin-500.css";
+@import "@fontsource/syne/latin-600.css";
+@import "@fontsource/syne/latin-700.css";
+@import "tailwindcss" source(none);
+@source "../src";
+
+/* -------------------------------------------------------
+   DESIGN-TOKENS → Tailwind-Klassen (bg-…, text-…, font-…)
+   Die Farbwerte selbst stehen in :root.
+   ------------------------------------------------------- */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-sage: var(--sage);
+  --color-sage-foreground: var(--sage-foreground);
+  --color-accent-mineral: var(--accent-mineral);
+  --color-listening: var(--listening);
+  --color-listening-muted: var(--listening-muted);
+
+  --font-display: "Syne", sans-serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+}
+
+/* -------------------------------------------------------
+   FARBPALETTE – Cloud Dancer / Espresso / Peony
+   ------------------------------------------------------- */
+
+:root {
+  --radius: 0.625rem;
+
+  /* Grundfarben */
+  --background: #f0eee9;
+  --foreground: #3b2723;
+  --card: #f8f6f2;
+  --primary: #3b2723;
+  --primary-foreground: #f0eee9;
+  --secondary: #e9bbcb;
+  --muted-foreground: #715e58;
+  --accent: #e9bbcb;
+  --accent-foreground: #3b2723;
+
+  /* Linien, Formulare, Fokus */
+  --border: color-mix(in srgb, #3b2723 20%, transparent);
+  --input: color-mix(in srgb, #3b2723 26%, transparent);
+  --ring: color-mix(in srgb, #3b2723 45%, transparent);
+  --accent-mineral: #3a0c0c;
+
+  /* Flächen */
+  --surface: color-mix(in srgb, #f8f6f2 88%, transparent);
+  --light: #f8f6f2;
+  --pearl: #f8f6f2;
+  --neutral-pearl: #f8f6f2;
+  --neutral-ivory: #f0eee9;
+  --neutral-linen-cool: #e7e2dc;
+  --neutral-mist: #ded8d1;
+  --neutral-line: #cfc6bf;
+
+  /* Akzente */
+  --wine: #4a0404;
+  --sage: #3a0c0c;
+  --sage-foreground: #260808;
+
+  /* Schrift auf Fotos / im Hörmodus */
+  --listening: #fffefa;
+  --listening-muted: rgb(255 254 250 / 0.78);
+}
+
+/* =======================================================
+   2. BASIS
+   ======================================================= */
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    letter-spacing: 0;
+    overscroll-behavior-y: none;
+  }
+
+  button,
+  a,
+  input {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Sichtbarer Tastaturfokus */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--accent-mineral);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+}
+
+/* „Zum Inhalt springen“ – nur bei Tastaturfokus sichtbar */
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgb(70 58 45 / 0.18);
+  transform: translateY(-160%);
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Touch-Ziele mindestens 44 × 44 px */
+.tap-target {
+  position: relative;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =======================================================
+   3. HEADER & AUSGABEN-MENÜ
+   ======================================================= */
+
+.floating-site-header {
+  min-height: calc(4rem + max(env(safe-area-inset-top), 0.75rem));
+  padding-top: max(env(safe-area-inset-top), 0.75rem);
+  background: color-mix(in srgb, var(--background) 96%, transparent);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease;
+}
+
+.floating-site-header.is-scrolled {
+  background: color-mix(in srgb, var(--background) 98%, transparent);
+  border-color: color-mix(in oklab, var(--border) 72%, transparent);
+}
+
+.site-header-inner {
+  height: 4rem;
+}
+
+.site-logo {
+  width: 8.4rem;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+/* „App speichern“-Knopf */
+.install-guide-jump {
+  height: 2rem;
+  padding-inline: 0.65rem;
+  border-color: color-mix(in srgb, var(--primary) 28%, transparent);
+  background: var(--neutral-pearl);
+  color: var(--foreground);
+  font-size: 0.65rem;
+  font-weight: 600;
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+.install-guide-jump svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.install-guide-jump:hover {
+  background: var(--neutral-mist);
+}
+
+@media (max-width: 380px) {
+  .install-guide-jump span {
+    display: none;
+  }
+
+  .install-guide-jump {
+    width: 2.5rem;
+    padding-inline: 0;
+  }
+}
+
+/* Menü-Knopf im Glas-Look */
+.liquid-glass-button {
+  position: relative;
+  border: 1px solid rgb(255 255 250 / 0.72) !important;
+  background: linear-gradient(145deg, rgb(255 255 250 / 0.62), rgb(255 255 250 / 0.18)) !important;
+  box-shadow:
+    0 10px 30px rgb(38 8 8 / 0.08),
+    inset 0 1px 0 rgb(255 255 250 / 0.88);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.liquid-glass-button:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(145deg, rgb(255 255 250 / 0.78), rgb(255 255 250 / 0.25)) !important;
+  box-shadow:
+    0 14px 34px rgb(38 8 8 / 0.12),
+    inset 0 1px 0 rgb(255 255 250 / 0.94);
+}
+
+/* Ausklappbares Ausgaben-Menü */
+.issue-sheet {
+  background: transparent !important;
+}
+
+.issue-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100%;
+  border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
+  background: var(--neutral-pearl);
+  color: var(--foreground);
+  box-shadow:
+    -18px 0 54px color-mix(in srgb, var(--foreground) 10%, transparent),
+    inset 1px 0 0 color-mix(in srgb, var(--pearl) 90%, transparent);
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+}
+
+/* Glas-Lichtreflex */
+.issue-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    125deg,
+    rgb(255 255 255 / 0.34) 0%,
+    rgb(255 255 255 / 0.08) 25%,
+    transparent 46%,
+    transparent 70%,
+    rgb(255 255 255 / 0.1) 100%
+  );
+  opacity: 0.8;
+}
+
+/* Feine innere Glas-Kante */
+.issue-panel::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 20;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+  opacity: 0.8;
+}
+
+.issue-panel-content {
+  position: relative;
+  z-index: 10;
+}
+
+.issue-entry {
+  position: relative;
+  display: block;
+  padding: 1.25rem 1rem 1.35rem;
+  margin-top: 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 1.25rem;
+  transition:
+    background-color 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.issue-entry:first-child {
+  margin-top: 0;
+}
+
+.issue-entry-current {
+  background: var(--neutral-mist);
+  border-color: var(--neutral-mist);
+  box-shadow: inset 4px 0 0 var(--primary);
+}
+
+.issue-entry:hover {
+  background: color-mix(in srgb, var(--foreground) 4%, transparent);
+  transform: translateX(2px);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+}
+
+/* Übersicht (Startseite) und Events: Kopf ohne Audio-Bühne */
+.overview-hero {
+  padding-top: calc(6rem + env(safe-area-inset-top));
+}
+
+/* Kachel einer Ausgabe auf der Übersicht */
+.overview-card {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem 0.75rem 0.75rem;
+  border: 1px solid var(--neutral-line);
+  border-radius: 1.25rem;
+  background: var(--neutral-pearl);
+  transition:
+    background-color 220ms ease,
+    transform 220ms ease;
+}
+
+.overview-card:hover {
+  background: var(--neutral-mist);
+  transform: translateX(2px);
+}
+
+.overview-card-cover {
+  width: 4.5rem;
+  aspect-ratio: 1;
+  border-radius: 0.85rem;
+  object-fit: cover;
+  background: var(--neutral-mist);
+}
+
+.overview-card--events .overview-card-cover {
+  background: var(--secondary);
+}
+
+/* =======================================================
+   4. HERO
+   ======================================================= */
+
+.hero-presentation {
+  transform-origin: top center;
+  padding-top: calc(6rem + env(safe-area-inset-top));
+  transition:
+    opacity 420ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-presentation.is-compact {
+  padding-bottom: 2.5rem;
+}
+
+.hero-title {
+  transform-origin: left top;
+  color: var(--foreground);
+  text-transform: uppercase;
+  font-size: clamp(2.65rem, 11vw, 5.4rem);
+  line-height: 0.88;
+  transition:
+    opacity 480ms ease,
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-presentation.is-compact .hero-title {
+  opacity: 0.35;
+  transform: translateY(-0.75rem);
+}
+
+.hero-sub {
+  transition:
+    opacity 480ms ease,
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-presentation.is-compact .hero-sub {
+  opacity: 0.5;
+  transform: translateY(-0.4rem);
+}
+
+/* Überschriften in der Display-Schrift */
+.hero-title,
+.audio-art-title,
+.companion-band h2,
+.pmr-band h2,
+.continue-link,
+.issue-entry [class*="font-display"] {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* =======================================================
+   5. AUDIO-BEREICH
+   ======================================================= */
+
+.audio-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  overflow-x: clip;
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+}
+
+/* Farbwelten je Audio (Ausgabe 02).
+   --audio-accent      heller Farbton (Badge, Punkt, Kante)
+   --audio-accent-ink  dunkler Farbton (Play-Knopf, Texte)
+   --band-deep         Farbe des Tastaturfokus */
+.audio-band,
+.companion-band {
+  --band-deep: #3b2723;
+}
+
+.audio-tone-1,
+.companion-tone-1 {
+  --audio-accent: #b8d4d1;
+  --audio-accent-ink: #173d3a;
+  --band-deep: #0b3d3a;
+}
+
+.audio-tone-2,
+.companion-tone-2 {
+  --audio-accent: #c9bed8;
+  --audio-accent-ink: #40334b;
+}
+
+.audio-tone-3,
+.companion-tone-3 {
+  --audio-accent: #e9bbcb;
+  --audio-accent-ink: #4b2934;
+  --band-deep: #341c67;
+}
+
+.audio-tone-4,
+.companion-tone-4 {
+  --audio-accent: #bcd0bf;
+  --audio-accent-ink: #263b2c;
+  --band-deep: #08071d;
+}
+
+.audio-band :focus-visible,
+.companion-band :focus-visible {
+  outline-color: var(--band-deep);
+}
+
+.audio-carousel-shell {
+  position: relative;
+}
+
+.audio-carousel-shell > [role="group"] {
+  padding-top: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+/* Audiokachel */
+.audio-player-card {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  box-sizing: border-box;
+  padding: 0.65rem;
+  border-radius: 1.5rem;
+  border-color: var(--neutral-line);
+  background: var(--card);
+  color: var(--foreground);
+  transform: translateY(0) scale(1);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.96),
+    inset 0 -1px 0 rgb(255 255 255 / 0.18),
+    0 26px 58px -24px rgb(38 8 8 / 0.28),
+    0 4px 14px rgb(38 8 8 / 0.07);
+  transition:
+    opacity 420ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms ease,
+    box-shadow 520ms ease;
+}
+
+/* Feiner Lichtreflex auf der Kachel */
+.audio-player-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-top: 1px solid rgb(255 255 255 / 0.98);
+  border-left: 1px solid rgb(255 255 255 / 0.72);
+  background: linear-gradient(
+    135deg,
+    rgb(255 255 250 / 0.34),
+    transparent 32%,
+    transparent 70%,
+    rgb(255 255 250 / 0.1)
+  );
+  opacity: 0.82;
+}
+
+.audio-player-card > div:last-of-type {
+  padding-inline: 0.8rem;
+}
+
+.audio-cover-layout {
+  border-radius: 1rem;
+  background: var(--neutral-mist);
+}
+
+.audio-cover-image {
+  min-width: 0;
+  transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.audio-player-card:hover .audio-cover-image {
+  transform: scale(1.025);
+}
+
+/* Kategorie-/Datums-Badge auf dem Cover */
+.audio-cover-badge {
+  left: 0.7rem;
+  top: 0.7rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 0.3rem;
+  border-color: var(--secondary);
+  background: var(--secondary);
+  color: var(--foreground);
+  box-shadow: none;
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+}
+
+.audio-band[class*="audio-tone-"] .audio-cover-badge {
+  border-color: var(--audio-accent);
+  background: var(--audio-accent);
+  color: var(--audio-accent-ink);
+}
+
+/* Schloss bei noch gesperrten Audios */
+.audio-lock {
+  border-color: rgb(255 255 250 / 0.48);
+  background: rgb(38 8 8 / 0.58);
+  color: var(--pearl);
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+}
+
+.audio-art-title {
+  max-width: 100%;
+  font-size: clamp(1.8rem, 8vw, 2.7rem);
+  line-height: 0.86;
+  color: var(--foreground);
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
+}
+
+.audio-track-title {
+  margin-top: 0.75rem;
+  color: var(--audio-accent-ink, var(--foreground));
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+/* Play-Knopf trägt die Farbe der Audio-Welt */
+.audio-player-card .bg-primary {
+  background: var(--audio-accent-ink, var(--primary));
+  color: #f8f6f2;
+  box-shadow: none;
+}
+
+.audio-player-card .bg-primary:hover {
+  background: color-mix(
+    in srgb,
+    var(--audio-accent-ink, var(--primary)) 86%,
+    var(--audio-accent, var(--secondary))
+  );
+}
+
+/* Karussell-Punkte */
+.carousel-dot {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--foreground) 22%, transparent);
+  transition:
+    width 300ms ease,
+    background-color 300ms ease;
+}
+
+[aria-current="true"] > .carousel-dot {
+  background: var(--audio-accent, var(--secondary));
+}
+
+.carousel-change-hint {
+  color: var(--audio-accent-ink, var(--muted-foreground));
+  font-weight: 600;
+  transition: color 400ms ease;
+}
+
+/* „Weiter zum Begleitimpuls“ (Ausgabe 01) */
+.section-cue-badge {
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--secondary);
+  border-radius: 0.35rem;
+  background: var(--secondary);
+  color: var(--foreground);
+}
+
+/* =======================================================
+   6. BEGLEITIMPULS, PMR, WEITERHÖREN, FOOTER
+   ======================================================= */
+
+.companion-band {
+  border-top: 1px solid var(--neutral-line);
+  background: var(--neutral-pearl);
+  color: var(--foreground);
+  box-shadow: inset 0 5px 0 var(--audio-accent, var(--secondary));
+  transition:
+    background-color 400ms ease,
+    box-shadow 400ms ease;
+}
+
+.companion-inner {
+  border-left-width: 1px;
+  border-color: var(--audio-accent, var(--primary));
+}
+
+.companion-kicker {
+  color: var(--audio-accent-ink, var(--muted-foreground));
+}
+
+.companion-band h2,
+.companion-band [class*="font-display"] {
+  text-wrap: balance;
+}
+
+/* Download-Knopf im Begleittext */
+.companion-band .bg-surface {
+  background: var(--neutral-pearl);
+  border-color: var(--neutral-line);
+  color: var(--foreground);
+}
+
+.companion-band .bg-surface:hover {
+  background: var(--neutral-mist);
+  color: var(--foreground);
+}
+
+/* Progressive Muskelentspannung */
+.pmr-band {
+  border-top: 1px solid var(--neutral-line);
+  background: var(--neutral-linen-cool);
+  color: var(--foreground);
+}
+
+.pmr-band .text-sage-foreground,
+.pmr-band .text-foreground\/70 {
+  color: var(--muted-foreground);
+}
+
+.pmr-band .border-sage\/25 {
+  border-color: var(--neutral-line);
+}
+
+.pmr-band :focus-visible {
+  outline-color: #341c67;
+}
+
+/* Weiterhören */
+.continue-band {
+  background: var(--neutral-linen-cool);
+  color: var(--foreground);
+}
+
+.site-footer {
+  background: var(--wine);
+  color: var(--pearl);
+}
+
+/* =======================================================
+   7. HÖRMODUS
+   ======================================================= */
+
+.listening-mode {
+  --listening-deep: #3b2723;
+  --listening-soft: #e9bbcb;
+  --listening-ink: #f0eee9;
+  background: var(--listening-deep);
+  color: var(--listening-ink);
+}
+
+.listening-mode__image,
+.listening-mode__wash {
+  position: absolute;
+  inset: 0;
+}
+
+.listening-mode__image {
+  background-image: var(--listening-image);
+  background-position: center;
+  background-size: cover;
+  transform: scale(1.02);
+}
+
+.listening-mode__wash {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--listening-deep) 8%, transparent) 8%,
+    color-mix(in srgb, var(--listening-deep) 58%, transparent) 48%,
+    var(--listening-deep) 100%
+  );
+}
+
+.listening-mode .text-listening,
+.listening-mode .text-listening-muted {
+  color: var(--listening-ink);
+}
+
+.listening-mode .text-listening-muted {
+  opacity: 0.82;
+}
+
+.listening-control {
+  border: 1px solid color-mix(in srgb, var(--listening-soft) 48%, transparent);
+  background: color-mix(in srgb, var(--listening-soft) 16%, transparent);
+  color: var(--listening-ink);
+}
+
+.listening-close {
+  border-color: var(--listening-ink);
+  background: var(--listening-ink);
+  color: var(--listening-deep);
+}
+
+.listening-close:hover {
+  border-color: var(--listening-soft);
+  background: var(--listening-soft);
+  color: var(--listening-deep);
+}
+
+.listening-play {
+  background: var(--listening-soft);
+  color: var(--listening-deep);
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--listening-deep) 42%, transparent);
+}
+
+/* Fortschrittsregler – --player-progress setzt React */
+.listening-range {
+  --player-progress: 0%;
+  appearance: none;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--primary) 0 var(--player-progress),
+    rgb(74 4 4 / 0.14) var(--player-progress) 100%
+  );
+  cursor: pointer;
+}
+
+.listening-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--listening-soft) 0 var(--player-progress),
+    color-mix(in srgb, var(--listening-ink) 28%, transparent) var(--player-progress) 100%
+  );
+}
+
+.listening-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--listening-ink) 28%, transparent);
+}
+
+.listening-range::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--listening-soft);
+}
+
+.listening-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border: 3px solid var(--listening-deep);
+  border-radius: 999px;
+  background: var(--listening-soft);
+  box-shadow:
+    0 0 0 1px var(--primary),
+    0 2px 8px rgb(38 8 8 / 0.2);
+}
+
+.listening-range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 3px solid var(--listening-deep);
+  border-radius: 999px;
+  background: var(--listening-soft);
+}
+
+.listening-range:focus-visible {
+  outline: 2px solid var(--accent-mineral);
+  outline-offset: 4px;
+}
+
+.listening-mode :focus-visible {
+  outline-color: var(--listening-soft);
+}
+
+/* =======================================================
+   8. ATEM-INTRO (nur als installierte Web-App)
+      & HOMESCREEN-ANLEITUNG
+   ======================================================= */
+
+.breath-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: calc(2rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
+  background: var(--neutral-ivory);
+  color: var(--foreground);
+  animation: breath-intro-in 600ms ease both;
+}
+
+.breath-intro.is-leaving {
+  animation: breath-intro-out 650ms ease both;
+}
+
+.breath-intro__stage {
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+}
+
+.breath-intro__art {
+  position: relative;
+  width: 13rem;
+  height: 13rem;
+  transform-origin: 50% 50%;
+}
+
+.breath-intro__art.is-in {
+  animation: breath-grow ease-in-out both;
+}
+
+.breath-intro__art.is-out {
+  animation: breath-shrink ease-in-out both;
+}
+
+.breath-intro__art.is-full {
+  transform: scale(1.45);
+  opacity: 1;
+}
+
+.breath-intro__art.is-empty {
+  transform: scale(0.45);
+  opacity: 0.6;
+}
+
+.breath-blob {
+  position: absolute;
+  display: block;
+  inset: 0;
+  margin: auto;
+  animation: blob-morph 7s ease-in-out infinite;
+}
+
+.breath-blob--outer {
+  width: 100%;
+  height: 100%;
+  background: color-mix(in srgb, #d9cbb6 65%, transparent);
+}
+
+.breath-blob--mid {
+  width: 76%;
+  height: 76%;
+  background: color-mix(in srgb, #b79a7a 75%, transparent);
+  animation-duration: 5.5s;
+  animation-direction: reverse;
+}
+
+.breath-blob--core {
+  width: 48%;
+  height: 48%;
+  background: #8b6b4e;
+}
+
+.breath-intro__label {
+  color: #6b5240;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.breath-intro__hint {
+  color: #6b5240;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.breath-intro__skip {
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border: 1px solid var(--neutral-line);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+}
+
+@keyframes breath-grow {
+  from {
+    transform: scale(0.45) rotate(-3deg);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1.45);
+    opacity: 1;
+  }
+}
+
+@keyframes breath-shrink {
+  from {
+    transform: scale(1.45);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.45) rotate(3deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes breath-intro-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes breath-intro-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes blob-morph {
+  0%,
+  100% {
+    border-radius: 58% 42% 55% 45% / 48% 58% 42% 52%;
+    transform: rotate(0deg);
+  }
+  33% {
+    border-radius: 42% 58% 46% 54% / 60% 40% 60% 40%;
+    transform: rotate(40deg);
+  }
+  66% {
+    border-radius: 52% 48% 38% 62% / 42% 55% 45% 58%;
+    transform: rotate(-30deg);
+  }
+}
+
+.homescreen-guide {
+  scroll-margin-top: calc(5.5rem + env(safe-area-inset-top));
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--primary-foreground) 22%, transparent);
+}
+
+.homescreen-guide__title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.homescreen-guide__steps {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  opacity: 0.92;
+}
+
+.homescreen-guide__steps strong {
+  font-weight: 700;
+}
+
+.homescreen-guide__note {
+  margin-top: 0.7rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+
+/* =======================================================
+   9. LAYOUT TABLET / DESKTOP
+   ======================================================= */
+
+@media (min-width: 700px) and (max-width: 899px) {
+  .editorial-stage .hero-presentation {
+    padding-top: calc(5.5rem + env(safe-area-inset-top));
+    padding-bottom: 3rem;
+  }
+
+  .editorial-stage .hero-title {
+    max-width: 100%;
+    font-size: 4rem;
+    line-height: 0.94;
+  }
+
+  .editorial-stage .audio-band {
+    padding-top: 2rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .editorial-stage {
+    display: grid;
+    grid-template-columns: minmax(20rem, 0.85fr) minmax(30rem, 1.15fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+    width: min(100% - 4rem, 76rem);
+    min-height: 46rem;
+    margin-inline: auto;
+    padding-block: 7rem 4rem;
+  }
+
+  .editorial-stage .hero-presentation {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  .editorial-stage .hero-presentation > div {
+    margin-top: 0;
+  }
+
+  .editorial-stage .hero-sub {
+    max-width: 29rem;
+    font-size: 1rem;
+  }
+
+  .editorial-stage .audio-band {
+    min-width: 0;
+    padding-block: 2rem;
+  }
+
+  .editorial-stage .audio-carousel-shell {
+    max-width: none;
+  }
+
+  .editorial-stage--single {
+    grid-template-columns: minmax(24rem, 1fr) minmax(25rem, 0.8fr);
+  }
+
+  .editorial-stage--single .audio-band > div {
+    max-width: 27rem;
+  }
+
+  .floating-site-header .site-header-inner {
+    max-width: 76rem;
+  }
+}
+
+/* -------------------------------------------------------
+   REDUCED MOTION – Bewegung reduzieren, wenn gewünscht
+   ------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .scroll-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .breath-intro,
+  .breath-intro__art {
+    animation: none !important;
+  }
+
+  .breath-blob {
+    animation: none;
+    border-radius: 50%;
+  }
+}
