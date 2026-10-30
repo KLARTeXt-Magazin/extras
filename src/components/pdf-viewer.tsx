@@ -5,7 +5,6 @@
 // • pdf.js wird erst beim Öffnen geladen (dynamischer Import)
 // =======================================================
 
-import "@/lib/map-methods-polyfill";
 import { useEffect, useRef, useState } from "react";
 import { Download, X } from "lucide-react";
 import * as pdfjsLib from "pdfjs-dist";
@@ -64,7 +63,7 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
           const context = canvas.getContext("2d");
           if (!context) throw new Error("Canvas nicht verfügbar");
 
-          await page.render({ canvas, canvasContext: context, viewport }).promise;
+          await page.render({ canvasContext: context, viewport }).promise;
           if (cancelled) return;
 
           container?.append(canvas);
