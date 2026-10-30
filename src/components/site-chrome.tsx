@@ -8,6 +8,9 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CalendarDays, Menu, Smartphone } from "lucide-react";
 
+import { MAGAZIN_URL, VERANSTALTUNGEN_URL } from "@/lib/links";
+
+
 import { HomescreenGuide } from "@/components/homescreen-guide";
 import { InstallAction } from "@/components/install-action";
 import { Button } from "@/components/ui/button";
@@ -22,8 +25,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-const MAGAZIN_URL = MAGAZIN_URL_IMPORT;
-const VERANSTALTUNGEN_URL = VERANSTALTUNGEN_URL_IMPORT;
+
 
 export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; current: SiteRoute }) {
   return (
