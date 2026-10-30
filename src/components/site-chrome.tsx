@@ -8,6 +8,9 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CalendarDays, Menu, Smartphone } from "lucide-react";
 
+import { MAGAZIN_URL, VERANSTALTUNGEN_URL } from "@/lib/links";
+
+
 import { HomescreenGuide } from "@/components/homescreen-guide";
 import { InstallAction } from "@/components/install-action";
 import { Button } from "@/components/ui/button";
@@ -22,15 +25,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-// „Alle Ausgaben“ (Menü-Überschrift) führt zur Übersicht, daher hier nur Events.
-const pages: {
-  label: string;
-  hint: string;
-  to: "/events";
-  icon: typeof CalendarDays;
-}[] = [{ label: "Events", hint: "Termine rund um KLARTeXt.", to: "/events", icon: CalendarDays }];
 
-const MAGAZIN_URL = "https://www.magazin-klartext.de/";
 
 export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; current: SiteRoute }) {
   return (
@@ -129,32 +124,22 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
                     <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
                       Mehr entdecken
                     </p>
-                    {pages.map((page) => {
-                      const Icon = page.icon;
-                      return (
-                        <SheetClose asChild key={page.to}>
-                          <Link
-                            to={page.to}
-                            aria-current={page.to === current ? "page" : undefined}
-                            className={`issue-entry ${page.to === current ? "issue-entry-current" : ""}`}
-                          >
-                            <span className="flex items-center gap-3.5">
-                              <span className="issue-page-icon grid size-11 shrink-0 place-items-center rounded-full">
-                                <Icon className="size-5" strokeWidth={1.5} />
-                              </span>
-                              <span className="min-w-0">
-                                <span className="block font-display text-lg font-semibold leading-tight">
-                                  {page.label}
-                                </span>
-                                <span className="block text-sm leading-6 text-muted-foreground">
-                                  {page.hint}
-                                </span>
-                              </span>
-                            </span>
-                          </Link>
-                        </SheetClose>
-                      );
-                    })}
+                    {/* Externe Seite (Magazin-Domain), öffnet im selben Tab */}
+                    <a href={VERANSTALTUNGEN_URL} className="issue-entry">
+                      <span className="flex items-center gap-3.5">
+                        <span className="issue-page-icon grid size-11 shrink-0 place-items-center rounded-full">
+                          <CalendarDays className="size-5" strokeWidth={1.5} />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block font-display text-lg font-semibold leading-tight">
+                            Veranstaltungen
+                          </span>
+                          <span className="block text-sm leading-6 text-muted-foreground">
+                            Termine rund um KLARTeXt.
+                          </span>
+                        </span>
+                      </span>
+                    </a>
                   </nav>
 
                   <a
@@ -193,19 +178,29 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <nav className="flex gap-4 text-xs" aria-label="Rechtliches">
-          {legal.map(([label, href]) => (
-            <a
-              key={label}
-              className="inline-flex min-h-[44px] items-end underline underline-offset-4"
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {label}
-            </a>
-          ))}
-        </nav>
+        <div className="flex flex-col items-end gap-1">
+          {/* Externe Seite (Magazin-Domain), öffnet im selben Tab */}
+          <a
+            href={VERANSTALTUNGEN_URL}
+            className="inline-flex min-h-[44px] items-end underline underline-offset-4"
+          >
+            Veranstaltungen
+          </a>
+
+          <nav className="flex gap-4 text-xs" aria-label="Rechtliches">
+            {legal.map(([label, href]) => (
+              <a
+                key={label}
+                className="inline-flex min-h-[44px] items-end underline underline-offset-4"
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+        </div>
       </div>
 
       <p className="mx-auto mt-6 max-w-[430px] text-[10px] leading-relaxed opacity-70">

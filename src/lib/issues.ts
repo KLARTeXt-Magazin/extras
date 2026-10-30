@@ -8,7 +8,7 @@
 import coverHeft01 from "@/assets/heft-01-cover.webp";
 
 export type IssueRoute = "/ehrlichkeit" | "/lichtblicke";
-export type SiteRoute = "/" | "/events" | IssueRoute;
+export type SiteRoute = "/" | IssueRoute;
 
 export const issues: {
   eyebrow: string;

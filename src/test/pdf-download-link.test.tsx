@@ -12,6 +12,15 @@ function setStandalone(standalone: boolean) {
   });
 }
 
+// PDF-Ansicht wird für den Test ersetzt: sie soll nur geöffnet werden,
+// nicht wirklich pdf.js laden.
+vi.mock("@/components/pdf-viewer", () => ({
+  PdfViewer: (props: { open: boolean; href: string; title: string }) =>
+    props.open ? (
+      <div data-testid="pdf-viewer" data-href={props.href} data-title={props.title} />
+    ) : null,
+}));
+
 describe("PdfDownloadLink", () => {
   let container: HTMLDivElement;
   let root: Root;
@@ -23,7 +32,7 @@ describe("PdfDownloadLink", () => {
     root = createRoot(container);
     vi.stubGlobal(
       "fetch",
-      vi.fn(async () => new Response(new Blob(["%PDF"], { type: "application/pdf" }))),
+      vi.fn(async () => new Response("%PDF", { headers: { "Content-Type": "application/pdf" } })),
     );
     URL.createObjectURL = vi.fn(() => "blob:pdf");
     URL.revokeObjectURL = vi.fn();
@@ -56,9 +65,10 @@ describe("PdfDownloadLink", () => {
     const link = container.querySelector("a");
     expect(link).toHaveAttribute("target", "_blank");
     expect(click().defaultPrevented).toBe(false);
+    expect(container.querySelector('[data-testid="pdf-viewer"]')).toBeNull();
   });
 
-  it("bleibt in der App und speichert das PDF als Datei", async () => {
+  it("bleibt in der App und zeigt zuerst die PDF-Ansicht", async () => {
     setStandalone(true);
     const saved: string[] = [];
     const originalClick = HTMLAnchorElement.prototype.click;
@@ -73,6 +83,11 @@ describe("PdfDownloadLink", () => {
     });
 
     HTMLAnchorElement.prototype.click = originalClick;
-    expect(saved).toEqual(["app.pdf"]);
+
+    // Noch nichts gespeichert – erst die Ansicht zeigen
+    expect(saved).toEqual([]);
+    const viewer = container.querySelector('[data-testid="pdf-viewer"]');
+    expect(viewer).toHaveAttribute("data-href", "/pdf/app.pdf");
+    expect(viewer).toHaveAttribute("data-title", "PDF");
   });
 });
