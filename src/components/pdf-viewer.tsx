@@ -71,7 +71,8 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
 
         loadingTask.destroy();
         if (!cancelled) setStatus("ready");
-      } catch {
+      } catch (error) {
+        console.error("PDF-Ansicht:", error);
         if (!cancelled) setStatus("error");
       }
     })();
