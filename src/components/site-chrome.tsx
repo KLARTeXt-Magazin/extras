@@ -22,15 +22,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-// „Alle Ausgaben“ (Menü-Überschrift) führt zur Übersicht, daher hier nur Events.
-const pages: {
-  label: string;
-  hint: string;
-  to: "/events";
-  icon: typeof CalendarDays;
-}[] = [{ label: "Events", hint: "Termine rund um KLARTeXt.", to: "/events", icon: CalendarDays }];
-
-const MAGAZIN_URL = "https://www.magazin-klartext.de/";
+const MAGAZIN_URL = MAGAZIN_URL_IMPORT;
+const VERANSTALTUNGEN_URL = VERANSTALTUNGEN_URL_IMPORT;
 
 export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; current: SiteRoute }) {
   return (
