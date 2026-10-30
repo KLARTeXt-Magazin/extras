@@ -1,7 +1,7 @@
 // =======================================================
 // ROUTE: ÜBERSICHT – Startseite der KLARTeXt. Extras
 // • führt zu allen Ausgaben (Liste `issues` in src/lib/issues.ts)
-//   und zur Events-Seite
+//   und zu den Veranstaltungen auf der Magazin-Domain
 // • Heft-Cover leicht in Peony getönt, in Originalfarbe beim Hover
 // =======================================================
 
@@ -10,21 +10,23 @@ import { useEffect, useState } from "react";
 import { ArrowRight, CalendarDays } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { VERANSTALTUNGEN_URL } from "@/lib/links";
 import { issues } from "@/lib/issues";
 import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "KLARTeXt. Extras – Alle Ausgaben und Events" },
+      { title: "KLARTeXt. Extras – Alle Ausgaben und Veranstaltungen" },
       {
         name: "description",
-        content: "Audio-Übungen und Begleitimpulse zu allen Ausgaben von KLARTeXt. sowie Events.",
+        content:
+          "Audio-Übungen und Begleitimpulse zu allen Ausgaben von KLARTeXt. sowie Veranstaltungen.",
       },
       { property: "og:title", content: "KLARTeXt. Extras" },
       {
         property: "og:description",
-        content: "Alle Extras zu den Ausgaben von KLARTeXt. – und unsere Events.",
+        content: "Alle Extras zu den Ausgaben von KLARTeXt. – und unsere Veranstaltungen.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: SITE_URL },
@@ -121,7 +123,8 @@ function Overview() {
               ),
             )}
 
-            <Link to="/events" className="overview-card overview-card--events">
+            {/* Externe Seite (Magazin-Domain), öffnet im selben Tab */}
+            <a href={VERANSTALTUNGEN_URL} className="overview-card overview-card--events">
               <span className="overview-card-body">
                 <span className="overview-card-icon">
                   <CalendarDays className="size-6" strokeWidth={1.5} />
@@ -131,7 +134,7 @@ function Overview() {
                     Neu
                   </span>
                   <span className="mt-1 block font-display text-2xl font-semibold leading-tight">
-                    Events
+                    Veranstaltungen
                   </span>
                   <span className="mt-1 block text-sm leading-6 text-muted-foreground">
                     Termine rund um KLARTeXt.
@@ -139,7 +142,7 @@ function Overview() {
                 </span>
                 <ArrowRight className="size-5 shrink-0" />
               </span>
-            </Link>
+            </a>
           </div>
         </section>
 
