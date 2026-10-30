@@ -5,6 +5,7 @@
 // • pdf.js wird erst beim Öffnen geladen (dynamischer Import)
 // =======================================================
 
+import "@/lib/map-methods-polyfill";
 import { useEffect, useRef, useState } from "react";
 import { Download, X } from "lucide-react";
 import * as pdfjsLib from "pdfjs-dist";
