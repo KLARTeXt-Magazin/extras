@@ -49,7 +49,7 @@ describe("savePdfInApp", () => {
       configurable: true,
       value: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)",
     });
-    const share = vi.fn(async () => {});
+    const share = vi.fn(async (_options?: { files?: File[]; title?: string }) => {});
     Object.defineProperty(window.navigator, "canShare", {
       configurable: true,
       value: () => true,
@@ -59,7 +59,7 @@ describe("savePdfInApp", () => {
     await savePdfInApp("/pdf/app.pdf");
 
     expect(share).toHaveBeenCalledTimes(1);
-    const options = share.mock.calls[0]?.[0] as { files?: File[]; title?: string } | undefined;
+    const options = share.mock.calls[0]?.[0];
     expect(options?.files?.[0]?.name).toBe("app.pdf");
     expect(options?.files?.[0]?.type).toBe("application/pdf");
   });

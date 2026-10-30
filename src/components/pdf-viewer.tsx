@@ -43,10 +43,11 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
       try {
         const blob = await loadPdf(href);
         const data = new Uint8Array(await blob.arrayBuffer());
-        const pdf = await pdfjsLib.getDocument({ data }).promise;
+        const loadingTask = pdfjsLib.getDocument({ data });
+        const pdf = await loadingTask.promise;
 
         if (cancelled) {
-          pdf.destroy();
+          loadingTask.destroy();
           return;
         }
 
@@ -68,7 +69,7 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
           container?.append(canvas);
         }
 
-        pdf.destroy();
+        loadingTask.destroy();
         if (!cancelled) setStatus("ready");
       } catch {
         if (!cancelled) setStatus("error");
