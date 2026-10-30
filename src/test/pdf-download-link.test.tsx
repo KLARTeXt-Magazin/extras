@@ -32,7 +32,7 @@ describe("PdfDownloadLink", () => {
     root = createRoot(container);
     vi.stubGlobal(
       "fetch",
-      vi.fn(async () => new Response(new Blob(["%PDF"], { type: "application/pdf" }))),
+      vi.fn(async () => new Response("%PDF", { headers: { "Content-Type": "application/pdf" } })),
     );
     URL.createObjectURL = vi.fn(() => "blob:pdf");
     URL.revokeObjectURL = vi.fn();
