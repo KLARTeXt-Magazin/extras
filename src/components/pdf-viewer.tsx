@@ -5,7 +5,7 @@
 // • pdf.js wird erst beim Öffnen geladen (dynamischer Import)
 // =======================================================
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Download, X } from "lucide-react";
 import * as pdfjsLib from "pdfjs-dist";
 // Worker aus dem Paket, damit Version und Worker zusammenpassen.
