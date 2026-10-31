@@ -37,6 +37,7 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
 
     let cancelled = false;
     const container = pagesRef.current;
+    console.log("PDF-Debug: container da?", Boolean(container));
     container?.replaceChildren();
     setStatus("loading");
 
@@ -70,6 +71,7 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
           console.log("PDF-Debug: Seite", number, "fertig");
           if (cancelled) return;
 
+          console.log("PDF-Debug: hänge Seite", number, "ein");
           container?.append(canvas);
         }
 
