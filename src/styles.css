@@ -354,13 +354,13 @@
   text-decoration-color: currentColor;
 }
 
-/* Icon-Chip für „Events“ im Menü */
+/* Icon-Chip für „Veranstaltungen“ im Menü */
 .issue-page-icon {
   background: var(--secondary);
   color: var(--foreground);
 }
 
-/* Übersicht (Startseite) und Events: Kopf ohne Audio-Bühne */
+/* Übersicht (Startseite) und Veranstaltungen: Kopf ohne Audio-Bühne */
 .overview-hero {
   padding-top: calc(6rem + env(safe-area-inset-top));
 }
