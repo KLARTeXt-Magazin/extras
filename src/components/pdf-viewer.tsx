@@ -51,6 +51,7 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
           return;
         }
 
+        console.log("PDF-Debug: numPages", pdf.numPages);
         const pages = Math.min(pdf.numPages, MAX_PAGES);
         for (let number = 1; number <= pages; number += 1) {
           const page = await pdf.getPage(number);
@@ -64,12 +65,14 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
           if (!context) throw new Error("Canvas nicht verfügbar");
 
           await page.render({ canvasContext: context, viewport }).promise;
+          console.log("PDF-Debug: Seite", number, "fertig");
           if (cancelled) return;
 
           container?.append(canvas);
         }
 
         loadingTask.destroy();
+        console.log("PDF-Debug: fertig, cancelled =", cancelled);
         if (!cancelled) setStatus("ready");
       } catch (error) {
         console.error("PDF-Ansicht:", error);
