@@ -32,6 +32,7 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
   const pagesRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    console.log("PDF-Debug: Effekt startet, open =", open, "href =", href);
     if (!open) return;
 
     let cancelled = false;
@@ -42,6 +43,7 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
     void (async () => {
       try {
         const blob = await loadPdf(href);
+        console.log("PDF-Debug: geladen", blob.size);
         const data = new Uint8Array(await blob.arrayBuffer());
         const loadingTask = pdfjsLib.getDocument({ data });
         const pdf = await loadingTask.promise;
