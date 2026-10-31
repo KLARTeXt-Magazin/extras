@@ -5,6 +5,10 @@
 // Nur im Browser aufrufen (z. B. in useEffect oder Event-Handlern).
 // =======================================================
 
+export function isMobileDevice() {
+  return /Mobi|Android|iPhone|iPad|iPod/i.test(window.navigator.userAgent);
+}
+
 export function isStandaloneApp() {
   return (
     window.matchMedia("(display-mode: standalone)").matches ||
