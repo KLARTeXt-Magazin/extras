@@ -29,22 +29,30 @@ export type PdfViewerProps = {
 
 export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-  const pagesRef = useRef<HTMLDivElement | null>(null);
+  const [pagesNode, setPagesNode] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    console.log("PDF-Debug: Effekt startet, open =", open, "href =", href);
-    if (!open) return;
+    // Radix hängt den Dialog-Inhalt erst nach dem ersten Rendern ein –
+    // deshalb kommt der Behälter über einen Callback-Ref hier an.
+    if (!open || !pagesNode) return;
 
     let cancelled = false;
-    const container = pagesRef.current;
-    console.log("PDF-Debug: container da?", Boolean(container));
-    container?.replaceChildren();
+    pagesNode.replaceChildren();
     setStatus("loading");
+
+    // Eine Seite braucht zuweilen zu lange oder bricht unterm Strich
+    // nicht ab (Sonderfälle im PDF) – dann überspringen statt hängen.
+    const mitZeitlimit = <T,>(job: Promise<T>) =>
+      Promise.race([
+        job,
+        new Promise<never>((_, ablehnen) =>
+          setTimeout(() => ablehnen(new Error("Seite hat zu lange gebraucht")), 20_000),
+        ),
+      ]);
 
     void (async () => {
       try {
         const blob = await loadPdf(href);
-        console.log("PDF-Debug: geladen", blob.size);
         const data = new Uint8Array(await blob.arrayBuffer());
         const loadingTask = pdfjsLib.getDocument({ data });
         const pdf = await loadingTask.promise;
@@ -54,30 +62,33 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
           return;
         }
 
-        console.log("PDF-Debug: numPages", pdf.numPages);
         const pages = Math.min(pdf.numPages, MAX_PAGES);
+        let shown = 0;
+
         for (let number = 1; number <= pages; number += 1) {
-          const page = await pdf.getPage(number);
-          const viewport = page.getViewport({ scale: 2 });
-          const canvas = document.createElement("canvas");
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-          canvas.className = "pdf-viewer-page";
+          try {
+            const page = await pdf.getPage(number);
+            const viewport = page.getViewport({ scale: 2 });
+            const canvas = document.createElement("canvas");
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            canvas.className = "pdf-viewer-page";
 
-          const context = canvas.getContext("2d");
-          if (!context) throw new Error("Canvas nicht verfügbar");
+            const context = canvas.getContext("2d");
+            if (!context) throw new Error("Canvas nicht verfügbar");
 
-          await page.render({ canvasContext: context, viewport }).promise;
-          console.log("PDF-Debug: Seite", number, "fertig");
-          if (cancelled) return;
+            await mitZeitlimit(page.render({ canvasContext: context, viewport }).promise);
+            if (cancelled) return;
 
-          console.log("PDF-Debug: hänge Seite", number, "ein");
-          container?.append(canvas);
+            pagesNode.append(canvas);
+            shown += 1;
+          } catch (error) {
+            console.warn(`PDF-Ansicht: Seite ${number} nicht darstellbar`, error);
+          }
         }
 
         loadingTask.destroy();
-        console.log("PDF-Debug: fertig, cancelled =", cancelled);
-        if (!cancelled) setStatus("ready");
+        if (!cancelled) setStatus(shown > 0 ? "ready" : "error");
       } catch (error) {
         console.error("PDF-Ansicht:", error);
         if (!cancelled) setStatus("error");
@@ -87,7 +98,7 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
     return () => {
       cancelled = true;
     };
-  }, [open, href]);
+  }, [open, href, pagesNode]);
 
   const download = () => {
     savePdfInApp(href).catch(() => {
@@ -127,7 +138,7 @@ export function PdfViewer({ open, onOpenChange, href, title }: PdfViewerProps) {
               </p>
             ) : null}
             <div
-              ref={pagesRef}
+              ref={setPagesNode}
               className="mx-auto flex w-full max-w-[430px] flex-col gap-3"
               aria-hidden="true"
             />
