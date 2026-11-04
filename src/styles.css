@@ -369,6 +369,12 @@
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
 }
 
+/* Icon-Chip für „Veranstaltungen“ im Menü */
+.issue-page-icon {
+  background: var(--secondary);
+  color: var(--foreground);
+}
+
 /* Menü-Überschrift „Alle Ausgaben →“ als Link zur Übersicht */
 .issue-sheet-title-link {
   display: inline-flex;
@@ -516,6 +522,11 @@
   border-style: dashed;
   background: transparent;
   opacity: 0.5;
+}
+
+.overview-card--events {
+  border-color: var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 35%, var(--neutral-pearl));
 }
 
 .overview-card-icon {
