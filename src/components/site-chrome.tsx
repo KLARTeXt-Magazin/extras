@@ -6,7 +6,7 @@
 // =======================================================
 
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Menu, Smartphone } from "lucide-react";
+import { ArrowRight, CalendarDays, Menu, Smartphone } from "lucide-react";
 
 import { MAGAZIN_URL } from "@/lib/links";
 
@@ -120,6 +120,31 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
                     })}
                   </nav>
 
+                  <nav className="mt-8" aria-label="Weitere Seiten">
+                    <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
+                      Mehr entdecken
+                    </p>
+                    <SheetClose asChild>
+                      <Link
+                        to="/events"
+                        className={`issue-entry ${current === "/events" ? "issue-entry-current" : ""}`}
+                      >
+                        <span className="flex items-center gap-3.5">
+                          <span className="issue-page-icon grid size-11 shrink-0 place-items-center rounded-full">
+                            <CalendarDays className="size-5" strokeWidth={1.5} />
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block font-display text-lg font-semibold leading-tight">
+                              Veranstaltungen
+                            </span>
+                            <span className="block text-sm leading-6 text-muted-foreground">
+                              Termine rund um KLARTeXt.
+                            </span>
+                          </span>
+                        </span>
+                      </Link>
+                    </SheetClose>
+                  </nav>
 
                   <a
                     href={MAGAZIN_URL}
@@ -158,6 +183,12 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col items-end gap-1">
+          <Link
+            to="/events"
+            className="inline-flex min-h-[44px] items-end underline underline-offset-4"
+          >
+            Veranstaltungen
+          </Link>
 
           <nav className="flex gap-4 text-xs" aria-label="Rechtliches">
             {legal.map(([label, href]) => (

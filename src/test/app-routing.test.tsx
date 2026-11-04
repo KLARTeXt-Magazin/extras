@@ -30,7 +30,7 @@ describe("App routing", () => {
     const router = createRouter({ routeTree });
 
     expect(router.matchRoutes("/ehrlichkeit").at(-1)?.routeId).toBe("/ehrlichkeit");
-    // Keine Veranstaltungsseite in der Extras-App
-    expect(router.matchRoutes("/events").at(-1)?.routeId).not.toBe("/events");
+    // Veranstaltungen laufen wieder über die eigene Events-Seite
+    expect(router.matchRoutes("/events").at(-1)?.routeId).toBe("/events");
   });
 });
