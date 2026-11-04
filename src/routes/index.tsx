@@ -6,7 +6,7 @@
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CalendarDays } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { issues } from "@/lib/issues";
@@ -121,6 +121,25 @@ function Overview() {
               ),
             )}
 
+            <Link to="/events" className="overview-card overview-card--events">
+              <span className="overview-card-body">
+                <span className="overview-card-icon">
+                  <CalendarDays className="size-6" strokeWidth={1.5} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                    Neu
+                  </span>
+                  <span className="mt-1 block font-display text-2xl font-semibold leading-tight">
+                    Veranstaltungen
+                  </span>
+                  <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                    Termine rund um KLARTeXt.
+                  </span>
+                </span>
+                <ArrowRight className="size-5 shrink-0" />
+              </span>
+            </Link>
           </div>
         </section>
 
