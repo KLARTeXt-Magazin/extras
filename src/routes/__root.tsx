@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { BreathIntro } from "../components/breath-intro";
+import { InstallBanner } from "../components/install-banner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -187,6 +188,7 @@ function RootComponent() {
       <BreathIntro />
       {/* Hier werden die Seiten (Ausgaben) eingesetzt – nicht entfernen. */}
       <Outlet />
+      <InstallBanner />
     </>
   );
 }

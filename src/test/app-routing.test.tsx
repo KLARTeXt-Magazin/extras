@@ -30,7 +30,7 @@ describe("App routing", () => {
     const router = createRouter({ routeTree });
 
     expect(router.matchRoutes("/ehrlichkeit").at(-1)?.routeId).toBe("/ehrlichkeit");
-    // Veranstaltungen laufen über die Magazin-Domain, nicht über die Extras-App
+    // Keine Veranstaltungsseite in der Extras-App
     expect(router.matchRoutes("/events").at(-1)?.routeId).not.toBe("/events");
   });
 });

@@ -1,32 +1,30 @@
 // =======================================================
 // ROUTE: ÜBERSICHT – Startseite der KLARTeXt. Extras
 // • führt zu allen Ausgaben (Liste `issues` in src/lib/issues.ts)
-//   und zu den Veranstaltungen auf der Magazin-Domain
 // • Heft-Cover leicht in Peony getönt, in Originalfarbe beim Hover
 // =======================================================
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, CalendarDays } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { VERANSTALTUNGEN_URL } from "@/lib/links";
 import { issues } from "@/lib/issues";
 import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "KLARTeXt. Extras – Alle Ausgaben und Veranstaltungen" },
+      { title: "KLARTeXt. Extras – Alle Ausgaben" },
       {
         name: "description",
         content:
-          "Audio-Übungen und Begleitimpulse zu allen Ausgaben von KLARTeXt. sowie Veranstaltungen.",
+          "Audio-Übungen und Begleitimpulse zu allen Ausgaben von KLARTeXt..",
       },
       { property: "og:title", content: "KLARTeXt. Extras" },
       {
         property: "og:description",
-        content: "Alle Extras zu den Ausgaben von KLARTeXt. – und unsere Veranstaltungen.",
+        content: "Alle Extras zu den Ausgaben von KLARTeXt..",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: SITE_URL },
@@ -123,26 +121,6 @@ function Overview() {
               ),
             )}
 
-            {/* Externe Seite (Magazin-Domain), öffnet im selben Tab */}
-            <a href={VERANSTALTUNGEN_URL} className="overview-card overview-card--events">
-              <span className="overview-card-body">
-                <span className="overview-card-icon">
-                  <CalendarDays className="size-6" strokeWidth={1.5} />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                    Neu
-                  </span>
-                  <span className="mt-1 block font-display text-2xl font-semibold leading-tight">
-                    Veranstaltungen
-                  </span>
-                  <span className="mt-1 block text-sm leading-6 text-muted-foreground">
-                    Termine rund um KLARTeXt.
-                  </span>
-                </span>
-                <ArrowRight className="size-5 shrink-0" />
-              </span>
-            </a>
           </div>
         </section>
 
