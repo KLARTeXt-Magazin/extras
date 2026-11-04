@@ -518,11 +518,6 @@
   opacity: 0.5;
 }
 
-.overview-card--events {
-  border-color: var(--secondary);
-  background: color-mix(in srgb, var(--secondary) 35%, var(--neutral-pearl));
-}
-
 .overview-card-icon {
   display: grid;
   place-items: center;
