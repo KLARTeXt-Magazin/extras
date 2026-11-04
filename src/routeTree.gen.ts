@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EhrlichkeitRouteImport } from './routes/ehrlichkeit'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as LichtblickeRouteImport } from './routes/lichtblicke'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const EhrlichkeitRoute = EhrlichkeitRouteImport.update({
   path: '/ehrlichkeit',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LichtblickeRoute = LichtblickeRouteImport.update({
   id: '/lichtblicke',
   path: '/lichtblicke',
@@ -32,30 +38,34 @@ const LichtblickeRoute = LichtblickeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ehrlichkeit': typeof EhrlichkeitRoute
+  '/events': typeof EventsRoute
   '/lichtblicke': typeof LichtblickeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ehrlichkeit': typeof EhrlichkeitRoute
+  '/events': typeof EventsRoute
   '/lichtblicke': typeof LichtblickeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ehrlichkeit': typeof EhrlichkeitRoute
+  '/events': typeof EventsRoute
   '/lichtblicke': typeof LichtblickeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ehrlichkeit' | '/lichtblicke'
+  fullPaths: '/' | '/ehrlichkeit' | '/events' | '/lichtblicke'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ehrlichkeit' | '/lichtblicke'
-  id: '__root__' | '/' | '/ehrlichkeit' | '/lichtblicke'
+  to: '/' | '/ehrlichkeit' | '/events' | '/lichtblicke'
+  id: '__root__' | '/' | '/ehrlichkeit' | '/events' | '/lichtblicke'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EhrlichkeitRoute: typeof EhrlichkeitRoute
+  EventsRoute: typeof EventsRoute
   LichtblickeRoute: typeof LichtblickeRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EhrlichkeitRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lichtblicke': {
       id: '/lichtblicke'
       path: '/lichtblicke'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EhrlichkeitRoute: EhrlichkeitRoute,
+  EventsRoute: EventsRoute,
   LichtblickeRoute: LichtblickeRoute,
 }
 export const routeTree = rootRouteImport

@@ -9,3 +9,4 @@
 - [x] PDF in der App vor dem Download ansehen: eingebaute PDF-Ansicht mit Download-Knopf
 - [x] Hinweis „App auf den Startbildschirm" (Banner unten, mobil)
 - [x] Veranstaltungen komplett entfernt (Menü, Footer, Übersicht)
+- [x] Events-Seite wiederhergestellt: eigene Route /events, Menü-, Footer- und Übersichts-Links zurück
