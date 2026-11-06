@@ -524,6 +524,24 @@
   opacity: 0.5;
 }
 
+.preview-badge {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 4.75rem);
+  left: 50%;
+  z-index: 60;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: var(--foreground);
+  color: var(--background);
+  padding: 0.4rem 0.9rem;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .overview-card--events {
   border-color: var(--secondary);
   background: color-mix(in srgb, var(--secondary) 35%, var(--neutral-pearl));
