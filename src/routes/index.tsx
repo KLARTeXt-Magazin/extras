@@ -10,6 +10,7 @@ import { ArrowRight, CalendarDays } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { issues } from "@/lib/issues";
+import { usePreview } from "@/lib/preview";
 import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/")({
@@ -18,8 +19,7 @@ export const Route = createFileRoute("/")({
       { title: "KLARTeXt. Extras – Alle Ausgaben" },
       {
         name: "description",
-        content:
-          "Audio-Übungen und Begleitimpulse zu allen Ausgaben von KLARTeXt..",
+        content: "Audio-Übungen und Begleitimpulse zu allen Ausgaben von KLARTeXt..",
       },
       { property: "og:title", content: "KLARTeXt. Extras" },
       {
@@ -37,6 +37,7 @@ export const Route = createFileRoute("/")({
 
 function Overview() {
   const [hasScrolled, setHasScrolled] = useState(false);
+  const preview = usePreview();
 
   useEffect(() => {
     const update = () => setHasScrolled(window.scrollY > 24);
@@ -63,14 +64,16 @@ function Overview() {
           </p>
           <h1 className="hero-title mt-3">Alle Extras</h1>
           <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
-            Audio-Übungen und Begleitimpulse zu den Ausgaben. Und was sonst noch bei KLARTeXt. los ist.
+            Audio-Übungen und Begleitimpulse zu den Ausgaben. Und was sonst noch bei KLARTeXt. los
+            ist.
           </p>
         </section>
 
         <section className="px-5 pb-20 sm:px-7" aria-label="Ausgaben">
           <div className="mx-auto grid w-full max-w-[430px] gap-4">
             {issues.map((issue) =>
-              issue.to ? (
+              // isPublic: false → „Kommt demnächst“, außer in der Vorschau
+              issue.to && (issue.isPublic !== false || preview) ? (
                 <Link
                   key={issue.title}
                   to={issue.to}
@@ -94,6 +97,7 @@ function Overview() {
                     <span className="min-w-0">
                       <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                         {issue.eyebrow}
+                        {issue.isPublic === false ? " · Vorschau" : null}
                       </span>
                       <span className="mt-1 block font-display text-xl font-semibold leading-tight">
                         {issue.title}
@@ -115,6 +119,11 @@ function Overview() {
                       <span className="mt-1 block font-display text-xl font-semibold leading-tight">
                         {issue.title}
                       </span>
+                      {issue.to ? (
+                        <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                          Kommt demnächst
+                        </span>
+                      ) : null}
                     </span>
                   </span>
                 </div>

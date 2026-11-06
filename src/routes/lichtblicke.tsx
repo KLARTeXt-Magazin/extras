@@ -31,9 +31,15 @@ import coverMomentNeu from "../assets/cover-moment-collage-v3.jpg";
 import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 
+import { ComingSoon, PreviewBadge } from "@/components/coming-soon";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
+import { comingSoonMeta, getIssue } from "@/lib/issues";
+import { useIssueVisible } from "@/lib/preview";
 import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
+
+// Schalter „öffentlich“ steht in src/lib/issues.ts (isPublic)
+const issue = getIssue("/lichtblicke");
 
 // =======================================================
 // SEITEN-METADATEN
@@ -48,32 +54,51 @@ import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/lichtblicke")({
   head: () => ({
-    meta: [
-      {
-        title: "KLARTeXt. Extras zu Ausgabe 02: Lichtblicke",
-      },
-      {
-        name: "description",
-        content:
-          "Vier Audio-Impulse der zweiten KLARTeXt.-Ausgabe: Momente zum Innehalten und eine kurze Entspannungsübung.",
-      },
-      {
-        property: "og:title",
-        content: "KLARTeXt. – Lichtblicke",
-      },
-      {
-        property: "og:description",
-        content:
-          "Vier Audio-Momente zum Innehalten und Entspannen. Das Extra zur zweiten KLARTeXt.-Ausgabe.",
-      },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: `${SITE_URL}/lichtblicke` },
-      ...shareImageMeta("KLARTeXt. – Lichtblicke: Audio-Momente zum Innehalten und Entspannen"),
-    ],
+    meta:
+      issue.isPublic === false
+        ? comingSoonMeta(issue)
+        : [
+            {
+              title: "KLARTeXt. Extras zu Ausgabe 02: Lichtblicke",
+            },
+            {
+              name: "description",
+              content:
+                "Vier Audio-Impulse der zweiten KLARTeXt.-Ausgabe: Momente zum Innehalten und eine kurze Entspannungsübung.",
+            },
+            {
+              property: "og:title",
+              content: "KLARTeXt. – Lichtblicke",
+            },
+            {
+              property: "og:description",
+              content:
+                "Vier Audio-Momente zum Innehalten und Entspannen. Das Extra zur zweiten KLARTeXt.-Ausgabe.",
+            },
+            { property: "og:type", content: "article" },
+            { property: "og:url", content: `${SITE_URL}/lichtblicke` },
+            ...shareImageMeta(
+              "KLARTeXt. – Lichtblicke: Audio-Momente zum Innehalten und Entspannen",
+            ),
+          ],
     links: [canonicalLink("/lichtblicke")],
   }),
-  component: Lichtblicke,
+  component: LichtblickeRoute,
 });
+
+// Noch nicht öffentlich → Platzhalter, außer in der Vorschau
+function LichtblickeRoute() {
+  const visible = useIssueVisible(issue);
+
+  if (!visible) return <ComingSoon issue={issue} current="/lichtblicke" />;
+
+  return (
+    <>
+      {issue.isPublic === false ? <PreviewBadge /> : null}
+      <Lichtblicke />
+    </>
+  );
+}
 
 // =======================================================
 // FREISCHALTUNG

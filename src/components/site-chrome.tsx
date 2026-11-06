@@ -10,11 +10,11 @@ import { ArrowRight, CalendarDays, Menu, Smartphone } from "lucide-react";
 
 import { MAGAZIN_URL } from "@/lib/links";
 
-
 import { HomescreenGuide } from "@/components/homescreen-guide";
 import { InstallAction } from "@/components/install-action";
 import { Button } from "@/components/ui/button";
 import { issues, type SiteRoute } from "@/lib/issues";
+import { usePreview } from "@/lib/preview";
 import {
   Sheet,
   SheetClose,
@@ -25,9 +25,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-
-
 export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; current: SiteRoute }) {
+  const preview = usePreview();
+
   return (
     <header
       className={`floating-site-header fixed inset-x-0 top-0 z-50 ${hasScrolled ? "is-scrolled" : ""}`}
@@ -89,6 +89,8 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
 
                   <nav className="mt-10" aria-label="Ausgaben">
                     {issues.map((issue) => {
+                      // isPublic: false → „Kommt demnächst“, außer in der Vorschau
+                      const visible = issue.isPublic !== false || preview;
                       const content = (
                         <>
                           <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
@@ -98,12 +100,12 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
                             {issue.title}
                           </span>
                           <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-muted-foreground">
-                            {issue.subtitle}
+                            {visible ? issue.subtitle : "Kommt demnächst"}
                           </span>
                         </>
                       );
 
-                      return issue.to ? (
+                      return issue.to && visible ? (
                         <SheetClose asChild key={issue.title}>
                           <Link
                             to={issue.to}
