@@ -57,7 +57,7 @@
 }
 
 /* -------------------------------------------------------
-   FARBPALETTE – Cloud Dancer / Espresso / Peony
+   FARBPALETTE – Cloud Dancer / Espresso / Pampas-Sand (Akzent) / Weinrot
    ------------------------------------------------------- */
 
 :root {
@@ -69,9 +69,9 @@
   --card: #f8f6f2;
   --primary: #3b2723;
   --primary-foreground: #f0eee9;
-  --secondary: #e9bbcb;
+  --secondary: #dccbb2; /* Pampas-Sand */
   --muted-foreground: #715e58;
-  --accent: #e9bbcb;
+  --accent: #dccbb2;
   --accent-foreground: #3b2723;
 
   /* Linien, Formulare, Fokus */
@@ -413,7 +413,7 @@
   background: var(--background);
 }
 
-.overview-band--peony {
+.overview-band--sand {
   background: var(--secondary);
 }
 
@@ -462,7 +462,7 @@
   padding-left: 0.25rem;
 }
 
-/* Heft-Cover: Originalfarben, nur halb ins Peony getönt,
+/* Heft-Cover: Originalfarben, nur halb ins Sand getönt,
    damit beide Hefte ruhig nebeneinander stehen */
 .overview-card-media {
   position: relative;
@@ -622,7 +622,7 @@
    4. HERO
    ======================================================= */
 
-/* Ausgaben-Seiten: Kopf als helles Peony-Band über die volle Breite
+/* Ausgaben-Seiten: Kopf als helles Sand-Band über die volle Breite
    (box-shadow + clip-path, weil der Inhalt auf 430px begrenzt ist) */
 .hero-presentation {
   transform-origin: top center;
@@ -1062,7 +1062,7 @@
 
 .listening-mode {
   --listening-deep: #3b2723;
-  --listening-soft: #e9bbcb;
+  --listening-soft: #dccbb2;
   --listening-ink: #f0eee9;
   background: var(--listening-deep);
   color: var(--listening-ink);
