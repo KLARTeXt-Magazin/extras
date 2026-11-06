@@ -110,7 +110,7 @@ function Overview() {
                   </span>
                 </Link>
               ) : issue.to ? (
-                // Noch nicht öffentlich: Cover verschwommen, Infos sichtbar, kein Link
+                // Noch nicht öffentlich: Cover und Infos sichtbar, kein Link
                 <div
                   key={issue.title}
                   className="overview-card overview-card--issue overview-card--upcoming"

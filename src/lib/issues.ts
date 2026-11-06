@@ -5,7 +5,7 @@
 //   erscheint dort ein Platzhalter im Heftformat
 // • isPublic = Schalter „öffentlich“
 //   - true:  Ausgabe ist für alle sichtbar
-//   - false: Übersicht und Menü zeigen Cover (verschwommen), Titel und
+//   - false: Übersicht und Menü zeigen Cover, Titel und
 //            Untertitel mit „Kommt demnächst“, aber ohne Link. Die Seite
 //            selbst zeigt einen Platzhalter. Du siehst die fertige Seite
 //            trotzdem: in Lovable / lokal und auf der Live-Seite mit
