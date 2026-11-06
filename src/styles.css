@@ -397,16 +397,16 @@
 /* Übersicht (Startseite): Kopf ohne Audio-Bühne */
 .overview-hero {
   padding-top: calc(7rem + env(safe-area-inset-top));
-  background: var(--wine);
-  color: var(--pearl);
+  background: var(--denim);
+  color: var(--foreground);
 }
 
 .overview-hero .hero-title {
-  color: var(--secondary);
+  color: var(--wine);
 }
 
 .overview-hero .text-muted-foreground {
-  color: color-mix(in srgb, var(--pearl) 78%, transparent);
+  color: color-mix(in srgb, var(--wine) 80%, transparent);
 }
 
 /* Farbbänder auf der Übersicht (Canva-Richtung: klare Farbflächen) */
@@ -414,8 +414,8 @@
   background: var(--background);
 }
 
-.overview-band--denim {
-  background: var(--denim);
+.overview-band--sand {
+  background: var(--secondary);
 }
 
 /* Große Abschnittsüberschrift in den Bändern */
@@ -615,8 +615,8 @@
   aspect-ratio: 1;
   flex-shrink: 0;
   border-radius: 999px;
-  background: var(--wine);
-  color: var(--secondary);
+  background: var(--denim);
+  color: var(--wine);
 }
 
 /* =======================================================
@@ -795,7 +795,7 @@
   margin-top: 0.65rem;
   padding: 1.6rem 1rem 1.25rem;
   border-radius: 1rem;
-  background: var(--audio-accent-ink, var(--foreground));
+  background: var(--audio-accent-ink, var(--wine));
   color: var(--pearl);
   text-align: center;
 }
@@ -1053,8 +1053,8 @@
 }
 
 .site-footer {
-  background: var(--wine);
-  color: var(--pearl);
+  background: var(--denim);
+  color: var(--foreground);
 }
 
 /* =======================================================
