@@ -61,7 +61,7 @@ export function InstallBanner() {
       <div className="install-banner__body">
         <p className="install-banner__title font-display">KLARTeXt. als App</p>
         <p className="install-banner__text">
-          Speichere dir die Extras auf deinen Startbildschirm – alle Audios immer griffbereit.
+          Leg dir die Extras auf den Startbildschirm, dann hast du alle Audios immer dabei.
         </p>
         <button type="button" className="install-banner__install" onClick={install}>
           <Smartphone className="size-4" aria-hidden="true" />

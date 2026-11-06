@@ -63,7 +63,7 @@ function Overview() {
           </p>
           <h1 className="hero-title mt-3">Alle Extras</h1>
           <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
-            Audio-Übungen und Begleitimpulse zu den Ausgaben – und was sonst noch los ist.
+            Audio-Übungen und Begleitimpulse zu den Ausgaben. Und was sonst noch bei KLARTeXt. los ist.
           </p>
         </section>
 

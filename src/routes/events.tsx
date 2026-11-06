@@ -18,9 +18,9 @@ export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
       { title: "KLARTeXt. Extras – Events" },
-      { name: "description", content: "Veranstaltungen rund um KLARTeXt. – jetzt neu. Alle Termine, Infos und die Buchung findest du auf magazin-klartext.de/events." },
+      { name: "description", content: "Neu: Veranstaltungen rund um KLARTeXt. Termine, Infos und Buchung findest du auf magazin-klartext.de/events." },
       { property: "og:title", content: "KLARTeXt. – Events" },
-      { property: "og:description", content: "Veranstaltungen rund um KLARTeXt. – jetzt neu. Alle Termine, Infos und die Buchung auf magazin-klartext.de/events." },
+      { property: "og:description", content: "Neu: Veranstaltungen rund um KLARTeXt. Termine, Infos und Buchung auf magazin-klartext.de/events." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/events` },
       ...shareImageMeta("KLARTeXt. Extras – Audio-Impulse und Übungen zu jeder Ausgabe"),
@@ -72,7 +72,7 @@ function Events() {
             </p>
             <h2 className="mt-5 text-3xl leading-tight">Es gibt jetzt Veranstaltungen.</h2>
             <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
-              Alle Termine, die ausführlichen Infos und die Buchung findest du auf unserer Website.
+              Termine, Infos und Buchung findest du auf unserer Website.
             </p>
             <Button
               asChild
