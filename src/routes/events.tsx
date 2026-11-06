@@ -1,7 +1,8 @@
 // =======================================================
 // ROUTE: EVENTS – Termine rund um KLARTeXt.
-// • Termine → Liste `events` unten ergänzen
-// • ohne Einträge erscheint der Hinweis „Termine folgen“
+// • Hinweis „Neu“ + Link zur ausführlichen Info & Buchung
+//   auf magazin-klartext.de/events (EVENTS_URL in links.ts)
+// • eigene Termine → Liste `events` unten ergänzen
 // =======================================================
 
 import { createFileRoute, Link } from "@tanstack/react-router";
