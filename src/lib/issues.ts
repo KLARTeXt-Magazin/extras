@@ -6,6 +6,7 @@
 // =======================================================
 
 import coverHeft01 from "@/assets/heft-01-cover.webp";
+import coverHeft02 from "@/assets/heft-02-cover.webp";
 
 export type IssueRoute = "/ehrlichkeit" | "/lichtblicke";
 export type SiteRoute = "/" | "/events" | IssueRoute;
@@ -22,7 +23,7 @@ export const issues: {
     title: "Lichtblicke",
     subtitle: "Momente zum Innehalten · 4 Audios",
     to: "/lichtblicke",
-    // Cover folgt, sobald das Heft-Cover final ist
+    cover: coverHeft02,
   },
   {
     eyebrow: "Ausgabe 01 · 08/26",
