@@ -16,6 +16,7 @@
 
 import coverHeft01 from "@/assets/heft-01-cover.webp";
 import coverHeft02 from "@/assets/heft-02-cover.webp";
+import { SITE_URL, shareImageMeta } from "@/lib/share";
 
 export type IssueRoute = "/ehrlichkeit" | "/lichtblicke";
 export type SiteRoute = "/" | "/events" | IssueRoute;
@@ -58,9 +59,14 @@ export function getIssue(route: IssueRoute) {
 // Text für die Teilen-Vorschau einer Ausgabe, die noch nicht öffentlich ist.
 // So verrät auch der Seitenquelltext nichts vom Inhalt.
 export function comingSoonMeta(issue: Issue) {
+  const description = "Die Extras zu dieser Ausgabe von KLARTeXt. kommen bald.";
   return [
     { title: `KLARTeXt. Extras – ${issue.eyebrow}: Kommt demnächst` },
-    { name: "description", content: "Die Extras zu dieser Ausgabe von KLARTeXt. kommen bald." },
+    { name: "description", content: description },
     { name: "robots", content: "noindex" },
+    { property: "og:title", content: `KLARTeXt. Extras – ${issue.title}: Kommt demnächst` },
+    { property: "og:description", content: description },
+    { property: "og:url", content: `${SITE_URL}${issue.to ?? "/"}` },
+    ...shareImageMeta("KLARTeXt. Extras – Audio-Impulse und Übungen zu jeder Ausgabe"),
   ];
 }

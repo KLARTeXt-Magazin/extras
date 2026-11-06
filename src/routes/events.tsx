@@ -31,7 +31,7 @@ export const Route = createFileRoute("/events")({
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/events` },
-      ...shareImageMeta("KLARTeXt. Extras – Audio-Impulse und Übungen zu jeder Ausgabe"),
+      ...shareImageMeta("KLARTeXt. Extras – Veranstaltungen rund um KLARTeXt."),
     ],
     links: [canonicalLink("/events")],
   }),
