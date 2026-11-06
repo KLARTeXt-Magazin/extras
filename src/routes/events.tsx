@@ -1,22 +1,26 @@
 // =======================================================
 // ROUTE: EVENTS – Termine rund um KLARTeXt.
-// • Termine → Liste `events` unten ergänzen
-// • ohne Einträge erscheint der Hinweis „Termine folgen“
+// • Hinweis „Neu“ + Link zur ausführlichen Info & Buchung
+//   auf magazin-klartext.de/events (EVENTS_URL in links.ts)
+// • eigene Termine → Liste `events` unten ergänzen
 // =======================================================
 
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { EVENTS_URL } from "@/lib/links";
 import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
       { title: "KLARTeXt. Extras – Events" },
-      { name: "description", content: "Termine und Events rund um KLARTeXt." },
+      { name: "description", content: "Veranstaltungen rund um KLARTeXt. – jetzt neu. Alle Termine, Infos und die Buchung findest du auf magazin-klartext.de/events." },
       { property: "og:title", content: "KLARTeXt. – Events" },
-      { property: "og:description", content: "Termine und Events rund um KLARTeXt." },
+      { property: "og:description", content: "Veranstaltungen rund um KLARTeXt. – jetzt neu. Alle Termine, Infos und die Buchung auf magazin-klartext.de/events." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/events` },
       ...shareImageMeta("KLARTeXt. Extras – Audio-Impulse und Übungen zu jeder Ausgabe"),
@@ -52,30 +56,43 @@ function Events() {
         <SiteHeader hasScrolled={hasScrolled} current="/events" />
 
         <section className="overview-hero mx-auto w-full max-w-[430px] px-5 pb-12 sm:px-7">
-          <p className="text-[10px] font-medium uppercase text-muted-foreground">
+          <p className="flex items-center gap-2.5 text-[10px] font-medium uppercase text-muted-foreground">
             KLARTeXt. Extras
+            <span className="rounded-full bg-secondary px-2.5 py-1 text-[9px] font-semibold tracking-[0.12em] text-foreground">
+              Neu
+            </span>
           </p>
           <h1 className="hero-title mt-3">Events</h1>
         </section>
 
         <section className="companion-band px-6 py-16">
           <div className="companion-inner mx-auto max-w-[430px] border-l-4 pl-5">
-            {events.length === 0 ? (
-              <>
-                <p className="text-[10px] font-medium uppercase text-muted-foreground">Demnächst</p>
-                <h2 className="mt-5 text-3xl leading-tight">Termine folgen.</h2>
-                <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
-                  Hier findest du bald Events rund um KLARTeXt. Schau gern wieder vorbei.
-                </p>
-              </>
-            ) : (
-              <ul className="grid gap-8">
+            <p className="text-[10px] font-medium uppercase text-muted-foreground">
+              Neu bei KLARTeXt.
+            </p>
+            <h2 className="mt-5 text-3xl leading-tight">Es gibt jetzt Veranstaltungen.</h2>
+            <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
+              Alle Termine, die ausführlichen Infos und die Buchung findest du auf unserer Website.
+            </p>
+            <Button
+              asChild
+              variant="outline"
+              className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
+            >
+              <a href={EVENTS_URL}>
+                Termine, Infos & Buchung
+                <ArrowRight className="size-4" />
+              </a>
+            </Button>
+
+            {events.length > 0 && (
+              <ul className="mt-12 grid gap-8">
                 {events.map((event) => (
                   <li key={`${event.date}-${event.title}`}>
                     <p className="text-[10px] font-medium uppercase text-muted-foreground">
                       {event.date} · {event.place}
                     </p>
-                    <h2 className="mt-2 text-2xl leading-tight">{event.title}</h2>
+                    <h3 className="mt-2 text-2xl leading-tight">{event.title}</h3>
                     {event.text && (
                       <p className="mt-3 text-sm leading-7 text-muted-foreground">{event.text}</p>
                     )}
