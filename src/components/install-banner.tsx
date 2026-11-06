@@ -51,11 +51,7 @@ export function InstallBanner() {
   };
 
   return (
-    <aside
-      className="install-banner"
-      role="region"
-      aria-label="KLARTeXt. Extras als App speichern"
-    >
+    <aside className="install-banner" role="region" aria-label="KLARTeXt. Extras als App speichern">
       <img src="/icon-192.png" alt="" aria-hidden="true" className="install-banner__icon" />
 
       <div className="install-banner__body">
