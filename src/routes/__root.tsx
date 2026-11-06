@@ -122,7 +122,7 @@ export const Route = createRootRoute({
 
       {
         name: "theme-color",
-        content: "#F0EEE9",
+        content: "#F2EDE5",
       },
 
       {
@@ -155,11 +155,11 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.png?v=3", type: "image/png", sizes: "64x64" },
-      { rel: "icon", href: "/icon-192.png?v=3", type: "image/png", sizes: "192x192" },
-      { rel: "icon", href: "/icon-512.png?v=3", type: "image/png", sizes: "512x512" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=3", sizes: "180x180" },
-      { rel: "manifest", href: "/manifest.webmanifest?v=3" },
+      { rel: "icon", href: "/favicon.png?v=4", type: "image/png", sizes: "64x64" },
+      { rel: "icon", href: "/icon-192.png?v=4", type: "image/png", sizes: "192x192" },
+      { rel: "icon", href: "/icon-512.png?v=4", type: "image/png", sizes: "512x512" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=4", sizes: "180x180" },
+      { rel: "manifest", href: "/manifest.webmanifest?v=4" },
     ],
   }),
   shellComponent: RootShell,

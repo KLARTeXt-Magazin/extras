@@ -57,14 +57,14 @@
 }
 
 /* -------------------------------------------------------
-   FARBPALETTE – Cloud Dancer / Espresso / Pampas-Sand (Akzent) / Weinrot
+   FARBPALETTE – Elfenbein / Espresso / Pampas-Sand / Jeansblau / Schokobraun
    ------------------------------------------------------- */
 
 :root {
   --radius: 0.625rem;
 
   /* Grundfarben */
-  --background: #f0eee9;
+  --background: #f2ede5;
   --foreground: #3b2723;
   --card: #f8f6f2;
   --primary: #3b2723;
@@ -85,13 +85,14 @@
   --light: #f8f6f2;
   --pearl: #f8f6f2;
   --neutral-pearl: #f8f6f2;
-  --neutral-ivory: #f0eee9;
+  --neutral-ivory: #f2ede5;
   --neutral-linen-cool: #e7e2dc;
   --neutral-mist: #ded8d1;
   --neutral-line: #cfc6bf;
 
   /* Akzente */
-  --wine: #4a0404;
+  --wine: #3e2b24; /* Schokobraun (Name bleibt, damit alle Regeln greifen) */
+  --denim: #c3ced3; /* staubiges Jeansblau */
   --sage: #3a0c0c;
   --sage-foreground: #260808;
 
@@ -413,8 +414,8 @@
   background: var(--background);
 }
 
-.overview-band--sand {
-  background: var(--secondary);
+.overview-band--denim {
+  background: var(--denim);
 }
 
 /* Große Abschnittsüberschrift in den Bändern */
@@ -513,7 +514,7 @@
   display: flex;
   flex-direction: column;
   padding: 0.6rem 0.55rem;
-  background: linear-gradient(160deg, var(--wine) 0%, #2a0606 100%);
+  background: linear-gradient(160deg, var(--wine) 0%, #2b1d18 100%);
   color: var(--pearl);
 }
 
