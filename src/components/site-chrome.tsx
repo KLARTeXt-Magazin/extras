@@ -100,8 +100,11 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
                             {issue.title}
                           </span>
                           <span className="mt-2 block max-w-[17rem] text-sm leading-6 text-muted-foreground">
-                            {visible ? issue.subtitle : "Kommt demnächst"}
+                            {issue.subtitle}
                           </span>
+                          {issue.to && !visible ? (
+                            <span className="status-badge mt-3">Kommt demnächst</span>
+                          ) : null}
                         </>
                       );
 
@@ -115,7 +118,10 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
                           </Link>
                         </SheetClose>
                       ) : (
-                        <div key={issue.title} className="issue-entry opacity-40">
+                        <div
+                          key={issue.title}
+                          className={`issue-entry ${issue.to ? "opacity-70" : "opacity-40"}`}
+                        >
                           {content}
                         </div>
                       );

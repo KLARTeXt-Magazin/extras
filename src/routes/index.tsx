@@ -109,6 +109,40 @@ function Overview() {
                     <ArrowRight className="size-5 shrink-0" />
                   </span>
                 </Link>
+              ) : issue.to ? (
+                // Noch nicht öffentlich: Cover verschwommen, Infos sichtbar, kein Link
+                <div
+                  key={issue.title}
+                  className="overview-card overview-card--issue overview-card--upcoming"
+                >
+                  {issue.cover ? (
+                    <span className="overview-card-media" aria-hidden="true">
+                      <img src={issue.cover} alt="" />
+                    </span>
+                  ) : (
+                    <span
+                      className="overview-card-media overview-cover-placeholder"
+                      aria-hidden="true"
+                    >
+                      <span className="overview-cover-placeholder__brand">KLARTeXt.</span>
+                      <span className="overview-cover-placeholder__title">{issue.title}.</span>
+                    </span>
+                  )}
+                  <span className="overview-card-body">
+                    <span className="min-w-0">
+                      <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                        {issue.eyebrow}
+                      </span>
+                      <span className="mt-1 block font-display text-xl font-semibold leading-tight">
+                        {issue.title}
+                      </span>
+                      <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                        {issue.subtitle}
+                      </span>
+                      <span className="status-badge mt-3">Kommt demnächst</span>
+                    </span>
+                  </span>
+                </div>
               ) : (
                 <div key={issue.title} className="overview-card overview-card--soon">
                   <span className="overview-card-body">
@@ -119,11 +153,9 @@ function Overview() {
                       <span className="mt-1 block font-display text-xl font-semibold leading-tight">
                         {issue.title}
                       </span>
-                      {issue.to ? (
-                        <span className="mt-1 block text-sm leading-6 text-muted-foreground">
-                          Kommt demnächst
-                        </span>
-                      ) : null}
+                      <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                        {issue.subtitle}
+                      </span>
                     </span>
                   </span>
                 </div>
