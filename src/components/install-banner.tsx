@@ -51,15 +51,11 @@ export function InstallBanner() {
   };
 
   return (
-    <aside
-      className="install-banner"
-      role="region"
-      aria-label="KLARTeXt. Extras als App speichern"
-    >
+    <aside className="install-banner" role="region" aria-label="KLARTeXt. Extras als App speichern">
       <img src="/icon-192.png" alt="" aria-hidden="true" className="install-banner__icon" />
 
       <div className="install-banner__body">
-        <p className="install-banner__title font-display">KLARTeXt. als App</p>
+        <p className="install-banner__title font-display">KLARTeXt. Extras als App</p>
         <p className="install-banner__text">
           Leg dir die Extras auf den Startbildschirm, dann hast du alle Audios immer dabei.
         </p>

@@ -142,12 +142,12 @@ export const Route = createRootRoute({
 
       {
         name: "apple-mobile-web-app-title",
-        content: "KLARTeXt.",
+        content: "KLARTeXt. Extras",
       },
 
       {
         name: "application-name",
-        content: "KLARTeXt.",
+        content: "KLARTeXt. Extras",
       },
     ],
     links: [
@@ -155,11 +155,11 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "64x64" },
-      { rel: "icon", href: "/icon-192.png", type: "image/png", sizes: "192x192" },
-      { rel: "icon", href: "/icon-512.png", type: "image/png", sizes: "512x512" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
-      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "icon", href: "/favicon.png?v=2", type: "image/png", sizes: "64x64" },
+      { rel: "icon", href: "/icon-192.png?v=2", type: "image/png", sizes: "192x192" },
+      { rel: "icon", href: "/icon-512.png?v=2", type: "image/png", sizes: "512x512" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=2", sizes: "180x180" },
+      { rel: "manifest", href: "/manifest.webmanifest?v=2" },
     ],
   }),
   shellComponent: RootShell,
