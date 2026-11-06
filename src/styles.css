@@ -395,7 +395,36 @@
 
 /* Übersicht (Startseite): Kopf ohne Audio-Bühne */
 .overview-hero {
-  padding-top: calc(6rem + env(safe-area-inset-top));
+  padding-top: calc(7rem + env(safe-area-inset-top));
+  background: var(--wine);
+  color: var(--pearl);
+}
+
+.overview-hero .hero-title {
+  color: var(--secondary);
+}
+
+.overview-hero .text-muted-foreground {
+  color: color-mix(in srgb, var(--pearl) 78%, transparent);
+}
+
+/* Farbbänder auf der Übersicht (Canva-Richtung: klare Farbflächen) */
+.overview-band {
+  background: var(--background);
+}
+
+.overview-band--peony {
+  background: var(--secondary);
+}
+
+/* Große Abschnittsüberschrift in den Bändern */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 6.6vw, 3.4rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--wine);
 }
 
 /* Kachel einer Ausgabe auf der Übersicht */
@@ -574,8 +603,8 @@
 }
 
 .overview-card--events {
-  border-color: var(--secondary);
-  background: color-mix(in srgb, var(--secondary) 35%, var(--neutral-pearl));
+  border-color: transparent;
+  background: var(--neutral-pearl);
 }
 
 .overview-card-icon {
@@ -593,9 +622,14 @@
    4. HERO
    ======================================================= */
 
+/* Ausgaben-Seiten: Kopf als helles Peony-Band über die volle Breite
+   (box-shadow + clip-path, weil der Inhalt auf 430px begrenzt ist) */
 .hero-presentation {
   transform-origin: top center;
-  padding-top: calc(6rem + env(safe-area-inset-top));
+  padding-top: calc(7rem + env(safe-area-inset-top));
+  background: var(--secondary);
+  box-shadow: 0 0 0 100vmax var(--secondary);
+  clip-path: inset(0 -100vmax);
   transition:
     opacity 420ms ease,
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -607,13 +641,17 @@
 
 .hero-title {
   transform-origin: left top;
-  color: var(--foreground);
+  color: var(--wine);
   text-transform: uppercase;
   font-size: clamp(2.65rem, 11vw, 5.4rem);
   line-height: 0.88;
   transition:
     opacity 480ms ease,
     transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-presentation .text-muted-foreground {
+  color: color-mix(in srgb, var(--wine) 78%, transparent);
 }
 
 .hero-presentation.is-compact .hero-title {
@@ -750,8 +788,19 @@
   opacity: 0.82;
 }
 
+/* Unterer Teil der Karte: dunkle Fläche mit großem Titel (Canva-Richtung),
+   Farbe je Audio-Welt, sonst Espresso */
 .audio-player-card > div:last-of-type {
-  padding-inline: 0.8rem;
+  margin-top: 0.65rem;
+  padding: 1.6rem 1rem 1.25rem;
+  border-radius: 1rem;
+  background: var(--audio-accent-ink, var(--foreground));
+  color: var(--pearl);
+  text-align: center;
+}
+
+.audio-player-card > div:last-of-type .text-muted-foreground {
+  color: color-mix(in srgb, var(--pearl) 75%, transparent);
 }
 
 .audio-cover-layout {
@@ -766,6 +815,30 @@
 
 .audio-player-card:hover .audio-cover-image {
   transform: scale(1.025);
+}
+
+/* Runder Play-Knopf mitten auf dem Cover */
+.audio-cover-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  aspect-ratio: 1;
+  border: 1px solid rgb(255 255 250 / 0.45);
+  border-radius: 999px;
+  background: rgb(38 8 8 / 0.5);
+  color: var(--pearl);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translate(-50%, -50%);
+  transition: transform 220ms ease;
+}
+
+.audio-cover-play:hover {
+  transform: translate(-50%, -50%) scale(1.06);
 }
 
 /* Kategorie-/Datums-Badge auf dem Cover */
@@ -801,7 +874,7 @@
   max-width: 100%;
   font-size: clamp(1.8rem, 8vw, 2.7rem);
   line-height: 0.86;
-  color: var(--foreground);
+  color: var(--audio-accent, var(--secondary));
   text-transform: uppercase;
   text-wrap: balance;
   overflow-wrap: normal;
@@ -811,7 +884,7 @@
 
 .audio-track-title {
   margin-top: 0.75rem;
-  color: var(--audio-accent-ink, var(--foreground));
+  color: color-mix(in srgb, var(--pearl) 85%, transparent);
   font-size: 0.78rem;
   font-weight: 700;
   line-height: 1.45;
@@ -819,17 +892,13 @@
 
 /* Play-Knopf trägt die Farbe der Audio-Welt */
 .audio-player-card .bg-primary {
-  background: var(--audio-accent-ink, var(--primary));
-  color: #f8f6f2;
+  background: var(--audio-accent, var(--secondary));
+  color: var(--audio-accent-ink, var(--foreground));
   box-shadow: none;
 }
 
 .audio-player-card .bg-primary:hover {
-  background: color-mix(
-    in srgb,
-    var(--audio-accent-ink, var(--primary)) 86%,
-    var(--audio-accent, var(--secondary))
-  );
+  background: color-mix(in srgb, var(--audio-accent, var(--secondary)) 82%, var(--pearl));
 }
 
 /* Karussell-Punkte */
@@ -1339,6 +1408,9 @@
     width: 100%;
     max-width: none;
     padding: 0;
+    background: none;
+    box-shadow: none;
+    clip-path: none;
   }
 
   .editorial-stage .hero-presentation > div {

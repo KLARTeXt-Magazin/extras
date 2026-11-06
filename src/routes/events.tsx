@@ -63,12 +63,14 @@ function Events() {
       >
         <SiteHeader hasScrolled={hasScrolled} current="/events" />
 
-        <section className="overview-hero mx-auto w-full max-w-[430px] px-5 pb-12 sm:px-7">
-          <p className="flex items-center gap-2.5 text-[10px] font-medium uppercase text-muted-foreground">
-            KLARTeXt. Extras
-            <span className="status-badge">Neu</span>
-          </p>
-          <h1 className="hero-title mt-3">Events</h1>
+        <section className="overview-hero px-5 pb-14 sm:px-7">
+          <div className="mx-auto w-full max-w-[430px]">
+            <p className="flex items-center gap-2.5 text-[10px] font-medium uppercase text-muted-foreground">
+              KLARTeXt. Extras
+              <span className="status-badge">Neu</span>
+            </p>
+            <h1 className="hero-title mt-3">Events</h1>
+          </div>
         </section>
 
         <section className="companion-band px-6 py-16">

@@ -271,6 +271,21 @@ export function AudioCard({
             {track.eyebrow}
           </span>
 
+          {/* Play-Knopf auf dem Cover */}
+
+          {unlocked ? (
+            <button
+              type="button"
+              className="audio-cover-play"
+              onClick={openListeningMode}
+              aria-label={
+                isPlaying ? `Hörmodus für „${track.title}“ öffnen` : `„${track.title}“ anhören`
+              }
+            >
+              <Play className="ml-0.5 size-6 fill-current" aria-hidden="true" />
+            </button>
+          ) : null}
+
           {/* =================================================
               GESPERRTER ZUSTAND
              ================================================= */}

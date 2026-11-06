@@ -58,19 +58,24 @@ function Overview() {
       >
         <SiteHeader hasScrolled={hasScrolled} current="/" />
 
-        <section className="overview-hero mx-auto w-full max-w-[430px] px-5 pb-10 sm:px-7">
-          <p className="text-[10px] font-medium uppercase text-muted-foreground">
-            KLARTeXt. Extras
-          </p>
-          <h1 className="hero-title mt-3">Alle Extras</h1>
-          <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
-            Audio-Übungen und Begleitimpulse zu den Ausgaben. Und was sonst noch bei KLARTeXt. los
-            ist.
-          </p>
+        <section className="overview-hero px-5 pb-14 sm:px-7">
+          <div className="mx-auto w-full max-w-[430px]">
+            <p className="text-[10px] font-medium uppercase text-muted-foreground">
+              KLARTeXt. Extras
+            </p>
+            <h1 className="hero-title mt-3">Alle Extras</h1>
+            <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
+              Audio-Übungen und Begleitimpulse zu den Ausgaben. Und was sonst noch bei KLARTeXt. los
+              ist.
+            </p>
+          </div>
         </section>
 
-        <section className="px-5 pb-20 sm:px-7" aria-label="Ausgaben">
+        <section className="overview-band px-5 py-14 sm:px-7" aria-labelledby="ausgaben-titel">
           <div className="mx-auto grid w-full max-w-[430px] gap-4">
+            <h2 id="ausgaben-titel" className="section-title mb-4">
+              Ausgaben
+            </h2>
             {issues.map((issue) =>
               // isPublic: false → „Kommt demnächst“, außer in der Vorschau
               issue.to && (issue.isPublic !== false || preview) ? (
@@ -161,21 +166,26 @@ function Overview() {
                 </div>
               ),
             )}
+          </div>
+        </section>
 
-            <Link to="/events" className="overview-card overview-card--events">
+        <section
+          className="overview-band overview-band--peony px-5 py-14 sm:px-7"
+          aria-labelledby="events-titel"
+        >
+          <div className="mx-auto w-full max-w-[430px]">
+            <h2 id="events-titel" className="section-title">
+              Veranstaltungen
+            </h2>
+            <Link to="/events" className="overview-card overview-card--events mt-8">
               <span className="overview-card-body">
                 <span className="overview-card-icon">
                   <CalendarDays className="size-6" strokeWidth={1.5} />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                    Neu
-                  </span>
-                  <span className="mt-1 block font-display text-2xl font-semibold leading-tight">
-                    Veranstaltungen
-                  </span>
-                  <span className="mt-1 block text-sm leading-6 text-muted-foreground">
-                    Termine rund um KLARTeXt.
+                  <span className="status-badge">Neu</span>
+                  <span className="mt-2 block text-sm leading-6">
+                    Termine, Infos und Buchung rund um KLARTeXt.
                   </span>
                 </span>
                 <ArrowRight className="size-5 shrink-0" />
