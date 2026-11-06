@@ -1,7 +1,7 @@
 // =======================================================
 // ROUTE: ÜBERSICHT – Startseite der KLARTeXt. Extras
 // • führt zu allen Ausgaben (Liste `issues` in src/lib/issues.ts)
-// • Heft-Cover leicht in Peony getönt, in Originalfarbe beim Hover
+// • Heft-Cover leicht in Sand getönt, in Originalfarbe beim Hover
 // =======================================================
 
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -170,7 +170,7 @@ function Overview() {
         </section>
 
         <section
-          className="overview-band overview-band--peony px-5 py-14 sm:px-7"
+          className="overview-band overview-band--sand px-5 py-14 sm:px-7"
           aria-labelledby="events-titel"
         >
           <div className="mx-auto w-full max-w-[430px]">
