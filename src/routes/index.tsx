@@ -19,12 +19,12 @@ export const Route = createFileRoute("/")({
       { title: "KLARTeXt. Extras – Alle Ausgaben" },
       {
         name: "description",
-        content: "Audio-Übungen und Begleitimpulse zu allen Ausgaben von KLARTeXt..",
+        content: "Audio-Übungen und Begleitimpulse zu allen Ausgaben von KLARTeXt.",
       },
       { property: "og:title", content: "KLARTeXt. Extras" },
       {
         property: "og:description",
-        content: "Alle Extras zu den Ausgaben von KLARTeXt..",
+        content: "Alle Extras zu den Ausgaben von KLARTeXt.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: SITE_URL },
