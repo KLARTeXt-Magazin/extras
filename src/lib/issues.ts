@@ -5,7 +5,8 @@
 //   erscheint dort ein Platzhalter im Heftformat
 // • isPublic = Schalter „öffentlich“
 //   - true:  Ausgabe ist für alle sichtbar
-//   - false: Übersicht und Menü zeigen „Kommt demnächst“, die Seite
+//   - false: Übersicht und Menü zeigen Cover (verschwommen), Titel und
+//            Untertitel mit „Kommt demnächst“, aber ohne Link. Die Seite
 //            selbst zeigt einen Platzhalter. Du siehst die fertige Seite
 //            trotzdem: in Lovable / lokal und auf der Live-Seite mit
 //            ?vorschau an der Adresse (z. B. /lichtblicke?vorschau).
@@ -45,7 +46,7 @@ export const issues: Issue[] = [
     cover: coverHeft01,
     isPublic: true,
   },
-  { eyebrow: "Ausgabe 03 · 2027", title: "Demnächst", subtitle: "Neue Themen in Vorbereitung" },
+  { eyebrow: "Ausgabe 03 · 2027", title: "In Planung", subtitle: "Die Themen entstehen gerade" },
 ];
 
 export function getIssue(route: IssueRoute) {

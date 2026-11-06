@@ -18,9 +18,17 @@ export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
       { title: "KLARTeXt. Extras – Events" },
-      { name: "description", content: "Neu: Veranstaltungen rund um KLARTeXt. Termine, Infos und Buchung findest du auf magazin-klartext.de/events." },
+      {
+        name: "description",
+        content:
+          "Neu: Veranstaltungen rund um KLARTeXt. Termine, Infos und Buchung findest du auf magazin-klartext.de/events.",
+      },
       { property: "og:title", content: "KLARTeXt. – Events" },
-      { property: "og:description", content: "Neu: Veranstaltungen rund um KLARTeXt. Termine, Infos und Buchung auf magazin-klartext.de/events." },
+      {
+        property: "og:description",
+        content:
+          "Neu: Veranstaltungen rund um KLARTeXt. Termine, Infos und Buchung auf magazin-klartext.de/events.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/events` },
       ...shareImageMeta("KLARTeXt. Extras – Audio-Impulse und Übungen zu jeder Ausgabe"),
@@ -58,9 +66,7 @@ function Events() {
         <section className="overview-hero mx-auto w-full max-w-[430px] px-5 pb-12 sm:px-7">
           <p className="flex items-center gap-2.5 text-[10px] font-medium uppercase text-muted-foreground">
             KLARTeXt. Extras
-            <span className="rounded-full bg-secondary px-2.5 py-1 text-[9px] font-semibold tracking-[0.12em] text-foreground">
-              Neu
-            </span>
+            <span className="status-badge">Neu</span>
           </p>
           <h1 className="hero-title mt-3">Events</h1>
         </section>
