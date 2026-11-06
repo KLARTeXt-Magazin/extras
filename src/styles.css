@@ -57,7 +57,7 @@
 }
 
 /* -------------------------------------------------------
-   FARBPALETTE – Elfenbein / Espresso / Pampas-Sand / Jeansblau (hell + dunkel) / Schokobraun
+   FARBPALETTE – Elfenbein / Espresso / Pampas-Sand / Jeansblau / Schokobraun
    ------------------------------------------------------- */
 
 :root {
@@ -93,7 +93,6 @@
   /* Akzente */
   --wine: #3e2b24; /* Schokobraun (Name bleibt, damit alle Regeln greifen) */
   --denim: #c3ced3; /* staubiges Jeansblau */
-  --slate: #46555e; /* dunkles Jeansblau */
   --sage: #3a0c0c;
   --sage-foreground: #260808;
 
@@ -616,8 +615,8 @@
   aspect-ratio: 1;
   flex-shrink: 0;
   border-radius: 999px;
-  background: var(--slate);
-  color: var(--secondary);
+  background: var(--denim);
+  color: var(--wine);
 }
 
 /* =======================================================
@@ -796,7 +795,7 @@
   margin-top: 0.65rem;
   padding: 1.6rem 1rem 1.25rem;
   border-radius: 1rem;
-  background: var(--audio-accent-ink, var(--slate));
+  background: var(--audio-accent-ink, var(--wine));
   color: var(--pearl);
   text-align: center;
 }
@@ -1054,8 +1053,8 @@
 }
 
 .site-footer {
-  background: var(--slate);
-  color: var(--pearl);
+  background: var(--denim);
+  color: var(--foreground);
 }
 
 /* =======================================================
@@ -1063,7 +1062,7 @@
    ======================================================= */
 
 .listening-mode {
-  --listening-deep: #3d4a52;
+  --listening-deep: #3b2723;
   --listening-soft: #dccbb2;
   --listening-ink: #f0eee9;
   background: var(--listening-deep);
