@@ -23,12 +23,12 @@ export const Route = createFileRoute("/ehrlichkeit")({
       { title: "KLARTeXt. Extras zu Ausgabe 01: Warum Ehrlichkeit Mut braucht" },
       {
         name: "description",
-        content: "Eine Achtsamkeitsübung der ersten Ausgabe von KLARTeXt.: Zeit für Dich",
+        content: "„Zeit für Dich“: eine Achtsamkeitsübung zur ersten Ausgabe von KLARTeXt.",
       },
       { property: "og:title", content: "KLARTeXt. – Warum Ehrlichkeit Mut braucht" },
       {
         property: "og:description",
-        content: "Die Audio-Übung „Zeit für dich“ zur ersten KLARTeXt.-Ausgabe.",
+        content: "Die Audio-Übung „Zeit für Dich“ zur ersten KLARTeXt.-Ausgabe.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: `${SITE_URL}/ehrlichkeit` },
@@ -105,7 +105,7 @@ function Ehrlichkeit() {
             </p>
 
             <h2 className="mt-5 text-4xl leading-tight">
-              „Wie geht es mir eigentlich gerade wirklich, nicht, wie es sein sollte?“
+              „Wie geht es mir eigentlich gerade? Ehrlich, nicht so, wie es sein sollte.“
             </h2>
 
             <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
