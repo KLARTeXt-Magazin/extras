@@ -142,7 +142,7 @@ export const Route = createRootRoute({
 
       {
         name: "apple-mobile-web-app-title",
-        content: "KLARTeXt. Extras",
+        content: "Extras",
       },
 
       {
