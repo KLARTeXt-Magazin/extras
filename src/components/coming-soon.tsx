@@ -33,13 +33,17 @@ export function ComingSoon({ issue, current }: { issue: Issue; current: SiteRout
       >
         <SiteHeader hasScrolled={hasScrolled} current={current} />
 
-        <section className="overview-hero mx-auto w-full max-w-[430px] px-5 pb-12 sm:px-7">
-          <p className="text-[10px] font-medium uppercase text-muted-foreground">{issue.eyebrow}</p>
-          <h1 className="hero-title mt-3">Kommt demnächst</h1>
-          <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
-            Die Extras zu dieser Ausgabe sind bald hier. Bis dahin findest du alle bisherigen Audios
-            und Impulse in der Übersicht.
-          </p>
+        <section className="overview-hero px-5 pb-14 sm:px-7">
+          <div className="mx-auto w-full max-w-[430px]">
+            <p className="text-[10px] font-medium uppercase text-muted-foreground">
+              {issue.eyebrow}
+            </p>
+            <h1 className="hero-title mt-3">Kommt demnächst</h1>
+            <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
+              Die Extras zu dieser Ausgabe sind bald hier. Bis dahin findest du alle bisherigen
+              Audios und Impulse in der Übersicht.
+            </p>
+          </div>
         </section>
 
         <section className="continue-band px-6 py-14">
