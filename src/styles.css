@@ -524,7 +524,7 @@
   opacity: 0.5;
 }
 
-/* Ausgabe mit isPublic: false – Cover nur angedeutet, kein Hover-Effekt */
+/* Ausgabe mit isPublic: false – Cover wie sonst, aber ohne Link und Hover-Effekt */
 .overview-card--upcoming,
 .overview-card--upcoming:hover {
   background: var(--neutral-pearl);
@@ -535,13 +535,6 @@
 .overview-card--upcoming .overview-card-media,
 .overview-card--upcoming:hover .overview-card-media {
   transform: none;
-}
-
-.overview-card--upcoming .overview-card-media img,
-.overview-card--upcoming:hover .overview-card-media img {
-  filter: grayscale(0.9) blur(1.5px);
-  transform: scale(1.04);
-  opacity: 0.8;
 }
 
 .overview-card--upcoming .overview-card-media::after,
