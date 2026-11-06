@@ -109,9 +109,9 @@ function Ehrlichkeit() {
             </h2>
 
             <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
-              Das Audio-Extra der ersten Ausgabe ist eine kurze Pause, wenn gerade viel im Kopf los
-              ist. Ein paar Minuten, in denen es einmal nicht darum geht, etwas zu schaffen oder zu
-              lösen, sondern wahrzunehmen, wie es dir gerade geht.
+              Das Audio-Extra der ersten Ausgabe ist eine kurze Pause für Tage, an denen viel im
+              Kopf los ist. Ein paar Minuten, in denen du nichts schaffen oder lösen musst. Du hörst
+              einfach hin, wie es dir gerade geht.
             </p>
 
             <Button

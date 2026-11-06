@@ -64,7 +64,7 @@ export const Route = createFileRoute("/lichtblicke")({
       {
         property: "og:description",
         content:
-          "Vier Audio-Momente zum Innehalten und Entspannen – dein Extra zur zweiten KLARTeXt.-Ausgabe.",
+          "Vier Audio-Momente zum Innehalten und Entspannen. Das Extra zur zweiten KLARTeXt.-Ausgabe.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: `${SITE_URL}/lichtblicke` },
@@ -114,7 +114,7 @@ const tracks: AudioTrack[] = [
     eyebrow: "6. Dezember",
     title: "Einen Moment zum Nikolaus",
     quote: "„Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“",
-    note: "Ein kurzer Moment aus dem Adventskalender – zum Anhören am 6. Dezember.",
+    note: "Ein kurzer Moment aus dem Adventskalender, zum Anhören am 6. Dezember.",
     cover: coverNikolausNeu,
     coverAlt:
       "Editoriales Stillleben aus petrolfarbenem Papier, eisblauem Transparentpapier, Silberfaden und roter Beere",
@@ -135,7 +135,7 @@ const tracks: AudioTrack[] = [
     title: "Ein Moment an Heiligabend",
     quote:
       "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
-    note: "Der zweite Lichtblick aus dem Adventskalender – zum Anhören an Heiligabend.",
+    note: "Der zweite Lichtblick aus dem Adventskalender, zum Anhören an Heiligabend.",
     cover: coverGrussNeu,
     coverAlt:
       "Editoriales Stillleben aus weinrotem Samt, lavendelfarbenem Acryl und rosafarbener Kerze",
@@ -171,7 +171,7 @@ const tracks: AudioTrack[] = [
     id: "pmr",
     eyebrow: "Progressive Muskelentspannung",
     title: "Spannung trifft Entspannung",
-    note: "Eine kurze Übung: Muskelgruppen bewusst anspannen und wieder lösen. Die ausführliche Anleitung findest du weiter unten.",
+    note: "Eine kurze Übung: Muskeln anspannen und wieder lösen. Die Anleitung steht weiter unten.",
     cover: coverMoment,
     coverAlt:
       "Materialstudie aus gerafftem mitternachtsblauem Stoff, lavendelfarbenem Band und mintfarbenem Stein",
@@ -393,7 +393,7 @@ function Lichtblicke() {
               <h1 className="hero-title mt-3 max-w-[340px]">Lichtblicke.</h1>
 
               <p className="hero-sub mt-4 max-w-[19rem] text-sm leading-7 text-muted-foreground">
-                Zwei Lichtblicke aus dem Adventskalender zum Anhören · Dazu eine Auszeit und eine
+                Zwei Lichtblicke aus dem Adventskalender zum Anhören. Dazu eine Auszeit und eine
                 Übung zur progressiven Muskelentspannung.
               </p>
             </div>
@@ -424,7 +424,7 @@ function Lichtblicke() {
               <div
                 ref={scrollerRef}
                 role="group"
-                aria-label="Audios – seitlich wischen oder mit den Pfeiltasten wechseln"
+                aria-label="Audios: seitlich wischen oder mit den Pfeiltasten wechseln"
                 tabIndex={0}
                 className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-4 [scrollbar-width:none] sm:px-7 [&::-webkit-scrollbar]:hidden"
                 style={{
@@ -490,7 +490,7 @@ function Lichtblicke() {
               </div>
 
               <p className="carousel-change-hint px-5 pt-2 text-center text-xs sm:px-7">
-                Mitwischen: Audio, Farbe und Begleitimpuls wechseln gemeinsam
+                Beim Wischen wechseln Farbe und Begleitimpuls mit
               </p>
             </div>
           </section>
@@ -593,19 +593,19 @@ function Lichtblicke() {
             </p>
 
             <h2 className="mt-4 max-w-sm text-[2.5rem] leading-[1.02]">
-              Spannung lösen. Ruhe finden.
+              Erst anspannen, dann loslassen.
             </h2>
 
             <p className="mt-6 max-w-sm text-sm leading-7 text-foreground/70">
-              Die progressive Muskelentspannung – kurz PMR – ist eine sanfte Übung aus der
-              Prävention. Sie macht Spannung erst bewusst, damit du sie bewusst lösen kannst.
+              Die progressive Muskelentspannung (kurz PMR) ist eine sanfte Übung aus der Prävention.
+              Du spannst einen Muskel kurz an und merkst danach deutlicher, wie er locker wird.
             </p>
 
             <dl className="mt-8 max-w-sm">
               {[
                 [
                   "Was?",
-                  "Eine Entspannungsmethode, bei der du einzelne Muskelgruppen bewusst anspannst und wieder löst.",
+                  "Eine Entspannungsmethode: Du spannst einzelne Muskelgruppen an und löst sie wieder.",
                 ],
                 [
                   "Wie?",
@@ -613,11 +613,11 @@ function Lichtblicke() {
                 ],
                 [
                   "Wo?",
-                  "Überall – zu Hause, im Büro oder unterwegs, im Sitzen, Stehen oder Liegen.",
+                  "Wo du gerade bist. Zu Hause, im Büro oder unterwegs, im Sitzen oder Liegen.",
                 ],
                 [
                   "Warum?",
-                  "Weil du so Spannung spürbar abgibst, Stress abbaust und besser zur Ruhe kommst.",
+                  "Weil Anspannung und Stress nachlassen und du leichter zur Ruhe kommst.",
                 ],
               ].map(([term, text]) => (
                 <div
@@ -635,7 +635,7 @@ function Lichtblicke() {
               {[
                 [
                   "Schultern & Nacken",
-                  "Schultern für einige Sekunden zu den Ohren ziehen. Beim Ausatmen lösen und spüren, wie die Last abfällt.",
+                  "Schultern für einige Sekunden zu den Ohren ziehen. Beim Ausatmen fallen lassen.",
                 ],
                 [
                   "Hände & Arme",
@@ -647,7 +647,7 @@ function Lichtblicke() {
                 ],
                 [
                   "Nachspüren",
-                  "Die Entspannung im Körper wahrnehmen. Finger und Zehen sanft bewegen und in deinem Tempo zurückkommen.",
+                  "Einen Moment liegen oder sitzen bleiben. Dann Finger und Zehen bewegen und in deinem Tempo zurückkommen.",
                 ],
               ].map(([title, description], index) => (
                 <li
@@ -668,13 +668,13 @@ function Lichtblicke() {
             </ol>
 
             <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm leading-7 text-muted-foreground">
-              Dein Rhythmus zählt: Übe nur so lange und so weit, wie es sich für dich gut und
-              angenehm anfühlt. Tut etwas nicht gut, darfst du jederzeit pausieren oder aufhören.
+              Übe nur so lange und so weit, wie es sich gut anfühlt. Wenn etwas wehtut oder
+              unangenehm wird, mach eine Pause oder hör auf.
             </p>
 
             <p className="mt-7 text-sm leading-7 text-muted-foreground">
-              Du brauchst keine Hilfsmittel. Die Übung funktioniert im Sitzen, Stehen, Gehen oder
-              Liegen und lässt sich gut in deinen Alltag integrieren.
+              Du brauchst keine Hilfsmittel. Die Übung klappt im Sitzen, Stehen, Gehen oder Liegen,
+              also auch mal kurz zwischendurch.
             </p>
 
             {/* PMR-PDF */}

@@ -24,7 +24,7 @@ export function HomescreenGuide() {
       </ol>
 
       <p className="homescreen-guide__note">
-        Danach öffnet sich KLARTeXt. Extras wie eine eigene App – ohne Browserleiste.
+        Danach öffnet sich KLARTeXt. Extras wie eine eigene App, ohne Browserleiste.
       </p>
     </section>
   );
