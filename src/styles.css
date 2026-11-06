@@ -57,7 +57,7 @@
 }
 
 /* -------------------------------------------------------
-   FARBPALETTE – Elfenbein / Espresso / Pampas-Sand / Jeansblau / Schokobraun
+   FARBPALETTE – Elfenbein / Espresso / Pampas-Sand / Jeansblau (hell + dunkel) / Schokobraun
    ------------------------------------------------------- */
 
 :root {
@@ -93,6 +93,7 @@
   /* Akzente */
   --wine: #3e2b24; /* Schokobraun (Name bleibt, damit alle Regeln greifen) */
   --denim: #c3ced3; /* staubiges Jeansblau */
+  --slate: #46555e; /* dunkles Jeansblau */
   --sage: #3a0c0c;
   --sage-foreground: #260808;
 
@@ -397,16 +398,16 @@
 /* Übersicht (Startseite): Kopf ohne Audio-Bühne */
 .overview-hero {
   padding-top: calc(7rem + env(safe-area-inset-top));
-  background: var(--wine);
-  color: var(--pearl);
+  background: var(--denim);
+  color: var(--foreground);
 }
 
 .overview-hero .hero-title {
-  color: var(--secondary);
+  color: var(--wine);
 }
 
 .overview-hero .text-muted-foreground {
-  color: color-mix(in srgb, var(--pearl) 78%, transparent);
+  color: color-mix(in srgb, var(--wine) 80%, transparent);
 }
 
 /* Farbbänder auf der Übersicht (Canva-Richtung: klare Farbflächen) */
@@ -414,8 +415,8 @@
   background: var(--background);
 }
 
-.overview-band--denim {
-  background: var(--denim);
+.overview-band--sand {
+  background: var(--secondary);
 }
 
 /* Große Abschnittsüberschrift in den Bändern */
@@ -615,7 +616,7 @@
   aspect-ratio: 1;
   flex-shrink: 0;
   border-radius: 999px;
-  background: var(--wine);
+  background: var(--slate);
   color: var(--secondary);
 }
 
@@ -795,7 +796,7 @@
   margin-top: 0.65rem;
   padding: 1.6rem 1rem 1.25rem;
   border-radius: 1rem;
-  background: var(--audio-accent-ink, var(--foreground));
+  background: var(--audio-accent-ink, var(--slate));
   color: var(--pearl);
   text-align: center;
 }
@@ -1053,7 +1054,7 @@
 }
 
 .site-footer {
-  background: var(--wine);
+  background: var(--slate);
   color: var(--pearl);
 }
 
@@ -1062,7 +1063,7 @@
    ======================================================= */
 
 .listening-mode {
-  --listening-deep: #3b2723;
+  --listening-deep: #3d4a52;
   --listening-soft: #dccbb2;
   --listening-ink: #f0eee9;
   background: var(--listening-deep);

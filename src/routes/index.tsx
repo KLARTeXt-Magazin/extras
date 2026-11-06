@@ -170,7 +170,7 @@ function Overview() {
         </section>
 
         <section
-          className="overview-band overview-band--denim px-5 py-14 sm:px-7"
+          className="overview-band overview-band--sand px-5 py-14 sm:px-7"
           aria-labelledby="events-titel"
         >
           <div className="mx-auto w-full max-w-[430px]">
