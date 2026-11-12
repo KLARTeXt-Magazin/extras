@@ -13,3 +13,6 @@ Video hier ablegen, Dateiname = id des Audios:
 Optional mit gleichem Namen: `.vtt` (Untertitel) und `.jpg` (Standbild).
 Sobald die Datei da ist, erscheint an der Audiokachel der Button „In Gebärdensprache“.
 Bei Nikolaus und Heiligabend erst ab dem Freischalttag, wie das Audio.
+
+Zum Ausprobieren: `-test` an den Namen hängen (z. B. `moment-test.mp4`).
+Solche Dateien sieht man nur mit `?vorschau`, nie auf der öffentlichen Seite.

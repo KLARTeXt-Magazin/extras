@@ -7,6 +7,8 @@
 // • optional daneben: gleicher Name als .vtt (Untertitel)
 //   und als .jpg (Standbild vor dem Abspielen)
 // • ohne Video erscheint kein Button
+// • Testdateien mit „-test“ im Namen (z. B. moment-test.mp4)
+//   erscheinen nur mit ?vorschau, nie auf der öffentlichen Seite
 // =======================================================
 
 import { useState } from "react";
@@ -14,6 +16,7 @@ import { Hand, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { usePreview } from "@/lib/preview";
 
 const files = import.meta.glob("../videos/*.{mp4,vtt,jpg}", {
   eager: true,
@@ -21,16 +24,19 @@ const files = import.meta.glob("../videos/*.{mp4,vtt,jpg}", {
   import: "default",
 }) as Record<string, string>;
 
-function fileFor(id: string, ext: string) {
-  return files[`../videos/${id}.${ext}`];
+function fileFor(id: string, ext: string, preview: boolean) {
+  return (
+    files[`../videos/${id}.${ext}`] ?? (preview ? files[`../videos/${id}-test.${ext}`] : undefined)
+  );
 }
 
 export function SignVideoButton({ id, title }: { id: string; title: string }) {
   const [open, setOpen] = useState(false);
-  const src = fileFor(id, "mp4");
+  const preview = usePreview();
+  const src = fileFor(id, "mp4", preview);
   if (!src) return null;
 
-  const captions = fileFor(id, "vtt");
+  const captions = fileFor(id, "vtt", preview);
 
   return (
     <>
@@ -67,7 +73,7 @@ export function SignVideoButton({ id, title }: { id: string; title: string }) {
           <video
             className="max-h-[70dvh] w-full rounded-xl bg-black object-contain"
             src={src}
-            poster={fileFor(id, "jpg")}
+            poster={fileFor(id, "jpg", preview)}
             controls
             playsInline
             preload="none"
