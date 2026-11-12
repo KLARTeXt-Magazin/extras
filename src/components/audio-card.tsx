@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Lock, Play } from "lucide-react";
 
+import { SignVideoButton } from "@/components/sign-video";
 import { Button } from "@/components/ui/button";
 import { ListeningMode } from "@/components/listening-mode";
 
@@ -40,8 +41,6 @@ export type AudioTrack = {
   downloadLabel?: string;
   unlockAt?: string;
   unlockLabel?: string;
-  // Gebärdenvideo (DGS), siehe components/audio-access.tsx
-  signVideo?: { src: string; captions?: string; poster?: string };
 };
 
 // =======================================================
@@ -337,6 +336,8 @@ export function AudioCard({
 
                 {isPlaying ? "Hörmodus öffnen" : "Anhören"}
               </Button>
+
+              <SignVideoButton id={track.id} title={track.title} />
 
               {isPlaying ? (
                 <p

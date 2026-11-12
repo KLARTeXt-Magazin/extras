@@ -169,6 +169,19 @@ function Overview() {
           </div>
         </section>
 
+        <section className="overview-band px-5 py-14 sm:px-7" aria-labelledby="inklusiv-titel">
+          <div className="inclusion-note mx-auto w-full max-w-[430px]">
+            <h2 id="inklusiv-titel" className="section-title">
+              Für alle
+            </h2>
+            <p className="mt-5 max-w-sm text-sm leading-7 text-muted-foreground">
+              KLARTeXt. soll niemanden ausschließen. Darum gibt es jedes Audio auch als Text zum
+              Mitlesen. Nach und nach kommen Videos in Deutscher Gebärdensprache dazu, du findest
+              sie direkt beim jeweiligen Audio.
+            </p>
+          </div>
+        </section>
+
         <section
           className="overview-band overview-band--sand px-5 py-14 sm:px-7"
           aria-labelledby="events-titel"

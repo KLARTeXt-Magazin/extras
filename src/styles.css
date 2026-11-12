@@ -1497,6 +1497,24 @@
 }
 
 
+/* Gebärdenvideo-Button auf der Audiokachel (components/sign-video.tsx) */
+.sign-video-button {
+  border: 1px solid color-mix(in oklab, currentColor 45%, transparent);
+  color: inherit;
+  background: transparent;
+}
+
+.sign-video-button:hover {
+  background: color-mix(in oklab, currentColor 12%, transparent);
+  color: inherit;
+}
+
+/* Hinweis „Für alle“ auf der Übersicht */
+.inclusion-note {
+  border-left: 4px solid currentColor;
+  padding-left: 1.25rem;
+}
+
 /* Text zum Mitlesen (components/audio-access.tsx) */
 .transcript {
   border-top: 1px solid color-mix(in oklab, currentColor 20%, transparent);
