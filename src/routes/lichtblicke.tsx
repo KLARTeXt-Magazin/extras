@@ -548,6 +548,7 @@ function Lichtblicke() {
                 <div
                   key={track.id}
                   aria-hidden={!isCurrent}
+                  inert={!isCurrent}
                   className={`transition-all duration-500 ${
                     isCurrent
                       ? "opacity-100 translate-y-0"

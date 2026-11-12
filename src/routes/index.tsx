@@ -61,7 +61,7 @@ function Overview() {
         <section className="overview-hero px-5 pb-14 sm:px-7">
           <div className="mx-auto w-full max-w-[430px]">
             <p className="text-[10px] font-medium uppercase text-muted-foreground">
-              KLARTeXt. Extras
+              <span className="normal-case">KLARTeXt.</span> Extras
             </p>
             <h1 className="hero-title mt-3">Alle Extras</h1>
             <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">

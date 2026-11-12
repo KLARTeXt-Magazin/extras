@@ -16,7 +16,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <main className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Seite nicht gefunden</h2>
@@ -32,7 +32,7 @@ function NotFoundComponent() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
@@ -155,11 +155,11 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.png?v=6", type: "image/png", sizes: "64x64" },
-      { rel: "icon", href: "/icon-192.png?v=6", type: "image/png", sizes: "192x192" },
-      { rel: "icon", href: "/icon-512.png?v=6", type: "image/png", sizes: "512x512" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=6", sizes: "180x180" },
-      { rel: "manifest", href: "/manifest.webmanifest?v=6" },
+      { rel: "icon", href: "/favicon.png?v=7", type: "image/png", sizes: "64x64" },
+      { rel: "icon", href: "/icon-192.png?v=7", type: "image/png", sizes: "192x192" },
+      { rel: "icon", href: "/icon-512.png?v=7", type: "image/png", sizes: "512x512" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=7", sizes: "180x180" },
+      { rel: "manifest", href: "/manifest.webmanifest?v=7" },
     ],
   }),
   shellComponent: RootShell,

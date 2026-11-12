@@ -551,7 +551,6 @@
 .overview-card--soon {
   border-style: dashed;
   background: transparent;
-  opacity: 0.5;
 }
 
 /* Ausgabe mit isPublic: false – Cover wie sonst, aber ohne Link und Hover-Effekt */
@@ -736,6 +735,11 @@
 .audio-band :focus-visible,
 .companion-band :focus-visible {
   outline-color: var(--band-deep);
+}
+
+/* Fokus auf der dunklen Audiokachel: heller Ring, damit er sichtbar bleibt */
+.audio-player-card :focus-visible {
+  outline-color: var(--listening);
 }
 
 .audio-carousel-shell {
@@ -1369,7 +1373,7 @@
   margin-top: 0.7rem;
   font-size: 0.72rem;
   line-height: 1.5;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 /* =======================================================

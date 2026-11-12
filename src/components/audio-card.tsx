@@ -310,7 +310,7 @@ export function AudioCard({
         <div className="relative z-10 px-3 pb-4 pt-5">
           {/* Audio-Titel */}
 
-          <h3
+          <h2
             className={
               track.coverWord
                 ? "audio-art-title"
@@ -318,7 +318,7 @@ export function AudioCard({
             }
           >
             {track.coverWord ?? track.title}
-          </h3>
+          </h2>
 
           {track.coverWord ? <p className="audio-track-title">{track.title}</p> : null}
 

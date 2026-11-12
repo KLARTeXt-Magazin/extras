@@ -68,7 +68,7 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
                 <div className="issue-panel-content px-7 py-10">
                   <SheetHeader className="mt-8 text-left">
                     <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
-                      KLARTeXt. Extras
+                      <span className="normal-case">KLARTeXt.</span> Extras
                     </p>
                     <SheetTitle className="font-display text-3xl font-semibold text-foreground">
                       <SheetClose asChild>
@@ -214,7 +214,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <p className="mx-auto mt-6 max-w-[430px] text-[10px] leading-relaxed opacity-70">
+      <p className="mx-auto mt-6 max-w-[430px] text-[10px] leading-relaxed opacity-90">
         Schriften:{" "}
         <a
           className="underline underline-offset-2"

@@ -66,7 +66,7 @@ function Events() {
         <section className="overview-hero px-5 pb-14 sm:px-7">
           <div className="mx-auto w-full max-w-[430px]">
             <p className="flex items-center gap-2.5 text-[10px] font-medium uppercase text-muted-foreground">
-              KLARTeXt. Extras
+              <span className="normal-case">KLARTeXt.</span> Extras
               <span className="status-badge">Neu</span>
             </p>
             <h1 className="hero-title mt-3">Events</h1>
@@ -76,7 +76,7 @@ function Events() {
         <section className="companion-band px-6 py-16">
           <div className="companion-inner mx-auto max-w-[430px] border-l-4 pl-5">
             <p className="text-[10px] font-medium uppercase text-muted-foreground">
-              Neu bei KLARTeXt.
+              Neu bei <span className="normal-case">KLARTeXt.</span>
             </p>
             <h2 className="mt-5 text-3xl leading-tight">Es gibt jetzt Veranstaltungen.</h2>
             <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
