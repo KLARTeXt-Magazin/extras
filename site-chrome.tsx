@@ -214,7 +214,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <p className="mx-auto mt-6 max-w-[430px] text-[10px] leading-relaxed opacity-70">
+      <p className="mx-auto mt-6 max-w-[430px] text-[10px] leading-relaxed opacity-90">
         Schriften:{" "}
         <a
           className="underline underline-offset-2"
