@@ -40,6 +40,8 @@ export type AudioTrack = {
   downloadLabel?: string;
   unlockAt?: string;
   unlockLabel?: string;
+  // Gebärdenvideo (DGS), siehe components/audio-access.tsx
+  signVideo?: { src: string; captions?: string; poster?: string };
 };
 
 // =======================================================

@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
 
 import coverImage from "@/assets/cover-zeit-collage-v3.jpg";
+import { AudioAccess } from "@/components/audio-access";
 import { AudioCard, type AudioTrack } from "@/components/audio-card";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -124,6 +125,8 @@ function Ehrlichkeit() {
                 Impuls zum Downloaden
               </PdfDownloadLink>
             </Button>
+
+            <AudioAccess track={track} />
           </div>
         </section>
 

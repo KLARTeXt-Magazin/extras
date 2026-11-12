@@ -23,6 +23,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Download } from "lucide-react";
 
+import { AudioAccess } from "@/components/audio-access";
+
 import coverMoment from "../assets/cover-pmr-collage-v3.jpg";
 import coverNikolausNeu from "../assets/cover-nikolaus-collage-v3.jpg";
 import coverGrussNeu from "../assets/cover-heiligabend-collage-v3.jpg";
@@ -158,8 +160,7 @@ const tracks: AudioTrack[] = [
     id: "heiligabend",
     eyebrow: "24. Dezember",
     title: "Ein Moment an Heiligabend",
-    quote:
-      "„Vielleicht ist genau das heute genug: kurz stehen bleiben und sehen, wer gerade neben dir ist.“",
+    quote: "„Denn genau darin liegen oft unsere größten Lichtblicke.“",
     note: "Der zweite Lichtblick aus dem Adventskalender, zum Anhören an Heiligabend.",
     cover: coverGrussNeu,
     coverAlt:
@@ -582,6 +583,8 @@ function Lichtblicke() {
                       </PdfDownloadLink>
                     </Button>
                   ) : null}
+
+                  <AudioAccess track={track} />
 
                   {track.credit ? (
                     <p className="mt-7 text-[10px] leading-5 text-muted-foreground">

@@ -1496,3 +1496,48 @@
   border-radius: 0.6rem;
 }
 
+
+/* Text zum Mitlesen (components/audio-access.tsx) */
+.transcript {
+  border-top: 1px solid color-mix(in oklab, currentColor 20%, transparent);
+  padding-top: 0.75rem;
+}
+
+.transcript__summary {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  list-style: none;
+}
+
+.transcript__summary::-webkit-details-marker {
+  display: none;
+}
+
+.transcript__summary::before {
+  content: "+";
+  display: inline-grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.transcript[open] .transcript__summary::before {
+  content: "–";
+}
+
+.transcript__body {
+  display: grid;
+  gap: 0.9rem;
+  padding: 0.5rem 0 0.25rem;
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
