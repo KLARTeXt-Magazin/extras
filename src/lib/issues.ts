@@ -37,7 +37,7 @@ export const issues: Issue[] = [
     subtitle: "Momente zum Innehalten · 4 Audios",
     to: "/lichtblicke",
     cover: coverHeft02,
-    isPublic: false,
+    isPublic: true,
   },
   {
     eyebrow: "Ausgabe 01 · 08/26",
