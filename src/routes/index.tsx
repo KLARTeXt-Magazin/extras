@@ -176,8 +176,8 @@ function Overview() {
             </h2>
             <p className="mt-5 max-w-sm text-sm leading-7 text-muted-foreground">
               KLARTeXt. soll niemanden ausschließen. Darum gibt es jedes Audio auch als Text zum
-              Mitlesen. Nach und nach kommen Videos in Deutscher Gebärdensprache dazu, du findest
-              sie direkt beim jeweiligen Audio.
+              Mitlesen. Nach und nach ergänzen wir die Audios durch Videos mit Übersetzung in
+              Deutsche Gebärdensprache (DGS). Du findest sie direkt beim jeweiligen Audio.
             </p>
           </div>
         </section>
