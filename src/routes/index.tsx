@@ -6,7 +6,7 @@
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, CalendarDays } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { issues } from "@/lib/issues";
@@ -179,31 +179,6 @@ function Overview() {
               Mitlesen. Nach und nach kommen Videos in Deutscher Gebärdensprache dazu, du findest
               sie direkt beim jeweiligen Audio.
             </p>
-          </div>
-        </section>
-
-        <section
-          className="overview-band overview-band--sand px-5 py-14 sm:px-7"
-          aria-labelledby="events-titel"
-        >
-          <div className="mx-auto w-full max-w-[430px]">
-            <h2 id="events-titel" className="section-title">
-              Veranstaltungen
-            </h2>
-            <Link to="/events" className="overview-card overview-card--events mt-8">
-              <span className="overview-card-body">
-                <span className="overview-card-icon">
-                  <CalendarDays className="size-6" strokeWidth={1.5} />
-                </span>
-                <span className="min-w-0">
-                  <span className="status-badge">Neu</span>
-                  <span className="mt-2 block text-sm leading-6">
-                    Termine, Infos und Buchung rund um KLARTeXt.
-                  </span>
-                </span>
-                <ArrowRight className="size-5 shrink-0" />
-              </span>
-            </Link>
           </div>
         </section>
 

@@ -26,11 +26,11 @@ describe("App routing", () => {
     expect(router.matchRoutes("/lichtblicke").at(-1)?.routeId).toBe("/lichtblicke");
   });
 
-  it("matches Ausgabe 01 for /ehrlichkeit and no longer serves /events", () => {
+  it("matches Ausgabe 01 for /ehrlichkeit and does not serve /events", () => {
     const router = createRouter({ routeTree });
 
     expect(router.matchRoutes("/ehrlichkeit").at(-1)?.routeId).toBe("/ehrlichkeit");
-    // Veranstaltungen laufen wieder über die eigene Events-Seite
-    expect(router.matchRoutes("/events").at(-1)?.routeId).toBe("/events");
+    // Veranstaltungen liegen nur auf magazin-klartext.de/events
+    expect(router.matchRoutes("/events").at(-1)?.routeId).not.toBe("/events");
   });
 });

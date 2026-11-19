@@ -10,3 +10,4 @@
 - [x] Hinweis „App auf den Startbildschirm" (Banner unten, mobil)
 - [x] Veranstaltungen komplett entfernt (Menü, Footer, Übersicht)
 - [x] Events-Seite wiederhergestellt: eigene Route /events, Menü-, Footer- und Übersichts-Links zurück
+- [x] Veranstaltungen erneut komplett entfernt (Route /events, Menü, Footer, Übersicht); Events laufen nur über magazin-klartext.de/events

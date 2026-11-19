@@ -19,7 +19,7 @@ import coverHeft02 from "@/assets/heft-02-cover.webp";
 import { SITE_URL, shareImageMeta } from "@/lib/share";
 
 export type IssueRoute = "/ehrlichkeit" | "/lichtblicke";
-export type SiteRoute = "/" | "/events" | IssueRoute;
+export type SiteRoute = "/" | IssueRoute;
 
 export type Issue = {
   eyebrow: string;
