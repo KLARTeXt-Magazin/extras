@@ -626,19 +626,20 @@ function Lichtblicke() {
             </h2>
 
             <p className="mt-6 max-w-sm text-sm leading-7 text-foreground/70">
-              Die progressive Muskelentspannung (kurz PMR) ist eine sanfte Übung aus der Prävention.
-              Du spannst einen Muskel kurz an und merkst danach deutlicher, wie er locker wird.
+              Die progressive Muskelentspannung (kurz PMR) ist eine bewährte Entspannungsmethode,
+              die auch in der Prävention eingesetzt wird. Du spannst einen Muskel kurz an, lässt ihn
+              anschließend wieder locker und spürst bewusst die Entspannung.
             </p>
 
             <dl className="mt-8 max-w-sm">
               {[
                 [
                   "Was?",
-                  "Eine Entspannungsmethode: Du spannst einzelne Muskelgruppen an und löst sie wieder.",
+                  "Eine Entspannungsmethode: Du spannst einzelne Muskelgruppen an und löst die Spannung anschließend wieder.",
                 ],
                 [
                   "Wie?",
-                  "Gruppe für Gruppe: kurz anspannen, kurz halten und beim Ausatmen loslassen.",
+                  "Gruppe für Gruppe: kurz anspannen, die Spannung einige Sekunden halten, beim Ausatmen loslassen und der Entspannung nachspüren.",
                 ],
                 [
                   "Wo?",

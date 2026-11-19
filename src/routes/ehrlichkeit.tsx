@@ -106,7 +106,7 @@ function Ehrlichkeit() {
             </p>
 
             <h2 className="mt-5 text-4xl leading-tight">
-              „Wie geht es mir eigentlich gerade? Ehrlich, nicht so, wie es sein sollte.“
+              „Wie geht es mir eigentlich gerade? Ehrlich, nicht so, wie ich es nach außen zeige.“
             </h2>
 
             <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
