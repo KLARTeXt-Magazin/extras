@@ -21,6 +21,7 @@ import { Lock, Play } from "lucide-react";
 import { SignVideoButton } from "@/components/sign-video";
 import { Button } from "@/components/ui/button";
 import { ListeningMode } from "@/components/listening-mode";
+import { usePreview } from "@/lib/preview";
 
 // =======================================================
 // DATENSTRUKTUR FÜR EINE AUDIO-KACHEL
@@ -79,16 +80,18 @@ export function AudioCard({
   // -----------------------------------------------------
 
   const [unlocked, setUnlocked] = useState(!track.unlockAt);
+  const preview = usePreview();
 
   // =====================================================
   // FREISCHALTZEIT PRÜFEN
+  // Mit ?vorschau sind gesperrte Audios schon vorher hörbar.
   // =====================================================
 
   useEffect(() => {
     if (!track.unlockAt) return;
 
-    setUnlocked(Date.now() >= new Date(track.unlockAt).getTime());
-  }, [track.unlockAt]);
+    setUnlocked(preview || Date.now() >= new Date(track.unlockAt).getTime());
+  }, [track.unlockAt, preview]);
 
   // =====================================================
   // AUDIO-EVENTS
