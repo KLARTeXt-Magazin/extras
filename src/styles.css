@@ -316,14 +316,16 @@
   z-index: 50;
   max-width: 400px;
   margin-inline: auto;
-  border: 1px solid rgb(255 255 255 / 0.7);
+  /* klares Glas wie die Leiste in Safari: Inhalt schimmert hell und unscharf durch */
+  border: 1px solid rgb(255 255 255 / 0.65);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--background) 90%, transparent);
+  background: rgb(255 255 255 / 0.42);
   box-shadow:
-    0 10px 30px -8px rgb(38 8 8 / 0.22),
-    inset 0 1px 0 rgb(255 255 255 / 0.8);
-  -webkit-backdrop-filter: blur(30px) saturate(160%);
-  backdrop-filter: blur(30px) saturate(160%);
+    0 8px 28px -6px rgb(0 0 0 / 0.18),
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    inset 0 -1px 0 rgb(255 255 255 / 0.25);
+  -webkit-backdrop-filter: blur(14px) saturate(180%) brightness(1.25);
+  backdrop-filter: blur(14px) saturate(180%) brightness(1.25);
 }
 
 .bottom-nav-inner {
@@ -345,7 +347,7 @@
   border-radius: 999px;
   font-size: 0.65rem;
   font-weight: 600;
-  color: var(--muted-foreground);
+  color: var(--foreground);
   transition:
     color 200ms ease,
     background-color 200ms ease;
@@ -353,7 +355,10 @@
 
 /* aktiver Punkt wie bei der iOS-Tab-Leiste: Kapsel um Symbol und Text */
 .bottom-nav-item-active {
-  background: color-mix(in srgb, var(--secondary) 85%, transparent);
+  background: rgb(255 255 255 / 0.6);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 2px 8px -2px rgb(0 0 0 / 0.12);
   color: var(--foreground);
   font-weight: 700;
 }
