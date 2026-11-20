@@ -4,7 +4,7 @@
 // • Aktuell → neueste Ausgabe (springt automatisch um,
 //   sobald in src/lib/issues.ts eine neue öffentlich ist)
 // • Magazin → magazin-klartext.de (neuer Tab)
-// Aktiver Punkt: Symbol in sandfarbener Pille, Schrift dunkelbraun.
+// Aktiver Punkt: sandfarbene Kapsel um Symbol und Text (wie iOS-Tab-Leiste).
 // Ab 900 px ausgeblendet; dort stehen dieselben Punkte oben
 // im Kopf (HeaderNav in components/site-chrome.tsx).
 // =======================================================

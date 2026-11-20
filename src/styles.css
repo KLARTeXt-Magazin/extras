@@ -339,31 +339,27 @@
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
-  min-height: 3.6rem;
-  padding-block: 0.4rem;
+  min-height: 3.1rem;
+  padding-block: 0.3rem;
+  margin: 0.3rem;
+  border-radius: 999px;
   font-size: 0.65rem;
   font-weight: 600;
   color: var(--muted-foreground);
-  transition: color 200ms ease;
+  transition:
+    color 200ms ease,
+    background-color 200ms ease;
 }
 
-/* Symbol sitzt in einer Pille; beim aktiven Punkt wird sie sandfarben */
-.bottom-nav-item svg {
-  box-sizing: content-box;
-  padding: 0.2rem 1rem;
-  border-radius: 999px;
-  transition: background-color 200ms ease;
-}
-
-/* aktiver Punkt: dunkles Braun auf Sand statt Rot */
+/* aktiver Punkt wie bei der iOS-Tab-Leiste: Kapsel um Symbol und Text */
 .bottom-nav-item-active {
+  background: color-mix(in srgb, var(--secondary) 85%, transparent);
   color: var(--foreground);
   font-weight: 700;
 }
 
 .bottom-nav-item-active svg {
-  background: var(--secondary);
-  stroke-width: 2;
+  stroke-width: 2.1;
 }
 
 /* Desktop: Navigation als Textlinks im Kopf statt Leiste unten */
