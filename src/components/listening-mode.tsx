@@ -36,6 +36,8 @@ function SkipIcon({ forward = false }: { forward?: boolean }) {
   );
 }
 
+export type ListeningView = "audio" | "text" | "dgs";
+
 type ListeningModeProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -50,8 +52,10 @@ type ListeningModeProps = {
   onSeek: (seconds: number) => void;
   // Gebärdenvideo: gleiche Steuerung, Umschalter oben
   signVideo?: SignVideo | null;
-  mode?: "audio" | "dgs";
-  onModeChange?: (mode: "audio" | "dgs") => void;
+  // Text zum Mitlesen (Absätze), als eigene Ansicht im Umschalter
+  transcript?: string[] | undefined;
+  mode?: ListeningView;
+  onModeChange?: (mode: ListeningView) => void;
   videoRef?: Ref<HTMLVideoElement>;
   // Farben der jeweiligen Audio (hell/dunkel), sonst Standardfarben
   accent?: string;
@@ -71,6 +75,7 @@ export function ListeningMode({
   onSkip,
   onSeek,
   signVideo,
+  transcript,
   mode = "audio",
   onModeChange,
   videoRef,
@@ -78,13 +83,15 @@ export function ListeningMode({
   accentInk,
 }: ListeningModeProps) {
   const showVideo = Boolean(signVideo) && mode === "dgs";
+  const showText = Boolean(transcript?.length) && mode === "text";
+  const compact = showVideo || showText;
   const progressId = useId();
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className={`listening-mode ${showVideo ? "listening-mode--video" : ""} fixed inset-0 left-0 top-0 z-[150] h-[100dvh] max-h-none w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden border-0 p-0 shadow-none sm:rounded-none`}
+        className={`listening-mode ${compact ? "listening-mode--video" : ""} fixed inset-0 left-0 top-0 z-[150] h-[100dvh] max-h-none w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden border-0 p-0 shadow-none sm:rounded-none`}
         style={
           {
             "--listening-image": `url(${cover})`,
@@ -96,9 +103,9 @@ export function ListeningMode({
         <div className="listening-mode__image" aria-hidden="true" />
         <div className="listening-mode__wash" aria-hidden="true" />
 
-        <div className="relative z-10 mx-auto flex h-full w-full max-w-[430px] flex-col px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))]">
+        <div className="relative z-10 mx-auto flex h-[100dvh] min-h-0 w-full max-w-[430px] flex-col px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))]">
           <div className="flex items-center justify-between gap-3">
-            {signVideo ? (
+            {signVideo || transcript?.length ? (
               <div className="listening-switch" role="group" aria-label="Ansicht wählen">
                 <button
                   type="button"
@@ -107,14 +114,27 @@ export function ListeningMode({
                 >
                   Audio
                 </button>
-                <button
-                  type="button"
-                  aria-pressed={mode === "dgs"}
-                  onClick={() => onModeChange?.("dgs")}
-                >
-                  <SignIcon className="size-4" />
-                  Gebärdensprache
-                </button>
+                {transcript?.length ? (
+                  <button
+                    type="button"
+                    aria-pressed={mode === "text"}
+                    onClick={() => onModeChange?.("text")}
+                    aria-label="Text zum Mitlesen"
+                  >
+                    Text
+                  </button>
+                ) : null}
+                {signVideo ? (
+                  <button
+                    type="button"
+                    aria-pressed={mode === "dgs"}
+                    onClick={() => onModeChange?.("dgs")}
+                    aria-label="In Deutscher Gebärdensprache"
+                  >
+                    <SignIcon className="size-4" />
+                    DGS
+                  </button>
+                ) : null}
               </div>
             ) : (
               <span />
@@ -155,14 +175,22 @@ export function ListeningMode({
             </div>
           ) : null}
 
-          <div className={showVideo ? "mt-4" : "mt-auto"}>
+          {showText && transcript ? (
+            <div className="listening-text" tabIndex={0} aria-label={`Text zu „${title}“`}>
+              {transcript.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          ) : null}
+
+          <div className={compact ? "mt-4" : "mt-auto"}>
             <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-listening-muted">
               {eyebrow}
             </p>
 
             <DialogTitle
               className={`mt-3 max-w-sm font-display font-semibold leading-[0.98] text-listening ${
-                showVideo ? "text-2xl" : "text-[2.6rem]"
+                compact ? "text-2xl" : "text-[2.6rem]"
               }`}
             >
               {title}
@@ -172,7 +200,7 @@ export function ListeningMode({
               Großflächige Höransicht für „{title}“
             </DialogDescription>
 
-            <div className={showVideo ? "mt-5" : "mt-10"}>
+            <div className={compact ? "mt-5" : "mt-10"}>
               <label className="sr-only" htmlFor={progressId}>
                 Wiedergabeposition in „{title}“
               </label>

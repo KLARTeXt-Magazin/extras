@@ -1285,6 +1285,30 @@
   box-shadow: 0 24px 60px -24px rgb(0 0 0 / 0.6);
 }
 
+/* Text zum Mitlesen im Hörmodus: scrollbar, oben und unten weich ausgeblendet */
+.listening-text {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding: 1.5rem 0.25rem 2rem;
+  color: var(--listening-ink);
+  font-size: 1.15rem;
+  line-height: 1.75;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 1.5rem,
+    #000 calc(100% - 2.5rem),
+    transparent
+  );
+  overscroll-behavior: contain;
+}
+
+.listening-text p + p {
+  margin-top: 1.1rem;
+}
+
 .listening-mode--video .listening-mode__image {
   filter: blur(18px) brightness(0.55);
   transform: scale(1.1);

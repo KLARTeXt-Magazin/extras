@@ -20,7 +20,8 @@ import { Lock, Play } from "lucide-react";
 
 import { SignVideoButton, useSignVideo } from "@/components/sign-video";
 import { Button } from "@/components/ui/button";
-import { ListeningMode } from "@/components/listening-mode";
+import { ListeningMode, type ListeningView } from "@/components/listening-mode";
+import { transcripts } from "@/lib/transcripts";
 import { usePreview } from "@/lib/preview";
 
 // =======================================================
@@ -70,7 +71,7 @@ export function AudioCard({
   // Gebärdenvideo (falls vorhanden): läuft im Hörmodus statt der Audio.
   // mode = welches Medium gerade gesteuert wird.
   const signVideo = useSignVideo(track.id);
-  const [mode, setMode] = useState<"audio" | "dgs">("audio");
+  const [mode, setMode] = useState<ListeningView>("audio");
   const [videoEl, setVideoEl] = useState<HTMLVideoElement | null>(null);
   const pendingSwitch = useRef<{ time: number; play: boolean } | null>(null);
 
@@ -183,8 +184,19 @@ export function AudioCard({
   // Stelle und Abspielzustand werden mitgenommen.
   // =====================================================
 
-  const switchMode = (next: "audio" | "dgs", forcePlay = false) => {
+  const switchMode = (next: ListeningView, forcePlay = false) => {
     const from = media();
+
+    // Audio ⇄ Text: gleiche Audio, nur andere Ansicht – nichts anhalten
+    if (next !== "dgs" && mode !== "dgs") {
+      setMode(next);
+      if (forcePlay && from?.paused) {
+        onPlay(track.id);
+        from.play().catch(() => setIsPlaying(false));
+      }
+      return;
+    }
+
     pendingSwitch.current = {
       time: from?.currentTime ?? 0,
       play: forcePlay || Boolean(from && !from.paused),
@@ -384,7 +396,12 @@ export function AudioCard({
 
   const closeListeningMode = (open: boolean) => {
     setListeningOpen(open);
-    if (open || mode !== "dgs") return;
+    if (open) return;
+    if (mode === "text") {
+      setMode("audio");
+      return;
+    }
+    if (mode !== "dgs") return;
     // Video beim Schließen anhalten und zur Audio zurückkehren
     videoEl?.pause();
     setIsPlaying(false);
@@ -542,6 +559,7 @@ export function AudioCard({
         onTogglePlay={togglePlay}
         onSkip={skip}
         signVideo={signVideo}
+        transcript={transcripts[track.id]}
         mode={mode}
         onModeChange={(next) => switchMode(next)}
         videoRef={setVideoEl}
