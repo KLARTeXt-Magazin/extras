@@ -5,5 +5,3 @@
 // =======================================================
 
 export const MAGAZIN_URL = "https://www.magazin-klartext.de/";
-export const EVENTS_URL = "https://www.magazin-klartext.de/events/";
-

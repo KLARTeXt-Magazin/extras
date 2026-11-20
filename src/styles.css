@@ -331,6 +331,58 @@
   color: var(--primary);
 }
 
+/* Desktop: Navigation als Textlinks im Kopf statt Leiste unten */
+.header-nav {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  body {
+    padding-bottom: 0;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+
+  .install-banner {
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-right: 0.75rem;
+  }
+
+  .header-nav > a,
+  .header-nav > button {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0 0.85rem;
+    border-radius: 999px;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .header-nav > a:hover,
+  .header-nav > button:hover {
+    background: color-mix(in srgb, var(--foreground) 6%, transparent);
+    color: var(--foreground);
+  }
+
+  .header-nav > [aria-current] {
+    color: var(--foreground);
+  }
+}
+
 /* Menü-Knopf im Glas-Look */
 .liquid-glass-button {
   position: relative;
@@ -1630,8 +1682,11 @@
     max-width: 27rem;
   }
 
+  /* Logo bündig mit dem Titel darunter */
   .floating-site-header .site-header-inner {
-    max-width: 76rem;
+    width: min(100vw - 4rem, 76rem);
+    max-width: none;
+    padding-inline: 0;
   }
 }
 

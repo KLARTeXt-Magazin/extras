@@ -11,4 +11,4 @@
 - [x] Veranstaltungen komplett entfernt (Menü, Footer, Übersicht)
 - [x] Events-Seite wiederhergestellt: eigene Route /events, Menü-, Footer- und Übersichts-Links zurück
 - [x] Veranstaltungen erneut komplett entfernt (Route /events, Menü, Footer, Übersicht); Events laufen nur über magazin-klartext.de/events
-- [ ] Untere Navigationsleiste (Start / Ausgaben / Veranstaltungen) statt Hamburger-Menü oben
+- [x] Untere Navigationsleiste (Start / Ausgaben / Magazin) statt Hamburger-Menü oben; ab 900 px als Textlinks im Kopf, ohne Veranstaltungen
