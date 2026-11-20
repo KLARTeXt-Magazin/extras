@@ -5,7 +5,7 @@ import { isStandaloneApp } from "@/lib/app-mode";
 /**
  * Ein ruhiger Atemzug beim Öffnen der App (nur als installierte Web-App).
  * Einatmen · Ausatmen, dann öffnet sich die Seite – insgesamt rund 10 Sekunden.
- * Optik: flach und satt – Petrolgrund, jeansblauer Himmel, Hügel in Aubergine und Braun, rosé Sonne.
+ * Optik: flach und satt – brauner Grund, jeansblauer Himmel, Hügel in Aubergine und Beere, rosé Sonne.
  * Zum Ansehen im Browser: ?intro an die Adresse hängen.
  */
 

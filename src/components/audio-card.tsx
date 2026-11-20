@@ -441,20 +441,20 @@ export function AudioCard({
            ================================================= */}
 
         <div className="audio-cover-layout relative z-10 aspect-[4/3] overflow-hidden rounded-[0.95rem]">
-          <img
-            src={track.cover}
-            alt={track.coverAlt}
-            width={1024}
-            height={1024}
-            loading="lazy"
-            className={`audio-cover-image h-full w-full object-cover ${
-              unlocked ? "" : "scale-105 blur-lg saturate-50"
-            }`}
-          />
+          {unlocked ? (
+            <img
+              src={track.cover}
+              alt={track.coverAlt}
+              width={1024}
+              height={1024}
+              loading="lazy"
+              className="audio-cover-image h-full w-full object-cover"
+            />
+          ) : null}
 
           {/* Kategorie / Datum */}
 
-          <span className="audio-cover-badge absolute left-4 top-4 rounded-full border px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.08em] shadow-sm backdrop-blur-md">
+          <span className="audio-cover-badge absolute left-4 top-4 rounded-full border px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.08em]">
             {track.eyebrow}
           </span>
 
@@ -463,14 +463,12 @@ export function AudioCard({
              ================================================= */}
 
           {!unlocked ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/15 px-6 text-center backdrop-blur-[5px]">
-              <span className="audio-lock flex size-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-xl">
+            <div className="audio-locked-cover absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+              <span className="audio-lock flex size-12 items-center justify-center rounded-full">
                 <Lock className="size-5" strokeWidth={1.5} />
               </span>
 
-              <p className="max-w-[15rem] text-sm font-medium leading-6 text-listening drop-shadow-md">
-                {track.unlockLabel}
-              </p>
+              <p className="max-w-[15rem] text-sm font-semibold leading-6">{track.unlockLabel}</p>
             </div>
           ) : null}
         </div>

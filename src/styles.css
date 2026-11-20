@@ -891,8 +891,8 @@
     transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Nachbarkarten nur kleiner, nicht ausgeblasst */
 .carousel-slide:not(.is-current) {
-  opacity: 0.42;
   transform: scale(0.92);
   cursor: pointer;
 }
@@ -978,8 +978,6 @@
   background: var(--secondary);
   color: var(--foreground);
   box-shadow: none;
-  backdrop-filter: blur(14px) saturate(125%);
-  -webkit-backdrop-filter: blur(14px) saturate(125%);
 }
 
 .audio-band[class*="audio-tone-"] .audio-cover-badge {
@@ -988,13 +986,15 @@
   color: var(--audio-accent-ink);
 }
 
-/* Schloss bei noch gesperrten Audios */
+/* Gesperrtes Audio: flache Fläche in der Akzentfarbe statt verschwommenem Bild */
+.audio-locked-cover {
+  background: var(--audio-accent, var(--secondary));
+  color: var(--audio-accent-ink, var(--wine));
+}
+
 .audio-lock {
-  border-color: rgb(255 255 250 / 0.48);
-  background: rgb(38 8 8 / 0.58);
-  color: var(--pearl);
-  backdrop-filter: blur(14px) saturate(125%);
-  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  background: var(--audio-accent-ink, var(--wine));
+  color: var(--audio-accent, var(--secondary));
 }
 
 .audio-art-title {
@@ -1064,12 +1064,10 @@
 .companion-inner {
   position: relative;
   padding: 1.5rem 1.5rem 1.25rem;
-  border: 1px solid var(--audio-accent, var(--secondary));
   border-radius: 1.25rem;
-  background: color-mix(in srgb, var(--audio-accent, var(--secondary)) 26%, var(--neutral-pearl));
-  transition:
-    background-color 400ms ease,
-    border-color 400ms ease;
+  background: var(--audio-accent-ink, var(--wine));
+  color: var(--neutral-pearl);
+  transition: background-color 400ms ease;
 }
 
 /* kleine Lasche oben links: zeigt auf die Audiokachel darüber */
@@ -1080,10 +1078,12 @@
   left: 2rem;
   width: 1rem;
   height: 1rem;
-  border-top: 1px solid var(--audio-accent, var(--secondary));
-  border-left: 1px solid var(--audio-accent, var(--secondary));
   background: inherit;
   transform: rotate(45deg);
+}
+
+.companion-inner :focus-visible {
+  outline-color: var(--audio-accent, var(--secondary));
 }
 
 /* Verweis auf den Extra-Beitrag weiter unten */
@@ -1092,7 +1092,7 @@
   min-height: 44px;
   align-items: center;
   gap: 0.4rem;
-  color: var(--audio-accent-ink, var(--foreground));
+  color: var(--audio-accent, var(--secondary));
   font-size: 0.875rem;
   font-weight: 600;
   text-decoration: underline;
@@ -1100,20 +1100,16 @@
 }
 
 .companion-kicker {
-  color: var(--audio-accent-ink, var(--muted-foreground));
+  color: var(--audio-accent, var(--secondary));
 }
 
 .companion-quote {
-  color: var(--audio-accent-ink, var(--foreground));
+  color: var(--audio-accent, var(--secondary));
   transition: color 400ms ease;
 }
 
 .companion-band .text-muted-foreground {
-  color: color-mix(
-    in srgb,
-    var(--audio-accent-ink, var(--foreground)) 72%,
-    var(--muted-foreground)
-  );
+  color: color-mix(in srgb, var(--neutral-pearl) 82%, transparent);
 }
 
 .companion-band h2,
@@ -1121,16 +1117,16 @@
   text-wrap: balance;
 }
 
-/* Download-Knopf im Begleittext */
+/* Download-Knopf im Begleittext: Vollfarbe in der Akzentfarbe */
 .companion-band .bg-surface {
-  background: color-mix(in srgb, var(--audio-accent, var(--secondary)) 45%, var(--neutral-pearl));
-  border-color: var(--audio-accent, var(--neutral-line));
-  color: var(--audio-accent-ink, var(--foreground));
+  border-color: var(--audio-accent, var(--secondary));
+  background: var(--audio-accent, var(--secondary));
+  color: var(--audio-accent-ink, var(--wine));
 }
 
 .companion-band .bg-surface:hover {
-  background: var(--audio-accent, var(--neutral-mist));
-  color: var(--audio-accent-ink, var(--foreground));
+  background: var(--neutral-pearl);
+  color: var(--audio-accent-ink, var(--wine));
 }
 
 /* Progressive Muskelentspannung – sanft in der Salbei-Welt der PMR-Kachel */
@@ -1427,9 +1423,9 @@
    ======================================================= */
 
 .breath-intro {
-  /* nur KLARTeXt.-Farben: Petrol (Ausgabe 02), Jeansblau + Braun (Startseite),
-     Aubergine, Rosé, Sand als Akzente */
-  --intro-bg: #173d3a;
+  /* nur KLARTeXt.-Farben: Braun + Jeansblau (Startseite),
+     Aubergine, Beere, Rosé, Sand (Ausgabe 02) – bewusst nichts Grünes */
+  --intro-bg: #3b2723;
   --intro-ink: #f8f6f2;
   --intro-sun: #e9bbcb;
   --intro-ring: #c3ced3;
@@ -1495,11 +1491,11 @@
 }
 
 .paper--teal {
-  fill: #3b2723; /* Schokobraun (Startseite) */
+  fill: #4b2934; /* Beere (Ausgabe 02) */
 }
 
 .paper--rose {
-  fill: #dccbb2; /* kleiner Mond in Sand */
+  fill: #f8f6f2; /* kleiner Mond in Perlweiß */
 }
 
 /* beim Einatmen heben sich die Hügel leicht, beim Ausatmen sinken sie */
@@ -1549,7 +1545,7 @@
 .breath-art__glow {
   width: 62%;
   aspect-ratio: 1;
-  background: #b8d4d1;
+  background: #dccbb2;
 }
 
 /* Sonne geht beim Einatmen auf und beim Ausatmen wieder unter */
@@ -1596,7 +1592,7 @@
   height: 6px;
   overflow: hidden;
   border-radius: 999px;
-  background: #0f2b29;
+  background: #2b1d18;
 }
 
 .breath-progress > span {
@@ -1875,7 +1871,7 @@
   }
 
   .editorial-stage .carousel-slide:not(.is-current):hover {
-    opacity: 0.7;
+    transform: scale(0.94);
   }
 
   .editorial-stage .audio-carousel-shell > :not([role="group"]) {
