@@ -1427,9 +1427,10 @@
    ======================================================= */
 
 .breath-intro {
-  --intro-bg: #10302e;
+  --intro-bg: #123b38;
   --intro-ink: #f8f6f2;
-  --intro-light: #f6e3bd;
+  --intro-sun: #e9a63c;
+  --intro-ring: #1b4a46;
   position: fixed;
   inset: 0;
   z-index: 200;
@@ -1439,22 +1440,9 @@
   align-items: center;
   overflow: hidden;
   padding: calc(2.5rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
-  background:
-    radial-gradient(120% 70% at 50% 38%, #1d4a46 0%, transparent 70%),
-    linear-gradient(to bottom, #0d2725, var(--intro-bg) 55%, #0b2321);
+  background: var(--intro-bg);
   color: var(--intro-ink);
   animation: breath-intro-in 700ms ease both;
-}
-
-/* feines Papierkorn über der Fläche */
-.breath-intro::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.12;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
-  pointer-events: none;
 }
 
 .breath-intro.is-leaving {
@@ -1463,34 +1451,35 @@
 
 /* keine Großbuchstaben: „KLARTeXt.“ muss so bleiben */
 .breath-intro__eyebrow {
-  position: relative;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  color: color-mix(in srgb, var(--intro-ink) 70%, transparent);
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--intro-ink) 78%, var(--intro-bg));
 }
 
 .breath-intro__stage {
-  position: relative;
   display: grid;
   justify-items: center;
   text-align: center;
 }
 
-/* Illustration: Papierlagen + Lichtpunkt */
+/* Illustration: Ring, Sonne, Hügel – alles flache Vollfarben */
 .breath-art {
   position: relative;
   width: min(20rem, 82vw);
   aspect-ratio: 1;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--intro-ring);
 }
 
 .breath-art__paper {
   position: absolute;
   inset: 0;
+  z-index: 2;
   width: 100%;
   height: 100%;
-  overflow: visible;
 }
 
 .paper {
@@ -1500,27 +1489,18 @@
 }
 
 .paper--lilac {
-  fill: #c9bed8;
+  fill: #b5503d; /* Terrakotta, satt */
 }
 
 .paper--teal {
-  fill: #b8d4d1;
+  fill: #6e7f43; /* Oliv, satt */
 }
 
 .paper--rose {
-  fill: #e9bbcb;
+  fill: #e48aa0; /* kleiner rosa Mond */
 }
 
-.thread {
-  fill: none;
-  stroke: color-mix(in srgb, var(--intro-ink) 55%, transparent);
-  stroke-width: 1.2;
-  stroke-dasharray: 520;
-  stroke-dashoffset: 520;
-  animation: breath-thread 9s ease-out forwards;
-}
-
-/* beim Einatmen heben sich die Lagen leicht, beim Ausatmen sinken sie */
+/* beim Einatmen heben sich die Hügel leicht, beim Ausatmen sinken sie */
 .breath-intro.is-in .paper--lilac {
   animation-name: paper-rise-far;
 }
@@ -1545,31 +1525,32 @@
   animation-name: paper-settle;
 }
 
-/* Lichtpunkt über den Papierlagen */
+/* Sonne und Hof hinter den Hügeln */
 .breath-art__light,
 .breath-art__glow {
   position: absolute;
   left: 50%;
-  top: 44%;
+  top: 58%;
+  z-index: 1;
   border-radius: 50%;
   translate: -50% -50%;
   animation: var(--phase-ms, 4s) cubic-bezier(0.45, 0, 0.55, 1) both;
 }
 
 .breath-art__light {
-  width: 20%;
+  width: 34%;
   aspect-ratio: 1;
-  background: radial-gradient(circle at 40% 35%, #fffaf0 0%, var(--intro-light) 55%, #e2c48d 100%);
-  box-shadow: 0 0 40px 6px rgb(246 227 189 / 0.45);
+  background: var(--intro-sun);
 }
 
+/* flacher Hof um die Sonne, keine Unschärfe */
 .breath-art__glow {
-  width: 75%;
+  width: 62%;
   aspect-ratio: 1;
-  background: radial-gradient(circle, rgb(246 227 189 / 0.3) 0%, transparent 65%);
+  background: #24605a;
 }
 
-/* Licht wächst beim Einatmen und wird beim Ausatmen wieder klein */
+/* Sonne geht beim Einatmen auf und beim Ausatmen wieder unter */
 .breath-intro.is-in .breath-art__light {
   animation-name: light-grow;
 }
@@ -1601,7 +1582,6 @@
 }
 
 .breath-intro__footer {
-  position: relative;
   display: grid;
   justify-items: center;
   gap: 1.25rem;
@@ -1611,81 +1591,82 @@
 .breath-progress {
   display: block;
   width: 100%;
-  height: 3px;
+  height: 6px;
   overflow: hidden;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--intro-ink) 18%, transparent);
+  background: var(--intro-ring);
 }
 
 .breath-progress > span {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--intro-light);
+  background: var(--intro-sun);
   transform-origin: left;
   animation: breath-progress linear both;
 }
 
 .breath-intro__skip {
   min-height: 44px;
-  padding: 0 1.25rem;
-  border: 1px solid color-mix(in srgb, var(--intro-ink) 30%, transparent);
+  padding: 0 1.4rem;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--intro-ink) 8%, transparent);
-  color: var(--intro-ink);
-  font-size: 0.8rem;
-  font-weight: 600;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--intro-ink);
+  color: var(--intro-bg);
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .breath-intro__skip:hover {
-  background: color-mix(in srgb, var(--intro-ink) 16%, transparent);
-  color: var(--intro-ink);
+  background: #ffffff;
+  color: var(--intro-bg);
 }
 
 .breath-intro :focus-visible {
-  outline: 2px solid var(--intro-light);
+  outline: 2px solid var(--intro-sun);
   outline-offset: 3px;
 }
 
 @keyframes light-grow {
   from {
-    scale: 0.6;
+    translate: -50% -10%;
+    scale: 0.85;
   }
   to {
-    scale: 1.35;
+    translate: -50% -78%;
+    scale: 1.1;
   }
 }
 
 @keyframes light-shrink {
   from {
-    scale: 1.35;
+    translate: -50% -78%;
+    scale: 1.1;
   }
   to {
-    scale: 0.6;
+    translate: -50% -10%;
+    scale: 0.85;
   }
 }
 
 @keyframes glow-grow {
   from {
-    scale: 0.55;
-    opacity: 0.4;
+    translate: -50% -10%;
+    scale: 0.7;
   }
   to {
-    scale: 1.2;
-    opacity: 1;
+    translate: -50% -66%;
+    scale: 1.15;
   }
 }
 
 @keyframes glow-shrink {
   from {
-    scale: 1.2;
-    opacity: 1;
+    translate: -50% -66%;
+    scale: 1.15;
   }
   to {
-    scale: 0.55;
-    opacity: 0.4;
+    translate: -50% -10%;
+    scale: 0.7;
   }
 }
 
@@ -1731,12 +1712,6 @@
   }
   to {
     transform: scaleX(1);
-  }
-}
-
-@keyframes breath-thread {
-  to {
-    stroke-dashoffset: 0;
   }
 }
 
