@@ -41,6 +41,9 @@ export type AudioTrack = {
   credit?: string;
   downloadUrl?: string;
   downloadLabel?: string;
+  /** optionaler Verweis auf einen ausführlichen Beitrag weiter unten (Sprungmarke) */
+  moreHref?: string;
+  moreLabel?: string;
   unlockAt?: string;
   unlockLabel?: string;
 };

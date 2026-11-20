@@ -4,7 +4,7 @@
 // • Aktuell → neueste Ausgabe (springt automatisch um,
 //   sobald in src/lib/issues.ts eine neue öffentlich ist)
 // • Magazin → magazin-klartext.de (neuer Tab)
-// Aktiver Punkt: Symbol und Schrift in Terrakotta.
+// Aktiver Punkt: Symbol in sandfarbener Pille, Schrift dunkelbraun.
 // Ab 900 px ausgeblendet; dort stehen dieselben Punkte oben
 // im Kopf (HeaderNav in components/site-chrome.tsx).
 // =======================================================

@@ -21,7 +21,7 @@
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Download } from "lucide-react";
+import { ArrowDown, Download, Play } from "lucide-react";
 
 import { AudioAccess } from "@/components/audio-access";
 
@@ -197,7 +197,9 @@ const tracks: AudioTrack[] = [
     id: "pmr",
     eyebrow: "Progressive Muskelentspannung",
     title: "Spannung trifft Entspannung",
-    note: "Eine kurze Übung: Muskeln anspannen und wieder lösen. Die Anleitung steht weiter unten.",
+    note: "Eine kurze Übung: Muskeln anspannen und wieder lösen. Hintergrund und Schritte findest du im Extra-Beitrag.",
+    moreHref: "#pmr-beitrag",
+    moreLabel: "Zum Extra-Beitrag",
     cover: coverMoment,
     coverAlt:
       "Materialstudie aus gerafftem mitternachtsblauem Stoff, lavendelfarbenem Band und mintfarbenem Stein",
@@ -380,6 +382,18 @@ function Lichtblicke() {
     });
   };
 
+  // aus dem PMR-Beitrag zur passenden Audiokachel springen
+  const listenToPmr = () => {
+    const index = tracks.findIndex((track) => track.id === "pmr");
+    if (index < 0) return;
+    setActiveIndex(index);
+    slideRefs.current[index]?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "start",
+    });
+  };
+
   // -----------------------------------------------------
   // HERO-KOMPAKT
   // • Hero wird kompakter, sobald gescrollt / abgespielt wird
@@ -450,7 +464,7 @@ function Lichtblicke() {
             ================================================= */}
 
           <section
-            className={`audio-band audio-tone-${activeIndex + 1} pb-10 pt-4`}
+            className={`audio-band audio-tone-${activeIndex + 1} pb-4 pt-4`}
             aria-label="Audio-Karussell"
           >
             <div className="audio-carousel-shell mx-auto w-full max-w-[860px]">
@@ -549,11 +563,11 @@ function Lichtblicke() {
             ================================================= */}
 
         <section
-          className={`companion-band companion-tone-${activeIndex + 1} px-6 py-10 sm:px-7`}
+          className={`companion-band companion-tone-${activeIndex + 1} px-5 pb-12 pt-1 sm:px-7`}
           aria-label={`Begleitimpuls zu ${tracks[activeIndex]?.title ?? "diesem Audio"}`}
           aria-live="polite"
         >
-          <div className="companion-inner mx-auto w-full max-w-[430px] border-l-4 pl-5">
+          <div className="companion-inner mx-auto w-full max-w-[430px]">
             {tracks.map((track, index) => {
               const isCurrent = index === activeIndex;
 
@@ -569,7 +583,7 @@ function Lichtblicke() {
                   }`}
                 >
                   <p className="companion-kicker text-[10px] font-medium uppercase tracking-[0.12em]">
-                    Audio {index + 1} · Begleitimpuls · {track.eyebrow}
+                    Begleitimpuls · {track.coverWord ?? track.title}
                   </p>
 
                   {track.quote ? (
@@ -594,6 +608,13 @@ function Lichtblicke() {
                         {track.downloadLabel ?? "Impuls öffnen"}
                       </PdfDownloadLink>
                     </Button>
+                  ) : null}
+
+                  {track.moreHref ? (
+                    <a href={track.moreHref} className="companion-more mt-6">
+                      {track.moreLabel ?? "Mehr dazu"}
+                      <ArrowDown className="size-4" aria-hidden="true" />
+                    </a>
                   ) : null}
 
                   <AudioAccess track={track} />
@@ -627,109 +648,122 @@ function Lichtblicke() {
              nicht Teil der Audiokachel.
             ================================================= */}
 
-        <section className="pmr-band px-6 py-14">
-          <div className="mx-auto max-w-[430px]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-sage-foreground">
-              Thema Prävention · Progressive Muskelentspannung
-            </p>
+        <section id="pmr-beitrag" className="pmr-band px-6 py-14">
+          <div className="pmr-layout mx-auto max-w-[430px]">
+            <div className="pmr-intro">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-sage-foreground">
+                Extra-Beitrag · Thema Prävention
+              </p>
 
-            <h2 className="mt-4 max-w-sm text-[2.5rem] leading-[1.02]">
-              Erst anspannen, dann loslassen.
-            </h2>
+              <h2 className="mt-4 max-w-sm text-[2.5rem] leading-[1.02]">
+                Erst anspannen, dann loslassen.
+              </h2>
 
-            <p className="mt-6 max-w-sm text-sm leading-7 text-foreground/70">
-              Die progressive Muskelentspannung (kurz PMR) ist eine bewährte Entspannungsmethode,
-              die auch in der Prävention eingesetzt wird. Du spannst einen Muskel kurz an, lässt ihn
-              anschließend wieder locker und spürst bewusst die Entspannung.
-            </p>
+              <p className="mt-6 max-w-sm text-sm leading-7 text-foreground/70">
+                Die progressive Muskelentspannung (kurz PMR) ist eine bewährte Entspannungsmethode,
+                die auch in der Prävention eingesetzt wird. Du spannst einen Muskel kurz an, lässt
+                ihn anschließend wieder locker und spürst bewusst die Entspannung.
+              </p>
 
-            <dl className="mt-8 max-w-sm">
-              {[
-                [
-                  "Was?",
-                  "Eine Entspannungsmethode: Du spannst einzelne Muskelgruppen an und löst die Spannung anschließend wieder.",
-                ],
-                [
-                  "Wie?",
-                  "Gruppe für Gruppe: kurz anspannen, die Spannung einige Sekunden halten, beim Ausatmen loslassen und der Entspannung nachspüren.",
-                ],
-                [
-                  "Wo?",
-                  "Wo du gerade bist. Zu Hause, im Büro oder unterwegs, im Sitzen oder Liegen.",
-                ],
-                [
-                  "Warum?",
-                  "Weil Anspannung und Stress nachlassen und du leichter zur Ruhe kommst.",
-                ],
-              ].map(([term, text]) => (
-                <div
-                  key={term}
-                  className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 border-b border-sage/15 py-4 last:border-b-0"
-                >
-                  <dt className="text-sm font-semibold text-sage-foreground">{term}</dt>
-                  <dd className="text-sm leading-6 text-muted-foreground">{text}</dd>
-                </div>
-              ))}
-            </dl>
+              <Button
+                type="button"
+                onClick={listenToPmr}
+                className="pmr-listen mt-7 h-12 rounded-full px-6"
+              >
+                <Play className="size-4 fill-current" aria-hidden="true" />
+                Übung anhören
+              </Button>
+            </div>
 
-            {/* Übungsschritte */}
-            <ol className="mt-10 border-y border-sage/25">
-              {[
-                [
-                  "Schultern & Nacken",
-                  "Schultern für einige Sekunden zu den Ohren ziehen. Beim Ausatmen fallen lassen.",
-                ],
-                [
-                  "Hände & Arme",
-                  "Hände zu Fäusten schließen und halten. Beim Ausatmen loslassen und die Arme locker werden lassen.",
-                ],
-                [
-                  "Gesicht",
-                  "Augen leicht zusammenkneifen, Nase rümpfen und Zähne sanft aufeinanderbeißen. Danach vollständig lockerlassen.",
-                ],
-                [
-                  "Nachspüren",
-                  "Einen Moment liegen oder sitzen bleiben. Dann Finger und Zehen bewegen und in deinem Tempo zurückkommen.",
-                ],
-              ].map(([title, description], index) => (
-                <li
-                  key={title}
-                  className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 border-b border-sage/20 py-5 last:border-b-0"
-                >
-                  <span className="pmr-step-no font-display font-semibold text-sage">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-
-                  <div>
-                    <h3 className="text-sm font-semibold">{title}</h3>
-
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
+            <div className="pmr-body">
+              <dl className="mt-10 max-w-sm">
+                {[
+                  [
+                    "Was?",
+                    "Eine Entspannungsmethode: Du spannst einzelne Muskelgruppen an und löst die Spannung anschließend wieder.",
+                  ],
+                  [
+                    "Wie?",
+                    "Gruppe für Gruppe: kurz anspannen, die Spannung einige Sekunden halten, beim Ausatmen loslassen und der Entspannung nachspüren.",
+                  ],
+                  [
+                    "Wo?",
+                    "Wo du gerade bist. Zu Hause, im Büro oder unterwegs, im Sitzen oder Liegen.",
+                  ],
+                  [
+                    "Warum?",
+                    "Weil Anspannung und Stress nachlassen und du leichter zur Ruhe kommst.",
+                  ],
+                ].map(([term, text]) => (
+                  <div
+                    key={term}
+                    className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 border-b border-sage/15 py-4 last:border-b-0"
+                  >
+                    <dt className="text-sm font-semibold text-sage-foreground">{term}</dt>
+                    <dd className="text-sm leading-6 text-muted-foreground">{text}</dd>
                   </div>
-                </li>
-              ))}
-            </ol>
+                ))}
+              </dl>
 
-            <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm leading-7 text-muted-foreground">
-              Übe nur so lange und so weit, wie es sich gut anfühlt. Wenn etwas wehtut oder
-              unangenehm wird, mach eine Pause oder hör auf.
-            </p>
+              {/* Übungsschritte */}
+              <ol className="mt-10 border-y border-sage/25">
+                {[
+                  [
+                    "Schultern & Nacken",
+                    "Schultern für einige Sekunden zu den Ohren ziehen. Beim Ausatmen fallen lassen.",
+                  ],
+                  [
+                    "Hände & Arme",
+                    "Hände zu Fäusten schließen und halten. Beim Ausatmen loslassen und die Arme locker werden lassen.",
+                  ],
+                  [
+                    "Gesicht",
+                    "Augen leicht zusammenkneifen, Nase rümpfen und Zähne sanft aufeinanderbeißen. Danach vollständig lockerlassen.",
+                  ],
+                  [
+                    "Nachspüren",
+                    "Einen Moment liegen oder sitzen bleiben. Dann Finger und Zehen bewegen und in deinem Tempo zurückkommen.",
+                  ],
+                ].map(([title, description], index) => (
+                  <li
+                    key={title}
+                    className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 border-b border-sage/20 py-5 last:border-b-0"
+                  >
+                    <span className="pmr-step-no font-display font-semibold text-sage">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
 
-            <p className="mt-7 text-sm leading-7 text-muted-foreground">
-              Du brauchst keine Hilfsmittel. Die Übung klappt im Sitzen, Stehen, Gehen oder Liegen,
-              also auch mal kurz zwischendurch.
-            </p>
+                    <div>
+                      <h3 className="text-sm font-semibold">{title}</h3>
 
-            {/* PMR-PDF */}
-            <Button
-              asChild
-              variant="outline"
-              className="mt-8 h-12 rounded-full border-sage/45 bg-background/45 px-5 text-sage-foreground shadow-none"
-            >
-              <PdfDownloadLink href="/pdf/pmr-spannung-trifft-entspannung.pdf">
-                <Download className="size-4" />
-                Anleitung herunterladen
-              </PdfDownloadLink>
-            </Button>
+                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+
+              <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm leading-7 text-muted-foreground">
+                Übe nur so lange und so weit, wie es sich gut anfühlt. Wenn etwas wehtut oder
+                unangenehm wird, mach eine Pause oder hör auf.
+              </p>
+
+              <p className="mt-7 text-sm leading-7 text-muted-foreground">
+                Du brauchst keine Hilfsmittel. Die Übung klappt im Sitzen, Stehen, Gehen oder
+                Liegen, also auch mal kurz zwischendurch.
+              </p>
+
+              {/* PMR-PDF */}
+              <Button
+                asChild
+                variant="outline"
+                className="mt-8 h-12 rounded-full border-sage/45 bg-background/45 px-5 text-sage-foreground shadow-none"
+              >
+                <PdfDownloadLink href="/pdf/pmr-spannung-trifft-entspannung.pdf">
+                  <Download className="size-4" />
+                  Anleitung herunterladen
+                </PdfDownloadLink>
+              </Button>
+            </div>
           </div>
         </section>
 

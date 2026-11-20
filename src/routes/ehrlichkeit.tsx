@@ -100,7 +100,7 @@ function Ehrlichkeit() {
         </div>
 
         <section className="companion-band px-6 py-24">
-          <div className="companion-inner mx-auto max-w-[430px] border-l-4 pl-5">
+          <div className="companion-inner mx-auto max-w-[430px]">
             <p className="text-[10px] font-medium uppercase text-muted-foreground">
               Ein Moment für dich
             </p>

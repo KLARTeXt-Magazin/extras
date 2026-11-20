@@ -333,24 +333,26 @@
   font-size: 0.65rem;
   font-weight: 600;
   color: var(--muted-foreground);
-}
-
-/* aktiver Punkt: Symbol und Schrift in Terrakotta (KLARTeXt.-Rot) */
-.bottom-nav {
-  --nav-active: #8c3a30;
-}
-
-.bottom-nav-item {
   transition: color 200ms ease;
 }
 
+/* Symbol sitzt in einer Pille; beim aktiven Punkt wird sie sandfarben */
+.bottom-nav-item svg {
+  box-sizing: content-box;
+  padding: 0.2rem 1rem;
+  border-radius: 999px;
+  transition: background-color 200ms ease;
+}
+
+/* aktiver Punkt: dunkles Braun auf Sand statt Rot */
 .bottom-nav-item-active {
-  color: var(--nav-active);
+  color: var(--foreground);
   font-weight: 700;
 }
 
 .bottom-nav-item-active svg {
-  stroke-width: 2.25;
+  background: var(--secondary);
+  stroke-width: 2;
 }
 
 /* Desktop: Navigation als Textlinks im Kopf statt Leiste unten */
@@ -402,7 +404,8 @@
 
   .header-nav > [aria-current],
   .header-nav > [aria-current]:hover {
-    color: #8c3a30;
+    background: var(--secondary);
+    color: var(--foreground);
   }
 }
 
@@ -1052,23 +1055,48 @@
    6. BEGLEITIMPULS, PMR, WEITERHÖREN, FOOTER
    ======================================================= */
 
-/* Begleittext trägt die Farbwelt der gewählten Audiokachel:
-   zarte Fläche, Zitat in der dunklen Track-Farbe */
+/* Begleittext hängt direkt unter dem Karussell: gleicher Seitenhintergrund,
+   eigene Karte in der Farbwelt der gewählten Audiokachel */
 .companion-band {
-  border-top: 1px solid color-mix(in srgb, var(--audio-accent, var(--secondary)) 70%, transparent);
-  background: color-mix(in srgb, var(--audio-accent, var(--secondary)) 24%, var(--neutral-pearl));
   color: var(--foreground);
-  box-shadow: inset 0 5px 0 var(--audio-accent, var(--secondary));
-  transition:
-    background-color 400ms ease,
-    border-color 400ms ease,
-    box-shadow 400ms ease;
 }
 
 .companion-inner {
-  border-left-width: 3px;
-  border-color: var(--audio-accent, var(--primary));
-  transition: border-color 400ms ease;
+  position: relative;
+  padding: 1.5rem 1.5rem 1.25rem;
+  border: 1px solid var(--audio-accent, var(--secondary));
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--audio-accent, var(--secondary)) 26%, var(--neutral-pearl));
+  transition:
+    background-color 400ms ease,
+    border-color 400ms ease;
+}
+
+/* kleine Lasche oben links: zeigt auf die Audiokachel darüber */
+.companion-inner::before {
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  left: 2rem;
+  width: 1rem;
+  height: 1rem;
+  border-top: 1px solid var(--audio-accent, var(--secondary));
+  border-left: 1px solid var(--audio-accent, var(--secondary));
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+/* Verweis auf den Extra-Beitrag weiter unten */
+.companion-more {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--audio-accent-ink, var(--foreground));
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
 }
 
 .companion-kicker {
@@ -1107,6 +1135,7 @@
 
 /* Progressive Muskelentspannung – sanft in der Salbei-Welt der PMR-Kachel */
 .pmr-band {
+  scroll-margin-top: calc(4.5rem + env(safe-area-inset-top));
   --pmr-accent: #bcd0bf;
   --pmr-ink: #263b2c;
   border-top: 1px solid color-mix(in srgb, var(--pmr-accent) 80%, transparent);
@@ -1135,6 +1164,16 @@
 .pmr-band .border-sage\/20,
 .pmr-band .border-sage\/25 {
   border-color: color-mix(in srgb, var(--pmr-ink) 16%, transparent);
+}
+
+/* „Übung anhören“: springt zur PMR-Audiokachel */
+.pmr-listen {
+  background: var(--pmr-ink);
+  color: var(--neutral-pearl);
+}
+
+.pmr-listen:hover {
+  background: color-mix(in srgb, var(--pmr-ink) 88%, #000);
 }
 
 /* Schrittnummer als zarter Salbei-Punkt */
@@ -1388,6 +1427,9 @@
    ======================================================= */
 
 .breath-intro {
+  --intro-bg: #10302e;
+  --intro-ink: #f8f6f2;
+  --intro-light: #f6e3bd;
   position: fixed;
   inset: 0;
   z-index: 200;
@@ -1395,105 +1437,306 @@
   grid-template-rows: auto 1fr auto;
   justify-items: center;
   align-items: center;
+  overflow: hidden;
   padding: calc(2.5rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
-  background: var(--neutral-ivory);
-  color: var(--foreground);
-  animation: breath-intro-in 600ms ease both;
+  background:
+    radial-gradient(120% 70% at 50% 38%, #1d4a46 0%, transparent 70%),
+    linear-gradient(to bottom, #0d2725, var(--intro-bg) 55%, #0b2321);
+  color: var(--intro-ink);
+  animation: breath-intro-in 700ms ease both;
+}
+
+/* feines Papierkorn über der Fläche */
+.breath-intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
 }
 
 .breath-intro.is-leaving {
   animation: breath-intro-out 650ms ease both;
 }
 
+/* keine Großbuchstaben: „KLARTeXt.“ muss so bleiben */
 .breath-intro__eyebrow {
-  font-size: 0.68rem;
+  position: relative;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted-foreground);
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--intro-ink) 70%, transparent);
 }
 
 .breath-intro__stage {
-  display: grid;
-  justify-items: center;
-  gap: 2.25rem;
-}
-
-/* Feiner Ring = volle Lunge, Scheibe atmet darin */
-.breath-intro__art {
   position: relative;
   display: grid;
-  place-items: center;
-  width: min(15rem, 64vw);
-  aspect-ratio: 1;
+  justify-items: center;
+  text-align: center;
 }
 
-.breath-ring {
+/* Illustration: Papierlagen + Lichtpunkt */
+.breath-art {
+  position: relative;
+  width: min(20rem, 82vw);
+  aspect-ratio: 1;
+  margin-bottom: 1.75rem;
+}
+
+.breath-art__paper {
   position: absolute;
   inset: 0;
-  border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
-  border-radius: 50%;
-}
-
-.breath-disc {
   width: 100%;
   height: 100%;
+  overflow: visible;
+}
+
+.paper {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: var(--phase-ms, 4s) cubic-bezier(0.45, 0, 0.55, 1) both;
+}
+
+.paper--lilac {
+  fill: #c9bed8;
+}
+
+.paper--teal {
+  fill: #b8d4d1;
+}
+
+.paper--rose {
+  fill: #e9bbcb;
+}
+
+.thread {
+  fill: none;
+  stroke: color-mix(in srgb, var(--intro-ink) 55%, transparent);
+  stroke-width: 1.2;
+  stroke-dasharray: 520;
+  stroke-dashoffset: 520;
+  animation: breath-thread 9s ease-out forwards;
+}
+
+/* beim Einatmen heben sich die Lagen leicht, beim Ausatmen sinken sie */
+.breath-intro.is-in .paper--lilac {
+  animation-name: paper-rise-far;
+}
+
+.breath-intro.is-in .paper--teal {
+  animation-name: paper-rise-near;
+}
+
+.breath-intro.is-in .paper--rose {
+  animation-name: paper-float;
+}
+
+.breath-intro.is-out .paper--lilac {
+  animation-name: paper-sink-far;
+}
+
+.breath-intro.is-out .paper--teal {
+  animation-name: paper-sink-near;
+}
+
+.breath-intro.is-out .paper--rose {
+  animation-name: paper-settle;
+}
+
+/* Lichtpunkt über den Papierlagen */
+.breath-art__light,
+.breath-art__glow {
+  position: absolute;
+  left: 50%;
+  top: 44%;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 42%,
-    color-mix(in srgb, var(--secondary) 70%, var(--neutral-pearl)) 0%,
-    var(--secondary) 58%,
-    color-mix(in srgb, var(--secondary) 80%, var(--wine)) 100%
-  );
-  box-shadow: 0 24px 60px -24px color-mix(in srgb, var(--wine) 45%, transparent);
-  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
-  animation-fill-mode: both;
+  translate: -50% -50%;
+  animation: var(--phase-ms, 4s) cubic-bezier(0.45, 0, 0.55, 1) both;
 }
 
-.breath-disc.is-in {
-  animation-name: breath-grow;
+.breath-art__light {
+  width: 20%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 40% 35%, #fffaf0 0%, var(--intro-light) 55%, #e2c48d 100%);
+  box-shadow: 0 0 40px 6px rgb(246 227 189 / 0.45);
 }
 
-.breath-disc.is-out {
-  animation-name: breath-shrink;
+.breath-art__glow {
+  width: 75%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(246 227 189 / 0.3) 0%, transparent 65%);
+}
+
+/* Licht wächst beim Einatmen und wird beim Ausatmen wieder klein */
+.breath-intro.is-in .breath-art__light {
+  animation-name: light-grow;
+}
+
+.breath-intro.is-out .breath-art__light {
+  animation-name: light-shrink;
+}
+
+.breath-intro.is-in .breath-art__glow {
+  animation-name: glow-grow;
+}
+
+.breath-intro.is-out .breath-art__glow {
+  animation-name: glow-shrink;
 }
 
 .breath-intro__label {
   font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-size: 2.25rem;
   font-weight: 600;
-  color: var(--foreground);
+  line-height: 1;
   animation: breath-label-in 700ms ease both;
+}
+
+.breath-intro__hint {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--intro-ink) 72%, transparent);
+}
+
+.breath-intro__footer {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+  width: min(16rem, 70vw);
+}
+
+.breath-progress {
+  display: block;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--intro-ink) 18%, transparent);
+}
+
+.breath-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--intro-light);
+  transform-origin: left;
+  animation: breath-progress linear both;
 }
 
 .breath-intro__skip {
   min-height: 44px;
-  padding: 0 1.1rem;
-  border: 1px solid var(--neutral-line);
+  padding: 0 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--intro-ink) 30%, transparent);
   border-radius: 999px;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted-foreground);
-  background: transparent;
-  box-shadow: none;
+  background: color-mix(in srgb, var(--intro-ink) 8%, transparent);
+  color: var(--intro-ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-@keyframes breath-grow {
+.breath-intro__skip:hover {
+  background: color-mix(in srgb, var(--intro-ink) 16%, transparent);
+  color: var(--intro-ink);
+}
+
+.breath-intro :focus-visible {
+  outline: 2px solid var(--intro-light);
+  outline-offset: 3px;
+}
+
+@keyframes light-grow {
   from {
-    transform: scale(0.42);
+    scale: 0.6;
   }
   to {
-    transform: scale(0.86);
+    scale: 1.35;
   }
 }
 
-@keyframes breath-shrink {
+@keyframes light-shrink {
   from {
-    transform: scale(0.86);
+    scale: 1.35;
   }
   to {
-    transform: scale(0.42);
+    scale: 0.6;
+  }
+}
+
+@keyframes glow-grow {
+  from {
+    scale: 0.55;
+    opacity: 0.4;
+  }
+  to {
+    scale: 1.2;
+    opacity: 1;
+  }
+}
+
+@keyframes glow-shrink {
+  from {
+    scale: 1.2;
+    opacity: 1;
+  }
+  to {
+    scale: 0.55;
+    opacity: 0.4;
+  }
+}
+
+@keyframes paper-rise-far {
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes paper-sink-far {
+  from {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes paper-rise-near {
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes paper-sink-near {
+  from {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes paper-float {
+  to {
+    transform: translate(-6px, -10px) rotate(-8deg);
+  }
+}
+
+@keyframes paper-settle {
+  from {
+    transform: translate(-6px, -10px) rotate(-8deg);
+  }
+}
+
+@keyframes breath-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes breath-thread {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
@@ -1662,6 +1905,47 @@
     padding-inline: var(--carousel-inset);
   }
 
+  /* PMR-Beitrag: links Einstieg (bleibt beim Scrollen stehen), rechts Anleitung */
+  .pmr-band {
+    padding-block: 6rem;
+  }
+
+  .pmr-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(3rem, 6vw, 6rem);
+    width: min(100vw - 4rem, 76rem);
+    max-width: none;
+  }
+
+  .pmr-intro {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .pmr-intro h2 {
+    font-size: clamp(2.75rem, 4.4vw, 4rem);
+  }
+
+  .pmr-body > dl {
+    max-width: none;
+    margin-top: 0;
+  }
+
+  /* Begleitimpuls bündig unter der ersten Karte statt mittig */
+  .companion-band {
+    width: min(100vw - 4rem, 76rem);
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+
+  .companion-inner {
+    max-width: 40rem;
+    margin-left: 0;
+    padding: 1.75rem 2rem 1.5rem;
+  }
+
   /* Ausgabe mit einem Audio (Ausgabe 01): Titel links, Karte rechts */
   .editorial-stage--single {
     display: grid;
@@ -1727,9 +2011,10 @@
     scroll-behavior: auto !important;
   }
 
-  .breath-intro,
-  .breath-disc {
+  .breath-intro *,
+  .breath-intro {
     animation: none !important;
+    transition: none !important;
   }
 }
 
