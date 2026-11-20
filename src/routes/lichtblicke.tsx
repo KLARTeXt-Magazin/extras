@@ -454,7 +454,7 @@ function Lichtblicke() {
                 tabIndex={0}
                 className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-4 [scrollbar-width:none] sm:px-7 [&::-webkit-scrollbar]:hidden"
                 style={{
-                  scrollPaddingInline: "1.25rem",
+                  scrollPaddingInline: "var(--carousel-inset, 1.25rem)",
                 }}
                 onKeyDown={(event) => {
                   if (event.key === "ArrowRight") {

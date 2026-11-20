@@ -640,14 +640,10 @@
    4. HERO
    ======================================================= */
 
-/* Ausgaben-Seiten: Kopf als helles Sand-Band über die volle Breite
-   (box-shadow + clip-path, weil der Inhalt auf 430px begrenzt ist) */
+/* Ausgaben-Seiten: Kopf direkt auf dem Seitenhintergrund (kein Farbband) */
 .hero-presentation {
   transform-origin: top center;
   padding-top: calc(7rem + env(safe-area-inset-top));
-  background: var(--secondary);
-  box-shadow: 0 0 0 100vmax var(--secondary);
-  clip-path: inset(0 -100vmax);
   transition:
     opacity 420ms ease,
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -1467,68 +1463,101 @@
 }
 
 @media (min-width: 900px) {
+  /* Ausgabe mit mehreren Audios: Titel oben über die ganze Breite,
+     Karussell darunter randlos über die volle Fensterbreite */
   .editorial-stage {
-    display: grid;
-    grid-template-columns: minmax(20rem, 0.85fr) minmax(30rem, 1.15fr);
-    align-items: center;
-    gap: clamp(2rem, 5vw, 5rem);
-    width: min(100% - 4rem, 76rem);
-    min-height: 46rem;
+    --stage-width: min(100vw - 4rem, 76rem);
+    --carousel-inset: calc((100vw - var(--stage-width)) / 2);
+    width: var(--stage-width);
     margin-inline: auto;
-    padding-block: 7rem 4rem;
+    padding-block: 8rem 2rem;
   }
 
   .editorial-stage .hero-presentation {
     width: 100%;
     max-width: none;
     padding: 0;
-    background: none;
-    box-shadow: none;
-    clip-path: none;
-    container-type: inline-size;
-  }
-
-  /* Titel richtet sich nach der Spalte, nicht nach dem Fenster,
-     damit „Lichtblicke.“ nie unter das Karussell läuft */
-  .editorial-stage .hero-title {
-    max-width: none;
-    font-size: clamp(2.65rem, 12.5cqi, 5.4rem);
   }
 
   .editorial-stage .hero-presentation > div {
     margin-top: 0;
   }
 
+  .editorial-stage .hero-title {
+    max-width: none;
+    font-size: clamp(3.5rem, 7.2vw, 7rem);
+  }
+
   .editorial-stage .hero-sub {
-    max-width: 29rem;
+    max-width: 36rem;
+    margin-top: 1.25rem;
     font-size: 1rem;
   }
 
   .editorial-stage .audio-band {
-    min-width: 0;
-    padding-block: 2rem;
+    width: 100vw;
+    min-height: 0;
+    margin-inline: calc(50% - 50vw);
+    padding-block: 2.5rem 1rem;
   }
 
   .editorial-stage .audio-carousel-shell {
     max-width: none;
   }
 
-  /* Nachbarkarten weich ausblenden statt hart abschneiden */
+  /* erste Karte bündig unter dem Titel, Rest läuft rechts aus dem Bild */
   .editorial-stage .audio-carousel-shell > [role="group"] {
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 1.75rem,
-      #000 calc(100% - 4rem),
-      transparent
-    );
+    gap: 1.5rem;
+    padding-inline: var(--carousel-inset);
+    /* Platz für den Kartenschatten, sonst entsteht unten eine Kante */
+    padding-bottom: 5rem;
+    margin-bottom: -3rem;
+    mask-image: linear-gradient(to right, #000 calc(100% - 6rem), transparent);
   }
 
+  .editorial-stage .audio-carousel-shell > [role="group"] > div {
+    width: 25rem;
+    max-width: none;
+  }
+
+  .editorial-stage .audio-carousel-shell > :not([role="group"]) {
+    padding-inline: var(--carousel-inset);
+  }
+
+  /* Ausgabe mit einem Audio (Ausgabe 01): Titel links, Karte rechts */
   .editorial-stage--single {
+    display: grid;
     grid-template-columns: minmax(24rem, 1fr) minmax(25rem, 0.8fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+    min-height: 46rem;
+    padding-block: 7rem 4rem;
   }
 
+  .editorial-stage--single .hero-title {
+    font-size: clamp(2.65rem, 5vw, 5.4rem);
+  }
+
+  .editorial-stage--single .hero-sub {
+    max-width: 29rem;
+    margin-top: 1rem;
+  }
+
+  .editorial-stage--single .audio-band {
+    width: auto;
+    margin-inline: 0;
+    padding-block: 2rem;
+  }
+
+  .editorial-stage--single .audio-carousel-shell > [role="group"],
+  .editorial-stage--single .audio-carousel-shell > :not([role="group"]) {
+    padding-inline: 1.25rem;
+    mask-image: none;
+  }
+
+  .editorial-stage--single .audio-carousel-shell > [role="group"] > div,
   .editorial-stage--single .audio-band > div {
+    width: auto;
     max-width: 27rem;
   }
 
