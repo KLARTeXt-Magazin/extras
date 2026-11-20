@@ -857,6 +857,21 @@
   padding-bottom: 2rem;
 }
 
+/* aktive Karte klar vorn, Nachbarkarten blass und etwas kleiner
+   (Handy: das angeschnittene Stück der nächsten Karte) */
+.carousel-slide {
+  transform-origin: left center;
+  transition:
+    opacity 320ms ease,
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.carousel-slide:not(.is-current) {
+  opacity: 0.42;
+  transform: scale(0.92);
+  cursor: pointer;
+}
+
 /* Audiokachel */
 .audio-player-card {
   position: relative;
@@ -1621,20 +1636,6 @@
   /* rechts Platz lassen, damit auch die letzte Karte nach vorn kann */
   .editorial-stage .audio-carousel-shell > [role="group"] {
     padding-right: calc(100vw - var(--carousel-inset) - 25rem);
-  }
-
-  /* aktive Karte klar vorn, Nachbarkarten blass und etwas kleiner */
-  .editorial-stage .carousel-slide {
-    transform-origin: left center;
-    transition:
-      opacity 320ms ease,
-      transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .editorial-stage .carousel-slide:not(.is-current) {
-    opacity: 0.42;
-    transform: scale(0.92);
-    cursor: pointer;
   }
 
   .editorial-stage .carousel-slide:not(.is-current):hover {
