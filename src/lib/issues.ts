@@ -50,6 +50,12 @@ export const issues: Issue[] = [
   { eyebrow: "Ausgabe 03 · 2027", title: "In Planung", subtitle: "Die Themen entstehen gerade" },
 ];
 
+// Neueste freigeschaltete Ausgabe (erste in der Liste mit Seite).
+// Mit ?vorschau zählen auch noch nicht öffentliche Ausgaben.
+export function latestIssue(preview: boolean) {
+  return issues.find((issue) => issue.to && (issue.isPublic !== false || preview));
+}
+
 export function getIssue(route: IssueRoute) {
   const issue = issues.find((entry) => entry.to === route);
   if (!issue) throw new Error(`Ausgabe für ${route} fehlt in issues.ts`);

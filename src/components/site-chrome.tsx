@@ -3,7 +3,7 @@
 // • Header mit Logo und „App speichern“
 // • Footer mit Impressum / Datenschutz
 // • Navigation: Handy → untere Leiste (components/bottom-nav.tsx),
-//   Desktop → Textlinks hier im Kopf (Start / Ausgaben / Magazin)
+//   Desktop → Textlinks hier im Kopf (Start / Aktuell / Magazin)
 // Neue Ausgabe → nur `issues` in src/lib/issues.ts ergänzen.
 // =======================================================
 
@@ -13,11 +13,37 @@ import { ArrowUpRight, Smartphone } from "lucide-react";
 import { MAGAZIN_URL } from "@/lib/links";
 
 import { HomescreenGuide } from "@/components/homescreen-guide";
-import { IssuesSheet } from "@/components/issues-sheet";
+import { useNavState } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
 import type { SiteRoute } from "@/lib/issues";
 
-export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; current: SiteRoute }) {
+// Desktop-Navigation (gleiche Punkte wie die untere Leiste)
+function HeaderNav() {
+  const { latest, isLatest, isStart } = useNavState();
+
+  return (
+    <nav className="header-nav" aria-label="Hauptnavigation">
+      <Link to="/" aria-current={isStart ? "page" : undefined}>
+        Start
+      </Link>
+      {latest?.to ? (
+        <Link
+          to={latest.to}
+          aria-current={isLatest ? "page" : undefined}
+          aria-label={`Aktuelle Ausgabe: ${latest.title}`}
+        >
+          Aktuell
+        </Link>
+      ) : null}
+      <a href={MAGAZIN_URL} target="_blank" rel="noreferrer">
+        Magazin
+        <ArrowUpRight className="size-3.5" aria-hidden="true" />
+      </a>
+    </nav>
+  );
+}
+
+export function SiteHeader({ hasScrolled }: { hasScrolled: boolean; current: SiteRoute }) {
   return (
     <header
       className={`floating-site-header fixed inset-x-0 top-0 z-50 ${hasScrolled ? "is-scrolled" : ""}`}
@@ -34,20 +60,7 @@ export function SiteHeader({ hasScrolled, current }: { hasScrolled: boolean; cur
         </a>
 
         <div className="flex items-center gap-2">
-          <nav className="header-nav" aria-label="Hauptnavigation">
-            <Link to="/" aria-current={current === "/" ? "page" : undefined}>
-              Start
-            </Link>
-            <IssuesSheet>
-              <button type="button" aria-current={current !== "/" ? "true" : undefined}>
-                Ausgaben
-              </button>
-            </IssuesSheet>
-            <a href={MAGAZIN_URL} target="_blank" rel="noreferrer">
-              Magazin
-              <ArrowUpRight className="size-3.5" aria-hidden="true" />
-            </a>
-          </nav>
+          <HeaderNav />
 
           <Button asChild variant="outline" className="install-guide-jump h-10 rounded-full px-3">
             <a href="#app-installieren" aria-label="Zur Anleitung: Als App speichern">

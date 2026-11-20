@@ -1,46 +1,47 @@
 // =======================================================
 // UNTERE LEISTE (App-Navigation, nur Handy/Tablet)
 // • Start → Übersicht aller Ausgaben
-// • Ausgaben → öffnet das Ausgaben-Menü (components/issues-sheet.tsx)
+// • Aktuell → neueste Ausgabe (springt automatisch um,
+//   sobald in src/lib/issues.ts eine neue öffentlich ist)
 // • Magazin → magazin-klartext.de (neuer Tab)
-// Ab 900 px Breite ausgeblendet; dort stehen dieselben Punkte
-// oben im Kopf (SiteHeader in components/site-chrome.tsx).
-// Wird einmal in src/routes/__root.tsx eingebunden.
+// Aktiver Punkt: Symbol und Schrift in Terrakotta.
+// Ab 900 px ausgeblendet; dort stehen dieselben Punkte oben
+// im Kopf (HeaderNav in components/site-chrome.tsx).
 // =======================================================
 
-import { Link, useRouterState } from "@tanstack/react-router";
-import { BookOpen, House, LayoutGrid } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { BookOpen, House, Sparkles } from "lucide-react";
 
-import { IssuesSheet } from "@/components/issues-sheet";
-import { issues } from "@/lib/issues";
 import { MAGAZIN_URL } from "@/lib/links";
+import { useNavState } from "@/lib/nav";
 
 export function BottomNav() {
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const isIssueRoute = issues.some((issue) => issue.to === pathname);
+  const { latest, isLatest, isStart } = useNavState();
 
   return (
     <nav className="bottom-nav" aria-label="Hauptnavigation">
       <div className="bottom-nav-inner">
         <Link
           to="/"
-          className={`bottom-nav-item ${pathname === "/" ? "bottom-nav-item-active" : ""}`}
-          aria-current={pathname === "/" ? "page" : undefined}
+          className={`bottom-nav-item ${isStart ? "bottom-nav-item-active" : ""}`}
+          aria-current={isStart ? "page" : undefined}
+          aria-label="Start: alle Ausgaben"
         >
           <House className="size-5" strokeWidth={1.75} aria-hidden="true" />
           <span>Start</span>
         </Link>
 
-        <IssuesSheet>
-          <button
-            type="button"
-            className={`bottom-nav-item ${isIssueRoute ? "bottom-nav-item-active" : ""}`}
-            aria-label="Ausgaben öffnen"
+        {latest?.to ? (
+          <Link
+            to={latest.to}
+            className={`bottom-nav-item ${isLatest ? "bottom-nav-item-active" : ""}`}
+            aria-current={isLatest ? "page" : undefined}
+            aria-label={`Aktuelle Ausgabe: ${latest.title}`}
           >
-            <LayoutGrid className="size-5" strokeWidth={1.75} aria-hidden="true" />
-            <span>Ausgaben</span>
-          </button>
-        </IssuesSheet>
+            <Sparkles className="size-5" strokeWidth={1.75} aria-hidden="true" />
+            <span>Aktuell</span>
+          </Link>
+        ) : null}
 
         <a
           href={MAGAZIN_URL}
