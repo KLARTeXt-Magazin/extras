@@ -153,25 +153,27 @@ export function ListeningMode({
 
           {showVideo && signVideo ? (
             <div className="listening-video">
-              <video
-                ref={videoRef}
-                src={signVideo.src}
-                poster={signVideo.poster}
-                playsInline
-                preload="metadata"
-                onClick={onTogglePlay}
-                aria-label={`„${title}“ in Deutscher Gebärdensprache`}
-              >
-                {signVideo.captions ? (
-                  <track
-                    kind="captions"
-                    src={signVideo.captions}
-                    srcLang="de"
-                    label="Deutsch"
-                    default
-                  />
-                ) : null}
-              </video>
+              <div className="listening-video__frame">
+                <video
+                  ref={videoRef}
+                  src={signVideo.src}
+                  poster={signVideo.poster}
+                  playsInline
+                  preload="metadata"
+                  onClick={onTogglePlay}
+                  aria-label={`„${title}“ in Deutscher Gebärdensprache`}
+                >
+                  {signVideo.captions ? (
+                    <track
+                      kind="captions"
+                      src={signVideo.captions}
+                      srcLang="de"
+                      label="Deutsch"
+                      default
+                    />
+                  ) : null}
+                </video>
+              </div>
             </div>
           ) : null}
 

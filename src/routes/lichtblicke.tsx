@@ -21,7 +21,7 @@
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, Download, Play } from "lucide-react";
+import { ArrowDown, ChevronLeft, ChevronRight, Download, Play } from "lucide-react";
 
 import { AudioAccess } from "@/components/audio-access";
 
@@ -517,32 +517,48 @@ function Lichtblicke() {
                 ))}
               </div>
 
-              <div className="mt-2 flex items-center justify-between gap-4 px-5 sm:px-7">
-                <p
-                  className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground"
-                  aria-live="polite"
-                >
-                  Audio {activeIndex + 1} von {tracks.length}
+              <div className="carousel-nav mt-2 flex items-center justify-center gap-3 px-5 sm:px-7">
+                <p className="sr-only" aria-live="polite">
+                  Audio {activeIndex + 1} von {tracks.length}: {tracks[activeIndex]?.title}
                 </p>
+
+                <button
+                  type="button"
+                  className="carousel-arrow"
+                  onClick={() => goTo(Math.max(0, activeIndex - 1))}
+                  disabled={activeIndex === 0}
+                  aria-label="Vorheriges Audio"
+                >
+                  <ChevronLeft className="size-5" strokeWidth={2.25} aria-hidden="true" />
+                </button>
+
                 <div className="flex" role="group" aria-label="Audios wechseln">
                   {tracks.map((track, index) => (
-                    <Button
+                    <button
                       key={track.id}
                       type="button"
-                      variant="ghost"
-                      size="icon"
                       aria-current={index === activeIndex}
                       aria-label={`Audio ${index + 1} von ${tracks.length}: ${track.title}`}
                       onClick={() => goTo(index)}
-                      className="tap-target size-11 rounded-full"
+                      className="carousel-dot-button"
                     >
                       <span
                         aria-hidden="true"
-                        className={`carousel-dot ${index === activeIndex ? "w-6" : "w-1.5"}`}
+                        className={`carousel-dot ${index === activeIndex ? "w-7" : "w-2"}`}
                       />
-                    </Button>
+                    </button>
                   ))}
                 </div>
+
+                <button
+                  type="button"
+                  className="carousel-arrow"
+                  onClick={() => goTo(Math.min(tracks.length - 1, activeIndex + 1))}
+                  disabled={activeIndex === tracks.length - 1}
+                  aria-label="Nächstes Audio"
+                >
+                  <ChevronRight className="size-5" strokeWidth={2.25} aria-hidden="true" />
+                </button>
               </div>
             </div>
           </section>
