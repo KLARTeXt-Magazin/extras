@@ -172,10 +172,11 @@
    3. HEADER & AUSGABEN-MENÜ
    ======================================================= */
 
+/* Kopf voll deckend: nichts scheint durch */
 .floating-site-header {
   min-height: calc(4rem + max(env(safe-area-inset-top), 0.75rem));
   padding-top: max(env(safe-area-inset-top), 0.75rem);
-  background: color-mix(in srgb, var(--background) 96%, transparent);
+  background: var(--background);
   border-bottom: 1px solid transparent;
   transition:
     background-color 300ms ease,
@@ -183,7 +184,7 @@
 }
 
 .floating-site-header.is-scrolled {
-  background: color-mix(in srgb, var(--background) 98%, transparent);
+  background: var(--background);
   border-color: color-mix(in oklab, var(--border) 72%, transparent);
 }
 
@@ -767,10 +768,6 @@
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.hero-presentation.is-compact {
-  padding-bottom: 2.5rem;
-}
-
 .hero-title {
   transform-origin: left top;
   color: var(--wine);
@@ -883,7 +880,9 @@
 
 /* aktive Karte klar vorn, Nachbarkarten blass und etwas kleiner
    (Handy: das angeschnittene Stück der nächsten Karte) */
+/* alle Karten gleich hoch: kürzere (z. B. gesperrte) Karten hinterlassen keine Lücke */
 .carousel-slide {
+  display: flex;
   transform-origin: left center;
   transition:
     opacity 320ms ease,
@@ -947,6 +946,18 @@
   background: var(--audio-accent-ink, var(--wine));
   color: var(--pearl);
   text-align: center;
+}
+
+.carousel-slide > .audio-player-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.carousel-slide > .audio-player-card > div:last-of-type {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .audio-player-card > div:last-of-type .text-muted-foreground {
@@ -1290,8 +1301,7 @@
   padding: 0.25rem;
   border: 1px solid rgb(255 254 250 / 0.35);
   border-radius: 999px;
-  background: rgb(20 10 8 / 0.28);
-  backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--listening-ink) 12%, var(--listening-deep));
 }
 
 .listening-switch button {
@@ -1364,9 +1374,10 @@
   margin-top: 1.1rem;
 }
 
-.listening-mode--video .listening-mode__image {
-  filter: blur(18px) brightness(0.55);
-  transform: scale(1.1);
+/* Videomodus: ruhige Vollfarbe statt verschwommenem Cover */
+.listening-mode--video .listening-mode__image,
+.listening-mode--video .listening-mode__wash {
+  display: none;
 }
 
 .listening-control {
