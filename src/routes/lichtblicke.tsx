@@ -153,7 +153,7 @@ const tracks: AudioTrack[] = [
           unlockAt: "2026-12-06T00:00:00+01:00",
         }),
     unlockLabel: "Öffnet sich am 6. Dezember",
-    credit: "Music by Alexandr Kazantsev from Pixabay · Content License Pixabay.",
+    credit: "Musik: Alexandr Kazantsev über Pixabay · Pixabay-Inhaltslizenz.",
   },
 
   {
@@ -174,7 +174,7 @@ const tracks: AudioTrack[] = [
         }),
     unlockLabel: "Öffnet sich am 24. Dezember",
     credit:
-      "Music by AudioCoffee (audiocoffee.net) / Denys Kyshchuk from Pixabay · Content License Pixabay.",
+      "Musik: AudioCoffee (audiocoffee.net) / Denys Kyshchuk über Pixabay · Pixabay-Inhaltslizenz.",
   },
 
   {
@@ -190,7 +190,7 @@ const tracks: AudioTrack[] = [
     src: "/audio/2026-q4_extra03.m4a",
     downloadUrl: "/pdf/moment-fuer-dich-begleitimpuls.pdf",
     downloadLabel: "Impuls zum Downloaden",
-    credit: "Music by Elijah K from Pixabay · Content License Pixabay.",
+    credit: "Musik: Elijah K über Pixabay · Pixabay-Inhaltslizenz.",
   },
 
   {
@@ -203,7 +203,7 @@ const tracks: AudioTrack[] = [
       "Materialstudie aus gerafftem mitternachtsblauem Stoff, lavendelfarbenem Band und mintfarbenem Stein",
     coverWord: "ANSPANNEN. LOSLASSEN.",
     src: "/audio/2026-q4_extra04.m4a",
-    credit: "Music by Mikhail Vereitinov from Pixabay · Content License Pixabay.",
+    credit: "Musik: Mikhail Vereitinov über Pixabay · Pixabay-Inhaltslizenz.",
   },
 ];
 
@@ -414,7 +414,7 @@ function Lichtblicke() {
 
         <div className="editorial-stage">
           <section
-            className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-10 sm:px-7 ${
+            className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-6 sm:px-7 ${
               presentationCompact ? "is-compact" : ""
             }`}
           >
@@ -450,7 +450,7 @@ function Lichtblicke() {
             ================================================= */}
 
           <section
-            className={`audio-band audio-tone-${activeIndex + 1} py-10`}
+            className={`audio-band audio-tone-${activeIndex + 1} pb-10 pt-4`}
             aria-label="Audio-Karussell"
           >
             <div className="audio-carousel-shell mx-auto w-full max-w-[860px]">
@@ -530,10 +530,6 @@ function Lichtblicke() {
                   ))}
                 </div>
               </div>
-
-              <p className="carousel-change-hint px-5 pt-2 text-center text-xs sm:px-7">
-                Beim Wischen wechseln Farbe und Begleitimpuls mit
-              </p>
             </div>
           </section>
         </div>

@@ -263,6 +263,7 @@
 
 /* „App speichern“-Knopf */
 .install-guide-jump {
+  position: relative;
   height: 2rem;
   padding-inline: 0.65rem;
   border-color: color-mix(in srgb, var(--primary) 28%, transparent);
@@ -271,6 +272,13 @@
   font-size: 0.65rem;
   font-weight: 600;
   box-shadow: 0 3px 10px color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+/* unsichtbar vergrößerte Tippfläche (mind. 44 px), Optik bleibt klein */
+.install-guide-jump::after {
+  content: "";
+  position: absolute;
+  inset: -0.375rem -0.25rem;
 }
 
 .install-guide-jump svg {
@@ -750,7 +758,7 @@
 /* Ausgaben-Seiten: Kopf direkt auf dem Seitenhintergrund (kein Farbband) */
 .hero-presentation {
   transform-origin: top center;
-  padding-top: calc(7rem + env(safe-area-inset-top));
+  padding-top: calc(5.5rem + env(safe-area-inset-top));
   transition:
     opacity 420ms ease,
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -812,7 +820,6 @@
   isolation: isolate;
   overflow: hidden;
   overflow-x: clip;
-  min-height: 620px;
   display: flex;
   align-items: center;
 }
@@ -958,30 +965,6 @@
   transform: scale(1.025);
 }
 
-/* Runder Play-Knopf mitten auf dem Cover */
-.audio-cover-play {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 4rem;
-  aspect-ratio: 1;
-  border: 1px solid rgb(255 255 250 / 0.45);
-  border-radius: 999px;
-  background: rgb(38 8 8 / 0.5);
-  color: var(--pearl);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transform: translate(-50%, -50%);
-  transition: transform 220ms ease;
-}
-
-.audio-cover-play:hover {
-  transform: translate(-50%, -50%) scale(1.06);
-}
-
 /* Kategorie-/Datums-Badge auf dem Cover */
 .audio-cover-badge {
   left: 0.7rem;
@@ -1054,12 +1037,6 @@
 
 [aria-current="true"] > .carousel-dot {
   background: var(--audio-accent, var(--secondary));
-}
-
-.carousel-change-hint {
-  color: var(--audio-accent-ink, var(--muted-foreground));
-  font-weight: 600;
-  transition: color 400ms ease;
 }
 
 /* „Weiter zum Begleitimpuls“ (Ausgabe 01) */
