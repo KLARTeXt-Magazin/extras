@@ -284,8 +284,12 @@ function Lichtblicke() {
 
     let settleTimer: ReturnType<typeof setTimeout> | undefined;
 
+    // Aktiv ist die Karte, die am Einrastpunkt (linker Rand + Abstand) steht –
+    // auf dem Handy die sichtbare, am Desktop die vorderste unter dem Titel.
     const selectNearestSlide = () => {
-      const scrollerCenter = scroller.getBoundingClientRect().left + scroller.clientWidth / 2;
+      const snapPoint =
+        scroller.getBoundingClientRect().left +
+        (parseFloat(getComputedStyle(scroller).scrollPaddingInlineStart) || 0);
 
       let nearestIndex = 0;
       let nearestDistance = Number.POSITIVE_INFINITY;
@@ -293,7 +297,7 @@ function Lichtblicke() {
       slideRefs.current.forEach((slide, index) => {
         if (!slide) return;
         const rect = slide.getBoundingClientRect();
-        const distance = Math.abs(rect.left + rect.width / 2 - scrollerCenter);
+        const distance = Math.abs(rect.left - snapPoint);
 
         if (distance < nearestDistance) {
           nearestDistance = distance;
@@ -476,7 +480,16 @@ function Lichtblicke() {
                     ref={(node) => {
                       slideRefs.current[index] = node;
                     }}
-                    className="w-[calc(100%-2.5rem)] max-w-[380px] shrink-0 snap-start"
+                    className={`carousel-slide w-[calc(100%-2.5rem)] max-w-[380px] shrink-0 snap-start ${
+                      index === activeIndex ? "is-current" : ""
+                    }`}
+                    onClickCapture={(event) => {
+                      // Klick auf eine blasse Nachbarkarte holt sie erst nach vorn
+                      if (index === activeIndex) return;
+                      event.preventDefault();
+                      event.stopPropagation();
+                      goTo(index);
+                    }}
                   >
                     <AudioCard
                       track={track}
