@@ -1427,10 +1427,12 @@
    ======================================================= */
 
 .breath-intro {
-  --intro-bg: #123b38;
+  /* nur KLARTeXt.-Farben: Petrol (Ausgabe 02), Jeansblau + Braun (Startseite),
+     Aubergine, Rosé, Sand als Akzente */
+  --intro-bg: #173d3a;
   --intro-ink: #f8f6f2;
-  --intro-sun: #e9a63c;
-  --intro-ring: #1b4a46;
+  --intro-sun: #e9bbcb;
+  --intro-ring: #c3ced3;
   position: fixed;
   inset: 0;
   z-index: 200;
@@ -1489,15 +1491,15 @@
 }
 
 .paper--lilac {
-  fill: #b5503d; /* Terrakotta, satt */
+  fill: #40334b; /* Aubergine (Ausgabe 02) */
 }
 
 .paper--teal {
-  fill: #6e7f43; /* Oliv, satt */
+  fill: #3b2723; /* Schokobraun (Startseite) */
 }
 
 .paper--rose {
-  fill: #e48aa0; /* kleiner rosa Mond */
+  fill: #dccbb2; /* kleiner Mond in Sand */
 }
 
 /* beim Einatmen heben sich die Hügel leicht, beim Ausatmen sinken sie */
@@ -1547,7 +1549,7 @@
 .breath-art__glow {
   width: 62%;
   aspect-ratio: 1;
-  background: #24605a;
+  background: #b8d4d1;
 }
 
 /* Sonne geht beim Einatmen auf und beim Ausatmen wieder unter */
@@ -1594,7 +1596,7 @@
   height: 6px;
   overflow: hidden;
   border-radius: 999px;
-  background: var(--intro-ring);
+  background: #0f2b29;
 }
 
 .breath-progress > span {

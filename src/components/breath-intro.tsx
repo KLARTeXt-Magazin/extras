@@ -5,7 +5,7 @@ import { isStandaloneApp } from "@/lib/app-mode";
 /**
  * Ein ruhiger Atemzug beim Öffnen der App (nur als installierte Web-App).
  * Einatmen · Ausatmen, dann öffnet sich die Seite – insgesamt rund 10 Sekunden.
- * Optik: flach und satt – tiefer Petrolgrund, Hügel, eine Sonne, die mitatmet.
+ * Optik: flach und satt – Petrolgrund, jeansblauer Himmel, Hügel in Aubergine und Braun, rosé Sonne.
  * Zum Ansehen im Browser: ?intro an die Adresse hängen.
  */
 
@@ -114,7 +114,7 @@ export function BreathIntro() {
 }
 
 /**
- * Illustration: flache Hügel in satten KLARTeXt.-Farben,
+ * Illustration: flache Hügel in den KLARTeXt.-Farben,
  * dahinter eine Sonne („Lichtblick“), die mitatmet.
  */
 function BreathArt() {
