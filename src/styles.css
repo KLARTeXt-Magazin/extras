@@ -119,6 +119,8 @@
     color: var(--color-foreground);
     letter-spacing: 0;
     overscroll-behavior-y: none;
+    /* Platz für die untere Navigationsleiste */
+    padding-bottom: calc(3.75rem + env(safe-area-inset-bottom));
   }
 
   button,
@@ -197,11 +199,11 @@
   object-fit: contain;
 }
 
-/* Install-Hinweis unten (App auf Startbildschirm) */
+/* Install-Hinweis unten (App auf Startbildschirm) – schwebt über der unteren Leiste */
 .install-banner {
   position: fixed;
   inset-inline: 0.75rem;
-  bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  bottom: calc(4.5rem + env(safe-area-inset-bottom));
   z-index: 60;
   margin-inline: auto;
   max-width: 406px;
@@ -289,6 +291,44 @@
     width: 2.5rem;
     padding-inline: 0;
   }
+}
+
+/* =======================================================
+   3b. UNTERE LEISTE (App-Navigation)
+   ======================================================= */
+
+.bottom-nav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: color-mix(in srgb, var(--background) 96%, transparent);
+  border-top: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
+}
+
+.bottom-nav-inner {
+  margin-inline: auto;
+  max-width: 430px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-height: 3.75rem;
+  padding-block: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+.bottom-nav-item-active {
+  color: var(--primary);
 }
 
 /* Menü-Knopf im Glas-Look */
