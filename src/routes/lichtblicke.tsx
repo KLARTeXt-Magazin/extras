@@ -282,8 +282,6 @@ function Lichtblicke() {
 
     if (!scroller) return;
 
-    let settleTimer: ReturnType<typeof setTimeout> | undefined;
-
     // Aktiv ist die Karte, die am Einrastpunkt (linker Rand + Abstand) steht –
     // auf dem Handy die sichtbare, am Desktop die vorderste unter dem Titel.
     const selectNearestSlide = () => {
@@ -308,16 +306,21 @@ function Lichtblicke() {
       setActiveIndex(nearestIndex);
     };
 
+    // schon während des Wischens umschalten (einmal pro Bild)
+    let frame = 0;
     const handleScroll = () => {
-      if (settleTimer) clearTimeout(settleTimer);
-      settleTimer = setTimeout(selectNearestSlide, 140);
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        selectNearestSlide();
+      });
     };
 
     scroller.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       scroller.removeEventListener("scroll", handleScroll);
-      if (settleTimer) clearTimeout(settleTimer);
+      if (frame) cancelAnimationFrame(frame);
     };
   }, []);
 

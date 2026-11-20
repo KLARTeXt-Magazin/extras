@@ -327,8 +327,21 @@
   color: var(--muted-foreground);
 }
 
+/* aktiver Punkt: Symbol in einer Pille, Schrift dunkel und fett */
+.bottom-nav-item svg {
+  box-sizing: content-box;
+  padding: 0.25rem 1rem;
+  border-radius: 999px;
+  transition: background-color 200ms ease;
+}
+
 .bottom-nav-item-active {
-  color: var(--primary);
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.bottom-nav-item-active svg {
+  background: var(--secondary);
 }
 
 /* Desktop: Navigation als Textlinks im Kopf statt Leiste unten */
@@ -379,6 +392,7 @@
   }
 
   .header-nav > [aria-current] {
+    background: var(--secondary);
     color: var(--foreground);
   }
 }
@@ -1777,20 +1791,21 @@
   display: none;
 }
 
+/* Plus/Minus als zwei Linien gezeichnet, damit es exakt mittig sitzt */
 .transcript__summary::before {
-  content: "+";
-  display: inline-grid;
+  content: "";
+  flex: none;
   width: 1.5rem;
   height: 1.5rem;
-  place-items: center;
   border: 1px solid currentColor;
   border-radius: 999px;
-  font-weight: 500;
-  line-height: 1;
+  background:
+    linear-gradient(currentColor, currentColor) center / 0.6rem 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1.5px 0.6rem no-repeat;
 }
 
 .transcript[open] .transcript__summary::before {
-  content: "–";
+  background: linear-gradient(currentColor, currentColor) center / 0.6rem 1.5px no-repeat;
 }
 
 .transcript__body {

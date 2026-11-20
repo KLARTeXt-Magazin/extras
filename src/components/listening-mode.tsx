@@ -1,10 +1,40 @@
 import { useId, type CSSProperties, type Ref } from "react";
-import { Pause, Play, RotateCcw, RotateCw, X } from "lucide-react";
+import { Pause, Play, X } from "lucide-react";
 
 import { SignIcon, type SignVideo } from "@/components/sign-video";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { formatTime } from "@/lib/utils";
+
+// ±15-Sekunden-Symbol: Kreispfeil mit „15“ in der Mitte
+function SkipIcon({ forward = false }: { forward?: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className="!size-7" aria-hidden="true" focusable="false">
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        transform={forward ? "translate(24 0) scale(-1 1)" : undefined}
+      >
+        <path d="M5.2 8.2A8 8 0 1 0 12 4h-1.6" />
+        <path d="M12.4 1.8 10.2 4l2.2 2.2" />
+      </g>
+      <text
+        x="12"
+        y="15.6"
+        textAnchor="middle"
+        fontSize="7.4"
+        fontWeight="700"
+        fill="currentColor"
+        fontFamily="inherit"
+      >
+        15
+      </text>
+    </svg>
+  );
+}
 
 type ListeningModeProps = {
   open: boolean;
@@ -23,6 +53,9 @@ type ListeningModeProps = {
   mode?: "audio" | "dgs";
   onModeChange?: (mode: "audio" | "dgs") => void;
   videoRef?: Ref<HTMLVideoElement>;
+  // Farben der jeweiligen Audio (hell/dunkel), sonst Standardfarben
+  accent?: string;
+  accentInk?: string;
 };
 
 export function ListeningMode({
@@ -41,6 +74,8 @@ export function ListeningMode({
   mode = "audio",
   onModeChange,
   videoRef,
+  accent,
+  accentInk,
 }: ListeningModeProps) {
   const showVideo = Boolean(signVideo) && mode === "dgs";
   const progressId = useId();
@@ -50,7 +85,13 @@ export function ListeningMode({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={`listening-mode ${showVideo ? "listening-mode--video" : ""} fixed inset-0 left-0 top-0 z-[150] h-[100dvh] max-h-none w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden border-0 p-0 shadow-none sm:rounded-none`}
-        style={{ "--listening-image": `url(${cover})` } as CSSProperties}
+        style={
+          {
+            "--listening-image": `url(${cover})`,
+            ...(accent ? { "--listening-soft": accent } : {}),
+            ...(accentInk ? { "--listening-deep": accentInk } : {}),
+          } as CSSProperties
+        }
       >
         <div className="listening-mode__image" aria-hidden="true" />
         <div className="listening-mode__wash" aria-hidden="true" />
@@ -169,7 +210,7 @@ export function ListeningMode({
                 onClick={() => onSkip(-15)}
                 aria-label={`15 Sekunden zurückspringen in „${title}“`}
               >
-                <RotateCcw className="size-5" aria-hidden="true" />
+                <SkipIcon />
               </Button>
 
               <Button
@@ -192,7 +233,7 @@ export function ListeningMode({
                 onClick={() => onSkip(15)}
                 aria-label={`15 Sekunden vorspringen in „${title}“`}
               >
-                <RotateCw className="size-5" aria-hidden="true" />
+                <SkipIcon forward />
               </Button>
             </div>
 

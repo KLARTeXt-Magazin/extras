@@ -62,6 +62,10 @@ export function AudioCard({
   // -----------------------------------------------------
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const cardRef = useRef<HTMLElement | null>(null);
+
+  // Farben der Audio (aus der Farbwelt des Karussells) für den Hörmodus
+  const [tone, setTone] = useState<{ accent?: string; ink?: string }>({});
 
   // Gebärdenvideo (falls vorhanden): läuft im Hörmodus statt der Audio.
   // mode = welches Medium gerade gesteuert wird.
@@ -266,6 +270,86 @@ export function AudioCard({
     }
   };
 
+  // Farbwelt beim Öffnen des Hörmodus übernehmen
+  useEffect(() => {
+    if (!listeningOpen || !cardRef.current) return;
+    const style = getComputedStyle(cardRef.current);
+    const accent = style.getPropertyValue("--audio-accent").trim();
+    const ink = style.getPropertyValue("--audio-accent-ink").trim();
+    setTone({ ...(accent ? { accent } : {}), ...(ink ? { ink } : {}) });
+  }, [listeningOpen]);
+
+  // =====================================================
+  // SPERRBILDSCHIRM / DYNAMIC ISLAND (Media Session)
+  // Titel, Bild und Steuerung fürs System, solange diese
+  // Karte abspielt – auch wenn der Hörmodus geschlossen ist.
+  // =====================================================
+
+  useEffect(() => {
+    if (!isPlaying || typeof navigator === "undefined" || !("mediaSession" in navigator)) return;
+    const session = navigator.mediaSession;
+    const cover = new URL(track.cover, window.location.href).href;
+
+    session.metadata = new MediaMetadata({
+      title: track.title,
+      artist: "KLARTeXt.",
+      album: track.eyebrow,
+      artwork: [{ src: cover, sizes: "1024x768", type: "image/jpeg" }],
+    });
+
+    const el = () => media();
+    const handlers: [MediaSessionAction, MediaSessionActionHandler][] = [
+      ["play", () => void el()?.play()],
+      ["pause", () => el()?.pause()],
+      [
+        "seekbackward",
+        (d) => {
+          const m = el();
+          if (m) m.currentTime = Math.max(0, m.currentTime - (d.seekOffset ?? 15));
+        },
+      ],
+      [
+        "seekforward",
+        (d) => {
+          const m = el();
+          if (m) m.currentTime = Math.min(m.duration || 0, m.currentTime + (d.seekOffset ?? 15));
+        },
+      ],
+      [
+        "seekto",
+        (d) => {
+          const m = el();
+          if (m && d.seekTime != null) m.currentTime = d.seekTime;
+        },
+      ],
+    ];
+    for (const [action, handler] of handlers) {
+      try {
+        session.setActionHandler(action, handler);
+      } catch {
+        // Aktion wird von diesem Browser nicht unterstützt
+      }
+    }
+    session.playbackState = "playing";
+
+    return () => {
+      session.playbackState = "paused";
+    };
+  }, [isPlaying, media, track.cover, track.eyebrow, track.title]);
+
+  useEffect(() => {
+    if (!isPlaying || !duration || !("mediaSession" in navigator)) return;
+    try {
+      navigator.mediaSession.setPositionState({
+        duration,
+        position: Math.min(currentTime, duration),
+        playbackRate: 1,
+      });
+    } catch {
+      // ältere Browser kennen setPositionState nicht
+    }
+  }, [isPlaying, currentTime, duration]);
+
   // =====================================================
   // HÖRMODUS ÖFFNEN
   // =====================================================
@@ -322,6 +406,7 @@ export function AudioCard({
   return (
     <>
       <article
+        ref={cardRef}
         className="audio-player-card relative overflow-hidden rounded-[1.35rem] border p-3"
         aria-label={track.title}
       >
@@ -460,6 +545,8 @@ export function AudioCard({
         mode={mode}
         onModeChange={(next) => switchMode(next)}
         videoRef={setVideoEl}
+        {...(tone.accent ? { accent: tone.accent } : {})}
+        {...(tone.ink ? { accentInk: tone.ink } : {})}
         onSeek={(seconds) => {
           const audio = media();
 
