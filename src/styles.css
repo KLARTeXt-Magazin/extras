@@ -215,19 +215,48 @@
   border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent);
   box-shadow: 0 12px 32px color-mix(in srgb, var(--foreground) 18%, transparent);
 }
-.install-banner__icon { width: 3rem; height: 3rem; border-radius: 0.8rem; flex-shrink: 0; }
-.install-banner__body { flex: 1; min-width: 0; }
-.install-banner__title { font-size: 1rem; font-weight: 600; line-height: 1.2; }
-.install-banner__text { margin-top: 0.25rem; font-size: 0.8rem; line-height: 1.4; color: var(--muted-foreground); }
+.install-banner__icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.8rem;
+  flex-shrink: 0;
+}
+.install-banner__body {
+  flex: 1;
+  min-width: 0;
+}
+.install-banner__title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.install-banner__text {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
 .install-banner__install {
-  margin-top: 0.65rem; display: inline-flex; align-items: center; gap: 0.4rem;
-  min-height: 2.5rem; padding-inline: 1rem; border-radius: 999px;
-  background: var(--primary); color: var(--primary-foreground);
-  font-size: 0.8rem; font-weight: 600;
+  margin-top: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding-inline: 1rem;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 .install-banner__close {
-  display: grid; place-items: center; width: 2.25rem; height: 2.25rem;
-  margin: -0.4rem -0.4rem 0 0; border-radius: 999px; color: var(--foreground);
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: -0.4rem -0.4rem 0 0;
+  border-radius: 999px;
+  color: var(--foreground);
 }
 
 /* „App speichern“-Knopf */
@@ -1405,6 +1434,14 @@
     background: none;
     box-shadow: none;
     clip-path: none;
+    container-type: inline-size;
+  }
+
+  /* Titel richtet sich nach der Spalte, nicht nach dem Fenster,
+     damit „Lichtblicke.“ nie unter das Karussell läuft */
+  .editorial-stage .hero-title {
+    max-width: none;
+    font-size: clamp(2.65rem, 12.5cqi, 5.4rem);
   }
 
   .editorial-stage .hero-presentation > div {
@@ -1423,6 +1460,17 @@
 
   .editorial-stage .audio-carousel-shell {
     max-width: none;
+  }
+
+  /* Nachbarkarten weich ausblenden statt hart abschneiden */
+  .editorial-stage .audio-carousel-shell > [role="group"] {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 1.75rem,
+      #000 calc(100% - 4rem),
+      transparent
+    );
   }
 
   .editorial-stage--single {
@@ -1484,7 +1532,6 @@
   border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
   border-radius: 0.6rem;
 }
-
 
 /* Gebärdenvideo-Button auf der Audiokachel (components/sign-video.tsx) */
 .sign-video-button {
