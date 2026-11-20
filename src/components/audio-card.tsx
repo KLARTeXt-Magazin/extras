@@ -14,11 +14,11 @@
 //   den jeweiligen Seiten.
 // =======================================================
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Lock, Play } from "lucide-react";
 
-import { SignVideoButton } from "@/components/sign-video";
+import { SignVideoButton, useSignVideo } from "@/components/sign-video";
 import { Button } from "@/components/ui/button";
 import { ListeningMode } from "@/components/listening-mode";
 import { usePreview } from "@/lib/preview";
@@ -63,6 +63,18 @@ export function AudioCard({
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Gebärdenvideo (falls vorhanden): läuft im Hörmodus statt der Audio.
+  // mode = welches Medium gerade gesteuert wird.
+  const signVideo = useSignVideo(track.id);
+  const [mode, setMode] = useState<"audio" | "dgs">("audio");
+  const [videoEl, setVideoEl] = useState<HTMLVideoElement | null>(null);
+  const pendingSwitch = useRef<{ time: number; play: boolean } | null>(null);
+
+  const media = useCallback(
+    (): HTMLMediaElement | null => (mode === "dgs" ? videoEl : audioRef.current),
+    [mode, videoEl],
+  );
+
   // -----------------------------------------------------
   // PLAYER-ZUSTAND
   // -----------------------------------------------------
@@ -105,9 +117,13 @@ export function AudioCard({
   // =====================================================
 
   useEffect(() => {
-    const audio = audioRef.current;
+    const audio = media();
 
     if (!audio) return;
+
+    setCurrentTime(audio.currentTime);
+    setDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
+    setIsPlaying(!audio.paused);
 
     // Aktuelle Wiedergabeposition
     const updateTime = () => setCurrentTime(audio.currentTime);
@@ -156,7 +172,49 @@ export function AudioCard({
 
       audio.removeEventListener("ended", handleEnded);
     };
-  }, [onPlay, unlocked]);
+  }, [onPlay, unlocked, media]);
+
+  // =====================================================
+  // UMSCHALTEN AUDIO ⇄ GEBÄRDENSPRACHE
+  // Stelle und Abspielzustand werden mitgenommen.
+  // =====================================================
+
+  const switchMode = (next: "audio" | "dgs", forcePlay = false) => {
+    const from = media();
+    pendingSwitch.current = {
+      time: from?.currentTime ?? 0,
+      play: forcePlay || Boolean(from && !from.paused),
+    };
+    if (next === mode) {
+      pendingSwitch.current = null;
+      if (forcePlay && from?.paused) {
+        onPlay(track.id);
+        from.play().catch(() => setIsPlaying(false));
+      }
+      return;
+    }
+    from?.pause();
+    setMode(next);
+  };
+
+  useEffect(() => {
+    const pending = pendingSwitch.current;
+    const el = media();
+    if (!pending || !el) return;
+    pendingSwitch.current = null;
+
+    const apply = () => {
+      const end = Number.isFinite(el.duration) ? el.duration : pending.time;
+      el.currentTime = Math.min(pending.time, Math.max(0, end - 0.5));
+      if (pending.play) {
+        onPlay(track.id);
+        el.play().catch(() => setIsPlaying(false));
+      }
+    };
+
+    if (el.readyState >= 1) apply();
+    else el.addEventListener("loadedmetadata", apply, { once: true });
+  }, [media, onPlay, track.id]);
 
   // =====================================================
   // NUR EINE AUDIO GLEICHZEITIG
@@ -166,17 +224,17 @@ export function AudioCard({
   // =====================================================
 
   useEffect(() => {
-    if (!isActive && audioRef.current && !audioRef.current.paused) {
-      audioRef.current.pause();
-    }
-  }, [isActive]);
+    if (isActive) return;
+    audioRef.current?.pause();
+    videoEl?.pause();
+  }, [isActive, videoEl]);
 
   // =====================================================
   // PLAY / PAUSE
   // =====================================================
 
   const togglePlay = async () => {
-    const audio = audioRef.current;
+    const audio = media();
 
     if (!audio) return;
 
@@ -213,6 +271,12 @@ export function AudioCard({
   // =====================================================
 
   const openListeningMode = async () => {
+    if (mode === "dgs") {
+      switchMode("audio", true);
+      setListeningOpen(true);
+      return;
+    }
+
     const audio = audioRef.current;
 
     if (!audio) return;
@@ -229,8 +293,22 @@ export function AudioCard({
   // AUDIO SPRINGEN
   // =====================================================
 
+  const openSignVideo = () => {
+    setListeningOpen(true);
+    switchMode("dgs", true);
+  };
+
+  const closeListeningMode = (open: boolean) => {
+    setListeningOpen(open);
+    if (open || mode !== "dgs") return;
+    // Video beim Schließen anhalten und zur Audio zurückkehren
+    videoEl?.pause();
+    setIsPlaying(false);
+    setMode("audio");
+  };
+
   const skip = (seconds: number) => {
-    const audio = audioRef.current;
+    const audio = media();
 
     if (!audio) return;
 
@@ -340,7 +418,7 @@ export function AudioCard({
                 {isPlaying ? "Hörmodus öffnen" : "Anhören"}
               </Button>
 
-              <SignVideoButton id={track.id} title={track.title} />
+              {signVideo ? <SignVideoButton title={track.title} onOpen={openSignVideo} /> : null}
 
               {isPlaying ? (
                 <p
@@ -369,7 +447,7 @@ export function AudioCard({
 
       <ListeningMode
         open={listeningOpen}
-        onOpenChange={setListeningOpen}
+        onOpenChange={closeListeningMode}
         title={track.title}
         eyebrow={track.eyebrow}
         cover={track.cover}
@@ -378,8 +456,12 @@ export function AudioCard({
         duration={duration}
         onTogglePlay={togglePlay}
         onSkip={skip}
+        signVideo={signVideo}
+        mode={mode}
+        onModeChange={(next) => switchMode(next)}
+        videoRef={setVideoEl}
         onSeek={(seconds) => {
-          const audio = audioRef.current;
+          const audio = media();
 
           if (!audio) return;
 

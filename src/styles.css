@@ -1122,6 +1122,57 @@
   opacity: 0.82;
 }
 
+/* Umschalter Audio / Gebärdensprache im Hörmodus */
+.listening-switch {
+  display: inline-flex;
+  padding: 0.25rem;
+  border: 1px solid rgb(255 254 250 / 0.35);
+  border-radius: 999px;
+  background: rgb(20 10 8 / 0.28);
+  backdrop-filter: blur(10px);
+}
+
+.listening-switch button {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  color: var(--listening);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.listening-switch button[aria-pressed="true"] {
+  background: var(--listening);
+  color: var(--foreground);
+}
+
+/* Gebärdenvideo füllt den freien Platz über der Steuerung */
+.listening-video {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.listening-video video {
+  max-height: 100%;
+  width: 100%;
+  border-radius: 1.1rem;
+  background: #000;
+  object-fit: contain;
+  box-shadow: 0 24px 60px -24px rgb(0 0 0 / 0.6);
+}
+
+.listening-mode--video .listening-mode__image {
+  filter: blur(18px) brightness(0.55);
+  transform: scale(1.1);
+}
+
 .listening-control {
   border: 1px solid color-mix(in srgb, var(--listening-soft) 48%, transparent);
   background: color-mix(in srgb, var(--listening-soft) 16%, transparent);

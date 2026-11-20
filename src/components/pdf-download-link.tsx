@@ -8,7 +8,13 @@
 // Verwendung wie ein <a>, auch als Kind von <Button asChild>.
 // =======================================================
 
-import { useEffect, useState, type ComponentProps, type ComponentType, type MouseEvent } from "react";
+import {
+  useEffect,
+  useState,
+  type ComponentProps,
+  type ComponentType,
+  type MouseEvent,
+} from "react";
 
 import { isStandaloneApp } from "@/lib/app-mode";
 import { loadPdf, savePdfInApp } from "@/lib/pdf";
@@ -61,12 +67,7 @@ export function PdfDownloadLink({
         {children}
       </a>
       {PdfViewer ? (
-        <PdfViewer
-          open={viewerOpen}
-          onOpenChange={setViewerOpen}
-          href={href}
-          title={viewerTitle}
-        />
+        <PdfViewer open={viewerOpen} onOpenChange={setViewerOpen} href={href} title={viewerTitle} />
       ) : null}
     </>
   );

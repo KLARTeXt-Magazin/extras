@@ -7,15 +7,13 @@
 // • optional daneben: gleicher Name als .vtt (Untertitel)
 //   und als .jpg (Standbild vor dem Abspielen)
 // • ohne Video erscheint kein Button
+// • das Video läuft im Hörmodus (components/listening-mode.tsx),
+//   umschaltbar zwischen „Audio“ und „Gebärdensprache“
 // • Testdateien mit „-test“ im Namen (z. B. moment-test.mp4)
 //   erscheinen nur mit ?vorschau, nie auf der öffentlichen Seite
 // =======================================================
 
-import { useState } from "react";
-import { X } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { usePreview } from "@/lib/preview";
 
 const files = import.meta.glob("../videos/*.{mp4,vtt,jpg}", {
@@ -32,7 +30,7 @@ function fileFor(id: string, ext: string, preview: boolean) {
 
 // Gebärdenzeichen (zwei Hände), aus der Vorlage von Andrea
 // (Gebaerdenzeichen_rund.pdf) nachgezeichnet; übernimmt die Textfarbe
-function SignIcon({ className }: { className?: string }) {
+export function SignIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="-36 0 744 744" className={className} aria-hidden="true" focusable="false">
       <path
@@ -43,60 +41,26 @@ function SignIcon({ className }: { className?: string }) {
   );
 }
 
-export function SignVideoButton({ id, title }: { id: string; title: string }) {
-  const [open, setOpen] = useState(false);
+export type SignVideo = { src: string; poster?: string | undefined; captions?: string | undefined };
+
+export function useSignVideo(id: string): SignVideo | null {
   const preview = usePreview();
   const src = fileFor(id, "mp4", preview);
   if (!src) return null;
+  return { src, poster: fileFor(id, "jpg", preview), captions: fileFor(id, "vtt", preview) };
+}
 
-  const captions = fileFor(id, "vtt", preview);
-
+export function SignVideoButton({ title, onOpen }: { title: string; onOpen: () => void }) {
   return (
-    <>
-      <Button
-        type="button"
-        variant="ghost"
-        className="sign-video-button mt-2 min-h-11 w-full rounded-full px-5"
-        onClick={() => setOpen(true)}
-        aria-label={`„${title}“ in Gebärdensprache ansehen`}
-      >
-        <SignIcon className="size-5" />
-        In Gebärdensprache
-      </Button>
-
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="w-[min(92vw,430px)] gap-3 rounded-2xl p-4">
-          <div className="flex items-start justify-between gap-3">
-            <DialogTitle className="font-display text-lg font-semibold leading-tight">
-              „{title}“ in Deutscher Gebärdensprache
-            </DialogTitle>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-11 shrink-0 rounded-full border"
-              onClick={() => setOpen(false)}
-              aria-label="Gebärdenvideo schließen"
-            >
-              <X className="size-5" strokeWidth={2.5} aria-hidden="true" />
-            </Button>
-          </div>
-          <DialogDescription className="sr-only">
-            Video mit Steuerung zum Abspielen und Pausieren
-          </DialogDescription>
-          <video
-            className="max-h-[70dvh] w-full rounded-xl bg-black object-contain"
-            src={src}
-            poster={fileFor(id, "jpg", preview)}
-            controls
-            playsInline
-            preload="none"
-          >
-            {captions ? (
-              <track kind="captions" src={captions} srcLang="de" label="Deutsch" default />
-            ) : null}
-          </video>
-        </DialogContent>
-      </Dialog>
-    </>
+    <Button
+      type="button"
+      variant="ghost"
+      className="sign-video-button mt-2 min-h-11 w-full rounded-full px-5"
+      onClick={onOpen}
+      aria-label={`„${title}“ in Gebärdensprache ansehen`}
+    >
+      <SignIcon className="size-5" />
+      In Gebärdensprache
+    </Button>
   );
 }

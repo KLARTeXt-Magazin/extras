@@ -1,6 +1,7 @@
-import { useId, type CSSProperties } from "react";
+import { useId, type CSSProperties, type Ref } from "react";
 import { Pause, Play, RotateCcw, RotateCw, X } from "lucide-react";
 
+import { SignIcon, type SignVideo } from "@/components/sign-video";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { formatTime } from "@/lib/utils";
@@ -17,6 +18,11 @@ type ListeningModeProps = {
   onTogglePlay: () => void;
   onSkip: (seconds: number) => void;
   onSeek: (seconds: number) => void;
+  // Gebärdenvideo: gleiche Steuerung, Umschalter oben
+  signVideo?: SignVideo | null;
+  mode?: "audio" | "dgs";
+  onModeChange?: (mode: "audio" | "dgs") => void;
+  videoRef?: Ref<HTMLVideoElement>;
 };
 
 export function ListeningMode({
@@ -31,21 +37,48 @@ export function ListeningMode({
   onTogglePlay,
   onSkip,
   onSeek,
+  signVideo,
+  mode = "audio",
+  onModeChange,
+  videoRef,
 }: ListeningModeProps) {
+  const showVideo = Boolean(signVideo) && mode === "dgs";
   const progressId = useId();
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="listening-mode fixed inset-0 left-0 top-0 z-[150] h-[100dvh] max-h-none w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden border-0 p-0 shadow-none sm:rounded-none"
+        className={`listening-mode ${showVideo ? "listening-mode--video" : ""} fixed inset-0 left-0 top-0 z-[150] h-[100dvh] max-h-none w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden border-0 p-0 shadow-none sm:rounded-none`}
         style={{ "--listening-image": `url(${cover})` } as CSSProperties}
       >
         <div className="listening-mode__image" aria-hidden="true" />
         <div className="listening-mode__wash" aria-hidden="true" />
 
         <div className="relative z-10 mx-auto flex h-full w-full max-w-[430px] flex-col px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))]">
-          <div className="flex justify-end">
+          <div className="flex items-center justify-between gap-3">
+            {signVideo ? (
+              <div className="listening-switch" role="group" aria-label="Ansicht wählen">
+                <button
+                  type="button"
+                  aria-pressed={mode === "audio"}
+                  onClick={() => onModeChange?.("audio")}
+                >
+                  Audio
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={mode === "dgs"}
+                  onClick={() => onModeChange?.("dgs")}
+                >
+                  <SignIcon className="size-4" />
+                  Gebärdensprache
+                </button>
+              </div>
+            ) : (
+              <span />
+            )}
+
             <Button
               variant="ghost"
               size="icon"
@@ -57,12 +90,40 @@ export function ListeningMode({
             </Button>
           </div>
 
-          <div className="mt-auto">
+          {showVideo && signVideo ? (
+            <div className="listening-video">
+              <video
+                ref={videoRef}
+                src={signVideo.src}
+                poster={signVideo.poster}
+                playsInline
+                preload="metadata"
+                onClick={onTogglePlay}
+                aria-label={`„${title}“ in Deutscher Gebärdensprache`}
+              >
+                {signVideo.captions ? (
+                  <track
+                    kind="captions"
+                    src={signVideo.captions}
+                    srcLang="de"
+                    label="Deutsch"
+                    default
+                  />
+                ) : null}
+              </video>
+            </div>
+          ) : null}
+
+          <div className={showVideo ? "mt-4" : "mt-auto"}>
             <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-listening-muted">
               {eyebrow}
             </p>
 
-            <DialogTitle className="mt-3 max-w-sm font-display text-[2.6rem] font-semibold leading-[0.98] text-listening">
+            <DialogTitle
+              className={`mt-3 max-w-sm font-display font-semibold leading-[0.98] text-listening ${
+                showVideo ? "text-2xl" : "text-[2.6rem]"
+              }`}
+            >
               {title}
             </DialogTitle>
 
@@ -70,7 +131,7 @@ export function ListeningMode({
               Großflächige Höransicht für „{title}“
             </DialogDescription>
 
-            <div className="mt-10">
+            <div className={showVideo ? "mt-5" : "mt-10"}>
               <label className="sr-only" htmlFor={progressId}>
                 Wiedergabeposition in „{title}“
               </label>
