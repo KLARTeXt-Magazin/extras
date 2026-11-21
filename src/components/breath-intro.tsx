@@ -1,30 +1,20 @@
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { isStandaloneApp } from "@/lib/app-mode";
 
 /**
- * Begrüßung beim Öffnen der App (nur als installierte Web-App), rund 12 Sekunden:
- * 1. „KLARTeXt.“ erscheint, Sprechblasen ploppen auf (hallo · hola · hello)
- * 2. „schön, dass du da bist.“ – „lass uns kurz zusammen atmen“
- * 3. Der Punkt aus „KLARTeXt.“ atmet: einatmen groß, ausatmen klein,
- *    dann wischt die Fläche nach oben weg.
- * Keine fremde Illustration – nur Schrift und der Punkt der Marke.
+ * Ein ruhiger Atemzug beim Öffnen der App (nur als installierte Web-App).
+ * Einatmen · Ausatmen, dann öffnet sich die Seite – insgesamt rund 10 Sekunden.
+ * Optik: flach und satt – brauner Grund, jeansblauer Himmel, Hügel in Aubergine und Beere, rosé Sonne.
  * Zum Ansehen im Browser: ?intro an die Adresse hängen.
  */
 
-// Zeitplan in Millisekunden
-// ruhiger Atem: 4 s einatmen, 4 s ausatmen, dann wischt die Fläche weg
-const INHALE_AT = 2700;
-const EXHALE_AT = INHALE_AT + 4000;
-const LEAVE_AT = EXHALE_AT + 4000;
-const DONE_AT = LEAVE_AT + 1100;
+const PHASES = [
+  { label: "Einatmen", hint: "langsam durch die Nase", duration: 4000, mode: "in" },
+  { label: "Ausatmen", hint: "und alles loslassen", duration: 6000, mode: "out" },
+] as const;
 
-const GREETINGS = [
-  { text: "hallo", className: "hello-bubble--1" },
-  { text: "hola", className: "hello-bubble--2" },
-  { text: "hello", className: "hello-bubble--3" },
-];
+const TOTAL = PHASES.reduce((sum, item) => sum + item.duration, 0);
 
 const SESSION_KEY = "klartext-breath-intro";
 
@@ -46,11 +36,10 @@ function markIntroSeen() {
   }
 }
 
-type Stage = "greet" | "in" | "out" | "leave";
-
 export function BreathIntro() {
   const [isVisible, setIsVisible] = useState(false);
-  const [stage, setStage] = useState<Stage>("greet");
+  const [isLeaving, setIsLeaving] = useState(false);
+  const [phase, setPhase] = useState(0);
   const timers = useRef<number[]>([]);
 
   useEffect(() => {
@@ -61,11 +50,19 @@ export function BreathIntro() {
 
     markIntroSeen();
     setIsVisible(true);
+
+    const total = TOTAL;
+
+    let t = 0;
+    PHASES.forEach((p, i) => {
+      t += p.duration;
+      if (i < PHASES.length - 1) {
+        timers.current.push(window.setTimeout(() => setPhase(i + 1), t));
+      }
+    });
     timers.current.push(
-      window.setTimeout(() => setStage("in"), INHALE_AT),
-      window.setTimeout(() => setStage("out"), EXHALE_AT),
-      window.setTimeout(() => setStage("leave"), LEAVE_AT),
-      window.setTimeout(() => setIsVisible(false), DONE_AT),
+      window.setTimeout(() => setIsLeaving(true), total),
+      window.setTimeout(() => setIsVisible(false), total + 700),
     );
 
     return () => {
@@ -76,43 +73,66 @@ export function BreathIntro() {
 
   if (!isVisible) return null;
 
+  const current = PHASES[phase] ?? PHASES[0];
+
   const skip = () => {
     timers.current.forEach((id) => window.clearTimeout(id));
     timers.current = [];
-    setStage("leave");
-    timers.current.push(window.setTimeout(() => setIsVisible(false), 1100));
+    setIsLeaving(true);
+    window.setTimeout(() => setIsVisible(false), 500);
   };
 
   return (
-    <div className={`breath-intro is-${stage}`} role="status" aria-live="polite">
-      <div className="breath-intro__stage">
-        <div className="hello-scene" aria-hidden="true">
-          {GREETINGS.map((greeting) => (
-            <span key={greeting.text} className={`hello-bubble ${greeting.className}`}>
-              {greeting.text}
-            </span>
-          ))}
-          <p className="hello-mark">
-            <span>
-              KLARTeXt
-              <span className="hello-mark__dot" />
-            </span>
-          </p>
-        </div>
+    <div
+      className={`breath-intro is-${current.mode}${isLeaving ? " is-leaving" : ""}`}
+      role="status"
+      aria-live="polite"
+      style={{ "--phase-ms": `${current.duration}ms` } as CSSProperties}
+    >
+      <p className="breath-intro__eyebrow">KLARTeXt. · Ein Atemzug für dich</p>
 
-        <p className="breath-intro__label">schön, dass du da bist.</p>
-        <p className="breath-intro__hint">
-          {stage === "greet"
-            ? "lass uns kurz zusammen atmen"
-            : stage === "in"
-              ? "einatmen …"
-              : "… und aus."}
+      <div className="breath-intro__stage">
+        <BreathArt />
+        <p key={phase} className="breath-intro__label">
+          {current.label}
         </p>
+        <p className="breath-intro__hint">{current.hint}</p>
       </div>
 
-      <Button type="button" variant="ghost" className="breath-intro__skip" onClick={skip}>
-        Überspringen
-      </Button>
+      <div className="breath-intro__footer">
+        {/* Fortschritt über beide Phasen */}
+        <span className="breath-progress" aria-hidden="true">
+          <span style={{ animationDuration: `${TOTAL}ms` }} />
+        </span>
+
+        <Button type="button" variant="ghost" className="breath-intro__skip" onClick={skip}>
+          Überspringen
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Illustration: flache Hügel in den KLARTeXt.-Farben,
+ * dahinter eine Sonne („Lichtblick“), die mitatmet.
+ */
+function BreathArt() {
+  return (
+    <div className="breath-art" aria-hidden="true">
+      <svg viewBox="0 0 320 320" className="breath-art__paper">
+        <path className="paper paper--rose" d="M214 96 a 18 18 0 1 1 36 0 a 18 18 0 1 1 -36 0" />
+        <path
+          className="paper paper--lilac"
+          d="M-10 236 C 40 188, 92 200, 138 214 S 236 170, 330 196 L 330 330 L -10 330 Z"
+        />
+        <path
+          className="paper paper--teal"
+          d="M-10 262 C 56 230, 118 246, 170 258 S 270 236, 330 248 L 330 330 L -10 330 Z"
+        />
+      </svg>
+      <span className="breath-art__glow" />
+      <span className="breath-art__light" />
     </div>
   );
 }

@@ -28,11 +28,6 @@ export type Issue = {
   to?: IssueRoute;
   cover?: string;
   isPublic?: boolean;
-  /** Farbpaar der Ausgabe: Tiefenfarbe (Kopf) + heller Partner */
-  color?: string;
-  accent?: string;
-  /** Bildausschnitt im Kopf (Brennpunkt des Covers, z. B. das Auge) */
-  coverFocus?: string;
 };
 
 export const issues: Issue[] = [
@@ -43,9 +38,6 @@ export const issues: Issue[] = [
     to: "/lichtblicke",
     cover: coverHeft02,
     isPublic: true,
-    color: "#48110f", // Emberwood
-    accent: "#fcf3df", // Sand
-    coverFocus: "64% 32%",
   },
   {
     eyebrow: "Ausgabe 01 · 08/26",
@@ -54,9 +46,6 @@ export const issues: Issue[] = [
     to: "/ehrlichkeit",
     cover: coverHeft01,
     isPublic: true,
-    color: "#3e2b24", // Schokobraun
-    accent: "#dccbb2", // Pampas-Sand
-    coverFocus: "52% 42%",
   },
   { eyebrow: "Ausgabe 03 · 2027", title: "In Planung", subtitle: "Die Themen entstehen gerade" },
 ];

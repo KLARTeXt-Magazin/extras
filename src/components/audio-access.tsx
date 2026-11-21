@@ -6,8 +6,24 @@
 // • Gebärdenvideos: siehe components/sign-video.tsx
 // =======================================================
 
+import { useEffect, useState } from "react";
+
+import type { AudioTrack } from "@/components/audio-card";
+import { usePreview } from "@/lib/preview";
 import { transcripts } from "@/lib/transcripts";
-import { useUnlocked, type AudioTrack } from "@/lib/tracks";
+
+function useUnlocked(unlockAt?: string) {
+  const [unlocked, setUnlocked] = useState(!unlockAt);
+  const preview = usePreview();
+
+  // Mit ?vorschau ist der Text schon vor der Freischaltung lesbar.
+  useEffect(() => {
+    if (!unlockAt) return;
+    setUnlocked(preview || Date.now() >= new Date(unlockAt).getTime());
+  }, [unlockAt, preview]);
+
+  return unlocked;
+}
 
 export function AudioAccess({ track }: { track: AudioTrack }) {
   const unlocked = useUnlocked(track.unlockAt);
