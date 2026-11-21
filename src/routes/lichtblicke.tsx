@@ -17,27 +17,17 @@
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowDown, Play } from "lucide-react";
-
-import { AudioAccess } from "@/components/audio-access";
+import { Download, Play } from "lucide-react";
 
 import coverMoment from "../assets/cover-pmr-collage-v3.jpg";
 import coverNikolausNeu from "../assets/cover-nikolaus-collage-v3.jpg";
 import coverGrussNeu from "../assets/cover-heiligabend-collage-v3.jpg";
 import coverMomentNeu from "../assets/cover-moment-collage-v3.jpg";
 
-import {
-  AudioShelf,
-  IssueHead,
-  IssueSheet,
-  ReadLink,
-  ReadRow,
-  SectionHead,
-  readingTime,
-} from "@/components/issue-layout";
+import { AudioShelf, IssueHead, IssueSheet, ReadRow, SectionHead } from "@/components/issue-layout";
+import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { usePlayer } from "@/lib/player";
 import type { AudioTrack } from "@/lib/tracks";
-import { transcripts } from "@/lib/transcripts";
 
 import { ComingSoon, PreviewBadge } from "@/components/coming-soon";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -279,36 +269,6 @@ function Lichtblicke() {
             <SectionHead id="lesen-titel" title="Lesen" />
 
             <div className="read-list">
-              {/* Begleitimpulse zu jeder Audio */}
-              {tracks.map((track) => (
-                <ReadRow
-                  key={track.id}
-                  id={`impuls-${track.id}`}
-                  color={track.ink}
-                  kicker={`Begleitimpuls · ${track.coverWord ?? track.title}`}
-                  title={track.quote ?? track.title}
-                  {...(track.note ? { teaser: track.note } : {})}
-                  meta={readingTime(track.quote, track.note, ...(transcripts[track.id] ?? []))}
-                >
-                  {track.note ? <p className="text-muted-foreground">{track.note}</p> : null}
-
-                  {track.moreHref ? (
-                    <a href={track.moreHref} className="companion-more mt-5">
-                      {track.moreLabel ?? "Mehr dazu"}
-                      <ArrowDown className="size-4" aria-hidden="true" />
-                    </a>
-                  ) : null}
-
-                  <AudioAccess track={track} />
-
-                  {track.credit ? (
-                    <p className="mt-6 text-[11px] leading-5 text-muted-foreground">
-                      {track.credit}
-                    </p>
-                  ) : null}
-                </ReadRow>
-              ))}
-
               {/* Extra-Beitrag PMR */}
               <ReadRow
                 id="pmr-beitrag"
@@ -408,23 +368,17 @@ function Lichtblicke() {
                   Du brauchst keine Hilfsmittel. Die Übung klappt im Sitzen, Stehen, Gehen oder
                   Liegen, also auch mal kurz zwischendurch.
                 </p>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="mt-8 h-12 rounded-full border-sage/45 bg-background/45 px-5 text-sage-foreground shadow-none"
+                >
+                  <PdfDownloadLink href="/pdf/pmr-spannung-trifft-entspannung.pdf">
+                    <Download className="size-4" />
+                    Anleitung herunterladen
+                  </PdfDownloadLink>
+                </Button>
               </ReadRow>
-
-              {/* PDFs */}
-              <ReadLink
-                href="/pdf/moment-fuer-dich-begleitimpuls.pdf"
-                color="#4b2934"
-                title="Impuls zum Downloaden"
-                teaser="Ein kleiner Moment für dich"
-                meta="PDF · 2 Seiten"
-              />
-              <ReadLink
-                href="/pdf/pmr-spannung-trifft-entspannung.pdf"
-                color="#263b2c"
-                title="Anleitung herunterladen"
-                teaser="Spannung trifft Entspannung"
-                meta="PDF · 2 Seiten"
-              />
             </div>
           </section>
 

@@ -13,6 +13,8 @@ export type AudioTrack = {
   id: string;
   eyebrow: string;
   title: string;
+  /** Überschrift des Begleitimpulses (Standard: „Begleitimpuls · …“) */
+  kicker?: string;
   quote?: string;
   note?: string;
   cover: string;

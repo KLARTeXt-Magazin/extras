@@ -9,10 +9,12 @@
 //         Audio → Track (ink/accent)
 // =======================================================
 
-import { ArrowRight, ChevronDown, Lock, Pause, Play } from "lucide-react";
+import { ArrowDown, ArrowRight, ChevronDown, Download, Lock, Pause, Play } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
+import { AudioAccess } from "@/components/audio-access";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
+import { Button } from "@/components/ui/button";
 import { SignIcon, useSignVideo } from "@/components/sign-video";
 import type { Issue } from "@/lib/issues";
 import { usePlayer } from "@/lib/player";
@@ -84,41 +86,195 @@ export function SectionHead({ id, title, count }: { id: string; title: string; c
 // -------------------------------------------------------
 export function AudioShelf({ tracks, labelledBy }: { tracks: AudioTrack[]; labelledBy: string }) {
   const shelfRef = useRef<HTMLDivElement | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [highlightId, setHighlightId] = useState<string | null>(null);
+  // „in Hören hineingescrollt“: oben auf der Seite kleine Kacheln, dann groß
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    const shelf = shelfRef.current;
+    if (!shelf) return;
+    let frame = 0;
+    const check = () => {
+      frame = 0;
+      setIsOpen(shelf.getBoundingClientRect().top < window.innerHeight * 0.5);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(check);
+    };
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  // gewählt ist die Karte am Einrastpunkt (links) – schon während des Wischens
+  useEffect(() => {
+    const shelf = shelfRef.current;
+    if (!shelf) return;
+    let frame = 0;
+    const select = () => {
+      frame = 0;
+      const snap =
+        shelf.getBoundingClientRect().left +
+        (parseFloat(getComputedStyle(shelf).scrollPaddingInlineStart) || 0);
+      let nearest = 0;
+      let distance = Number.POSITIVE_INFINITY;
+      shelf.querySelectorAll<HTMLElement>("[data-track]").forEach((card, index) => {
+        const d = Math.abs(card.getBoundingClientRect().left - snap);
+        if (d < distance) {
+          distance = d;
+          nearest = index;
+        }
+      });
+      setActiveIndex(nearest);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(select);
+    };
+    shelf.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      shelf.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  const goTo = (index: number) => {
+    const shelf = shelfRef.current;
+    const card = shelf?.querySelectorAll<HTMLElement>("[data-track]")[index];
+    if (!shelf || !card) return;
+    setActiveIndex(index);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    shelf.scrollTo({
+      left:
+        card.offsetLeft -
+        shelf.offsetLeft -
+        (parseFloat(getComputedStyle(shelf).scrollPaddingInlineStart) || 0),
+      behavior: reduced ? "auto" : "smooth",
+    });
+  };
+
+  // Hash wie /lichtblicke#heiligabend: Karte wählen und hervorheben (QR-Codes)
+  useEffect(() => {
     let timer = 0;
-    const highlight = () => {
+    const fromHash = () => {
       const id = window.location.hash.replace("#", "");
-      if (!id || !tracks.some((track) => track.id === id)) return;
-      const shelf = shelfRef.current;
-      const card = shelf?.querySelector<HTMLElement>(`[data-track="${id}"]`);
-      if (!shelf || !card) return;
-      shelf.closest("section")?.scrollIntoView({ block: "start" });
-      // nur das Regal seitlich verschieben, nicht die Seite
-      shelf.scrollLeft = card.offsetLeft - shelf.offsetLeft - 20;
+      const index = tracks.findIndex((track) => track.id === id);
+      if (index < 0) return;
+      shelfRef.current?.closest("section")?.scrollIntoView({ block: "start" });
+      requestAnimationFrame(() => goTo(index));
       setHighlightId(id);
       window.clearTimeout(timer);
       timer = window.setTimeout(() => setHighlightId(null), 3000);
     };
-    requestAnimationFrame(highlight);
-    window.addEventListener("hashchange", highlight);
+    requestAnimationFrame(fromHash);
+    window.addEventListener("hashchange", fromHash);
     return () => {
-      window.removeEventListener("hashchange", highlight);
+      window.removeEventListener("hashchange", fromHash);
       window.clearTimeout(timer);
     };
   }, [tracks]);
 
+  const active = tracks[activeIndex] ?? tracks[0];
+
   return (
-    <div ref={shelfRef} className="audio-shelf" role="list" aria-labelledby={labelledBy}>
-      {tracks.map((track) => (
-        <ShelfCard key={track.id} track={track} highlight={highlightId === track.id} />
-      ))}
-    </div>
+    <>
+      <div
+        ref={shelfRef}
+        className={`audio-shelf ${isOpen ? "is-open" : ""}`}
+        role="list"
+        aria-labelledby={labelledBy}
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight") goTo(Math.min(tracks.length - 1, activeIndex + 1));
+          if (event.key === "ArrowLeft") goTo(Math.max(0, activeIndex - 1));
+        }}
+      >
+        {tracks.map((track, index) => (
+          <ShelfCard
+            key={track.id}
+            track={track}
+            active={index === activeIndex}
+            highlight={highlightId === track.id}
+            onSelect={() => goTo(index)}
+          />
+        ))}
+      </div>
+
+      {active ? <Companion track={active} /> : null}
+    </>
   );
 }
 
-function ShelfCard({ track, highlight }: { track: AudioTrack; highlight: boolean }) {
+// Begleitimpuls zur gewählten Audio, in ihrer Farbe
+function Companion({ track }: { track: AudioTrack }) {
+  return (
+    <section
+      className="companion-band px-5 pt-3"
+      style={{ "--audio-accent": track.accent, "--audio-accent-ink": track.ink } as CSSProperties}
+      aria-label={`Begleitimpuls zu ${track.title}`}
+      aria-live="polite"
+    >
+      <div key={track.id} className="companion-inner companion-swap mx-auto w-full max-w-[430px]">
+        <p className="companion-kicker text-xs font-semibold">
+          {track.kicker ?? `Begleitimpuls · ${track.coverWord ?? track.title}`}
+        </p>
+
+        {track.quote ? (
+          <p className="companion-quote mt-4 font-display text-xl font-medium leading-8">
+            {track.quote}
+          </p>
+        ) : null}
+
+        {track.note ? (
+          <p className="mt-5 text-sm leading-7 text-muted-foreground">{track.note}</p>
+        ) : null}
+
+        {track.downloadUrl ? (
+          <Button
+            asChild
+            variant="outline"
+            className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
+          >
+            <PdfDownloadLink href={track.downloadUrl}>
+              <Download className="size-4" />
+              {track.downloadLabel ?? "Impuls öffnen"}
+            </PdfDownloadLink>
+          </Button>
+        ) : null}
+
+        {track.moreHref ? (
+          <a href={track.moreHref} className="companion-more mt-6">
+            {track.moreLabel ?? "Mehr dazu"}
+            <ArrowDown className="size-4" aria-hidden="true" />
+          </a>
+        ) : null}
+
+        <AudioAccess track={track} />
+
+        {track.credit ? (
+          <p className="mt-7 text-[11px] leading-5 text-muted-foreground">{track.credit}</p>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function ShelfCard({
+  track,
+  active,
+  highlight,
+  onSelect,
+}: {
+  track: AudioTrack;
+  active: boolean;
+  highlight: boolean;
+  onSelect: () => void;
+}) {
   const unlocked = useUnlocked(track.unlockAt);
   const player = usePlayer();
   const signVideo = useSignVideo(track.id);
@@ -132,7 +288,14 @@ function ShelfCard({ track, highlight }: { track: AudioTrack; highlight: boolean
       role="listitem"
       className={`shelf-card ${unlocked ? "" : "is-locked"} ${isCurrent ? "is-current" : ""} ${
         highlight ? "is-highlight" : ""
-      }`}
+      } ${active ? "is-active" : ""}`}
+      onClickCapture={(event) => {
+        // Tipp auf eine kleine Nachbarkarte holt sie erst nach vorn
+        if (active) return;
+        event.preventDefault();
+        event.stopPropagation();
+        onSelect();
+      }}
       style={{ "--card-ink": track.ink, "--card-accent": track.accent } as CSSProperties}
     >
       {unlocked ? (

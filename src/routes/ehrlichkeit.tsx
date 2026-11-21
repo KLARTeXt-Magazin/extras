@@ -10,21 +10,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import coverImage from "@/assets/cover-zeit-collage-v3.jpg";
-import { AudioAccess } from "@/components/audio-access";
-import {
-  AudioShelf,
-  IssueHead,
-  IssueSheet,
-  ReadLink,
-  ReadRow,
-  SectionHead,
-  readingTime,
-} from "@/components/issue-layout";
+import { AudioShelf, IssueHead, IssueSheet, SectionHead } from "@/components/issue-layout";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { getIssue } from "@/lib/issues";
 import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 import type { AudioTrack } from "@/lib/tracks";
-import { transcripts } from "@/lib/transcripts";
 
 const issue = getIssue("/ehrlichkeit");
 
@@ -50,11 +40,21 @@ export const Route = createFileRoute("/ehrlichkeit")({
   component: Ehrlichkeit,
 });
 
+const QUOTE =
+  "„Wie geht es mir eigentlich gerade? Ehrlich, nicht so, wie ich es nach außen zeige.“";
+const TEXT =
+  "Das Audio-Extra der ersten Ausgabe ist eine kurze Pause für Tage, an denen viel im Kopf los ist. Ein paar Minuten, in denen du nichts schaffen oder lösen musst. Du hörst einfach hin, wie es dir gerade geht.";
+
 const track: AudioTrack = {
   id: "zeit-fuer-dich",
   ink: "#3e2b24",
   accent: "#dccbb2",
   duration: "3:35",
+  kicker: "Ein Moment für dich",
+  quote: QUOTE,
+  note: TEXT,
+  downloadUrl: "/pdf/zeit-fuer-dich-begleitimpuls.pdf",
+  downloadLabel: "Impuls zum Downloaden",
   eyebrow: "Auszeit",
   title: "Zeit für Dich",
   cover: coverImage,
@@ -63,11 +63,6 @@ const track: AudioTrack = {
   coverWord: "ZEIT FÜR DICH.",
   src: "/audio/2026-q3_extra01.m4a",
 };
-
-const QUOTE =
-  "„Wie geht es mir eigentlich gerade? Ehrlich, nicht so, wie ich es nach außen zeige.“";
-const TEXT =
-  "Das Audio-Extra der ersten Ausgabe ist eine kurze Pause für Tage, an denen viel im Kopf los ist. Ein paar Minuten, in denen du nichts schaffen oder lösen musst. Du hörst einfach hin, wie es dir gerade geht.";
 
 function Ehrlichkeit() {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -96,32 +91,6 @@ function Ehrlichkeit() {
           <section className="issue-section" aria-labelledby="hoeren-titel">
             <SectionHead id="hoeren-titel" title="Hören" count="1 Audio" />
             <AudioShelf tracks={[track]} labelledBy="hoeren-titel" />
-          </section>
-
-          <section className="issue-section" aria-labelledby="lesen-titel">
-            <SectionHead id="lesen-titel" title="Lesen" />
-
-            <div className="read-list">
-              <ReadRow
-                id="impuls-zeit-fuer-dich"
-                color={track.ink}
-                kicker="Ein Moment für dich"
-                title={QUOTE}
-                teaser={TEXT}
-                meta={readingTime(QUOTE, TEXT, ...(transcripts[track.id] ?? []))}
-              >
-                <p className="text-muted-foreground">{TEXT}</p>
-                <AudioAccess track={track} />
-              </ReadRow>
-
-              <ReadLink
-                href="/pdf/zeit-fuer-dich-begleitimpuls.pdf"
-                color={track.ink}
-                title="Impuls zum Downloaden"
-                teaser={track.title}
-                meta="PDF · 2 Seiten"
-              />
-            </div>
           </section>
         </IssueSheet>
 

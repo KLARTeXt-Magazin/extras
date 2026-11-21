@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { isStandaloneApp } from "@/lib/app-mode";
 
 /**
- * Begrüßung beim Öffnen der App (nur als installierte Web-App), rund 5 Sekunden:
+ * Begrüßung beim Öffnen der App (nur als installierte Web-App), rund 12 Sekunden:
  * 1. „KLARTeXt.“ erscheint, Sprechblasen ploppen auf (hallo · hola · hello)
  * 2. „schön, dass du da bist.“ – „lass uns kurz zusammen atmen“
  * 3. Der Punkt aus „KLARTeXt.“ atmet: einatmen groß, ausatmen klein,
@@ -14,9 +14,11 @@ import { isStandaloneApp } from "@/lib/app-mode";
  */
 
 // Zeitplan in Millisekunden
+// ruhiger Atem: 4 s einatmen, 4 s ausatmen, dann wischt die Fläche weg
 const INHALE_AT = 2700;
-const EXHALE_AT = 4300;
-const DONE_AT = 5500;
+const EXHALE_AT = INHALE_AT + 4000;
+const LEAVE_AT = EXHALE_AT + 4000;
+const DONE_AT = LEAVE_AT + 1100;
 
 const GREETINGS = [
   { text: "hallo", className: "hello-bubble--1" },
@@ -44,7 +46,7 @@ function markIntroSeen() {
   }
 }
 
-type Stage = "greet" | "in" | "out";
+type Stage = "greet" | "in" | "out" | "leave";
 
 export function BreathIntro() {
   const [isVisible, setIsVisible] = useState(false);
@@ -62,6 +64,7 @@ export function BreathIntro() {
     timers.current.push(
       window.setTimeout(() => setStage("in"), INHALE_AT),
       window.setTimeout(() => setStage("out"), EXHALE_AT),
+      window.setTimeout(() => setStage("leave"), LEAVE_AT),
       window.setTimeout(() => setIsVisible(false), DONE_AT),
     );
 
@@ -76,7 +79,7 @@ export function BreathIntro() {
   const skip = () => {
     timers.current.forEach((id) => window.clearTimeout(id));
     timers.current = [];
-    setStage("out");
+    setStage("leave");
     timers.current.push(window.setTimeout(() => setIsVisible(false), 1100));
   };
 

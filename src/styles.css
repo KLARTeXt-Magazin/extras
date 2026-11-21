@@ -495,7 +495,7 @@
 .shelf-card {
   position: relative;
   display: flex;
-  width: 11.75rem;
+  width: min(16rem, 68vw);
   aspect-ratio: 1;
   flex: none;
   flex-direction: column;
@@ -504,7 +504,11 @@
   background: var(--card-ink);
   color: var(--card-accent);
   scroll-snap-align: start;
-  transition: outline-color 300ms ease;
+  transform-origin: left bottom;
+  transition:
+    width 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    outline-color 300ms ease;
   outline: 3px solid transparent;
   outline-offset: 3px;
 }
@@ -512,6 +516,45 @@
 .shelf-card.is-highlight,
 .shelf-card.is-current {
   outline-color: var(--card-ink);
+}
+
+/* oben auf der Seite: alle Kacheln klein und gleich groß */
+.audio-shelf:not(.is-open) .shelf-card {
+  width: 10.5rem;
+}
+
+.audio-shelf:not(.is-open) .shelf-card__wave {
+  width: 50%;
+}
+
+.audio-shelf:not(.is-open) .shelf-card__title {
+  font-size: 0.95rem;
+}
+
+/* in „Hören“ hineingescrollt: gewählte Karte groß, Nachbarn kleiner */
+.audio-shelf.is-open .shelf-card:not(.is-active) {
+  cursor: pointer;
+  transform: scale(0.78);
+}
+
+.audio-shelf {
+  align-items: flex-end;
+}
+
+/* Begleitimpuls wechselt mit der gewählten Karte */
+.companion-swap {
+  animation: companion-swap 320ms ease both;
+}
+
+@keyframes companion-swap {
+  from {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ganze Karte öffnet den Player (unter dem Play-Knopf) */
@@ -548,6 +591,7 @@
 
 .shelf-card__title {
   position: relative;
+  font-size: 1.15rem;
   pointer-events: none;
   text-wrap: balance;
   font-family: var(--font-display);
@@ -742,7 +786,7 @@ details[open] > .read-row__summary .read-row__arrow {
   }
 
   .shelf-card {
-    width: 13rem;
+    width: 15rem;
   }
 }
 
@@ -2043,8 +2087,8 @@ body:has(.mini-player) {
     border-radius 1100ms ease;
 }
 
-/* Ausatmen: die ganze Fläche wischt nach oben weg */
-.breath-intro.is-out {
+/* nach dem Ausatmen: die ganze Fläche wischt nach oben weg */
+.breath-intro.is-leave {
   transform: translateY(-104%);
   border-bottom-left-radius: 50% 4rem;
   border-bottom-right-radius: 50% 4rem;
@@ -2054,7 +2098,7 @@ body:has(.mini-player) {
   display: grid;
   justify-items: center;
   text-align: center;
-  transition: transform 1500ms cubic-bezier(0.37, 0, 0.2, 1);
+  transition: transform 4000ms cubic-bezier(0.37, 0, 0.63, 1);
 }
 
 /* Einatmen: groß – Ausatmen: klein */
@@ -2062,9 +2106,9 @@ body:has(.mini-player) {
   transform: scale(1.04);
 }
 
-.breath-intro.is-out .breath-intro__stage {
-  transform: scale(0.82);
-  transition-duration: 1000ms;
+.breath-intro.is-out .breath-intro__stage,
+.breath-intro.is-leave .breath-intro__stage {
+  transform: scale(0.94);
 }
 
 .hello-scene {
@@ -2097,7 +2141,7 @@ body:has(.mini-player) {
   background: var(--intro-sky);
   /* wächst nach rechts oben, weg von der Schrift */
   transform-origin: 0% 100%;
-  transition: scale 1500ms cubic-bezier(0.37, 0, 0.2, 1);
+  transition: scale 4000ms cubic-bezier(0.37, 0, 0.63, 1);
   animation: hello-dot-in 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 700ms both;
 }
 
@@ -2106,9 +2150,9 @@ body:has(.mini-player) {
   scale: 3;
 }
 
-.breath-intro.is-out .hello-mark__dot {
-  scale: 0.6;
-  transition-duration: 1000ms;
+.breath-intro.is-out .hello-mark__dot,
+.breath-intro.is-leave .hello-mark__dot {
+  scale: 0.8;
 }
 
 @keyframes hello-dot-in {
