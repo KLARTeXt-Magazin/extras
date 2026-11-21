@@ -10,7 +10,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import coverImage from "@/assets/cover-zeit-collage-v3.jpg";
-import { AudioShelf, IssueHead, IssueSheet, SectionHead } from "@/components/issue-layout";
+import { AudioShelf, IssueHead, IssueSheet } from "@/components/issue-layout";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { getIssue } from "@/lib/issues";
 import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
@@ -89,8 +89,7 @@ function Ehrlichkeit() {
         {/* Ebene 2: Inhalt */}
         <IssueSheet>
           <section className="issue-section" aria-labelledby="hoeren-titel">
-            <SectionHead id="hoeren-titel" title="Hören" count="1 Audio" />
-            <AudioShelf tracks={[track]} labelledBy="hoeren-titel" />
+            <AudioShelf tracks={[track]} count="1 Audio" />
           </section>
         </IssueSheet>
 

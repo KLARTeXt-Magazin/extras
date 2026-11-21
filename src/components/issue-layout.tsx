@@ -9,13 +9,30 @@
 //         Audio → Track (ink/accent)
 // =======================================================
 
-import { ArrowDown, ArrowRight, ChevronDown, Download, Lock, Pause, Play } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Lock,
+  Pause,
+  Play,
+} from "lucide-react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
 
 import { AudioAccess } from "@/components/audio-access";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { Button } from "@/components/ui/button";
-import { SignIcon, useSignVideo } from "@/components/sign-video";
+import { SignIcon, SignVideoButton, useSignVideo } from "@/components/sign-video";
 import type { Issue } from "@/lib/issues";
 import { usePlayer } from "@/lib/player";
 import { useUnlocked, type AudioTrack } from "@/lib/tracks";
@@ -64,17 +81,30 @@ export function IssueHead({
 // -------------------------------------------------------
 // 2. SANDBLATT + ABSCHNITTSKOPF
 // -------------------------------------------------------
-export function IssueSheet({ children }: { children: ReactNode }) {
-  return <div className="content-sheet">{children}</div>;
+export function IssueSheet({ children, flat = false }: { children: ReactNode; flat?: boolean }) {
+  return <div className={`content-sheet ${flat ? "content-sheet--flat" : ""}`}>{children}</div>;
 }
 
-export function SectionHead({ id, title, count }: { id: string; title: string; count?: string }) {
+export function SectionHead({
+  id,
+  title,
+  count,
+  action,
+}: {
+  id: string;
+  title: string;
+  count?: string;
+  action?: ReactNode;
+}) {
   return (
     <div className="section-head">
       <h2 id={id} className="section-head__title">
         {title}
       </h2>
-      {count ? <span className="section-head__count">{count}</span> : null}
+      <span className="section-head__side">
+        {count ? <span className="section-head__count">{count}</span> : null}
+        {action}
+      </span>
     </div>
   );
 }
@@ -84,12 +114,16 @@ export function SectionHead({ id, title, count }: { id: string; title: string; c
 // • Hash wie /lichtblicke#heiligabend scrollt zur Karte
 //   und hebt sie hervor (QR-Codes im Heft)
 // -------------------------------------------------------
-export function AudioShelf({ tracks, labelledBy }: { tracks: AudioTrack[]; labelledBy: string }) {
+export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: string }) {
+  const labelledBy = "hoeren-titel";
   const shelfRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [highlightId, setHighlightId] = useState<string | null>(null);
   // „in Hören hineingescrollt“: oben auf der Seite kleine Kacheln, dann groß
-  const [isOpen, setIsOpen] = useState(false);
+  const [autoOpen, setAutoOpen] = useState(false);
+  // selbst auf- oder zugeklappt? Dann gilt das statt des Scrollens.
+  const [manualOpen, setManualOpen] = useState<boolean | null>(null);
+  const isOpen = manualOpen ?? autoOpen;
 
   useEffect(() => {
     const shelf = shelfRef.current;
@@ -97,7 +131,12 @@ export function AudioShelf({ tracks, labelledBy }: { tracks: AudioTrack[]; label
     let frame = 0;
     const check = () => {
       frame = 0;
-      setIsOpen(shelf.getBoundingClientRect().top < window.innerHeight * 0.5);
+      // erst wenn man weiter in „Hören“ hineinscrollt: große Karten.
+      // Zwei Schwellen, damit nichts flackert, wenn man genau dort stehen bleibt.
+      const top = shelf.getBoundingClientRect().top;
+      setAutoOpen((open) =>
+        open ? top < window.innerHeight * 0.6 : top < window.innerHeight * 0.32,
+      );
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(check);
@@ -183,6 +222,23 @@ export function AudioShelf({ tracks, labelledBy }: { tracks: AudioTrack[]; label
 
   return (
     <>
+      <SectionHead
+        id={labelledBy}
+        title="Hören"
+        count={count}
+        action={
+          <button
+            type="button"
+            className="section-toggle"
+            onClick={() => setManualOpen(!isOpen)}
+            aria-expanded={isOpen}
+            aria-label={isOpen ? "Audios klein anzeigen" : "Audios groß anzeigen"}
+          >
+            <ChevronDown aria-hidden="true" />
+          </button>
+        }
+      />
+
       <div
         ref={shelfRef}
         className={`audio-shelf ${isOpen ? "is-open" : ""}`}
@@ -200,10 +256,60 @@ export function AudioShelf({ tracks, labelledBy }: { tracks: AudioTrack[]; label
             track={track}
             active={index === activeIndex}
             highlight={highlightId === track.id}
+            big={isOpen}
             onSelect={() => goTo(index)}
           />
         ))}
       </div>
+
+      {/* Pfeile und Punkte, nur bei den großen Karten */}
+      {isOpen && tracks.length > 1 && active ? (
+        <div
+          className="carousel-nav flex items-center justify-center gap-3 px-5"
+          style={
+            {
+              "--audio-accent": active.accent,
+              "--audio-accent-ink": active.ink,
+            } as CSSProperties
+          }
+        >
+          <button
+            type="button"
+            className="carousel-arrow"
+            onClick={() => goTo(Math.max(0, activeIndex - 1))}
+            disabled={activeIndex === 0}
+            aria-label="Vorheriges Audio"
+          >
+            <ChevronLeft className="size-5" strokeWidth={2.25} aria-hidden="true" />
+          </button>
+          <div className="flex" role="group" aria-label="Audios wechseln">
+            {tracks.map((track, index) => (
+              <button
+                key={track.id}
+                type="button"
+                aria-current={index === activeIndex}
+                aria-label={`Audio ${index + 1} von ${tracks.length}: ${track.title}`}
+                onClick={() => goTo(index)}
+                className="carousel-dot-button"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`carousel-dot ${index === activeIndex ? "w-7" : "w-2"}`}
+                />
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="carousel-arrow"
+            onClick={() => goTo(Math.min(tracks.length - 1, activeIndex + 1))}
+            disabled={activeIndex === tracks.length - 1}
+            aria-label="Nächstes Audio"
+          >
+            <ChevronRight className="size-5" strokeWidth={2.25} aria-hidden="true" />
+          </button>
+        </div>
+      ) : null}
 
       {active ? <Companion track={active} /> : null}
     </>
@@ -268,11 +374,13 @@ function ShelfCard({
   track,
   active,
   highlight,
+  big,
   onSelect,
 }: {
   track: AudioTrack;
   active: boolean;
   highlight: boolean;
+  big: boolean;
   onSelect: () => void;
 }) {
   const unlocked = useUnlocked(track.unlockAt);
@@ -280,6 +388,94 @@ function ShelfCard({
   const signVideo = useSignVideo(track.id);
   const isCurrent = player.track?.id === track.id;
   const isPlaying = isCurrent && player.isPlaying;
+
+  const selectFirst = (event: MouseEvent) => {
+    // Tipp auf eine Nachbarkarte holt sie erst nach vorn
+    if (active) return;
+    event.preventDefault();
+    event.stopPropagation();
+    onSelect();
+  };
+
+  // große Karte (wie das frühere Karussell): Bild, großer Titel, Knöpfe
+  if (big) {
+    return (
+      <article
+        id={track.id}
+        data-track={track.id}
+        role="listitem"
+        className={`shelf-big ${active ? "is-active" : ""} ${highlight ? "is-highlight" : ""}`}
+        onClickCapture={selectFirst}
+        style={{ "--audio-accent": track.accent, "--audio-accent-ink": track.ink } as CSSProperties}
+      >
+        <div className="audio-player-card relative overflow-hidden rounded-[1.35rem] border p-3">
+          <div className="audio-cover-layout relative z-10 aspect-[4/3] overflow-hidden rounded-[0.95rem]">
+            {unlocked ? (
+              <img
+                src={track.cover}
+                alt={track.coverAlt}
+                width={1024}
+                height={1024}
+                loading="lazy"
+                className="audio-cover-image h-full w-full object-cover"
+              />
+            ) : null}
+            <span className="audio-cover-badge absolute left-4 top-4 rounded-full border px-3 py-1.5 text-[11px] font-semibold">
+              {track.eyebrow}
+            </span>
+            {!unlocked ? (
+              <div className="audio-locked-cover absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+                <span className="audio-lock flex size-12 items-center justify-center rounded-full">
+                  <Lock className="size-5" strokeWidth={1.5} />
+                </span>
+                <p className="max-w-[15rem] text-sm font-semibold leading-6">{track.unlockLabel}</p>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="relative z-10 px-3 pb-4 pt-5">
+            <h3
+              className={
+                track.coverWord
+                  ? "audio-art-title"
+                  : "font-display text-2xl font-medium leading-tight"
+              }
+            >
+              {track.coverWord ?? track.title}
+            </h3>
+            {track.coverWord ? <p className="audio-track-title">{track.title}</p> : null}
+
+            {unlocked ? (
+              <div className="mt-6">
+                <Button
+                  className="min-h-12 w-full rounded-full px-5"
+                  onClick={() => (isCurrent ? player.expand() : player.open(track))}
+                  aria-label={
+                    isPlaying ? `Player für „${track.title}“ öffnen` : `„${track.title}“ anhören`
+                  }
+                >
+                  <Play className="size-4 fill-current" aria-hidden="true" />
+                  {isPlaying ? "Hörmodus öffnen" : "Anhören"}
+                </Button>
+                {signVideo ? (
+                  <SignVideoButton title={track.title} onOpen={() => player.open(track, "dgs")} />
+                ) : null}
+                {isPlaying ? (
+                  <p className="mt-3 text-center text-xs font-medium text-muted-foreground">
+                    Läuft gerade
+                  </p>
+                ) : null}
+              </div>
+            ) : (
+              <p className="mt-5 text-sm leading-6 text-muted-foreground">
+                Noch nicht verfügbar. {track.unlockLabel}
+              </p>
+            )}
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article
@@ -289,13 +485,7 @@ function ShelfCard({
       className={`shelf-card ${unlocked ? "" : "is-locked"} ${isCurrent ? "is-current" : ""} ${
         highlight ? "is-highlight" : ""
       } ${active ? "is-active" : ""}`}
-      onClickCapture={(event) => {
-        // Tipp auf eine kleine Nachbarkarte holt sie erst nach vorn
-        if (active) return;
-        event.preventDefault();
-        event.stopPropagation();
-        onSelect();
-      }}
+      onClickCapture={selectFirst}
       style={{ "--card-ink": track.ink, "--card-accent": track.accent } as CSSProperties}
     >
       {unlocked ? (
