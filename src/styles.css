@@ -1495,305 +1495,191 @@
    ======================================================= */
 
 .breath-intro {
-  /* nur KLARTeXt.-Farben: dunkles Rotbraun + Cremeweiß,
-     Jeansblau für Hügel und Mond – flache Vollfarben, keine Verläufe */
-  --intro-bg: #48110F;
-  --intro-ink: #FCF3DF;
-  --intro-sun: #FCF3DF;
-  --intro-ring: #5E1A16;
+  /* nur KLARTeXt.-Farben: Rotbraun, Creme, Jeansblau, Rosé – flach */
+  --intro-bg: #48110f;
+  --intro-ink: #fcf3df;
+  --intro-blue: #475b8b;
+  --intro-sky: #a2b5d8;
+  --intro-rose: #e9bbcb;
+  --intro-line: #2b1d18;
   position: fixed;
   inset: 0;
   z-index: 200;
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  justify-items: center;
-  align-items: center;
+  place-items: center;
   overflow: hidden;
-  padding: calc(2.5rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
+  padding: calc(2rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
   background: var(--intro-bg);
   color: var(--intro-ink);
-  animation: breath-intro-in 700ms ease both;
+  animation: breath-intro-in 400ms ease both;
+  transition:
+    transform 1100ms cubic-bezier(0.7, 0, 0.84, 0),
+    border-radius 1100ms ease;
 }
 
-.breath-intro.is-leaving {
-  animation: breath-intro-out 650ms ease both;
-}
-
-/* keine Großbuchstaben: „KLARTeXt.“ muss so bleiben */
-.breath-intro__eyebrow {
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: color-mix(in srgb, var(--intro-ink) 78%, var(--intro-bg));
+/* Ausatmen: die ganze Fläche wischt nach oben weg */
+.breath-intro.is-out {
+  transform: translateY(-104%);
+  border-bottom-left-radius: 50% 4rem;
+  border-bottom-right-radius: 50% 4rem;
 }
 
 .breath-intro__stage {
   display: grid;
   justify-items: center;
   text-align: center;
+  transition: transform 1500ms cubic-bezier(0.37, 0, 0.2, 1);
 }
 
-/* Illustration: Ring, Sonne, Hügel – alles flache Vollfarben */
-.breath-art {
+/* Einatmen: groß – Ausatmen: klein */
+.breath-intro.is-in .breath-intro__stage {
+  transform: scale(1.12);
+}
+
+.breath-intro.is-out .breath-intro__stage {
+  transform: scale(0.82);
+  transition-duration: 1000ms;
+}
+
+.hello-scene {
   position: relative;
-  width: min(20rem, 82vw);
+  width: min(72vw, 17rem);
   aspect-ratio: 1;
-  margin-bottom: 2rem;
-  overflow: hidden;
-  border-radius: 50%;
-  background: var(--intro-ring);
 }
 
-.breath-art__paper {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
+.hello-figure {
   width: 100%;
   height: 100%;
+  overflow: visible;
+  animation: hello-pop 650ms cubic-bezier(0.34, 1.56, 0.64, 1) 150ms both;
 }
 
-.paper {
+.hello-figure__wave {
+  transform-box: view-box;
+  transform-origin: 170px 118px;
+  animation: hello-wave 520ms ease-in-out 700ms 4 alternate both;
+}
+
+.hello-figure__eyes {
   transform-box: fill-box;
   transform-origin: center;
-  animation: var(--phase-ms, 4s) cubic-bezier(0.45, 0, 0.55, 1) both;
+  animation: hello-blink 2400ms ease-in-out 1400ms infinite;
 }
 
-.paper--lilac {
-  fill: #475B8B; /* hinterer Hügel in Jeansblau */
-}
-
-.paper--teal {
-  fill: #A2B5D8; /* vorderer Hügel in hellem Jeansblau */
-}
-
-.paper--rose {
-  fill: #A2B5D8; /* Mond in hellem Jeansblau */
-}
-
-/* beim Einatmen heben sich die Hügel leicht, beim Ausatmen sinken sie */
-.breath-intro.is-in .paper--lilac {
-  animation-name: paper-rise-far;
-}
-
-.breath-intro.is-in .paper--teal {
-  animation-name: paper-rise-near;
-}
-
-.breath-intro.is-in .paper--rose {
-  animation-name: paper-float;
-}
-
-.breath-intro.is-out .paper--lilac {
-  animation-name: paper-sink-far;
-}
-
-.breath-intro.is-out .paper--teal {
-  animation-name: paper-sink-near;
-}
-
-.breath-intro.is-out .paper--rose {
-  animation-name: paper-settle;
-}
-
-/* Sonne und Hof hinter den Hügeln */
-.breath-art__light,
-.breath-art__glow {
+.hello-bubble {
   position: absolute;
-  left: 50%;
-  top: 58%;
+  padding: 0.45rem 0.85rem 0.5rem;
+  border: 3px solid var(--intro-line);
+  border-radius: 1.1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 4.4vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1;
   z-index: 1;
-  border-radius: 50%;
-  translate: -50% -50%;
-  animation: var(--phase-ms, 4s) cubic-bezier(0.45, 0, 0.55, 1) both;
+  white-space: nowrap;
+  animation: hello-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.breath-art__light {
-  width: 34%;
-  aspect-ratio: 1;
-  background: var(--intro-sun);
+/* kleine Sprechblasen-Spitze */
+.hello-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -0.55rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-right: 3px solid var(--intro-line);
+  border-bottom: 3px solid var(--intro-line);
+  background: inherit;
+  transform: rotate(45deg);
 }
 
-/* flacher Hof um die Sonne, keine Unschärfe */
-.breath-art__glow {
-  width: 62%;
-  aspect-ratio: 1;
-  background: #6B3325;
+.hello-bubble--1 {
+  top: -6%;
+  left: -6%;
+  background: var(--intro-sky);
+  color: var(--intro-line);
+  rotate: -8deg;
+  animation-delay: 550ms;
 }
 
-/* Sonne geht beim Einatmen auf und beim Ausatmen wieder unter */
-.breath-intro.is-in .breath-art__light {
-  animation-name: light-grow;
+.hello-bubble--1::after {
+  right: 1.1rem;
 }
 
-.breath-intro.is-out .breath-art__light {
-  animation-name: light-shrink;
+.hello-bubble--2 {
+  top: -10%;
+  right: -4%;
+  background: var(--intro-rose);
+  color: var(--intro-line);
+  rotate: 7deg;
+  animation-delay: 850ms;
 }
 
-.breath-intro.is-in .breath-art__glow {
-  animation-name: glow-grow;
+.hello-bubble--2::after {
+  left: 1rem;
 }
 
-.breath-intro.is-out .breath-art__glow {
-  animation-name: glow-shrink;
+.hello-bubble--3 {
+  bottom: 2%;
+  left: -8%;
+  background: var(--intro-ink);
+  color: var(--intro-line);
+  rotate: 5deg;
+  animation-delay: 1150ms;
+}
+
+.hello-bubble--3::after {
+  right: 1rem;
+}
+
+.hello-bubble--4 {
+  right: -10%;
+  bottom: 14%;
+  background: var(--intro-blue);
+  color: var(--intro-ink);
+  rotate: -6deg;
+  animation-delay: 1450ms;
+}
+
+.hello-bubble--4::after {
+  left: 1rem;
 }
 
 .breath-intro__label {
+  margin-top: 2.25rem;
   font-family: var(--font-display);
-  font-size: 2.25rem;
-  font-weight: 600;
-  line-height: 1;
-  animation: breath-label-in 700ms ease both;
+  font-size: clamp(1.4rem, 6.2vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  text-wrap: balance;
+  animation: hello-rise 600ms ease 1750ms both;
 }
 
 .breath-intro__hint {
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
-  color: color-mix(in srgb, var(--intro-ink) 72%, transparent);
-}
-
-.breath-intro__footer {
-  display: grid;
-  justify-items: center;
-  gap: 1.25rem;
-  width: min(16rem, 70vw);
-}
-
-.breath-progress {
-  display: block;
-  width: 100%;
-  height: 6px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #2b1d18;
-}
-
-.breath-progress > span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--intro-sun);
-  transform-origin: left;
-  animation: breath-progress linear both;
+  margin-top: 0.6rem;
+  font-size: 1.05rem;
+  color: color-mix(in srgb, var(--intro-ink) 80%, transparent);
+  animation: hello-rise 600ms ease 2100ms both;
 }
 
 .breath-intro__skip {
-  min-height: 44px;
-  padding: 0 1.4rem;
+  position: absolute;
+  right: 1.25rem;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  min-height: 2.75rem;
   border-radius: 999px;
-  background: var(--intro-ink);
-  color: var(--intro-bg);
+  color: var(--intro-ink);
   font-size: 0.85rem;
-  font-weight: 700;
 }
 
 .breath-intro__skip:hover {
-  background: #ffffff;
-  color: var(--intro-bg);
+  background: color-mix(in srgb, var(--intro-ink) 12%, transparent);
+  color: var(--intro-ink);
 }
 
 .breath-intro :focus-visible {
-  outline: 2px solid var(--intro-sun);
+  outline: 2px solid var(--intro-ink);
   outline-offset: 3px;
-}
-
-@keyframes light-grow {
-  from {
-    translate: -50% -10%;
-    scale: 0.85;
-  }
-  to {
-    translate: -50% -78%;
-    scale: 1.1;
-  }
-}
-
-@keyframes light-shrink {
-  from {
-    translate: -50% -78%;
-    scale: 1.1;
-  }
-  to {
-    translate: -50% -10%;
-    scale: 0.85;
-  }
-}
-
-@keyframes glow-grow {
-  from {
-    translate: -50% -10%;
-    scale: 0.7;
-  }
-  to {
-    translate: -50% -66%;
-    scale: 1.15;
-  }
-}
-
-@keyframes glow-shrink {
-  from {
-    translate: -50% -66%;
-    scale: 1.15;
-  }
-  to {
-    translate: -50% -10%;
-    scale: 0.7;
-  }
-}
-
-@keyframes paper-rise-far {
-  to {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes paper-sink-far {
-  from {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes paper-rise-near {
-  to {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes paper-sink-near {
-  from {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes paper-float {
-  to {
-    transform: translate(-6px, -10px) rotate(-8deg);
-  }
-}
-
-@keyframes paper-settle {
-  from {
-    transform: translate(-6px, -10px) rotate(-8deg);
-  }
-}
-
-@keyframes breath-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes breath-label-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
 }
 
 @keyframes breath-intro-in {
@@ -1805,13 +1691,45 @@
   }
 }
 
-@keyframes breath-intro-out {
+@keyframes hello-pop {
   from {
-    opacity: 1;
+    opacity: 0;
+    transform: scale(0.4);
   }
   to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hello-rise {
+  from {
     opacity: 0;
-    visibility: hidden;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hello-wave {
+  from {
+    transform: rotate(-14deg);
+  }
+  to {
+    transform: rotate(16deg);
+  }
+}
+
+@keyframes hello-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.1);
   }
 }
 
