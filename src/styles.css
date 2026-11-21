@@ -1840,6 +1840,22 @@ body:has(.mini-player) {
   color: var(--audio-accent, var(--secondary));
 }
 
+/* zugeklappt: kleiner Begleitimpuls, Zitat auf drei Zeilen gekürzt */
+.companion-band.is-compact .companion-inner {
+  padding: 1rem 1.15rem 0.6rem;
+  border-radius: 1rem;
+}
+
+.companion-band.is-compact .companion-quote {
+  display: -webkit-box;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 .companion-quote {
   color: var(--audio-accent, var(--secondary));
   transition: color 400ms ease;

@@ -326,16 +326,31 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
         </div>
       ) : null}
 
-      {active ? <Companion track={active} /> : null}
+      {active ? (
+        <Companion
+          track={active}
+          compact={!isOpen}
+          onExpand={() => smoothly(() => setManualOpen(true))}
+        />
+      ) : null}
     </>
   );
 }
 
 // Begleitimpuls zur gewählten Audio, in ihrer Farbe
-function Companion({ track }: { track: AudioTrack }) {
+// compact: zugeklappt nur Überschrift und Zitat, Rest erst im großen Modus
+function Companion({
+  track,
+  compact = false,
+  onExpand,
+}: {
+  track: AudioTrack;
+  compact?: boolean;
+  onExpand?: () => void;
+}) {
   return (
     <section
-      className="companion-band px-5 pt-3"
+      className={`companion-band px-5 pt-3 ${compact ? "is-compact" : ""}`}
       style={{ "--audio-accent": track.accent, "--audio-accent-ink": track.ink } as CSSProperties}
       aria-label={`Begleitimpuls zu ${track.title}`}
       aria-live="polite"
@@ -351,11 +366,18 @@ function Companion({ track }: { track: AudioTrack }) {
           </p>
         ) : null}
 
-        {track.note ? (
+        {compact ? (
+          <button type="button" className="companion-more mt-3" onClick={onExpand}>
+            Ganzen Impuls ansehen
+            <ArrowDown className="size-4" aria-hidden="true" />
+          </button>
+        ) : null}
+
+        {!compact && track.note ? (
           <p className="mt-5 text-sm leading-7 text-muted-foreground">{track.note}</p>
         ) : null}
 
-        {track.downloadUrl ? (
+        {!compact && track.downloadUrl ? (
           <Button
             asChild
             variant="outline"
@@ -368,16 +390,16 @@ function Companion({ track }: { track: AudioTrack }) {
           </Button>
         ) : null}
 
-        {track.moreHref ? (
+        {!compact && track.moreHref ? (
           <a href={track.moreHref} className="companion-more mt-6">
             {track.moreLabel ?? "Mehr dazu"}
             <ArrowDown className="size-4" aria-hidden="true" />
           </a>
         ) : null}
 
-        <AudioAccess track={track} />
+        {!compact ? <AudioAccess track={track} /> : null}
 
-        {track.credit ? (
+        {!compact && track.credit ? (
           <p className="mt-7 text-[11px] leading-5 text-muted-foreground">{track.credit}</p>
         ) : null}
       </div>
