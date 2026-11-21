@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { BottomNav } from "../components/bottom-nav";
 import { BreathIntro } from "../components/breath-intro";
+import { PlayerProvider } from "../lib/player";
 import { InstallBanner } from "../components/install-banner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -185,12 +186,12 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   return (
-    <>
+    <PlayerProvider>
       <BreathIntro />
       {/* Hier werden die Seiten (Ausgaben) eingesetzt – nicht entfernen. */}
       <Outlet />
       <BottomNav />
       <InstallBanner />
-    </>
+    </PlayerProvider>
   );
 }

@@ -8,15 +8,25 @@
 
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Download } from "lucide-react";
 
 import coverImage from "@/assets/cover-zeit-collage-v3.jpg";
 import { AudioAccess } from "@/components/audio-access";
-import { AudioCard, type AudioTrack } from "@/components/audio-card";
-import { PdfDownloadLink } from "@/components/pdf-download-link";
+import {
+  AudioShelf,
+  IssueHead,
+  IssueSheet,
+  ReadLink,
+  ReadRow,
+  SectionHead,
+  readingTime,
+} from "@/components/issue-layout";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { Button } from "@/components/ui/button";
+import { getIssue } from "@/lib/issues";
 import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
+import type { AudioTrack } from "@/lib/tracks";
+import { transcripts } from "@/lib/transcripts";
+
+const issue = getIssue("/ehrlichkeit");
 
 export const Route = createFileRoute("/ehrlichkeit")({
   head: () => ({
@@ -42,6 +52,9 @@ export const Route = createFileRoute("/ehrlichkeit")({
 
 const track: AudioTrack = {
   id: "zeit-fuer-dich",
+  ink: "#3e2b24",
+  accent: "#dccbb2",
+  duration: "3:35",
   eyebrow: "Auszeit",
   title: "Zeit für Dich",
   cover: coverImage,
@@ -51,8 +64,12 @@ const track: AudioTrack = {
   src: "/audio/2026-q3_extra01.m4a",
 };
 
+const QUOTE =
+  "„Wie geht es mir eigentlich gerade? Ehrlich, nicht so, wie ich es nach außen zeige.“";
+const TEXT =
+  "Das Audio-Extra der ersten Ausgabe ist eine kurze Pause für Tage, an denen viel im Kopf los ist. Ein paar Minuten, in denen du nichts schaffen oder lösen musst. Du hörst einfach hin, wie es dir gerade geht.";
+
 function Ehrlichkeit() {
-  const [activeId, setActiveId] = useState<string | null>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
@@ -68,67 +85,45 @@ function Ehrlichkeit() {
         Zum Inhalt springen
       </a>
 
-      <main
-        id="inhalt"
-        className="min-h-screen overflow-hidden bg-background font-body text-foreground"
-      >
+      <main id="inhalt" className="min-h-screen bg-background font-body text-foreground">
         <SiteHeader hasScrolled={hasScrolled} current="/ehrlichkeit" />
 
-        <div className="editorial-stage editorial-stage--single">
-          <section
-            className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-12 sm:px-7 ${
-              hasScrolled || activeId ? "is-compact" : ""
-            }`}
-          >
-            <div className="mt-4">
-              <p className="text-[10px] font-medium uppercase text-muted-foreground">
-                Ausgabe 01 · 08/26
-              </p>
-              <h1 className="hero-title mt-3 max-w-[340px]">Warum Ehrlichkeit Mut braucht</h1>
-            </div>
+        {/* Ebene 1: Ausgabe */}
+        <IssueHead issue={issue} />
+
+        {/* Ebene 2: Inhalt */}
+        <IssueSheet>
+          <section className="issue-section" aria-labelledby="hoeren-titel">
+            <SectionHead id="hoeren-titel" title="Hören" count="1 Audio" />
+            <AudioShelf tracks={[track]} labelledBy="hoeren-titel" />
           </section>
 
-          <section className="audio-band" aria-label="Audio">
-            <div className="mx-auto w-full max-w-[430px]">
-              <AudioCard track={track} isActive onPlay={setActiveId} />
+          <section className="issue-section" aria-labelledby="lesen-titel">
+            <SectionHead id="lesen-titel" title="Lesen" />
 
-              <p className="section-cue-badge mx-auto mt-8 w-fit text-center text-[10px] font-semibold uppercase tracking-[0.12em]">
-                Weiter zum Begleitimpuls
-              </p>
+            <div className="read-list">
+              <ReadRow
+                id="impuls-zeit-fuer-dich"
+                color={track.ink}
+                kicker="Ein Moment für dich"
+                title={QUOTE}
+                teaser={TEXT}
+                meta={readingTime(QUOTE, TEXT, ...(transcripts[track.id] ?? []))}
+              >
+                <p className="text-muted-foreground">{TEXT}</p>
+                <AudioAccess track={track} />
+              </ReadRow>
+
+              <ReadLink
+                href="/pdf/zeit-fuer-dich-begleitimpuls.pdf"
+                color={track.ink}
+                title="Impuls zum Downloaden"
+                teaser={track.title}
+                meta="PDF · 2 Seiten"
+              />
             </div>
           </section>
-        </div>
-
-        <section className="companion-band px-6 py-24">
-          <div className="companion-inner mx-auto max-w-[430px]">
-            <p className="text-[10px] font-medium uppercase text-muted-foreground">
-              Ein Moment für dich
-            </p>
-
-            <h2 className="mt-5 text-4xl leading-tight">
-              „Wie geht es mir eigentlich gerade? Ehrlich, nicht so, wie ich es nach außen zeige.“
-            </h2>
-
-            <p className="mt-7 max-w-sm text-sm leading-7 text-muted-foreground">
-              Das Audio-Extra der ersten Ausgabe ist eine kurze Pause für Tage, an denen viel im
-              Kopf los ist. Ein paar Minuten, in denen du nichts schaffen oder lösen musst. Du hörst
-              einfach hin, wie es dir gerade geht.
-            </p>
-
-            <Button
-              asChild
-              variant="outline"
-              className="mt-9 h-12 rounded-full border-border bg-surface px-5 shadow-none"
-            >
-              <PdfDownloadLink href="/pdf/zeit-fuer-dich-begleitimpuls.pdf">
-                <Download className="size-4" />
-                Impuls zum Downloaden
-              </PdfDownloadLink>
-            </Button>
-
-            <AudioAccess track={track} />
-          </div>
-        </section>
+        </IssueSheet>
 
         <SiteFooter />
       </main>

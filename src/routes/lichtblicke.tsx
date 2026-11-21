@@ -1,27 +1,23 @@
 // =======================================================
 // ROUTE: AUSGABE 02 – LICHTBLICKE
 // Zweck:
-// • Audio-Archiv für Ausgabe 02
-// • mehrere Audio-Kacheln als horizontales Carousel
-// • zusätzliche Informationen unterhalb des Carousels
-// • PMR-Übung als eigener Inhaltsbereich
+// • Extras zu Ausgabe 02, Aufbau in Ebenen:
+//   Kopf (Cover + Ausgabenfarbe) → Sandblatt mit „Hören“ (Regal)
+//   und „Lesen“ (Liste) → Mini-Player (src/lib/player.tsx)
 
 // Später ändern:
-// • Audio-Inhalte → tracks
-// • Bilder → imports / cover
+// • Audio-Inhalte → tracks (inkl. Farbpaar ink/accent, Dauer)
+// • Ausgabenfarbe → src/lib/issues.ts (color/accent)
 // • Veröffentlichungsdatum → issues / unlockAt
-// • PMR-Text → PMR-Sektion weiter unten
+// • PMR-Text → Extra-Beitrag in der Lese-Liste
 
 // Nicht unnötig ändern:
-// • Carousel-Logik
-// • IntersectionObserver
-// • Hash-Navigation
-// • Active-State
+// • Track-ids = Hash-Links der QR-Codes (#nikolaus, #heiligabend, …)
 // =======================================================
 
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ChevronLeft, ChevronRight, Download, Play } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowDown, Play } from "lucide-react";
 
 import { AudioAccess } from "@/components/audio-access";
 
@@ -30,8 +26,18 @@ import coverNikolausNeu from "../assets/cover-nikolaus-collage-v3.jpg";
 import coverGrussNeu from "../assets/cover-heiligabend-collage-v3.jpg";
 import coverMomentNeu from "../assets/cover-moment-collage-v3.jpg";
 
-import { AudioCard, type AudioTrack } from "@/components/audio-card";
-import { PdfDownloadLink } from "@/components/pdf-download-link";
+import {
+  AudioShelf,
+  IssueHead,
+  IssueSheet,
+  ReadLink,
+  ReadRow,
+  SectionHead,
+  readingTime,
+} from "@/components/issue-layout";
+import { usePlayer } from "@/lib/player";
+import type { AudioTrack } from "@/lib/tracks";
+import { transcripts } from "@/lib/transcripts";
 
 import { ComingSoon, PreviewBadge } from "@/components/coming-soon";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -138,6 +144,9 @@ const PREVIEW_UNLOCKED = false;
 const tracks: AudioTrack[] = [
   {
     id: "nikolaus",
+    ink: "#173d3a",
+    accent: "#b8d4d1",
+    duration: "1:14",
     eyebrow: "6. Dezember",
     title: "Einen Moment zum Nikolaus",
     quote: "„Vielleicht kannst du heute genau dieser Lichtblick für jemanden sein.“",
@@ -158,6 +167,9 @@ const tracks: AudioTrack[] = [
 
   {
     id: "heiligabend",
+    ink: "#40334b",
+    accent: "#c9bed8",
+    duration: "0:49",
     eyebrow: "24. Dezember",
     title: "Ein Moment an Heiligabend",
     quote: "„Denn genau darin liegen oft unsere größten Lichtblicke.“",
@@ -179,6 +191,9 @@ const tracks: AudioTrack[] = [
 
   {
     id: "moment",
+    ink: "#4b2934",
+    accent: "#e9bbcb",
+    duration: "2:12",
     eyebrow: "Achtsamkeitsübung",
     title: "Ein kleiner Moment für dich",
     quote: "„Du darfst dich um andere kümmern, ohne dich selbst dabei zu vergessen.“",
@@ -195,6 +210,9 @@ const tracks: AudioTrack[] = [
 
   {
     id: "pmr",
+    ink: "#263b2c",
+    accent: "#bcd0bf",
+    duration: "3:44",
     eyebrow: "Progressive Muskelentspannung",
     title: "Spannung trifft Entspannung",
     note: "Eine kurze Übung: Muskeln anspannen und wieder lösen. Hintergrund und Schritte findest du im Extra-Beitrag.",
@@ -211,202 +229,31 @@ const tracks: AudioTrack[] = [
 
 // =======================================================
 // HAUPTKOMPONENTE
-// Zweck:
-// • komplette Lichtblicke-Seite
+// Aufbau in Ebenen (components/issue-layout.tsx):
+// • Kopf: Heft-Cover → Ausgabenfarbe, Titel
+// • Sandblatt: „Hören“ (Regal) und „Lesen“ (Liste)
+// • Mini-Player / Vollbild-Player: src/lib/player.tsx
+// Hash-Links der QR-Codes (#nikolaus, #heiligabend, …)
+// führen zur passenden Karte im Regal.
 // =======================================================
 
+const PMR_INTRO =
+  "Die progressive Muskelentspannung (kurz PMR) ist eine bewährte Entspannungsmethode, die auch in der Prävention eingesetzt wird. Du spannst einen Muskel kurz an, lässt ihn anschließend wieder locker und spürst bewusst die Entspannung.";
+
 function Lichtblicke() {
-  // -----------------------------------------------------
-  // CAROUSEL-REFERENZEN
-  // • scroller = horizontale Audio-Leiste
-  // • slideRefs = einzelne Kacheln
-  // -----------------------------------------------------
-
-  const scrollerRef = useRef<HTMLDivElement | null>(null);
-
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // -----------------------------------------------------
-  // ACTIVE STATE
-  // • activeIndex = aktuell sichtbare Kachel
-  // • activeId = aktuell abgespieltes Audio
-  // -----------------------------------------------------
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const [activeId, setActiveId] = useState<string | null>(null);
-
-  // -----------------------------------------------------
-  // HEADER-SCROLL
-  // • steuert den Glass-Effekt des Headers
-  // -----------------------------------------------------
-
+  const player = usePlayer();
+  const pmrTrack = tracks.find((track) => track.id === "pmr");
   const [hasScrolled, setHasScrolled] = useState(false);
 
-  // =====================================================
-  // SCROLL-ERKENNUNG
-  // Zweck:
-  // • erkennt Scrollen innerhalb der Seite
-  // • berücksichtigt auch den horizontalen Audio-Scroller
-  // =====================================================
-
   useEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-    const updateScrollState = () => {
-      setHasScrolled(scroller.scrollTop > 24 || window.scrollY > 24);
-    };
-
-    updateScrollState();
-    window.addEventListener("scroll", updateScrollState, { passive: true });
-
-    scroller.addEventListener("scroll", updateScrollState, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", updateScrollState);
-
-      scroller.removeEventListener("scroll", updateScrollState);
-    };
+    const update = () => setHasScrolled(window.scrollY > 24);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
   }, []);
-
-  // =====================================================
-  // CAROUSEL-AUSWAHL
-  // Zweck:
-  // • erkennt nach dem Wischen, welche Audiokachel sichtbar ist
-  // • aktualisiert Punkte + Begleittext
-  //
-  // Nicht entfernen:
-  // • Grundlage für das horizontale Carousel
-  // =====================================================
-
-  useEffect(() => {
-    const scroller = scrollerRef.current;
-
-    if (!scroller) return;
-
-    // Aktiv ist die Karte, die am Einrastpunkt (linker Rand + Abstand) steht –
-    // auf dem Handy die sichtbare, am Desktop die vorderste unter dem Titel.
-    const selectNearestSlide = () => {
-      const snapPoint =
-        scroller.getBoundingClientRect().left +
-        (parseFloat(getComputedStyle(scroller).scrollPaddingInlineStart) || 0);
-
-      let nearestIndex = 0;
-      let nearestDistance = Number.POSITIVE_INFINITY;
-
-      slideRefs.current.forEach((slide, index) => {
-        if (!slide) return;
-        const rect = slide.getBoundingClientRect();
-        const distance = Math.abs(rect.left - snapPoint);
-
-        if (distance < nearestDistance) {
-          nearestDistance = distance;
-          nearestIndex = index;
-        }
-      });
-
-      setActiveIndex(nearestIndex);
-    };
-
-    // schon während des Wischens umschalten (einmal pro Bild)
-    let frame = 0;
-    const handleScroll = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        selectNearestSlide();
-      });
-    };
-
-    scroller.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      scroller.removeEventListener("scroll", handleScroll);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  // =====================================================
-  // HASH-NAVIGATION
-  // Zweck:
-  // • Links wie /lichtblicke#nikolaus öffnen direkt
-  //   die passende Audiokachel
-  //
-  // Wichtig:
-  // • id des Tracks muss mit dem Hash übereinstimmen.
-  // =====================================================
-
-  useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-
-    if (!hash) return;
-
-    const index = tracks.findIndex((track) => track.id === hash);
-
-    if (index < 0) return;
-
-    setActiveIndex(index);
-
-    const scrollToSlide = () => {
-      const card = slideRefs.current[index];
-
-      card?.scrollIntoView({
-        behavior: "auto",
-        block: "nearest",
-        inline: "start",
-      });
-    };
-
-    requestAnimationFrame(scrollToSlide);
-  }, []);
-
-  // =====================================================
-  // CAROUSEL-NAVIGATION
-  // Zweck:
-  // • springt zu einer bestimmten Audiokachel
-  //
-  // Wird verwendet von:
-  // • Punkten
-  // • Pfeiltasten
-  // =====================================================
-
-  const goTo = (index: number) => {
-    setActiveIndex(index);
-
-    const card = slideRefs.current[index];
-
-    card?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "start",
-    });
-  };
-
-  // aus dem PMR-Beitrag zur passenden Audiokachel springen
-  const listenToPmr = () => {
-    const index = tracks.findIndex((track) => track.id === "pmr");
-    if (index < 0) return;
-    setActiveIndex(index);
-    slideRefs.current[index]?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "start",
-    });
-  };
-
-  // -----------------------------------------------------
-  // HERO-KOMPAKT
-  // • Hero wird kompakter, sobald gescrollt / abgespielt wird
-  // -----------------------------------------------------
-
-  const presentationCompact = hasScrolled || activeId !== null;
 
   return (
     <>
-      {/* =================================================
-          ACCESSIBILITY
-         ================================================= */}
-
       <a className="skip-link" href="#inhalt">
         Zum Inhalt springen
       </a>
@@ -414,220 +261,39 @@ function Lichtblicke() {
       <main id="inhalt" className="min-h-screen bg-background font-body text-foreground">
         <SiteHeader hasScrolled={hasScrolled} current="/lichtblicke" />
 
-        {/* =================================================
-            HERO
-            Zweck:
-            • Ausgabe 02 vorstellen
-            • kurze Erklärung
-            • Carousel-Position anzeigen
+        {/* Ebene 1: Ausgabe */}
+        <IssueHead
+          issue={issue}
+          title="Lichtblicke."
+          intro="Zwei Lichtblicke aus dem Adventskalender zum Anhören. Dazu eine Auszeit und eine Übung zur progressiven Muskelentspannung."
+        />
 
-            Später ändern:
-            • Titel
-            • Beschreibung
-           ================================================= */}
-
-        <div className="editorial-stage">
-          <section
-            className={`hero-presentation mx-auto w-full max-w-[430px] px-5 pb-6 sm:px-7 ${
-              presentationCompact ? "is-compact" : ""
-            }`}
-          >
-            <div className="mt-4">
-              <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
-                Ausgabe 02 · 12/26
-              </p>
-
-              <h1 className="hero-title mt-3 max-w-[340px]">Lichtblicke.</h1>
-
-              <p className="hero-sub mt-4 max-w-[19rem] text-sm leading-7 text-muted-foreground">
-                Zwei Lichtblicke aus dem Adventskalender zum Anhören. Dazu eine Auszeit und eine
-                Übung zur progressiven Muskelentspannung.
-              </p>
-            </div>
+        {/* Ebene 2: Inhalt */}
+        <IssueSheet>
+          <section className="issue-section" aria-labelledby="hoeren-titel">
+            <SectionHead id="hoeren-titel" title="Hören" count={`${tracks.length} Audios`} />
+            <AudioShelf tracks={tracks} labelledBy="hoeren-titel" />
           </section>
 
-          {/* =================================================
-            AUDIO-CAROUSEL
-            Zweck:
-            • horizontales Wischen
-            • zeigt AudioCard-Komponenten
-            • aktive Kachel wird über activeId gesteuert
+          <section className="issue-section" aria-labelledby="lesen-titel">
+            <SectionHead id="lesen-titel" title="Lesen" />
 
-             Später ändern:
-             • Layout → hier
-             • Kachel-Inhalt → tracks
-             • Karten-Design → audio-card.tsx
-
-             Wichtig:
-             Die eigentliche Audiokachel liegt NICHT hier,
-             sondern in components/audio-card.tsx.
-            ================================================= */}
-
-          <section
-            className={`audio-band audio-tone-${activeIndex + 1} pb-4 pt-4`}
-            aria-label="Audio-Karussell"
-          >
-            <div className="audio-carousel-shell mx-auto w-full max-w-[860px]">
-              <div
-                ref={scrollerRef}
-                role="group"
-                aria-label="Audios: seitlich wischen oder mit den Pfeiltasten wechseln"
-                tabIndex={0}
-                className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-4 [scrollbar-width:none] sm:px-7 [&::-webkit-scrollbar]:hidden"
-                style={{
-                  scrollPaddingInline: "var(--carousel-inset, 1.25rem)",
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === "ArrowRight") {
-                    event.preventDefault();
-
-                    goTo(Math.min(tracks.length - 1, activeIndex + 1));
-                  }
-
-                  if (event.key === "ArrowLeft") {
-                    event.preventDefault();
-
-                    goTo(Math.max(0, activeIndex - 1));
-                  }
-                }}
-              >
-                {tracks.map((track, index) => (
-                  <div
-                    key={track.id}
-                    ref={(node) => {
-                      slideRefs.current[index] = node;
-                    }}
-                    className={`carousel-slide w-[calc(100%-2.5rem)] max-w-[380px] shrink-0 snap-start ${
-                      index === activeIndex ? "is-current" : ""
-                    }`}
-                    onClickCapture={(event) => {
-                      // Klick auf eine blasse Nachbarkarte holt sie erst nach vorn
-                      if (index === activeIndex) return;
-                      event.preventDefault();
-                      event.stopPropagation();
-                      goTo(index);
-                    }}
-                  >
-                    <AudioCard
-                      track={track}
-                      isActive={activeId === null || activeId === track.id}
-                      onPlay={setActiveId}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              <div className="carousel-nav mt-2 flex items-center justify-center gap-3 px-5 sm:px-7">
-                <p className="sr-only" aria-live="polite">
-                  Audio {activeIndex + 1} von {tracks.length}: {tracks[activeIndex]?.title}
-                </p>
-
-                <button
-                  type="button"
-                  className="carousel-arrow"
-                  onClick={() => goTo(Math.max(0, activeIndex - 1))}
-                  disabled={activeIndex === 0}
-                  aria-label="Vorheriges Audio"
-                >
-                  <ChevronLeft className="size-5" strokeWidth={2.25} aria-hidden="true" />
-                </button>
-
-                <div className="flex" role="group" aria-label="Audios wechseln">
-                  {tracks.map((track, index) => (
-                    <button
-                      key={track.id}
-                      type="button"
-                      aria-current={index === activeIndex}
-                      aria-label={`Audio ${index + 1} von ${tracks.length}: ${track.title}`}
-                      onClick={() => goTo(index)}
-                      className="carousel-dot-button"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className={`carousel-dot ${index === activeIndex ? "w-7" : "w-2"}`}
-                      />
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  className="carousel-arrow"
-                  onClick={() => goTo(Math.min(tracks.length - 1, activeIndex + 1))}
-                  disabled={activeIndex === tracks.length - 1}
-                  aria-label="Nächstes Audio"
-                >
-                  <ChevronRight className="size-5" strokeWidth={2.25} aria-hidden="true" />
-                </button>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        {/* =================================================
-            AUDIO-BEGLEITINFOS
-            Zweck:
-            • zeigt Zusatzinformationen zur aktuell
-              ausgewählten Audio
-            • Zitat
-            • Beschreibung
-            • optionaler Download
-            • Musik-Credit
-
-             Die Anzeige wechselt automatisch mit
-             activeIndex.
-            ================================================= */}
-
-        <section
-          className={`companion-band companion-tone-${activeIndex + 1} px-5 pb-12 pt-1 sm:px-7`}
-          aria-label={`Begleitimpuls zu ${tracks[activeIndex]?.title ?? "diesem Audio"}`}
-          aria-live="polite"
-        >
-          <div className="companion-inner mx-auto w-full max-w-[430px]">
-            {tracks.map((track, index) => {
-              const isCurrent = index === activeIndex;
-
-              return (
-                <div
+            <div className="read-list">
+              {/* Begleitimpulse zu jeder Audio */}
+              {tracks.map((track) => (
+                <ReadRow
                   key={track.id}
-                  aria-hidden={!isCurrent}
-                  inert={!isCurrent}
-                  className={`transition-all duration-500 ${
-                    isCurrent
-                      ? "opacity-100 translate-y-0"
-                      : "pointer-events-none absolute h-0 -translate-y-1 overflow-hidden opacity-0"
-                  }`}
+                  id={`impuls-${track.id}`}
+                  color={track.ink}
+                  kicker={`Begleitimpuls · ${track.coverWord ?? track.title}`}
+                  title={track.quote ?? track.title}
+                  {...(track.note ? { teaser: track.note } : {})}
+                  meta={readingTime(track.quote, track.note, ...(transcripts[track.id] ?? []))}
                 >
-                  <p className="companion-kicker text-[10px] font-medium uppercase tracking-[0.12em]">
-                    Begleitimpuls · {track.coverWord ?? track.title}
-                  </p>
-
-                  {track.quote ? (
-                    <p className="companion-quote mt-4 font-display text-xl font-medium leading-8">
-                      {track.quote}
-                    </p>
-                  ) : null}
-
-                  {track.note ? (
-                    <p className="mt-5 text-sm leading-7 text-muted-foreground">{track.note}</p>
-                  ) : null}
-
-                  {track.downloadUrl ? (
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
-                    >
-                      <PdfDownloadLink href={track.downloadUrl}>
-                        <Download className="size-4" />
-
-                        {track.downloadLabel ?? "Impuls öffnen"}
-                      </PdfDownloadLink>
-                    </Button>
-                  ) : null}
+                  {track.note ? <p className="text-muted-foreground">{track.note}</p> : null}
 
                   {track.moreHref ? (
-                    <a href={track.moreHref} className="companion-more mt-6">
+                    <a href={track.moreHref} className="companion-more mt-5">
                       {track.moreLabel ?? "Mehr dazu"}
                       <ArrowDown className="size-4" aria-hidden="true" />
                     </a>
@@ -636,165 +302,135 @@ function Lichtblicke() {
                   <AudioAccess track={track} />
 
                   {track.credit ? (
-                    <p className="mt-7 text-[10px] leading-5 text-muted-foreground">
+                    <p className="mt-6 text-[11px] leading-5 text-muted-foreground">
                       {track.credit}
                     </p>
                   ) : null}
-                </div>
-              );
-            })}
-          </div>
-        </section>
+                </ReadRow>
+              ))}
 
-        {/* =================================================
-            Additional Extras
-            Zweck:
-            • hier: ausführliche Erklärung der progressiven
-              Muskelentspannung
-            • Schritt-für-Schritt-Anleitung
-            • PDF-Download
-
-             Später ändern:
-             • Überschrift
-             • Erklärung
-             • einzelne Übungen
-             • PDF-Link
-
-             Das ist bewusst ein eigener Abschnitt und
-             nicht Teil der Audiokachel.
-            ================================================= */}
-
-        <section id="pmr-beitrag" className="pmr-band px-6 py-14">
-          <div className="pmr-layout mx-auto max-w-[430px]">
-            <div className="pmr-intro">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-sage-foreground">
-                Extra-Beitrag · Thema Prävention
-              </p>
-
-              <h2 className="mt-4 max-w-sm text-[2.5rem] leading-[1.02]">
-                Erst anspannen, dann loslassen.
-              </h2>
-
-              <p className="mt-6 max-w-sm text-sm leading-7 text-foreground/70">
-                Die progressive Muskelentspannung (kurz PMR) ist eine bewährte Entspannungsmethode,
-                die auch in der Prävention eingesetzt wird. Du spannst einen Muskel kurz an, lässt
-                ihn anschließend wieder locker und spürst bewusst die Entspannung.
-              </p>
-
-              <Button
-                type="button"
-                onClick={listenToPmr}
-                className="pmr-listen mt-7 h-12 rounded-full px-6"
+              {/* Extra-Beitrag PMR */}
+              <ReadRow
+                id="pmr-beitrag"
+                color={pmrTrack?.ink ?? "var(--wine)"}
+                kicker="Extra-Beitrag · Thema Prävention"
+                title="Erst anspannen, dann loslassen."
+                teaser={PMR_INTRO}
+                meta="Lesen · 2 Min"
               >
-                <Play className="size-4 fill-current" aria-hidden="true" />
-                Übung anhören
-              </Button>
-            </div>
+                <p className="text-muted-foreground">{PMR_INTRO}</p>
 
-            <div className="pmr-body">
-              <dl className="mt-10 max-w-sm">
-                {[
-                  [
-                    "Was?",
-                    "Eine Entspannungsmethode: Du spannst einzelne Muskelgruppen an und löst die Spannung anschließend wieder.",
-                  ],
-                  [
-                    "Wie?",
-                    "Gruppe für Gruppe: kurz anspannen, die Spannung einige Sekunden halten, beim Ausatmen loslassen und der Entspannung nachspüren.",
-                  ],
-                  [
-                    "Wo?",
-                    "Wo du gerade bist. Zu Hause, im Büro oder unterwegs, im Sitzen oder Liegen.",
-                  ],
-                  [
-                    "Warum?",
-                    "Weil Anspannung und Stress nachlassen und du leichter zur Ruhe kommst.",
-                  ],
-                ].map(([term, text]) => (
-                  <div
-                    key={term}
-                    className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 border-b border-sage/15 py-4 last:border-b-0"
+                {pmrTrack ? (
+                  <Button
+                    type="button"
+                    onClick={() => player.open(pmrTrack)}
+                    className="pmr-listen mt-6 h-12 rounded-full px-6"
                   >
-                    <dt className="text-sm font-semibold text-sage-foreground">{term}</dt>
-                    <dd className="text-sm leading-6 text-muted-foreground">{text}</dd>
-                  </div>
-                ))}
-              </dl>
+                    <Play className="size-4 fill-current" aria-hidden="true" />
+                    Übung anhören
+                  </Button>
+                ) : null}
 
-              {/* Übungsschritte */}
-              <ol className="mt-10 border-y border-sage/25">
-                {[
-                  [
-                    "Schultern & Nacken",
-                    "Schultern für einige Sekunden zu den Ohren ziehen. Beim Ausatmen fallen lassen.",
-                  ],
-                  [
-                    "Hände & Arme",
-                    "Hände zu Fäusten schließen und halten. Beim Ausatmen loslassen und die Arme locker werden lassen.",
-                  ],
-                  [
-                    "Gesicht",
-                    "Augen leicht zusammenkneifen, Nase rümpfen und Zähne sanft aufeinanderbeißen. Danach vollständig lockerlassen.",
-                  ],
-                  [
-                    "Nachspüren",
-                    "Einen Moment liegen oder sitzen bleiben. Dann Finger und Zehen bewegen und in deinem Tempo zurückkommen.",
-                  ],
-                ].map(([title, description], index) => (
-                  <li
-                    key={title}
-                    className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 border-b border-sage/20 py-5 last:border-b-0"
-                  >
-                    <span className="pmr-step-no font-display font-semibold text-sage">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-
-                    <div>
-                      <h3 className="text-sm font-semibold">{title}</h3>
-
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
+                <dl className="mt-10 max-w-sm">
+                  {[
+                    [
+                      "Was?",
+                      "Eine Entspannungsmethode: Du spannst einzelne Muskelgruppen an und löst die Spannung anschließend wieder.",
+                    ],
+                    [
+                      "Wie?",
+                      "Gruppe für Gruppe: kurz anspannen, die Spannung einige Sekunden halten, beim Ausatmen loslassen und der Entspannung nachspüren.",
+                    ],
+                    [
+                      "Wo?",
+                      "Wo du gerade bist. Zu Hause, im Büro oder unterwegs, im Sitzen oder Liegen.",
+                    ],
+                    [
+                      "Warum?",
+                      "Weil Anspannung und Stress nachlassen und du leichter zur Ruhe kommst.",
+                    ],
+                  ].map(([term, text]) => (
+                    <div
+                      key={term}
+                      className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 border-b border-sage/15 py-4 last:border-b-0"
+                    >
+                      <dt className="text-sm font-semibold text-sage-foreground">{term}</dt>
+                      <dd className="text-sm leading-6 text-muted-foreground">{text}</dd>
                     </div>
-                  </li>
-                ))}
-              </ol>
+                  ))}
+                </dl>
 
-              <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm leading-7 text-muted-foreground">
-                Übe nur so lange und so weit, wie es sich gut anfühlt. Wenn etwas wehtut oder
-                unangenehm wird, mach eine Pause oder hör auf.
-              </p>
+                {/* Übungsschritte */}
+                <ol className="mt-10 border-y border-sage/25">
+                  {[
+                    [
+                      "Schultern & Nacken",
+                      "Schultern für einige Sekunden zu den Ohren ziehen. Beim Ausatmen fallen lassen.",
+                    ],
+                    [
+                      "Hände & Arme",
+                      "Hände zu Fäusten schließen und halten. Beim Ausatmen loslassen und die Arme locker werden lassen.",
+                    ],
+                    [
+                      "Gesicht",
+                      "Augen leicht zusammenkneifen, Nase rümpfen und Zähne sanft aufeinanderbeißen. Danach vollständig lockerlassen.",
+                    ],
+                    [
+                      "Nachspüren",
+                      "Einen Moment liegen oder sitzen bleiben. Dann Finger und Zehen bewegen und in deinem Tempo zurückkommen.",
+                    ],
+                  ].map(([title, description], index) => (
+                    <li
+                      key={title}
+                      className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 border-b border-sage/20 py-5 last:border-b-0"
+                    >
+                      <span className="pmr-step-no font-display font-semibold text-sage">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
 
-              <p className="mt-7 text-sm leading-7 text-muted-foreground">
-                Du brauchst keine Hilfsmittel. Die Übung klappt im Sitzen, Stehen, Gehen oder
-                Liegen, also auch mal kurz zwischendurch.
-              </p>
+                      <div>
+                        <h3 className="text-sm font-semibold">{title}</h3>
 
-              {/* PMR-PDF */}
-              <Button
-                asChild
-                variant="outline"
-                className="mt-8 h-12 rounded-full border-sage/45 bg-background/45 px-5 text-sage-foreground shadow-none"
-              >
-                <PdfDownloadLink href="/pdf/pmr-spannung-trifft-entspannung.pdf">
-                  <Download className="size-4" />
-                  Anleitung herunterladen
-                </PdfDownloadLink>
-              </Button>
+                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                          {description}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+
+                <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm leading-7 text-muted-foreground">
+                  Übe nur so lange und so weit, wie es sich gut anfühlt. Wenn etwas wehtut oder
+                  unangenehm wird, mach eine Pause oder hör auf.
+                </p>
+
+                <p className="mt-7 text-sm leading-7 text-muted-foreground">
+                  Du brauchst keine Hilfsmittel. Die Übung klappt im Sitzen, Stehen, Gehen oder
+                  Liegen, also auch mal kurz zwischendurch.
+                </p>
+              </ReadRow>
+
+              {/* PDFs */}
+              <ReadLink
+                href="/pdf/moment-fuer-dich-begleitimpuls.pdf"
+                color="#4b2934"
+                title="Impuls zum Downloaden"
+                teaser="Ein kleiner Moment für dich"
+                meta="PDF · 2 Seiten"
+              />
+              <ReadLink
+                href="/pdf/pmr-spannung-trifft-entspannung.pdf"
+                color="#263b2c"
+                title="Anleitung herunterladen"
+                teaser="Spannung trifft Entspannung"
+                meta="PDF · 2 Seiten"
+              />
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* =================================================
-            WEITERHÖREN
-            Zweck:
-            • führt zurück zu Ausgabe 01
-            • bewusst einfacher CTA statt SaaS-artigem Button
-           ================================================= */}
-
-        <section className="continue-band px-6 py-14">
-          <div className="mx-auto max-w-[430px]">
-            <p className="text-[10px] font-semibold uppercase text-muted-foreground">
-              Weiterhören · Ausgabe 01
-            </p>
+          {/* Weiterhören */}
+          <section className="issue-section issue-continue">
+            <p className="text-xs font-semibold text-muted-foreground">Weiterhören · Ausgabe 01</p>
 
             <Link
               to="/ehrlichkeit"
@@ -805,8 +441,8 @@ function Lichtblicke() {
                 Zur Audio-Auszeit
               </span>
             </Link>
-          </div>
-        </section>
+          </section>
+        </IssueSheet>
 
         <SiteFooter />
       </main>
