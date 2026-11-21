@@ -1495,12 +1495,12 @@
    ======================================================= */
 
 .breath-intro {
-  /* nur KLARTeXt.-Farben: Braun + Jeansblau (Startseite),
-     Aubergine, Beere, Rosé, Sand (Ausgabe 02) – bewusst nichts Grünes */
-  --intro-bg: #3b2723;
-  --intro-ink: #f8f6f2;
-  --intro-sun: #e9bbcb;
-  --intro-ring: #c3ced3;
+  /* nur KLARTeXt.-Farben: dunkles Rotbraun + Cremeweiß,
+     Jeansblau für Hügel und Mond – flache Vollfarben, keine Verläufe */
+  --intro-bg: #48110F;
+  --intro-ink: #FCF3DF;
+  --intro-sun: #FCF3DF;
+  --intro-ring: #5E1A16;
   position: fixed;
   inset: 0;
   z-index: 200;
@@ -1559,15 +1559,15 @@
 }
 
 .paper--lilac {
-  fill: #40334b; /* Aubergine (Ausgabe 02) */
+  fill: #475B8B; /* hinterer Hügel in Jeansblau */
 }
 
 .paper--teal {
-  fill: #4b2934; /* Beere (Ausgabe 02) */
+  fill: #A2B5D8; /* vorderer Hügel in hellem Jeansblau */
 }
 
 .paper--rose {
-  fill: #f8f6f2; /* kleiner Mond in Perlweiß */
+  fill: #A2B5D8; /* Mond in hellem Jeansblau */
 }
 
 /* beim Einatmen heben sich die Hügel leicht, beim Ausatmen sinken sie */
@@ -1617,7 +1617,7 @@
 .breath-art__glow {
   width: 62%;
   aspect-ratio: 1;
-  background: #dccbb2;
+  background: #6B3325;
 }
 
 /* Sonne geht beim Einatmen auf und beim Ausatmen wieder unter */
