@@ -24,7 +24,13 @@ import coverNikolausNeu from "../assets/cover-nikolaus-collage-v3.jpg";
 import coverGrussNeu from "../assets/cover-heiligabend-collage-v3.jpg";
 import coverMomentNeu from "../assets/cover-moment-collage-v3.jpg";
 
-import { AudioShelf, IssueHead, IssueSheet, SectionHead } from "@/components/issue-layout";
+import {
+  AudioShelf,
+  Expandable,
+  IssueHead,
+  IssueSheet,
+  SectionHead,
+} from "@/components/issue-layout";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { usePlayer } from "@/lib/player";
 import type { AudioTrack } from "@/lib/tracks";
@@ -294,95 +300,99 @@ function Lichtblicke() {
               </Button>
             </div>
 
-            <div className="pmr-body">
-              <dl className="mt-10 max-w-sm">
-                {[
-                  [
-                    "Was?",
-                    "Eine Entspannungsmethode: Du spannst einzelne Muskelgruppen an und löst die Spannung anschließend wieder.",
-                  ],
-                  [
-                    "Wie?",
-                    "Gruppe für Gruppe: kurz anspannen, die Spannung einige Sekunden halten, beim Ausatmen loslassen und der Entspannung nachspüren.",
-                  ],
-                  [
-                    "Wo?",
-                    "Wo du gerade bist. Zu Hause, im Büro oder unterwegs, im Sitzen oder Liegen.",
-                  ],
-                  [
-                    "Warum?",
-                    "Weil Anspannung und Stress nachlassen und du leichter zur Ruhe kommst.",
-                  ],
-                ].map(([term, text]) => (
-                  <div
-                    key={term}
-                    className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 border-b border-sage/15 py-4 last:border-b-0"
-                  >
-                    <dt className="text-sm font-semibold text-sage-foreground">{term}</dt>
-                    <dd className="text-sm leading-6 text-muted-foreground">{text}</dd>
-                  </div>
-                ))}
-              </dl>
-
-              {/* Übungsschritte */}
-              <ol className="mt-10 border-y border-sage/25">
-                {[
-                  [
-                    "Schultern & Nacken",
-                    "Schultern für einige Sekunden zu den Ohren ziehen. Beim Ausatmen fallen lassen.",
-                  ],
-                  [
-                    "Hände & Arme",
-                    "Hände zu Fäusten schließen und halten. Beim Ausatmen loslassen und die Arme locker werden lassen.",
-                  ],
-                  [
-                    "Gesicht",
-                    "Augen leicht zusammenkneifen, Nase rümpfen und Zähne sanft aufeinanderbeißen. Danach vollständig lockerlassen.",
-                  ],
-                  [
-                    "Nachspüren",
-                    "Einen Moment liegen oder sitzen bleiben. Dann Finger und Zehen bewegen und in deinem Tempo zurückkommen.",
-                  ],
-                ].map(([title, description], index) => (
-                  <li
-                    key={title}
-                    className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 border-b border-sage/20 py-5 last:border-b-0"
-                  >
-                    <span className="pmr-step-no font-display font-semibold text-sage">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-
-                    <div>
-                      <h3 className="text-sm font-semibold">{title}</h3>
-
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
+            <Expandable hashId="pmr-beitrag">
+              <div className="pmr-body">
+                <dl className="mt-10 max-w-sm">
+                  {[
+                    [
+                      "Was?",
+                      "Eine Entspannungsmethode: Du spannst einzelne Muskelgruppen an und löst die Spannung anschließend wieder.",
+                    ],
+                    [
+                      "Wie?",
+                      "Gruppe für Gruppe: kurz anspannen, die Spannung einige Sekunden halten, beim Ausatmen loslassen und der Entspannung nachspüren.",
+                    ],
+                    [
+                      "Wo?",
+                      "Wo du gerade bist. Zu Hause, im Büro oder unterwegs, im Sitzen oder Liegen.",
+                    ],
+                    [
+                      "Warum?",
+                      "Weil Anspannung und Stress nachlassen und du leichter zur Ruhe kommst.",
+                    ],
+                  ].map(([term, text]) => (
+                    <div
+                      key={term}
+                      className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 border-b border-sage/15 py-4 last:border-b-0"
+                    >
+                      <dt className="text-sm font-semibold text-sage-foreground">{term}</dt>
+                      <dd className="text-sm leading-6 text-muted-foreground">{text}</dd>
                     </div>
-                  </li>
-                ))}
-              </ol>
+                  ))}
+                </dl>
 
-              <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm leading-7 text-muted-foreground">
-                Übe nur so lange und so weit, wie es sich gut anfühlt. Wenn etwas wehtut oder
-                unangenehm wird, mach eine Pause oder hör auf.
-              </p>
+                {/* Übungsschritte */}
+                <ol className="mt-10 border-y border-sage/25">
+                  {[
+                    [
+                      "Schultern & Nacken",
+                      "Schultern für einige Sekunden zu den Ohren ziehen. Beim Ausatmen fallen lassen.",
+                    ],
+                    [
+                      "Hände & Arme",
+                      "Hände zu Fäusten schließen und halten. Beim Ausatmen loslassen und die Arme locker werden lassen.",
+                    ],
+                    [
+                      "Gesicht",
+                      "Augen leicht zusammenkneifen, Nase rümpfen und Zähne sanft aufeinanderbeißen. Danach vollständig lockerlassen.",
+                    ],
+                    [
+                      "Nachspüren",
+                      "Einen Moment liegen oder sitzen bleiben. Dann Finger und Zehen bewegen und in deinem Tempo zurückkommen.",
+                    ],
+                  ].map(([title, description], index) => (
+                    <li
+                      key={title}
+                      className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 border-b border-sage/20 py-5 last:border-b-0"
+                    >
+                      <span className="pmr-step-no font-display font-semibold text-sage">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
 
-              <p className="mt-7 text-sm leading-7 text-muted-foreground">
-                Du brauchst keine Hilfsmittel. Die Übung klappt im Sitzen, Stehen, Gehen oder
-                Liegen, also auch mal kurz zwischendurch.
-              </p>
+                      <div>
+                        <h3 className="text-sm font-semibold">{title}</h3>
 
-              {/* PMR-PDF */}
-              <Button
-                asChild
-                variant="outline"
-                className="mt-8 h-12 rounded-full border-sage/45 bg-background/45 px-5 text-sage-foreground shadow-none"
-              >
-                <PdfDownloadLink href="/pdf/pmr-spannung-trifft-entspannung.pdf">
-                  <Download className="size-4" />
-                  Anleitung herunterladen
-                </PdfDownloadLink>
-              </Button>
-            </div>
+                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                          {description}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+
+                <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm leading-7 text-muted-foreground">
+                  Übe nur so lange und so weit, wie es sich gut anfühlt. Wenn etwas wehtut oder
+                  unangenehm wird, mach eine Pause oder hör auf.
+                </p>
+
+                <p className="mt-7 text-sm leading-7 text-muted-foreground">
+                  Du brauchst keine Hilfsmittel. Die Übung klappt im Sitzen, Stehen, Gehen oder
+                  Liegen, also auch mal kurz zwischendurch.
+                </p>
+
+                {/* PMR-PDF */}
+                <Button
+                  asChild
+                  variant="outline"
+                  className="mt-8 h-12 rounded-full border-sage/45 bg-background/45 px-5 text-sage-foreground shadow-none"
+                >
+                  <PdfDownloadLink href="/pdf/pmr-spannung-trifft-entspannung.pdf">
+                    <Download className="size-4" />
+                    Anleitung herunterladen
+                  </PdfDownloadLink>
+                </Button>
+              </div>
+            </Expandable>
           </div>
         </section>
 

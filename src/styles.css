@@ -489,13 +489,16 @@
 
 /* Aufklappen: Kacheln ⇄ große Karten */
 .section-toggle {
-  display: grid;
-  width: 2.75rem;
-  height: 2.75rem;
-  place-items: center;
-  border: 1px solid var(--border);
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.85rem 0 1rem;
   border-radius: 999px;
-  color: var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 .section-toggle svg {
@@ -505,6 +508,48 @@
 }
 
 .section-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+/* fließender Übergang klein ⇄ groß (View Transitions) */
+::view-transition-group(*) {
+  animation-duration: 480ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Vorschau mit Auslauf: zeigt den Anfang, Rest klappt auf */
+.expandable__clip {
+  position: relative;
+  max-height: 15rem;
+  overflow: hidden;
+  transition: max-height 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.expandable:not(.is-open) .expandable__clip {
+  mask-image: linear-gradient(to bottom, #000 35%, transparent);
+}
+
+.expandable__toggle {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0 1.1rem 0 1.25rem;
+  border-radius: 999px;
+  background: var(--pmr-ink, var(--foreground));
+  color: var(--pmr-accent, var(--background));
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.expandable__toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform 250ms ease;
+}
+
+.expandable.is-open .expandable__toggle svg {
   transform: rotate(180deg);
 }
 

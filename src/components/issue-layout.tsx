@@ -20,6 +20,7 @@ import {
   Pause,
   Play,
 } from "lucide-react";
+import { flushSync } from "react-dom";
 import {
   useEffect,
   useRef,
@@ -124,6 +125,20 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
   // selbst auf- oder zugeklappt? Dann gilt das statt des Scrollens.
   const [manualOpen, setManualOpen] = useState<boolean | null>(null);
   const isOpen = manualOpen ?? autoOpen;
+
+  // Wechsel klein ⇄ groß als fließender Übergang (View Transitions),
+  // ohne Unterstützung oder bei „Bewegung reduzieren“ einfach direkt
+  const smoothly = (update: () => void) => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const doc = document as Document & {
+      startViewTransition?: (callback: () => void) => unknown;
+    };
+    if (reduced || !doc.startViewTransition) {
+      update();
+      return;
+    }
+    doc.startViewTransition(() => flushSync(update));
+  };
 
   useEffect(() => {
     const shelf = shelfRef.current;
@@ -230,10 +245,10 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
           <button
             type="button"
             className="section-toggle"
-            onClick={() => setManualOpen(!isOpen)}
+            onClick={() => smoothly(() => setManualOpen(!isOpen))}
             aria-expanded={isOpen}
-            aria-label={isOpen ? "Audios klein anzeigen" : "Audios groß anzeigen"}
           >
+            {isOpen ? "Kleiner" : "Groß ansehen"}
             <ChevronDown aria-hidden="true" />
           </button>
         }
@@ -406,7 +421,13 @@ function ShelfCard({
         role="listitem"
         className={`shelf-big ${active ? "is-active" : ""} ${highlight ? "is-highlight" : ""}`}
         onClickCapture={selectFirst}
-        style={{ "--audio-accent": track.accent, "--audio-accent-ink": track.ink } as CSSProperties}
+        style={
+          {
+            "--audio-accent": track.accent,
+            "--audio-accent-ink": track.ink,
+            viewTransitionName: `shelf-${track.id}`,
+          } as CSSProperties
+        }
       >
         <div className="audio-player-card relative overflow-hidden rounded-[1.35rem] border p-3">
           <div className="audio-cover-layout relative z-10 aspect-[4/3] overflow-hidden rounded-[0.95rem]">
@@ -486,7 +507,13 @@ function ShelfCard({
         highlight ? "is-highlight" : ""
       } ${active ? "is-active" : ""}`}
       onClickCapture={selectFirst}
-      style={{ "--card-ink": track.ink, "--card-accent": track.accent } as CSSProperties}
+      style={
+        {
+          "--card-ink": track.ink,
+          "--card-accent": track.accent,
+          viewTransitionName: `shelf-${track.id}`,
+        } as CSSProperties
+      }
     >
       {unlocked ? (
         <button
@@ -654,5 +681,57 @@ export function ReadLink({
       </span>
       <ArrowRight className="read-row__arrow" aria-hidden="true" />
     </PdfDownloadLink>
+  );
+}
+
+// -------------------------------------------------------
+// VORSCHAU, DIE AUFKLAPPT („Ganzen Beitrag lesen“)
+// • zeigt den Anfang, läuft unten weich aus
+// • Sprungmarke (hashId) öffnet direkt
+// -------------------------------------------------------
+export function Expandable({ hashId, children }: { hashId?: string; children: ReactNode }) {
+  const [open, setOpen] = useState(false);
+  const innerRef = useRef<HTMLDivElement | null>(null);
+  const [fullHeight, setFullHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!hashId) return;
+    const fromHash = () => {
+      if (window.location.hash === `#${hashId}`) setOpen(true);
+    };
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    return () => window.removeEventListener("hashchange", fromHash);
+  }, [hashId]);
+
+  useEffect(() => {
+    const inner = innerRef.current;
+    if (!inner) return;
+    const measure = () => setFullHeight(inner.scrollHeight);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(inner);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className={`expandable ${open ? "is-open" : ""}`}>
+      <div
+        className="expandable__clip"
+        style={open && fullHeight ? { maxHeight: `${fullHeight}px` } : undefined}
+        inert={!open}
+      >
+        <div ref={innerRef}>{children}</div>
+      </div>
+      <button
+        type="button"
+        className="expandable__toggle"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+      >
+        {open ? "Weniger anzeigen" : "Ganzen Beitrag lesen"}
+        <ChevronDown aria-hidden="true" />
+      </button>
+    </div>
   );
 }
