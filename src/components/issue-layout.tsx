@@ -289,7 +289,7 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
                 track={track}
                 active
                 highlight={highlightId === track.id}
-                big={false}
+                big
                 list
                 onSelect={() => goTo(index)}
               />
@@ -477,7 +477,7 @@ function ShelfCard({
       <article
         id={track.id}
         data-track={track.id}
-        role="listitem"
+        role={list ? undefined : "listitem"}
         className={`shelf-big ${active ? "is-active" : ""} ${highlight ? "is-highlight" : ""}`}
         onClickCapture={selectFirst}
         style={

@@ -2840,54 +2840,36 @@ body:has(.mini-player) {
     scroll-snap-type: none;
   }
 
-  /* eine Karte = Kachel oben, Begleitimpuls darunter, gleiche Farbe */
+  /* eine Audio = die große Karte mit Bild, darunter ihr Begleitimpuls */
   .audio-pair {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    border-radius: 1.35rem;
-    background: var(--card-ink);
     outline: 3px solid transparent;
-    outline-offset: 3px;
+    outline-offset: 6px;
+    border-radius: 1.5rem;
     transition: outline-color 300ms ease;
   }
 
   .audio-pair.is-highlight {
-    outline-color: var(--card-accent, currentColor);
+    outline-color: var(--card-ink);
   }
 
-  .audio-pair .shelf-card,
-  .audio-shelf:not(.is-open) .audio-pair .shelf-card {
-    width: auto;
-    min-height: 9.5rem;
-    aspect-ratio: auto;
-    padding: 1.25rem 1.5rem 1.1rem;
-    border-radius: 0;
+  .audio-pair .shelf-big {
+    width: 100%;
     transform: none;
+    animation: none;
     outline: none;
   }
 
-  .audio-pair .shelf-card__open {
-    border-radius: 0;
+  .audio-pair .audio-cover-layout {
+    aspect-ratio: 16 / 9;
   }
 
-  .audio-pair .shelf-card__wave,
-  .audio-shelf:not(.is-open) .audio-pair .shelf-card__wave {
-    width: 26%;
-    margin-block: 0.75rem;
-  }
-
-  .audio-pair .shelf-card__title,
-  .audio-shelf:not(.is-open) .audio-pair .shelf-card__title {
-    font-size: 1.4rem;
-  }
-
-  /* Begleitimpuls als unterer Teil derselben Karte */
   .audio-pair .companion-band {
     flex: 1;
     width: 100%;
     margin: 0;
-    padding: 0;
+    padding: 0.75rem 0 0;
   }
 
   .audio-pair .companion-inner {
@@ -2895,11 +2877,5 @@ body:has(.mini-player) {
     height: 100%;
     margin: 0;
     padding: 1.25rem 1.5rem 1.5rem;
-    border-radius: 0;
-    border-top: 1px solid color-mix(in srgb, var(--audio-accent) 28%, transparent);
-  }
-
-  .audio-pair .companion-inner::before {
-    display: none;
   }
 }
