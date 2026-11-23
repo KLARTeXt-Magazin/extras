@@ -124,7 +124,16 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
   const [autoOpen, setAutoOpen] = useState(false);
   // selbst auf- oder zugeklappt? Dann gilt das statt des Scrollens.
   const [manualOpen, setManualOpen] = useState<boolean | null>(null);
-  const isOpen = manualOpen ?? autoOpen;
+  // Desktop (ab 900 px): ruhige Liste statt Kacheln und großer Karten
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 900px)");
+    const update = () => setWide(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+  const isOpen = !wide && (manualOpen ?? autoOpen);
 
   // Wechsel klein ⇄ groß als fließender Übergang (View Transitions),
   // ohne Unterstützung oder bei „Bewegung reduzieren“ einfach direkt
@@ -242,15 +251,17 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
         title="Hören"
         count={count}
         action={
-          <button
-            type="button"
-            className="section-toggle"
-            onClick={() => smoothly(() => setManualOpen(!isOpen))}
-            aria-expanded={isOpen}
-          >
-            {isOpen ? "Kleiner" : "Groß ansehen"}
-            <ChevronDown aria-hidden="true" />
-          </button>
+          wide ? null : (
+            <button
+              type="button"
+              className="section-toggle"
+              onClick={() => smoothly(() => setManualOpen(!isOpen))}
+              aria-expanded={isOpen}
+            >
+              {isOpen ? "Kleiner" : "Groß ansehen"}
+              <ChevronDown aria-hidden="true" />
+            </button>
+          )
         }
       />
 
@@ -272,6 +283,7 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
             active={index === activeIndex}
             highlight={highlightId === track.id}
             big={isOpen}
+            list={wide}
             onSelect={() => goTo(index)}
           />
         ))}
@@ -329,7 +341,7 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
       {active ? (
         <Companion
           track={active}
-          compact={!isOpen}
+          compact={!isOpen && !wide}
           onExpand={() => smoothly(() => setManualOpen(true))}
         />
       ) : null}
@@ -412,12 +424,14 @@ function ShelfCard({
   active,
   highlight,
   big,
+  list = false,
   onSelect,
 }: {
   track: AudioTrack;
   active: boolean;
   highlight: boolean;
   big: boolean;
+  list?: boolean;
   onSelect: () => void;
 }) {
   const unlocked = useUnlocked(track.unlockAt);
@@ -427,6 +441,11 @@ function ShelfCard({
   const isPlaying = isCurrent && player.isPlaying;
 
   const selectFirst = (event: MouseEvent) => {
+    // Liste: jeder Klick wählt die Zeile (Begleitimpuls wechselt), Player öffnet trotzdem
+    if (list) {
+      if (!active) onSelect();
+      return;
+    }
     // Tipp auf eine Nachbarkarte holt sie erst nach vorn
     if (active) return;
     event.preventDefault();

@@ -2785,3 +2785,191 @@ body:has(.mini-player) {
   font-size: 0.95rem;
   line-height: 1.75;
 }
+
+/* -------------------------------------------------------
+   DESKTOP: Hören und Lesen wie der PMR-Beitrag
+   links groß der Titel (bleibt beim Scrollen stehen),
+   rechts eine ruhige Liste mit feinen Trennlinien
+   ------------------------------------------------------- */
+.pmr-chapter {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  /* „Lesen“ wandert als Titel in die linke Spalte des Beitrags */
+  .issue-section--tight {
+    display: none;
+  }
+
+  .pmr-chapter {
+    display: block;
+    margin-bottom: 2.25rem;
+    font-size: clamp(2.75rem, 4.4vw, 4rem);
+    line-height: 1;
+  }
+
+  .issue-section:has(.audio-shelf) {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    align-items: start;
+    column-gap: clamp(3rem, 6vw, 6rem);
+    width: min(100vw - 4rem, 76rem);
+    margin-inline: auto;
+  }
+
+  .issue-section:has(.audio-shelf) .section-head {
+    position: sticky;
+    top: 6rem;
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    width: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  .issue-section:has(.audio-shelf) .section-head__title {
+    font-size: clamp(2.75rem, 4.4vw, 4rem);
+    line-height: 1;
+  }
+
+  .issue-section:has(.audio-shelf) .section-head__side {
+    justify-content: flex-start;
+  }
+
+  .issue-section .audio-shelf {
+    display: block;
+    grid-column: 2;
+    padding: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  /* Zeile statt Kachel */
+  .audio-shelf:not(.is-open) .shelf-card,
+  .audio-shelf .shelf-card {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+    column-gap: 1rem;
+    align-items: center;
+    width: auto;
+    aspect-ratio: auto;
+    padding: 1.1rem 0.5rem 1.1rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    background: transparent;
+    color: var(--foreground);
+    counter-increment: track;
+    outline: none;
+    transform: none;
+    transition: background-color 250ms ease;
+  }
+
+  .audio-shelf {
+    counter-reset: track;
+  }
+
+  .audio-shelf .shelf-card:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .audio-shelf .shelf-card::before {
+    content: counter(track, decimal-leading-zero);
+    display: grid;
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    width: 2.5rem;
+    height: 2.5rem;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--card-accent);
+    color: var(--card-ink);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .audio-shelf .shelf-card__open {
+    border-radius: 0.75rem;
+  }
+
+  .audio-shelf .shelf-card__eyebrow,
+  .audio-shelf .shelf-card__title,
+  .audio-shelf .shelf-card__meta {
+    grid-column: 2;
+  }
+
+  .audio-shelf .shelf-card__eyebrow {
+    color: var(--muted-foreground);
+  }
+
+  .audio-shelf .shelf-card__wave {
+    display: none;
+  }
+
+  .audio-shelf:not(.is-open) .shelf-card__title,
+  .audio-shelf .shelf-card__title {
+    font-size: 1.1rem;
+    text-wrap: pretty;
+  }
+
+  .audio-shelf .shelf-card__meta {
+    color: var(--muted-foreground);
+  }
+
+  .audio-shelf .shelf-card__foot {
+    display: contents;
+  }
+
+  .audio-shelf .shelf-card__play,
+  .audio-shelf .shelf-card__lock {
+    grid-column: 3;
+    grid-row: 1 / span 3;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .audio-shelf .shelf-card__play {
+    background: var(--card-ink);
+    color: var(--card-accent);
+  }
+
+  .audio-shelf .shelf-card__lock {
+    border-color: var(--border);
+    color: var(--muted-foreground);
+  }
+
+  /* gewählte Zeile: feiner Balken in der Farbe der Audio */
+  .audio-shelf .shelf-card.is-active {
+    background: color-mix(in srgb, var(--card-accent) 22%, transparent);
+    box-shadow: inset 3px 0 0 var(--card-ink);
+  }
+
+  .audio-shelf .shelf-card.is-highlight,
+  .audio-shelf .shelf-card.is-current {
+    background: color-mix(in srgb, var(--card-accent) 38%, transparent);
+  }
+
+  .audio-shelf .shelf-card.is-locked {
+    opacity: 0.65;
+  }
+
+  /* Begleitimpuls unter der Liste, bündig in der rechten Spalte */
+  .issue-section .companion-band {
+    grid-column: 2;
+    width: 100%;
+    margin: 1.75rem 0 0;
+    padding: 0;
+  }
+
+  .issue-section .companion-band .companion-inner {
+    max-width: none;
+    margin: 0;
+  }
+
+  .issue-section .companion-band .companion-inner::before {
+    display: none;
+  }
+}
