@@ -303,7 +303,7 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
 
 // Begleitimpuls zur gewählten Audio, in ihrer Farbe
 function Companion({ track, inline = false }: { track: AudioTrack; inline?: boolean }) {
-  // Desktop-Karte: erst Überschrift und Zitat, der Rest klappt mit einem Klick auf
+  // Karte: Überschrift und Zitat immer sichtbar, der Rest klappt mit einem Klick auf
   const [open, setOpen] = useState(false);
 
   const quote = track.quote ? (
@@ -358,9 +358,9 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
 
         {inline ? (
           <>
+            {quote}
             <div className={`companion-rest ${open ? "is-open" : ""}`} inert={!open}>
               <div className="companion-rest__inner">
-                {quote}
                 {rest}
               </div>
             </div>
