@@ -83,15 +83,17 @@ function Ehrlichkeit() {
       <main id="inhalt" className="min-h-screen bg-background font-body text-foreground">
         <SiteHeader hasScrolled={hasScrolled} current="/ehrlichkeit" />
 
-        {/* Ebene 1: Ausgabe */}
-        <IssueHead issue={issue} />
+        <div className="issue-stage">
+          {/* Ebene 1: Ausgabe */}
+          <IssueHead issue={issue} />
 
-        {/* Ebene 2: Inhalt */}
-        <IssueSheet>
-          <section className="issue-section" aria-labelledby="hoeren-titel">
-            <AudioShelf tracks={[track]} count="1 Audio" />
-          </section>
-        </IssueSheet>
+          {/* Ebene 2: Inhalt */}
+          <IssueSheet>
+            <section className="issue-section" aria-labelledby="hoeren-titel">
+              <AudioShelf tracks={[track]} count="1 Audio" />
+            </section>
+          </IssueSheet>
+        </div>
 
         <SiteFooter />
       </main>

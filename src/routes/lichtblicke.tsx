@@ -254,23 +254,25 @@ function Lichtblicke() {
       <main id="inhalt" className="min-h-screen bg-background font-body text-foreground">
         <SiteHeader hasScrolled={hasScrolled} current="/lichtblicke" />
 
-        {/* Ebene 1: Ausgabe */}
-        <IssueHead
-          issue={issue}
-          title="Lichtblicke."
-          intro="Zwei Lichtblicke aus dem Adventskalender zum Anhören. Dazu eine Auszeit und eine Übung zur progressiven Muskelentspannung."
-        />
+        <div className="issue-stage">
+          {/* Ebene 1: Ausgabe */}
+          <IssueHead
+            issue={issue}
+            title="Lichtblicke."
+            intro="Zwei Lichtblicke aus dem Adventskalender zum Anhören. Dazu eine Auszeit und eine Übung zur progressiven Muskelentspannung."
+          />
 
-        {/* Ebene 2: Inhalt */}
-        <IssueSheet>
-          <section className="issue-section" aria-labelledby="hoeren-titel">
-            <AudioShelf tracks={tracks} count={`${tracks.length} Audios`} />
-          </section>
+          {/* Ebene 2: Inhalt */}
+          <IssueSheet>
+            <section className="issue-section" aria-labelledby="hoeren-titel">
+              <AudioShelf tracks={tracks} count={`${tracks.length} Audios`} />
+            </section>
 
-          <section className="issue-section issue-section--tight" aria-labelledby="lesen-titel">
-            <SectionHead id="lesen-titel" title="Lesen" />
-          </section>
-        </IssueSheet>
+            <section className="issue-section issue-section--tight" aria-labelledby="lesen-titel">
+              <SectionHead id="lesen-titel" title="Lesen" />
+            </section>
+          </IssueSheet>
+        </div>
 
         {/* Lesen: Extra-Beitrag PMR in seiner Salbei-Farbwelt */}
         <section id="pmr-beitrag" className="pmr-band px-6 py-14">
