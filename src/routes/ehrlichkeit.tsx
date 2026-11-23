@@ -112,7 +112,7 @@ function Ehrlichkeit() {
               >
                 {nextIssue.title}
                 <span className="mt-3 block text-sm font-medium text-foreground/70">
-                  {nextIssue.subtitle}
+                  {nextIssue.subtitle} <span aria-hidden="true">→</span>
                 </span>
               </Link>
             </section>

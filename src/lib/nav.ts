@@ -16,6 +16,10 @@ export function useNavState() {
   const latest = latestIssue(preview);
   const isLatest = Boolean(latest?.to && latest.to === pathname);
   const isIssue = issues.some((issue) => issue.to === pathname);
-  const issuesCurrent: "page" | "true" | undefined = isLatest ? "page" : isIssue ? "true" : undefined;
+  const issuesCurrent: "page" | "true" | undefined = isLatest
+    ? "page"
+    : isIssue
+      ? "true"
+      : undefined;
   return { latest, isIssue, issuesCurrent, isStart: pathname === "/" };
 }

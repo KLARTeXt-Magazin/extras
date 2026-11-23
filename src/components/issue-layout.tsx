@@ -392,9 +392,7 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
           <>
             {quote}
             <div className={`companion-rest ${open ? "is-open" : ""}`} inert={!open}>
-              <div className="companion-rest__inner">
-                {rest}
-              </div>
+              <div className="companion-rest__inner">{rest}</div>
             </div>
             <button
               type="button"
