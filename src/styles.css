@@ -217,6 +217,11 @@
   color: var(--foreground);
   border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent);
   box-shadow: 0 12px 32px color-mix(in srgb, var(--foreground) 18%, transparent);
+  animation: mini-player-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+/* Mini-Player ist da: Hinweis darüber stapeln statt ihn zu verdecken */
+.install-banner--above-player {
+  bottom: calc(4.9rem + 4.25rem + env(safe-area-inset-bottom));
 }
 .install-banner__icon {
   width: 3rem;
@@ -1084,6 +1089,10 @@ body:has(.mini-player) {
 
   .install-banner {
     bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  .install-banner--above-player {
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 4.25rem);
   }
 
   .header-nav {
