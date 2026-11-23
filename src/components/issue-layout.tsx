@@ -303,6 +303,43 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
 
 // Begleitimpuls zur gewählten Audio, in ihrer Farbe
 function Companion({ track, inline = false }: { track: AudioTrack; inline?: boolean }) {
+  // Desktop-Karte: erst Überschrift und Zitat, der Rest klappt mit einem Klick auf
+  const [open, setOpen] = useState(false);
+
+  const rest = (
+    <>
+      {track.note ? (
+        <p className="mt-5 text-sm leading-7 text-muted-foreground">{track.note}</p>
+      ) : null}
+
+      {track.downloadUrl ? (
+        <Button
+          asChild
+          variant="outline"
+          className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
+        >
+          <PdfDownloadLink href={track.downloadUrl}>
+            <Download className="size-4" />
+            {track.downloadLabel ?? "Impuls öffnen"}
+          </PdfDownloadLink>
+        </Button>
+      ) : null}
+
+      {track.moreHref ? (
+        <a href={track.moreHref} className="companion-more mt-6">
+          {track.moreLabel ?? "Mehr dazu"}
+          <ArrowDown className="size-4" aria-hidden="true" />
+        </a>
+      ) : null}
+
+      <AudioAccess track={track} />
+
+      {track.credit ? (
+        <p className="mt-7 text-[11px] leading-5 text-muted-foreground">{track.credit}</p>
+      ) : null}
+    </>
+  );
+
   return (
     <section
       className={`companion-band px-5 pt-3 ${inline ? "is-inline" : ""}`}
@@ -321,35 +358,24 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
           </p>
         ) : null}
 
-        {track.note ? (
-          <p className="mt-5 text-sm leading-7 text-muted-foreground">{track.note}</p>
-        ) : null}
-
-        {track.downloadUrl ? (
-          <Button
-            asChild
-            variant="outline"
-            className="mt-7 h-11 rounded-full border-border bg-surface px-5 shadow-none"
-          >
-            <PdfDownloadLink href={track.downloadUrl}>
-              <Download className="size-4" />
-              {track.downloadLabel ?? "Impuls öffnen"}
-            </PdfDownloadLink>
-          </Button>
-        ) : null}
-
-        {track.moreHref ? (
-          <a href={track.moreHref} className="companion-more mt-6">
-            {track.moreLabel ?? "Mehr dazu"}
-            <ArrowDown className="size-4" aria-hidden="true" />
-          </a>
-        ) : null}
-
-        <AudioAccess track={track} />
-
-        {track.credit ? (
-          <p className="mt-7 text-[11px] leading-5 text-muted-foreground">{track.credit}</p>
-        ) : null}
+        {inline ? (
+          <>
+            <div className={`companion-rest ${open ? "is-open" : ""}`} inert={!open}>
+              <div className="companion-rest__inner">{rest}</div>
+            </div>
+            <button
+              type="button"
+              className="companion-more companion-toggle mt-3"
+              onClick={() => setOpen(!open)}
+              aria-expanded={open}
+            >
+              {open ? "Weniger anzeigen" : "Ganzen Impuls ansehen"}
+              <ChevronDown aria-hidden="true" className="size-4" />
+            </button>
+          </>
+        ) : (
+          rest
+        )}
       </div>
     </section>
   );
