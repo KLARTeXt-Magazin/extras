@@ -306,6 +306,10 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
   // Desktop-Karte: erst Überschrift und Zitat, der Rest klappt mit einem Klick auf
   const [open, setOpen] = useState(false);
 
+  const quote = track.quote ? (
+    <p className="companion-quote mt-4 font-display text-xl font-medium leading-8">{track.quote}</p>
+  ) : null;
+
   const rest = (
     <>
       {track.note ? (
@@ -352,16 +356,13 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
           {track.kicker ?? `Begleitimpuls · ${track.coverWord ?? track.title}`}
         </p>
 
-        {track.quote ? (
-          <p className="companion-quote mt-4 font-display text-xl font-medium leading-8">
-            {track.quote}
-          </p>
-        ) : null}
-
         {inline ? (
           <>
             <div className={`companion-rest ${open ? "is-open" : ""}`} inert={!open}>
-              <div className="companion-rest__inner">{rest}</div>
+              <div className="companion-rest__inner">
+                {quote}
+                {rest}
+              </div>
             </div>
             <button
               type="button"
@@ -374,7 +375,10 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
             </button>
           </>
         ) : (
-          rest
+          <>
+            {quote}
+            {rest}
+          </>
         )}
       </div>
     </section>
