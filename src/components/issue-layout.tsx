@@ -276,17 +276,36 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
           if (event.key === "ArrowLeft") goTo(Math.max(0, activeIndex - 1));
         }}
       >
-        {tracks.map((track, index) => (
-          <ShelfCard
-            key={track.id}
-            track={track}
-            active={index === activeIndex}
-            highlight={highlightId === track.id}
-            big={isOpen}
-            list={wide}
-            onSelect={() => goTo(index)}
-          />
-        ))}
+        {tracks.map((track, index) =>
+          wide ? (
+            // Desktop: jede Audio mit ihrem Begleitimpuls als eine Karte
+            <div
+              key={track.id}
+              role="listitem"
+              className={`audio-pair ${highlightId === track.id ? "is-highlight" : ""}`}
+              style={{ "--card-ink": track.ink, "--card-accent": track.accent } as CSSProperties}
+            >
+              <ShelfCard
+                track={track}
+                active
+                highlight={highlightId === track.id}
+                big={false}
+                list
+                onSelect={() => goTo(index)}
+              />
+              <Companion track={track} inline />
+            </div>
+          ) : (
+            <ShelfCard
+              key={track.id}
+              track={track}
+              active={index === activeIndex}
+              highlight={highlightId === track.id}
+              big={isOpen}
+              onSelect={() => goTo(index)}
+            />
+          ),
+        )}
       </div>
 
       {/* Pfeile und Punkte, nur bei den großen Karten */}
@@ -338,7 +357,7 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
         </div>
       ) : null}
 
-      {active ? (
+      {active && !wide ? (
         <Companion
           track={active}
           compact={!isOpen && !wide}
@@ -354,18 +373,22 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
 function Companion({
   track,
   compact = false,
+  inline = false,
   onExpand,
 }: {
   track: AudioTrack;
   compact?: boolean;
+  inline?: boolean;
   onExpand?: () => void;
 }) {
   return (
     <section
-      className={`companion-band px-5 pt-3 ${compact ? "is-compact" : ""}`}
+      className={`companion-band px-5 pt-3 ${compact ? "is-compact" : ""} ${
+        inline ? "is-inline" : ""
+      }`}
       style={{ "--audio-accent": track.accent, "--audio-accent-ink": track.ink } as CSSProperties}
       aria-label={`Begleitimpuls zu ${track.title}`}
-      aria-live="polite"
+      aria-live={inline ? undefined : "polite"}
     >
       <div key={track.id} className="companion-inner companion-swap mx-auto w-full max-w-[430px]">
         <p className="companion-kicker text-xs font-semibold">
@@ -441,11 +464,6 @@ function ShelfCard({
   const isPlaying = isCurrent && player.isPlaying;
 
   const selectFirst = (event: MouseEvent) => {
-    // Liste: jeder Klick wählt die Zeile (Begleitimpuls wechselt), Player öffnet trotzdem
-    if (list) {
-      if (!active) onSelect();
-      return;
-    }
     // Tipp auf eine Nachbarkarte holt sie erst nach vorn
     if (active) return;
     event.preventDefault();
@@ -543,7 +561,7 @@ function ShelfCard({
     <article
       id={track.id}
       data-track={track.id}
-      role="listitem"
+      role={list ? undefined : "listitem"}
       className={`shelf-card ${unlocked ? "" : "is-locked"} ${isCurrent ? "is-current" : ""} ${
         highlight ? "is-highlight" : ""
       } ${active ? "is-active" : ""}`}
