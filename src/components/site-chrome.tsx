@@ -3,7 +3,7 @@
 // • Header mit Logo und „App speichern“
 // • Footer mit Impressum / Datenschutz
 // • Navigation: Handy → untere Leiste (components/bottom-nav.tsx),
-//   Desktop → Textlinks hier im Kopf (Start / Aktuell / Magazin)
+//   Desktop → Textlinks hier im Kopf (Start / Ausgaben / Magazin)
 // Neue Ausgabe → nur `issues` in src/lib/issues.ts ergänzen.
 // =======================================================
 
@@ -19,7 +19,7 @@ import type { SiteRoute } from "@/lib/issues";
 
 // Desktop-Navigation (gleiche Punkte wie die untere Leiste)
 function HeaderNav() {
-  const { latest, isLatest, isStart } = useNavState();
+  const { latest, issuesCurrent, isStart } = useNavState();
 
   return (
     <nav className="header-nav" aria-label="Hauptnavigation">
@@ -29,10 +29,10 @@ function HeaderNav() {
       {latest?.to ? (
         <Link
           to={latest.to}
-          aria-current={isLatest ? "page" : undefined}
-          aria-label={`Aktuelle Ausgabe: ${latest.title}`}
+          aria-current={issuesCurrent}
+          aria-label={`Ausgaben: neueste Ausgabe ${latest.title}`}
         >
-          Aktuell
+          Ausgaben
         </Link>
       ) : null}
       <a href={MAGAZIN_URL} target="_blank" rel="noreferrer">
