@@ -457,10 +457,6 @@
   top: 0;
 }
 
-.issue-stage > .content-sheet {
-  min-height: 100svh;
-}
-
 .content-sheet {
   position: relative;
   z-index: 1;
@@ -1906,6 +1902,9 @@ body:has(.mini-player) {
 
 /* Progressive Muskelentspannung – sanft in der Salbei-Welt der PMR-Kachel */
 .pmr-band {
+  /* liegt im Stapel immer über dem stehenden Ausgabenkopf */
+  position: relative;
+  z-index: 2;
   scroll-margin-top: calc(4.5rem + env(safe-area-inset-top));
   --pmr-accent: #bcd0bf;
   --pmr-ink: #263b2c;
@@ -3020,5 +3019,12 @@ body:has(.mini-player) {
     top: min(0px, calc(100svh - var(--sheet-h, 100svh)));
     /* Platz für die untere Navigation, damit der Impuls frei bleibt */
     padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Ausgabe mit nur einem Audio: die Karte nicht in einer halben Spalte verlieren */
+@media (min-width: 900px) {
+  .audio-shelf:has(> .audio-pair:only-child) {
+    grid-template-columns: minmax(0, 44rem);
   }
 }
