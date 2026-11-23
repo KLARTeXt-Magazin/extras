@@ -24,13 +24,7 @@ import coverNikolausNeu from "../assets/cover-nikolaus-collage-v3.jpg";
 import coverGrussNeu from "../assets/cover-heiligabend-collage-v3.jpg";
 import coverMomentNeu from "../assets/cover-moment-collage-v3.jpg";
 
-import {
-  AudioShelf,
-  Expandable,
-  IssueHead,
-  IssueSheet,
-  SectionHead,
-} from "@/components/issue-layout";
+import { AudioShelf, Expandable, IssueHead, IssueSheet } from "@/components/issue-layout";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { usePlayer } from "@/lib/player";
 import type { AudioTrack } from "@/lib/tracks";
@@ -277,11 +271,11 @@ function Lichtblicke() {
           {/* Ebene 2: Inhalt */}
           <IssueSheet>
             <section className="issue-section" aria-labelledby="hoeren-titel">
-              <AudioShelf tracks={tracks} count={`${tracks.length} Audios`} />
-            </section>
-
-            <section className="issue-section issue-section--tight" aria-labelledby="lesen-titel">
-              <SectionHead id="lesen-titel" title="Lesen" />
+              <AudioShelf
+                tracks={tracks}
+                count={`${tracks.length} Audios`}
+                jump={{ targetId: "pmr-beitrag", label: "1 Beitrag zum Lesen" }}
+              />
             </section>
           </IssueSheet>
 
@@ -301,7 +295,7 @@ function Lichtblicke() {
                   Erst anspannen, dann loslassen.
                 </h2>
 
-                <p className="mt-6 max-w-sm text-sm leading-7 text-foreground/70">
+                <p className="mt-6 max-w-sm text-base leading-7 text-foreground/75">
                   Die progressive Muskelentspannung (kurz PMR) ist eine bewährte
                   Entspannungsmethode, die auch in der Prävention eingesetzt wird. Du spannst einen
                   Muskel kurz an, lässt ihn anschließend wieder locker und spürst bewusst die
@@ -426,7 +420,7 @@ function Lichtblicke() {
             >
               Warum Ehrlichkeit Mut braucht
               <span className="mt-3 block text-sm font-medium text-foreground/70">
-                Zur Audio-Auszeit
+                Zur Audio-Auszeit <span aria-hidden="true">→</span>
               </span>
             </Link>
           </section>

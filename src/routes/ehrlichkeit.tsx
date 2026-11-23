@@ -51,7 +51,6 @@ const track: AudioTrack = {
   ink: "#3e2b24",
   accent: "#dccbb2",
   duration: "3:35",
-  kicker: "Ein Moment für dich",
   quote: QUOTE,
   note: TEXT,
   downloadUrl: "/pdf/zeit-fuer-dich-begleitimpuls.pdf",

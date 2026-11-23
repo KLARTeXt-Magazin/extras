@@ -114,7 +114,16 @@ export function SectionHead({
 // • Hash wie /lichtblicke#heiligabend scrollt zur Karte
 //   und hebt sie hervor (QR-Codes im Heft)
 // -------------------------------------------------------
-export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: string }) {
+export function AudioShelf({
+  tracks,
+  count,
+  jump,
+}: {
+  tracks: AudioTrack[];
+  count: string;
+  /** Kleiner Sprunglink zu einem Abschnitt weiter unten, z. B. „Lesen“ */
+  jump?: { targetId: string; label: string };
+}) {
   const labelledBy = "hoeren-titel";
   const shelfRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -202,7 +211,30 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
 
   return (
     <>
-      <SectionHead id={labelledBy} title="Hören" count={count} />
+      <SectionHead
+        id={labelledBy}
+        title="Hören"
+        count={count}
+        action={
+          jump ? (
+            <a
+              className="section-jump"
+              href={`#${jump.targetId}`}
+              onClick={(event) => {
+                // springen, ohne den Beitrag aufzuklappen
+                event.preventDefault();
+                const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                document
+                  .getElementById(jump.targetId)
+                  ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+              }}
+            >
+              {jump.label}
+              <span aria-hidden="true"> ↓</span>
+            </a>
+          ) : null
+        }
+      />
 
       <div
         ref={shelfRef}

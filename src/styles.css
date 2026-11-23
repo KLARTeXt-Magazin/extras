@@ -3037,3 +3037,37 @@ body:has(.mini-player) {
     grid-template-columns: minmax(0, 44rem);
   }
 }
+
+/* Sprunglink „1 Beitrag zum Lesen ↓“ neben der Hören-Überschrift */
+.section-head__side {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.25rem 0.75rem;
+}
+
+.section-jump {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Komfortable Tippflächen (44 px) */
+.install-guide-jump,
+.sign-video-button {
+  min-height: 2.75rem;
+  height: auto;
+}
+
+/* Weiterhören: als Link erkennbar */
+.continue-link:hover span,
+.continue-link:focus-visible span {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
