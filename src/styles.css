@@ -3005,4 +3005,11 @@ body:has(.mini-player) {
   .pmr-chapter-row {
     margin-bottom: 1.25rem;
   }
+
+  /* Hören bleibt stehen, sobald sein Ende unten ankommt;
+     „Lesen“ fährt dann darüber wie Hören über den roten Kopf */
+  .issue-stage:has(> .pmr-band) > .content-sheet {
+    position: sticky;
+    top: min(0px, calc(100svh - var(--sheet-h, 100svh)));
+  }
 }
