@@ -20,7 +20,6 @@ import {
   Pause,
   Play,
 } from "lucide-react";
-import { flushSync } from "react-dom";
 import {
   useEffect,
   useRef,
@@ -120,11 +119,7 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
   const shelfRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [highlightId, setHighlightId] = useState<string | null>(null);
-  // „in Hören hineingescrollt“: oben auf der Seite kleine Kacheln, dann groß
-  const [autoOpen, setAutoOpen] = useState(false);
-  // selbst auf- oder zugeklappt? Dann gilt das statt des Scrollens.
-  const [manualOpen, setManualOpen] = useState<boolean | null>(null);
-  // Desktop (ab 900 px): ruhige Liste statt Kacheln und großer Karten
+  // Desktop (ab 900 px): alle Audios als Karten auf einen Blick
   const [wide, setWide] = useState(false);
   useEffect(() => {
     const query = window.matchMedia("(min-width: 900px)");
@@ -133,47 +128,8 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
     query.addEventListener("change", update);
     return () => query.removeEventListener("change", update);
   }, []);
-  const isOpen = !wide && (manualOpen ?? autoOpen);
-
-  // Wechsel klein ⇄ groß als fließender Übergang (View Transitions),
-  // ohne Unterstützung oder bei „Bewegung reduzieren“ einfach direkt
-  const smoothly = (update: () => void) => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const doc = document as Document & {
-      startViewTransition?: (callback: () => void) => unknown;
-    };
-    if (reduced || !doc.startViewTransition) {
-      update();
-      return;
-    }
-    doc.startViewTransition(() => flushSync(update));
-  };
-
-  useEffect(() => {
-    const shelf = shelfRef.current;
-    if (!shelf) return;
-    let frame = 0;
-    const check = () => {
-      frame = 0;
-      // erst wenn man weiter in „Hören“ hineinscrollt: große Karten.
-      // Zwei Schwellen, damit nichts flackert, wenn man genau dort stehen bleibt.
-      const top = shelf.getBoundingClientRect().top;
-      setAutoOpen((open) =>
-        open ? top < window.innerHeight * 0.6 : top < window.innerHeight * 0.32,
-      );
-    };
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(check);
-    };
-    check();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, []);
+  // Handy: immer das ruhige Karussell mit den großen Karten
+  const isOpen = !wide;
 
   // gewählt ist die Karte am Einrastpunkt (links) – schon während des Wischens
   useEffect(() => {
@@ -246,24 +202,7 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
 
   return (
     <>
-      <SectionHead
-        id={labelledBy}
-        title="Hören"
-        count={count}
-        action={
-          wide ? null : (
-            <button
-              type="button"
-              className="section-toggle"
-              onClick={() => smoothly(() => setManualOpen(!isOpen))}
-              aria-expanded={isOpen}
-            >
-              {isOpen ? "Kleiner" : "Groß ansehen"}
-              <ChevronDown aria-hidden="true" />
-            </button>
-          )
-        }
-      />
+      <SectionHead id={labelledBy} title="Hören" count={count} />
 
       <div
         ref={shelfRef}
@@ -357,35 +296,16 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
         </div>
       ) : null}
 
-      {active && !wide ? (
-        <Companion
-          track={active}
-          compact={!isOpen && !wide}
-          onExpand={() => smoothly(() => setManualOpen(true))}
-        />
-      ) : null}
+      {active && !wide ? <Companion track={active} /> : null}
     </>
   );
 }
 
 // Begleitimpuls zur gewählten Audio, in ihrer Farbe
-// compact: zugeklappt nur Überschrift und Zitat, Rest erst im großen Modus
-function Companion({
-  track,
-  compact = false,
-  inline = false,
-  onExpand,
-}: {
-  track: AudioTrack;
-  compact?: boolean;
-  inline?: boolean;
-  onExpand?: () => void;
-}) {
+function Companion({ track, inline = false }: { track: AudioTrack; inline?: boolean }) {
   return (
     <section
-      className={`companion-band px-5 pt-3 ${compact ? "is-compact" : ""} ${
-        inline ? "is-inline" : ""
-      }`}
+      className={`companion-band px-5 pt-3 ${inline ? "is-inline" : ""}`}
       style={{ "--audio-accent": track.accent, "--audio-accent-ink": track.ink } as CSSProperties}
       aria-label={`Begleitimpuls zu ${track.title}`}
       aria-live={inline ? undefined : "polite"}
@@ -401,18 +321,11 @@ function Companion({
           </p>
         ) : null}
 
-        {compact ? (
-          <button type="button" className="companion-more mt-3" onClick={onExpand}>
-            Ganzen Impuls ansehen
-            <ArrowDown className="size-4" aria-hidden="true" />
-          </button>
-        ) : null}
-
-        {!compact && track.note ? (
+        {track.note ? (
           <p className="mt-5 text-sm leading-7 text-muted-foreground">{track.note}</p>
         ) : null}
 
-        {!compact && track.downloadUrl ? (
+        {track.downloadUrl ? (
           <Button
             asChild
             variant="outline"
@@ -425,16 +338,16 @@ function Companion({
           </Button>
         ) : null}
 
-        {!compact && track.moreHref ? (
+        {track.moreHref ? (
           <a href={track.moreHref} className="companion-more mt-6">
             {track.moreLabel ?? "Mehr dazu"}
             <ArrowDown className="size-4" aria-hidden="true" />
           </a>
         ) : null}
 
-        {!compact ? <AudioAccess track={track} /> : null}
+        <AudioAccess track={track} />
 
-        {!compact && track.credit ? (
+        {track.credit ? (
           <p className="mt-7 text-[11px] leading-5 text-muted-foreground">{track.credit}</p>
         ) : null}
       </div>
@@ -484,7 +397,6 @@ function ShelfCard({
           {
             "--audio-accent": track.accent,
             "--audio-accent-ink": track.ink,
-            viewTransitionName: `shelf-${track.id}`,
           } as CSSProperties
         }
       >
@@ -570,7 +482,6 @@ function ShelfCard({
         {
           "--card-ink": track.ink,
           "--card-accent": track.accent,
-          viewTransitionName: `shelf-${track.id}`,
         } as CSSProperties
       }
     >
