@@ -296,7 +296,7 @@ export function AudioShelf({ tracks, count }: { tracks: AudioTrack[]; count: str
         </div>
       ) : null}
 
-      {active && !wide ? <Companion track={active} /> : null}
+      {active && !wide ? <Companion key={active.id} track={active} inline /> : null}
     </>
   );
 }

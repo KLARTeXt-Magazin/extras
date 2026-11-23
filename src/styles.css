@@ -2930,29 +2930,36 @@ body:has(.mini-player) {
     font-size: 1.4rem;
     line-height: 2.1rem;
   }
+}
 
-  /* Rest des Impulses: weich auf- und zuklappen, ohne Messen */
-  .companion-rest {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 280ms ease;
-  }
+/* Rest des Impulses (Handy und Desktop): erst klein, weich aufklappen */
+.companion-rest {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 280ms ease;
+}
 
-  .companion-rest.is-open {
-    grid-template-rows: 1fr;
-  }
+.companion-rest.is-open {
+  grid-template-rows: 1fr;
+}
 
-  .companion-rest__inner {
-    min-height: 0;
-    overflow: hidden;
-  }
+.companion-rest__inner {
+  min-height: 0;
+  overflow: hidden;
+}
 
+.companion-toggle svg {
+  transition: transform 250ms ease;
+}
+
+.companion-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .companion-rest,
   .companion-toggle svg {
-    transition: transform 250ms ease;
-  }
-
-  .companion-toggle[aria-expanded="true"] svg {
-    transform: rotate(180deg);
+    transition: none;
   }
 }
 
@@ -3011,5 +3018,7 @@ body:has(.mini-player) {
   .issue-stage:has(> .pmr-band) > .content-sheet {
     position: sticky;
     top: min(0px, calc(100svh - var(--sheet-h, 100svh)));
+    /* Platz für die untere Navigation, damit der Impuls frei bleibt */
+    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
   }
 }
