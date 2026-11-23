@@ -6,13 +6,14 @@
 // Inhalte ändern → `track` und Begleittext unten.
 // =======================================================
 
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import coverImage from "@/assets/cover-zeit-collage-v3.jpg";
 import { AudioShelf, IssueHead, IssueSheet } from "@/components/issue-layout";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { getIssue } from "@/lib/issues";
+import { getIssue, latestIssue } from "@/lib/issues";
+import { usePreview } from "@/lib/preview";
 import { SITE_URL, canonicalLink, shareImageMeta } from "@/lib/share";
 import type { AudioTrack } from "@/lib/tracks";
 
@@ -66,6 +67,9 @@ const track: AudioTrack = {
 
 function Ehrlichkeit() {
   const [hasScrolled, setHasScrolled] = useState(false);
+  // Weiterhören: neueste sichtbare Ausgabe (springt bei neuen Ausgaben mit um)
+  const next = latestIssue(usePreview());
+  const nextIssue = next?.to && next.to !== "/ehrlichkeit" ? next : null;
 
   useEffect(() => {
     const update = () => setHasScrolled(window.scrollY > 24);
@@ -94,6 +98,27 @@ function Ehrlichkeit() {
             </section>
           </IssueSheet>
         </div>
+
+        {nextIssue?.to ? (
+          <IssueSheet flat>
+            {/* Weiterhören */}
+            <section className="issue-section issue-continue">
+              <p className="text-xs font-semibold text-muted-foreground">
+                Weiterhören · {nextIssue.eyebrow.split(" · ")[0]}
+              </p>
+
+              <Link
+                to={nextIssue.to}
+                className="continue-link mt-3 text-2xl leading-tight text-foreground"
+              >
+                {nextIssue.title}
+                <span className="mt-3 block text-sm font-medium text-foreground/70">
+                  {nextIssue.subtitle}
+                </span>
+              </Link>
+            </section>
+          </IssueSheet>
+        ) : null}
 
         <SiteFooter />
       </main>
