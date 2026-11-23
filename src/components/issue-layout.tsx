@@ -751,7 +751,9 @@ export function Expandable({ hashId, children }: { hashId?: string; children: Re
         style={open && fullHeight ? { maxHeight: `${fullHeight}px` } : undefined}
         inert={!open}
       >
-        <div ref={innerRef}>{children}</div>
+        <div ref={innerRef} className="expandable__inner">
+          {children}
+        </div>
       </div>
       <button
         type="button"

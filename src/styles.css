@@ -548,6 +548,13 @@
   transition: max-height 600ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* flow-root: Außenabstände der Kinder zählen mit, sonst wird der
+   letzte Button beim Aufklappen unten abgeschnitten */
+.expandable__inner {
+  display: flow-root;
+  padding-bottom: 0.25rem;
+}
+
 .expandable:not(.is-open) .expandable__clip {
   mask-image: linear-gradient(to bottom, #000 35%, transparent);
 }
