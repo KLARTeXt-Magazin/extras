@@ -17,7 +17,7 @@
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Download, Play } from "lucide-react";
+import { ArrowRight, Download, Play } from "lucide-react";
 
 import coverMoment from "../assets/cover-pmr-collage-v3.jpg";
 import coverNikolausNeu from "../assets/cover-nikolaus-collage-v3.jpg";
@@ -338,7 +338,7 @@ function Lichtblicke() {
                         className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 border-b border-sage/15 py-4 last:border-b-0"
                       >
                         <dt className="text-sm font-semibold text-sage-foreground">{term}</dt>
-                        <dd className="text-sm leading-6 text-muted-foreground">{text}</dd>
+                        <dd className="text-base leading-7 text-muted-foreground">{text}</dd>
                       </div>
                     ))}
                   </dl>
@@ -374,7 +374,7 @@ function Lichtblicke() {
                         <div>
                           <h3 className="text-sm font-semibold">{title}</h3>
 
-                          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                          <p className="mt-2 text-base leading-7 text-muted-foreground">
                             {description}
                           </p>
                         </div>
@@ -382,12 +382,12 @@ function Lichtblicke() {
                     ))}
                   </ol>
 
-                  <p className="mt-7 border-l-4 border-sage/40 pl-5 text-sm leading-7 text-muted-foreground">
+                  <p className="pmr-safety mt-7 text-base leading-7 text-foreground/80">
                     Übe nur so lange und so weit, wie es sich gut anfühlt. Wenn etwas wehtut oder
                     unangenehm wird, mach eine Pause oder hör auf.
                   </p>
 
-                  <p className="mt-7 text-sm leading-7 text-muted-foreground">
+                  <p className="mt-7 text-base leading-7 text-muted-foreground">
                     Du brauchst keine Hilfsmittel. Die Übung klappt im Sitzen, Stehen, Gehen oder
                     Liegen, also auch mal kurz zwischendurch.
                   </p>
@@ -420,7 +420,7 @@ function Lichtblicke() {
             >
               Warum Ehrlichkeit Mut braucht
               <span className="mt-3 block text-sm font-medium text-foreground/70">
-                Zur Audio-Auszeit <span aria-hidden="true">→</span>
+                Zur Audio-Auszeit <ArrowRight aria-hidden="true" className="continue-arrow" />
               </span>
             </Link>
           </section>

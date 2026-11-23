@@ -7,6 +7,7 @@
 // =======================================================
 
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import coverImage from "@/assets/cover-zeit-collage-v3.jpg";
@@ -112,7 +113,7 @@ function Ehrlichkeit() {
               >
                 {nextIssue.title}
                 <span className="mt-3 block text-sm font-medium text-foreground/70">
-                  {nextIssue.subtitle} <span aria-hidden="true">→</span>
+                  {nextIssue.subtitle} <ArrowRight aria-hidden="true" className="continue-arrow" />
                 </span>
               </Link>
             </section>

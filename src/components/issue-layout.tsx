@@ -230,7 +230,7 @@ export function AudioShelf({
               }}
             >
               {jump.label}
-              <span aria-hidden="true"> ↓</span>
+              <ArrowDown aria-hidden="true" className="section-jump__icon" />
             </a>
           ) : null
         }

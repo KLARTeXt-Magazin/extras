@@ -56,7 +56,7 @@ export function SiteHeader({ hasScrolled }: { hasScrolled: boolean; current: Sit
           className="-my-2 block w-fit py-2"
           aria-label="Zum KLARTeXt. Magazin"
         >
-          <img src="/logo.png" alt="KLARTeXt." className="site-logo" />
+          <img src="/logo-header.png" alt="KLARTeXt." className="site-logo" />
         </a>
 
         <div className="flex items-center gap-2">
