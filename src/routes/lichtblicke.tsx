@@ -278,7 +278,10 @@ function Lichtblicke() {
         <section id="pmr-beitrag" className="pmr-band px-6 py-14">
           <div className="pmr-layout mx-auto max-w-[430px]">
             <div className="pmr-intro">
-              <h2 className="pmr-chapter">Lesen</h2>
+              <div className="pmr-chapter-row">
+                <h2 className="pmr-chapter">Lesen</h2>
+                <span className="pmr-chapter-count">1 Beitrag</span>
+              </div>
               <p className="text-xs font-semibold text-sage-foreground">
                 Extra-Beitrag · Thema Prävention
               </p>
