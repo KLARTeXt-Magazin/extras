@@ -8,6 +8,7 @@
 
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import {
+  ArrowDown,
   CalendarDays,
   Clock,
   Mail,
@@ -48,6 +49,7 @@ function TerminSeite() {
   const [bearbeite, setBearbeite] = useState<Termin | Omit<Termin, "id"> | null>(null);
   const [zeigeLogin, setZeigeLogin] = useState(false);
   const neu = () => router.invalidate();
+  const naechster = termine.find((t) => t.status === "oeffentlich");
 
   return (
     <>
@@ -59,15 +61,15 @@ function TerminSeite() {
 
         <section className="overview-hero px-5 pb-12 sm:px-7">
           <div className="mx-auto w-full max-w-[560px]">
-            <p className="text-xs font-medium uppercase text-muted-foreground">
+            <h1 className="hero-title">ZEIT FÜR DICH.</h1>
+            <p className="termine-unterzeile mt-3">
               Veranstaltungen mit <span className="normal-case">KLARTeXt.</span>
             </p>
-            <h1 className="hero-title mt-3">ZEIT FÜR DICH.</h1>
-            <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">
+            <p className="termine-intro mt-6 text-muted-foreground">
               Unsere monatliche Veranstaltungsreihe im Riviera in Germering. Raus aus dem Alltag,
               Neues entdecken und gemeinsam eine gute Zeit haben.
             </p>
-            <ul className="termine-fakten mt-7" aria-label="Auf einen Blick">
+            <ul className="termine-fakten mt-6" aria-label="Auf einen Blick">
               <li>
                 <CalendarDays aria-hidden className="size-4" /> Einmal im Monat
               </li>
@@ -78,12 +80,23 @@ function TerminSeite() {
                 <Ticket aria-hidden className="size-4" /> Mit Platzreservierung
               </li>
             </ul>
+            {naechster ? (
+              <a className="termine-naechster mt-8" href="#termine-titel">
+                <span className="termine-naechster-label">Nächster Termin</span>
+                <span className="termine-naechster-datum">
+                  {datumLang(naechster.datum)}{" "}
+                  <span className="whitespace-nowrap">· {naechster.beginn} Uhr</span>
+                </span>
+                <span className="termine-naechster-titel">{naechster.titel}</span>
+                <ArrowDown aria-hidden className="termine-naechster-pfeil size-5" />
+              </a>
+            ) : null}
           </div>
         </section>
 
         <section className="px-5 pt-12 pb-16 sm:px-7" aria-labelledby="termine-titel">
           <div className="mx-auto grid w-full max-w-[560px] gap-4">
-            <h2 id="termine-titel" className="section-title mb-2">
+            <h2 id="termine-titel" className="section-title mb-2 scroll-mt-28">
               Nächste Termine
             </h2>
             {angemeldet ? (
