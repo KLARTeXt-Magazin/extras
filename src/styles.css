@@ -2081,9 +2081,10 @@ body:has(.mini-player) {
   color: var(--foreground);
 }
 
-/* Kopfzeile „Lesen · 1 Beitrag“ */
-.pmr-chapter {
+/* Kopfzeile „Lesen · 1 Beitrag“: „Lesen“ in derselben Farbe wie „Hören“ */
+.pmr-band .pmr-chapter {
   margin-bottom: 0;
+  color: var(--foreground);
   font-size: 1.6rem;
   line-height: 1.1;
 }
