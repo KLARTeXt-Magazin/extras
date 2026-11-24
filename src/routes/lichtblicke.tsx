@@ -140,8 +140,8 @@ const PREVIEW_UNLOCKED = false;
 const tracks: AudioTrack[] = [
   {
     id: "nikolaus",
-    ink: "#2b3a5e", // Tiefblau (statt Petrol, damit es sich vom PMR-Grün abhebt)
-    accent: "#b9c8e6",
+    ink: "#173d3a",
+    accent: "#b8d4d1",
     duration: "1:14",
     eyebrow: "6. Dezember",
     title: "Einen Moment zum Nikolaus",
@@ -206,8 +206,8 @@ const tracks: AudioTrack[] = [
 
   {
     id: "pmr",
-    ink: "#263b2c",
-    accent: "#bcd0bf",
+    ink: "#2b3a5e", // Nachtblau wie das Tuch im Cover, hebt sich vom Petrol (Nikolaus) ab
+    accent: "#b9c8e6",
     duration: "3:44",
     eyebrow: "Progressive Muskelentspannung",
     title: "Spannung trifft Entspannung",
