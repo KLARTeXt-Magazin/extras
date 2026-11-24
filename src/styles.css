@@ -2068,8 +2068,9 @@ body:has(.mini-player) {
   margin-top: -1.75rem;
   padding-top: 2rem;
   scroll-margin-top: calc(4.5rem + env(safe-area-inset-top));
-  --pmr-accent: #bcd0bf;
-  --pmr-ink: #263b2c;
+  /* gleiche Farbe wie die PMR-Audiokarte (Nachtblau, helles Blau) */
+  --pmr-accent: #b9c8e6;
+  --pmr-ink: #2b3a5e;
   border-radius: 1.75rem 1.75rem 0 0;
   box-shadow: 0 -14px 30px -18px rgb(38 8 8 / 0.28);
   background: linear-gradient(
