@@ -1,3 +1,4 @@
+import { Hand } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -5,7 +6,8 @@ import { isStandaloneApp } from "@/lib/app-mode";
 
 /**
  * Begrüßung beim Öffnen der App (nur als installierte Web-App), rund 12 Sekunden:
- * 1. „KLARTeXt.“ erscheint, Sprechblasen ploppen auf (hallo · hola · hello)
+ * 1. „KLARTeXt.“ erscheint, Sprechblasen ploppen auf (hallo · hola · hello
+ *    und eine winkende Hand für „Hallo“ in Gebärdensprache)
  * 2. „schön, dass du da bist.“ – „lass uns kurz zusammen atmen“
  * 3. Der Punkt aus „KLARTeXt.“ atmet: einatmen groß, ausatmen klein,
  *    dann wischt die Fläche nach oben weg.
@@ -15,7 +17,7 @@ import { isStandaloneApp } from "@/lib/app-mode";
 
 // Zeitplan in Millisekunden
 // ruhiger Atem: 4 s einatmen, 4 s ausatmen, dann wischt die Fläche weg
-const INHALE_AT = 2700;
+const INHALE_AT = 3600;
 const EXHALE_AT = INHALE_AT + 4000;
 const LEAVE_AT = EXHALE_AT + 4000;
 const DONE_AT = LEAVE_AT + 1100;
@@ -95,6 +97,9 @@ export function BreathIntro() {
               {greeting.text}
             </span>
           ))}
+          <span className="hello-bubble hello-bubble--4" title="Hallo in Gebärdensprache">
+            <Hand className="hello-bubble__hand" strokeWidth={2.25} />
+          </span>
           <p className="hello-mark">
             <span>
               KLARTeXt

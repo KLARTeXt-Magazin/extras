@@ -2607,6 +2607,43 @@ body:has(.mini-player) {
   right: 1rem;
 }
 
+/* „Hallo“ in Gebärdensprache: winkende Hand */
+.hello-bubble--4 {
+  right: 4%;
+  bottom: 20%;
+  padding: 0.4rem 0.6rem;
+  background: var(--intro-sky);
+  color: var(--intro-line);
+  rotate: -6deg;
+  animation-delay: 1300ms;
+}
+
+.hello-bubble--4::after {
+  left: 0.9rem;
+}
+
+.hello-bubble__hand {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  transform-origin: 50% 90%;
+  animation: hello-wave 1000ms ease-in-out 1700ms 2;
+}
+
+@keyframes hello-wave {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25%,
+  75% {
+    rotate: -14deg;
+  }
+  50% {
+    rotate: 12deg;
+  }
+}
+
 .breath-intro__label {
   margin-top: 2.25rem;
   font-family: var(--font-display);
