@@ -1,0 +1,9 @@
+# Test-Deploy auf Netlify (Branch test-netlify).
+# Produktion läuft weiterhin über Vercel (main). Diese Datei stört Vercel nicht.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NITRO_PRESET = "netlify"
+  NODE_VERSION = "22"

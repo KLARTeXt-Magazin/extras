@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EhrlichkeitRouteImport } from './routes/ehrlichkeit'
 import { Route as LichtblickeRouteImport } from './routes/lichtblicke'
+import { Route as TermineRouteImport } from './routes/termine'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const LichtblickeRoute = LichtblickeRouteImport.update({
   path: '/lichtblicke',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermineRoute = TermineRouteImport.update({
+  id: '/termine',
+  path: '/termine',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ehrlichkeit': typeof EhrlichkeitRoute
   '/lichtblicke': typeof LichtblickeRoute
+  '/termine': typeof TermineRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ehrlichkeit': typeof EhrlichkeitRoute
   '/lichtblicke': typeof LichtblickeRoute
+  '/termine': typeof TermineRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ehrlichkeit': typeof EhrlichkeitRoute
   '/lichtblicke': typeof LichtblickeRoute
+  '/termine': typeof TermineRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ehrlichkeit' | '/lichtblicke'
+  fullPaths: '/' | '/ehrlichkeit' | '/lichtblicke' | '/termine'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ehrlichkeit' | '/lichtblicke'
-  id: '__root__' | '/' | '/ehrlichkeit' | '/lichtblicke'
+  to: '/' | '/ehrlichkeit' | '/lichtblicke' | '/termine'
+  id: '__root__' | '/' | '/ehrlichkeit' | '/lichtblicke' | '/termine'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EhrlichkeitRoute: typeof EhrlichkeitRoute
   LichtblickeRoute: typeof LichtblickeRoute
+  TermineRoute: typeof TermineRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LichtblickeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/termine': {
+      id: '/termine'
+      path: '/termine'
+      fullPath: '/termine'
+      preLoaderRoute: typeof TermineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EhrlichkeitRoute: EhrlichkeitRoute,
   LichtblickeRoute: LichtblickeRoute,
+  TermineRoute: TermineRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

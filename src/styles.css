@@ -2996,6 +2996,113 @@ body:has(.mini-player) {
   background: color-mix(in oklab, currentColor 7%, transparent);
 }
 
+/* Terminseite „ZEIT FÜR DICH.“ (routes/termine.tsx) */
+.termine-karte {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1.4rem 1.4rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: var(--card);
+}
+
+.termine-karte--formular {
+  gap: 0.9rem;
+  border-color: var(--primary);
+}
+
+.termine-redaktion {
+  padding: 1.1rem 1.3rem;
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--primary) 8%, transparent);
+}
+
+.termine-badge {
+  justify-self: start;
+  margin-bottom: 0.5rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--primary) 12%, transparent);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.termine-badge--voll {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.termine-leer {
+  padding: 1.4rem;
+  border-radius: 1.25rem;
+  background: var(--card);
+  color: var(--muted-foreground);
+}
+
+.termine-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.termine-button--primary {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.termine-button:disabled {
+  opacity: 0.6;
+}
+
+.termine-feld {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.termine-feld input,
+.termine-feld textarea {
+  min-height: 2.75rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: #fff;
+  font: inherit;
+  font-weight: 400;
+}
+
+.termine-check {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.termine-check input {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.termine-login-link {
+  justify-self: center;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.8rem;
+  text-decoration: underline;
+}
+
 /* Text zum Mitlesen (components/audio-access.tsx) */
 .transcript {
   border-top: 1px solid color-mix(in oklab, currentColor 20%, transparent);
