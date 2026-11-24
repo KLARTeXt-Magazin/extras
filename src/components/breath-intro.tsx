@@ -6,12 +6,11 @@ import { isStandaloneApp } from "@/lib/app-mode";
 
 /**
  * Begrüßung beim Öffnen der App (nur als installierte Web-App), rund 12 Sekunden:
- * 1. „KLARTeXt.“ erscheint, Sprechblasen ploppen auf (hallo · hola · hello
- *    und eine winkende Hand für „Hallo“ in Gebärdensprache)
+ * 1. Das KLARTeXt.-App-Icon erscheint, Sprechblasen ploppen auf
+ *    (hallo · hola · hello und eine winkende Hand für Gebärdensprache)
  * 2. „schön, dass du da bist.“ – „lass uns kurz zusammen atmen“
- * 3. Der Punkt aus „KLARTeXt.“ atmet: einatmen groß, ausatmen klein,
+ * 3. Das App-Icon atmet: einatmen groß, ausatmen klein,
  *    dann wischt die Fläche nach oben weg.
- * Keine fremde Illustration – nur Schrift und der Punkt der Marke.
  * Zum Ansehen im Browser: ?intro an die Adresse hängen.
  */
 

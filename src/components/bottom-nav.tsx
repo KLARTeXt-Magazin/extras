@@ -11,13 +11,38 @@
 // =======================================================
 
 import { Link } from "@tanstack/react-router";
-import { BookOpen, House, Sparkles } from "lucide-react";
+import { BookOpen, House, Share2, Sparkles } from "lucide-react";
 
 import { MAGAZIN_URL } from "@/lib/links";
 import { useNavState } from "@/lib/nav";
+import { useIsStandaloneApp } from "@/lib/app-mode";
 
 export function BottomNav() {
   const { latest, isIssue, issuesCurrent, isStart } = useNavState();
+  const standalone = useIsStandaloneApp();
+
+  const sharePage = async () => {
+    const data = {
+      title: document.title,
+      text: "KLARTeXt. Extras",
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(data);
+        return;
+      } catch {
+        return;
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch {
+      window.prompt("Link zum Teilen", window.location.href);
+    }
+  };
 
   return (
     <nav className="bottom-nav" aria-label="Hauptnavigation">
@@ -44,16 +69,28 @@ export function BottomNav() {
           </Link>
         ) : null}
 
-        <a
-          href={MAGAZIN_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="bottom-nav-item"
-          aria-label="Zum Magazin (öffnet neuen Tab)"
-        >
-          <BookOpen className="size-5" strokeWidth={1.75} aria-hidden="true" />
-          <span>Magazin</span>
-        </a>
+        {standalone ? (
+          <button
+            type="button"
+            className="bottom-nav-item"
+            onClick={sharePage}
+            aria-label="Diese Seite teilen"
+          >
+            <Share2 className="size-5" strokeWidth={1.75} aria-hidden="true" />
+            <span>Teilen</span>
+          </button>
+        ) : (
+          <a
+            href={MAGAZIN_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="bottom-nav-item"
+            aria-label="Zum Magazin (öffnet neuen Tab)"
+          >
+            <BookOpen className="size-5" strokeWidth={1.75} aria-hidden="true" />
+            <span>Magazin</span>
+          </a>
+        )}
       </div>
     </nav>
   );
