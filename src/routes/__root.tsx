@@ -185,6 +185,13 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
+  useEffect(() => {
+    if (!("serviceWorker" in navigator) || import.meta.env.DEV) return;
+    void navigator.serviceWorker.register("/sw.js").catch((error) => {
+      console.warn("Service Worker konnte nicht registriert werden:", error);
+    });
+  }, []);
+
   return (
     <PlayerProvider>
       <BreathIntro />
