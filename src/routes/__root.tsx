@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { BottomNav } from "../components/bottom-nav";
 import { BreathIntro } from "../components/breath-intro";
 import { PlayerProvider } from "../lib/player";
+import { IconUpdateHint } from "../components/icon-update-hint";
 import { InstallBanner } from "../components/install-banner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteFooter, SiteHeader } from "../components/site-chrome";
@@ -174,7 +175,7 @@ export const Route = createRootRoute({
       { rel: "icon", href: "/icon-192.png?v=8", type: "image/png", sizes: "192x192" },
       { rel: "icon", href: "/icon-512.png?v=8", type: "image/png", sizes: "512x512" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=8", sizes: "180x180" },
-      { rel: "manifest", href: "/manifest.webmanifest?v=7" },
+      { rel: "manifest", href: "/manifest.webmanifest?v=8" },
     ],
   }),
   shellComponent: RootShell,
@@ -212,6 +213,7 @@ function RootComponent() {
       <Outlet />
       <BottomNav />
       <InstallBanner />
+      <IconUpdateHint />
     </PlayerProvider>
   );
 }

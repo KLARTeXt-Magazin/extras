@@ -206,8 +206,8 @@ const tracks: AudioTrack[] = [
 
   {
     id: "pmr",
-    ink: "#263b2c",
-    accent: "#bcd0bf",
+    ink: "#2b3a5e", // Nachtblau wie das Tuch im Cover, hebt sich vom Petrol (Nikolaus) ab
+    accent: "#b9c8e6",
     duration: "3:44",
     eyebrow: "Progressive Muskelentspannung",
     title: "Spannung trifft Entspannung",
@@ -416,7 +416,7 @@ function Lichtblicke() {
         </div>
 
         <IssueSheet flat>
-          <ContinueCard issue={getIssue("/ehrlichkeit")} />
+          <ContinueCard issue={getIssue("/ehrlichkeit")} cta="Zur Audio-Auszeit" />
         </IssueSheet>
 
         <SiteFooter />

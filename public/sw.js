@@ -1,4 +1,4 @@
-const CACHE_NAME = "klartext-extras-v1";
+const CACHE_NAME = "klartext-extras-v2";
 const APP_SHELL = [
   "/",
   "/manifest.webmanifest",

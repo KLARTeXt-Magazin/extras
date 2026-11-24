@@ -16,6 +16,7 @@ import { HomescreenGuide } from "@/components/homescreen-guide";
 import { useNavState } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
 import type { SiteRoute } from "@/lib/issues";
+import { useIsStandaloneApp } from "@/lib/app-mode";
 
 // Desktop-Navigation (gleiche Punkte wie die untere Leiste)
 function HeaderNav() {
@@ -44,6 +45,8 @@ function HeaderNav() {
 }
 
 export function SiteHeader({ hasScrolled }: { hasScrolled: boolean; current: SiteRoute }) {
+  // in der installierten App braucht es „App speichern“ nicht mehr
+  const standalone = useIsStandaloneApp();
   return (
     <header
       className={`floating-site-header fixed inset-x-0 top-0 z-50 ${hasScrolled ? "is-scrolled" : ""}`}
@@ -62,12 +65,14 @@ export function SiteHeader({ hasScrolled }: { hasScrolled: boolean; current: Sit
         <div className="flex items-center gap-2">
           <HeaderNav />
 
-          <Button asChild variant="outline" className="install-guide-jump rounded-full px-3">
-            <a href="#app-installieren" aria-label="Zur Anleitung: Als App speichern">
-              <Smartphone className="size-4" />
-              <span>App speichern</span>
-            </a>
-          </Button>
+          {standalone ? null : (
+            <Button asChild variant="outline" className="install-guide-jump rounded-full px-3">
+              <a href="#app-installieren" aria-label="Zur Anleitung: Als App speichern">
+                <Smartphone className="size-4" />
+                <span>App speichern</span>
+              </a>
+            </Button>
+          )}
         </div>
       </div>
     </header>
@@ -75,6 +80,8 @@ export function SiteHeader({ hasScrolled }: { hasScrolled: boolean; current: Sit
 }
 
 export function SiteFooter() {
+  // Anleitung „Als App speichern“ nur im Browser, nicht in der installierten App
+  const standalone = useIsStandaloneApp();
   const legal = [
     ["Impressum", `${MAGAZIN_URL}impressum/`],
     ["Datenschutz", `${MAGAZIN_URL}datenschutzerklaerung/`],
@@ -127,9 +134,11 @@ export function SiteFooter() {
         , lizenziert unter der SIL Open Font License.
       </p>
 
-      <div className="mx-auto max-w-[430px]">
-        <HomescreenGuide />
-      </div>
+      {standalone ? null : (
+        <div className="mx-auto max-w-[430px]">
+          <HomescreenGuide />
+        </div>
+      )}
     </footer>
   );
 }

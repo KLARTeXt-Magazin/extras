@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 // =======================================================
 // APP-MODUS ERKENNEN
 // • isStandaloneApp: Seite läuft als installierte Web-App (Homescreen)
@@ -20,4 +22,14 @@ export function isIosDevice() {
   const userAgent = window.navigator.userAgent;
   const touch = window.matchMedia("(pointer: coarse)").matches;
   return /iPad|iPhone|iPod/.test(userAgent) || (userAgent.includes("Macintosh") && touch);
+}
+
+// React: true, sobald klar ist, dass die Seite als installierte App läuft.
+// Beim ersten Rendern (Server) immer false, damit nichts flackert.
+export function useIsStandaloneApp() {
+  const [standalone, setStandalone] = useState(false);
+  useEffect(() => {
+    setStandalone(isStandaloneApp());
+  }, []);
+  return standalone;
 }

@@ -25,16 +25,16 @@ export const Route = createFileRoute("/ehrlichkeit")({
       { title: "KLARTeXt. Extras zu Ausgabe 01: Warum Ehrlichkeit Mut braucht" },
       {
         name: "description",
-        content: "„Zeit für dich“: eine Achtsamkeitsübung zur ersten Ausgabe von KLARTeXt.",
+        content: "„Zeit für Dich“: eine Achtsamkeitsübung zur ersten Ausgabe von KLARTeXt.",
       },
       { property: "og:title", content: "KLARTeXt. – Warum Ehrlichkeit Mut braucht" },
       {
         property: "og:description",
-        content: "Die Audio-Übung „Zeit für dich“ zur ersten KLARTeXt.-Ausgabe.",
+        content: "Die Audio-Übung „Zeit für Dich“ zur ersten KLARTeXt.-Ausgabe.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: `${SITE_URL}/ehrlichkeit` },
-      ...shareImageMeta("KLARTeXt. – Warum Ehrlichkeit Mut braucht: Audio-Übung Zeit für dich"),
+      ...shareImageMeta("KLARTeXt. – Warum Ehrlichkeit Mut braucht: Audio-Übung Zeit für Dich"),
     ],
     links: [canonicalLink("/ehrlichkeit")],
   }),
@@ -56,7 +56,7 @@ const track: AudioTrack = {
   downloadUrl: "/pdf/zeit-fuer-dich-begleitimpuls.pdf",
   downloadLabel: "Impuls zum Downloaden",
   eyebrow: "Auszeit",
-  title: "Zeit für dich",
+  title: "Zeit für Dich",
   cover: coverImage,
   coverAlt:
     "Editoriale Collage aus weinrotem Papier, rosafarbenem Organza, feinen Blüten und blauem Glas",

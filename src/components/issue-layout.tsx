@@ -83,7 +83,7 @@ export function IssueHead({
 // -------------------------------------------------------
 // WEITERHÖREN: letzte Karteikarte mit Cover der nächsten Ausgabe
 // -------------------------------------------------------
-export function ContinueCard({ issue }: { issue: Issue }) {
+export function ContinueCard({ issue, cta }: { issue: Issue; cta?: string }) {
   if (!issue.to) return null;
   return (
     <section className="issue-section issue-continue" aria-labelledby="weiterhoeren-titel">
@@ -108,7 +108,7 @@ export function ContinueCard({ issue }: { issue: Issue }) {
             {issue.title}
           </span>
           <span className="continue-card__sub">
-            {issue.subtitle}
+            {cta ?? issue.subtitle}
             <ArrowRight aria-hidden="true" className="continue-card__arrow" />
           </span>
         </span>

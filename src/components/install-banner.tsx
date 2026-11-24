@@ -94,7 +94,7 @@ export function InstallBanner() {
       role="region"
       aria-label="KLARTeXt. Extras als App speichern"
     >
-      <img src="/icon-192.png" alt="" aria-hidden="true" className="install-banner__icon" />
+      <img src="/icon-192.png?v=8" alt="" aria-hidden="true" className="install-banner__icon" />
 
       <div className="install-banner__body">
         <p className="install-banner__title font-display">KLARTeXt. Extras als App</p>
