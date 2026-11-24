@@ -2483,44 +2483,15 @@ body:has(.mini-player) {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-size: clamp(2.2rem, 11vw, 3.4rem);
-  font-weight: 800;
-  letter-spacing: -0.01em;
   animation: hello-pop 650ms cubic-bezier(0.34, 1.56, 0.64, 1) 150ms both;
 }
 
-.hello-mark__dot {
-  display: inline-block;
-  width: 0.34em;
-  height: 0.34em;
-  margin-left: 0.06em;
-  vertical-align: baseline;
-  border-radius: 999px;
-  background: var(--intro-sky);
-  /* wächst nach rechts oben, weg von der Schrift */
-  transform-origin: 0% 100%;
-  transition: scale 4000ms cubic-bezier(0.37, 0, 0.63, 1);
-  animation: hello-dot-in 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 700ms both;
-}
-
-/* einatmen: Punkt wird groß – ausatmen: klein */
-.breath-intro.is-in .hello-mark__dot {
-  scale: 3;
-}
-
-.breath-intro.is-out .hello-mark__dot,
-.breath-intro.is-leave .hello-mark__dot {
-  scale: 0.8;
-}
-
-@keyframes hello-dot-in {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
+.hello-mark__logo {
+  width: clamp(7.5rem, 34vw, 10rem);
+  height: clamp(7.5rem, 34vw, 10rem);
+  border-radius: 22%;
+  object-fit: cover;
+  box-shadow: 0 18px 44px rgb(43 29 24 / 0.22);
 }
 
 .hello-bubble {

@@ -96,10 +96,13 @@ export function BreathIntro() {
             </span>
           ))}
           <p className="hello-mark">
-            <span>
-              KLARTeXt
-              <span className="hello-mark__dot" />
-            </span>
+            <img
+              src="/icon-192.png?v=8"
+              alt="KLARTeXt."
+              className="hello-mark__logo"
+              width={192}
+              height={192}
+            />
           </p>
         </div>
 

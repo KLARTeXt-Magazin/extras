@@ -12,11 +12,14 @@ export const SITE_URL = "https://magazin-klartext-extras.vercel.app";
 // Bild + Größe für die Vorschau, wenn man einen Link verschickt.
 export function shareImageMeta(alt: string) {
   return [
-    { property: "og:image", content: `${SITE_URL}/og-share.png?v=2` },
+    { property: "og:site_name", content: "KLARTeXt. Extras" },
+    { property: "og:image", content: `${SITE_URL}/og-share.png?v=3` },
+    { property: "og:image:secure_url", content: `${SITE_URL}/og-share.png?v=3` },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "640" },
     { property: "og:image:alt", content: alt },
-    { name: "twitter:image", content: `${SITE_URL}/og-share.png?v=2` },
+    { name: "twitter:image", content: `${SITE_URL}/og-share.png?v=3` },
+    { name: "twitter:image:alt", content: alt },
   ];
 }
 
