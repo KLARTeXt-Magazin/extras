@@ -62,7 +62,7 @@ export function SiteHeader({ hasScrolled }: { hasScrolled: boolean; current: Sit
         <div className="flex items-center gap-2">
           <HeaderNav />
 
-          <Button asChild variant="outline" className="install-guide-jump h-10 rounded-full px-3">
+          <Button asChild variant="outline" className="install-guide-jump rounded-full px-3">
             <a href="#app-installieren" aria-label="Zur Anleitung: Als App speichern">
               <Smartphone className="size-4" />
               <span>App speichern</span>

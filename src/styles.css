@@ -277,7 +277,7 @@
 /* „App speichern“-Knopf */
 .install-guide-jump {
   position: relative;
-  height: 2rem;
+  min-height: 44px;
   padding-inline: 0.65rem;
   border-color: color-mix(in srgb, var(--primary) 28%, transparent);
   background: var(--neutral-pearl);
