@@ -732,21 +732,6 @@
 }
 
 /* Begleitimpuls wechselt mit der gewählten Karte */
-.companion-swap {
-  animation: companion-swap 320ms ease both;
-}
-
-@keyframes companion-swap {
-  from {
-    opacity: 0;
-    transform: translateY(0.4rem);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 /* ganze Karte öffnet den Player (unter dem Play-Knopf) */
 .shelf-card__open {
   position: absolute;

@@ -165,7 +165,9 @@ export function AudioShelf({
 }) {
   const labelledBy = "hoeren-titel";
   const shelfRef = useRef<HTMLDivElement | null>(null);
+  const companionTimer = useRef<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [companionIndex, setCompanionIndex] = useState(0);
   const [highlightId, setHighlightId] = useState<string | null>(null);
   // Desktop (ab 900 px): alle Audios als Karten auf einen Blick
   const [wide, setWide] = useState(false);
@@ -199,6 +201,8 @@ export function AudioShelf({
         }
       });
       setActiveIndex(nearest);
+      if (companionTimer.current) window.clearTimeout(companionTimer.current);
+      companionTimer.current = window.setTimeout(() => setCompanionIndex(nearest), 140);
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(select);
@@ -207,6 +211,7 @@ export function AudioShelf({
     return () => {
       shelf.removeEventListener("scroll", onScroll);
       if (frame) cancelAnimationFrame(frame);
+      if (companionTimer.current) window.clearTimeout(companionTimer.current);
     };
   }, []);
 
@@ -215,6 +220,7 @@ export function AudioShelf({
     const card = shelf?.querySelectorAll<HTMLElement>("[data-track]")[index];
     if (!shelf || !card) return;
     setActiveIndex(index);
+    setCompanionIndex(index);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     shelf.scrollTo({
       left:
@@ -247,6 +253,7 @@ export function AudioShelf({
   }, [tracks]);
 
   const active = tracks[activeIndex] ?? tracks[0];
+  const companion = tracks[companionIndex] ?? tracks[0];
 
   return (
     <>
@@ -367,7 +374,7 @@ export function AudioShelf({
         </div>
       ) : null}
 
-      {active && !wide ? <Companion key={active.id} track={active} inline /> : null}
+      {companion && !wide ? <Companion track={companion} inline /> : null}
     </>
   );
 }
@@ -376,6 +383,10 @@ export function AudioShelf({
 function Companion({ track, inline = false }: { track: AudioTrack; inline?: boolean }) {
   // Karte: Überschrift und Zitat immer sichtbar, der Rest klappt mit einem Klick auf
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [track.id]);
 
   const quote = track.quote ? (
     <p className="companion-quote mt-4 font-display text-xl font-medium leading-8">{track.quote}</p>
@@ -422,7 +433,7 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
       aria-label={`Begleitimpuls zu ${track.title}`}
       aria-live={inline ? undefined : "polite"}
     >
-      <div key={track.id} className="companion-inner companion-swap mx-auto w-full max-w-[430px]">
+      <div className="companion-inner mx-auto w-full max-w-[430px]">
         <p className="companion-kicker text-xs font-semibold">
           {track.kicker ?? `Begleitimpuls · ${track.coverWord ?? track.title}`}
         </p>
