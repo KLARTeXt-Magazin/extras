@@ -32,7 +32,7 @@ import {
   IssueSheet,
 } from "@/components/issue-layout";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
-import { usePlayer } from "@/lib/player";
+import { usePlayer } from "@/lib/player-context";
 import type { AudioTrack } from "@/lib/tracks";
 
 import { ComingSoon, PreviewBadge } from "@/components/coming-soon";

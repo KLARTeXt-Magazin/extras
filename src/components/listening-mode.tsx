@@ -1,7 +1,8 @@
 import { useId, type CSSProperties, type Ref } from "react";
 import { Pause, Play, X } from "lucide-react";
 
-import { SignIcon, type SignVideo } from "@/components/sign-video";
+import { SignIcon } from "@/components/sign-video";
+import type { SignVideo } from "@/lib/sign-video";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { formatTime } from "@/lib/utils";

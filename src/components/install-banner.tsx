@@ -14,7 +14,7 @@ import { Smartphone, X } from "lucide-react";
 
 import { isIosDevice, isMobileDevice, isStandaloneApp } from "@/lib/app-mode";
 import { clearInstallPrompt, useInstallPrompt } from "@/lib/install-prompt";
-import { usePlayer } from "@/lib/player";
+import { usePlayer } from "@/lib/player-context";
 
 const DISMISS_KEY = "klartext-install-banner-dismissed";
 const VISITS_KEY = "klartext-visits";

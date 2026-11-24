@@ -9,7 +9,7 @@
 import { Pause, Play } from "lucide-react";
 import type { CSSProperties } from "react";
 
-import { usePlayer } from "@/lib/player";
+import { usePlayer } from "@/lib/player-context";
 
 export function MiniPlayer() {
   const { track, isPlaying, currentTime, duration, toggle, expand } = usePlayer();

@@ -9,43 +9,14 @@
 // • Sperrbildschirm / Dynamic Island über die Media Session
 // =======================================================
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import { ListeningMode, type ListeningView } from "@/components/listening-mode";
 import { MiniPlayer } from "@/components/mini-player";
-import { useSignVideo } from "@/components/sign-video";
+import { useSignVideo } from "@/lib/sign-video";
+import { PlayerContext, type PlayerState } from "@/lib/player-context";
 import type { AudioTrack } from "@/lib/tracks";
 import { transcripts } from "@/lib/transcripts";
-
-type PlayerState = {
-  track: AudioTrack | null;
-  isPlaying: boolean;
-  currentTime: number;
-  duration: number;
-  /** Track abspielen (gleicher Track: weiterspielen) */
-  play: (track: AudioTrack) => void;
-  /** Vollbild-Player öffnen, optional direkt in einer Ansicht */
-  open: (track: AudioTrack, view?: ListeningView) => void;
-  toggle: () => void;
-  expand: () => void;
-};
-
-const PlayerContext = createContext<PlayerState | null>(null);
-
-export function usePlayer() {
-  const context = useContext(PlayerContext);
-  if (!context) throw new Error("usePlayer nur innerhalb von PlayerProvider");
-  return context;
-}
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);

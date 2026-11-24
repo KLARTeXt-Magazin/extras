@@ -33,9 +33,10 @@ import { Link } from "@tanstack/react-router";
 import { AudioAccess } from "@/components/audio-access";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { Button } from "@/components/ui/button";
-import { SignIcon, SignVideoButton, useSignVideo } from "@/components/sign-video";
+import { SignIcon, SignVideoButton } from "@/components/sign-video";
+import { useSignVideo } from "@/lib/sign-video";
 import type { Issue } from "@/lib/issues";
-import { usePlayer } from "@/lib/player";
+import { usePlayer } from "@/lib/player-context";
 import { useUnlocked, type AudioTrack } from "@/lib/tracks";
 
 // -------------------------------------------------------
@@ -662,11 +663,6 @@ function Waveform() {
 // -------------------------------------------------------
 // LESEN: Zeilen (aufklappbar) und PDF-Zeilen
 // -------------------------------------------------------
-export function readingTime(...texts: (string | undefined)[]) {
-  const words = texts.join(" ").split(/\s+/).filter(Boolean).length;
-  return `Lesen · ${Math.max(1, Math.round(words / 180))} Min`;
-}
-
 export function ReadRow({
   id,
   color,

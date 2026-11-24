@@ -14,20 +14,6 @@
 // =======================================================
 
 import { Button } from "@/components/ui/button";
-import { usePreview } from "@/lib/preview";
-
-const files = import.meta.glob("../videos/*.{mp4,vtt,jpg}", {
-  eager: true,
-  query: "?url",
-  import: "default",
-}) as Record<string, string>;
-
-function fileFor(id: string, ext: string, preview: boolean) {
-  return (
-    files[`../videos/${id}.${ext}`] ?? (preview ? files[`../videos/${id}-test.${ext}`] : undefined)
-  );
-}
-
 // Gebärdenzeichen (zwei Hände), aus der Vorlage von Andrea
 // (Gebaerdenzeichen_rund.pdf) nachgezeichnet; übernimmt die Textfarbe
 export function SignIcon({ className }: { className?: string }) {
@@ -39,15 +25,6 @@ export function SignIcon({ className }: { className?: string }) {
       />
     </svg>
   );
-}
-
-export type SignVideo = { src: string; poster?: string | undefined; captions?: string | undefined };
-
-export function useSignVideo(id: string): SignVideo | null {
-  const preview = usePreview();
-  const src = fileFor(id, "mp4", preview);
-  if (!src) return null;
-  return { src, poster: fileFor(id, "jpg", preview), captions: fileFor(id, "vtt", preview) };
 }
 
 export function SignVideoButton({ title, onOpen }: { title: string; onOpen: () => void }) {
