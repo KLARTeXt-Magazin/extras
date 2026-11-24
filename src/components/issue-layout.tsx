@@ -29,6 +29,7 @@ import {
   type ReactNode,
 } from "react";
 
+import { Link } from "@tanstack/react-router";
 import { AudioAccess } from "@/components/audio-access";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { Button } from "@/components/ui/button";
@@ -75,6 +76,43 @@ export function IssueHead({
         {intro ? <p className="issue-head__intro">{intro}</p> : null}
       </div>
     </header>
+  );
+}
+
+// -------------------------------------------------------
+// WEITERHÖREN: letzte Karteikarte mit Cover der nächsten Ausgabe
+// -------------------------------------------------------
+export function ContinueCard({ issue }: { issue: Issue }) {
+  if (!issue.to) return null;
+  return (
+    <section className="issue-section issue-continue" aria-labelledby="weiterhoeren-titel">
+      <Link
+        to={issue.to}
+        className="continue-card"
+        style={
+          {
+            "--continue-ink": issue.color ?? "var(--foreground)",
+            "--continue-accent": issue.accent ?? "var(--background)",
+          } as CSSProperties
+        }
+      >
+        {issue.cover ? (
+          <img className="continue-card__cover" src={issue.cover} alt="" loading="lazy" />
+        ) : null}
+        <span className="continue-card__text">
+          <span className="continue-card__label">
+            Weiterhören · {issue.eyebrow.split(" · ")[0]}
+          </span>
+          <span id="weiterhoeren-titel" className="continue-card__title">
+            {issue.title}
+          </span>
+          <span className="continue-card__sub">
+            {issue.subtitle}
+            <ArrowRight aria-hidden="true" className="continue-card__arrow" />
+          </span>
+        </span>
+      </Link>
+    </section>
   );
 }
 
@@ -498,7 +536,7 @@ function ShelfCard({
             {track.coverWord ? <p className="audio-track-title">{track.title}</p> : null}
 
             {unlocked ? (
-              <div className="mt-6">
+              <div className="mt-4">
                 <Button
                   className="min-h-12 w-full rounded-full px-5"
                   onClick={() => (isCurrent ? player.expand() : player.open(track))}
@@ -568,7 +606,7 @@ function ShelfCard({
               {signVideo ? (
                 <span className="shelf-card__dgs" title="Auch in Gebärdensprache">
                   <SignIcon className="size-3.5" />
-                  DGS
+                  Gebärden
                 </span>
               ) : null}
             </>

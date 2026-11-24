@@ -130,7 +130,7 @@ export function ListeningMode({
                     aria-label="In Deutscher Gebärdensprache"
                   >
                     <SignIcon className="size-4" />
-                    DGS
+                    Gebärden
                   </button>
                 ) : null}
               </div>
