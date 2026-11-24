@@ -2426,13 +2426,14 @@ body:has(.mini-player) {
    ======================================================= */
 
 .breath-intro {
-  /* Farben des Logos: Papier, Schwarz, Taupe */
-  --intro-bg: #f6efe3;
+  /* Farben des Logos (helles Papier, Schwarz, Taupe nur im Schriftzug)
+     plus Soft-Rinse-Blau für den atmenden Punkt */
+  --intro-bg: #fbf8f2;
   --intro-ink: #0d0a09;
   --intro-blue: #0d0a09;
-  --intro-sky: #bc9e87;
+  --intro-taupe: #bc9e87;
+  --intro-sky: #a2b5d8;
   --intro-paper: #fffdf8;
-  --intro-taupe-soft: #e4d6c8;
   --intro-line: #0d0a09;
   position: fixed;
   inset: 0;
@@ -2495,7 +2496,7 @@ body:has(.mini-player) {
 
 /* wie im Logo: „KLAR“ schwarz, „TeXt“ und Punkt in Taupe */
 .hello-mark__soft {
-  color: var(--intro-sky);
+  color: var(--intro-taupe);
 }
 
 .hello-mark__dot {
@@ -2619,7 +2620,7 @@ body:has(.mini-player) {
   right: 4%;
   bottom: 20%;
   padding: 0.4rem 0.6rem;
-  background: var(--intro-taupe-soft);
+  background: var(--intro-paper);
   color: var(--intro-line);
   rotate: -6deg;
   animation-delay: 1300ms;
