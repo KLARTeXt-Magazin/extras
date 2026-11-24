@@ -7,7 +7,17 @@
 // =======================================================
 
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { CalendarDays, Clock, MapPin, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  CalendarDays,
+  Clock,
+  Mail,
+  MapPin,
+  Pencil,
+  Phone,
+  Plus,
+  Ticket,
+  Trash2,
+} from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -21,6 +31,11 @@ export const Route = createFileRoute("/termine")({
     meta: [
       { title: "ZEIT FÜR DICH. – Termine | KLARTeXt." },
       { name: "robots", content: "noindex, nofollow" },
+      {
+        name: "description",
+        content:
+          "ZEIT FÜR DICH.: die monatliche Veranstaltungsreihe von KLARTeXt. im Riviera in Germering.",
+      },
     ],
   }),
   loader: () => holeTermine(),
@@ -42,20 +57,35 @@ function TerminSeite() {
       <main id="inhalt" className="min-h-screen bg-background font-body text-foreground">
         <SiteHeader hasScrolled current="/" />
 
-        <section className="overview-hero px-5 pb-10 sm:px-7">
+        <section className="overview-hero px-5 pb-12 sm:px-7">
           <div className="mx-auto w-full max-w-[560px]">
             <p className="text-xs font-medium uppercase text-muted-foreground">
-              <span className="normal-case">KLARTeXt.</span> in Germering
+              Veranstaltungen mit <span className="normal-case">KLARTeXt.</span>
             </p>
             <h1 className="hero-title mt-3">ZEIT FÜR DICH.</h1>
-            <p className="mt-6 max-w-md text-sm leading-7 text-muted-foreground">
-              Einmal im Monat ein Abend zum Durchatmen. Hier findest du die nächsten Termine.
+            <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">
+              Unsere monatliche Veranstaltungsreihe im Riviera in Germering. Raus aus dem Alltag,
+              Neues entdecken und gemeinsam eine gute Zeit haben.
             </p>
+            <ul className="termine-fakten mt-7" aria-label="Auf einen Blick">
+              <li>
+                <CalendarDays aria-hidden className="size-4" /> Einmal im Monat
+              </li>
+              <li>
+                <MapPin aria-hidden className="size-4" /> Riviera, Germering
+              </li>
+              <li>
+                <Ticket aria-hidden className="size-4" /> Mit Platzreservierung
+              </li>
+            </ul>
           </div>
         </section>
 
-        <section className="px-5 pb-16 sm:px-7" aria-label="Termine">
+        <section className="px-5 pt-12 pb-16 sm:px-7" aria-labelledby="termine-titel">
           <div className="mx-auto grid w-full max-w-[560px] gap-4">
+            <h2 id="termine-titel" className="section-title mb-2">
+              Nächste Termine
+            </h2>
             {angemeldet ? (
               <div className="termine-redaktion">
                 <p className="text-sm font-semibold">Du bist als Redaktion angemeldet.</p>
@@ -168,6 +198,46 @@ function TerminSeite() {
                 </button>
               )
             ) : null}
+          </div>
+        </section>
+
+        <section className="termine-ort px-5 py-14 sm:px-7" aria-labelledby="ort-titel">
+          <div className="mx-auto grid w-full max-w-[560px] gap-6 sm:grid-cols-2">
+            <div>
+              <h2 id="ort-titel" className="section-title">
+                Hier treffen wir uns
+              </h2>
+              <address className="mt-5 text-base not-italic leading-7">
+                Riviera
+                <br />
+                Bertha-von-Suttner-Straße 5
+                <br />
+                82110 Germering
+              </address>
+              <a
+                className="termine-button mt-4"
+                href="https://www.google.com/maps/search/?api=1&query=Riviera%2C+Bertha-von-Suttner-Stra%C3%9Fe+5%2C+82110+Germering"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <MapPin aria-hidden className="size-4" /> Route planen
+              </a>
+            </div>
+            <div>
+              <h2 className="section-title">Fragen?</h2>
+              <ul className="mt-5 grid gap-2 text-base">
+                <li>
+                  <a className="termine-kontakt" href="tel:+4915173018404">
+                    <Phone aria-hidden className="size-4" /> 0151 73018404
+                  </a>
+                </li>
+                <li>
+                  <a className="termine-kontakt" href="mailto:redaktion@magazin-klartext.de">
+                    <Mail aria-hidden className="size-4" /> redaktion@magazin-klartext.de
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
         <SiteFooter />

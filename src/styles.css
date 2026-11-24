@@ -342,9 +342,10 @@
 
 .bottom-nav-inner {
   margin-inline: auto;
-  max-width: 400px;
+  max-width: 440px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
 }
 
 .bottom-nav-item {
@@ -3009,6 +3010,37 @@ body:has(.mini-player) {
 .termine-karte--formular {
   gap: 0.9rem;
   border-color: var(--primary);
+}
+
+.termine-fakten {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.termine-fakten li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--background) 70%, transparent);
+  color: var(--wine);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.termine-ort {
+  background: var(--card);
+}
+
+.termine-kontakt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .termine-redaktion {

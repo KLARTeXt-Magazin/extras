@@ -20,7 +20,7 @@ import { useIsStandaloneApp } from "@/lib/app-mode";
 
 // Desktop-Navigation (gleiche Punkte wie die untere Leiste)
 function HeaderNav() {
-  const { latest, issuesCurrent, isStart } = useNavState();
+  const { latest, issuesCurrent, isStart, isTermine } = useNavState();
 
   return (
     <nav className="header-nav" aria-label="Hauptnavigation">
@@ -36,6 +36,9 @@ function HeaderNav() {
           Ausgaben
         </Link>
       ) : null}
+      <Link to="/termine" aria-current={isTermine ? "page" : undefined}>
+        Termine
+      </Link>
       <a href={MAGAZIN_URL} target="_blank" rel="noreferrer">
         Magazin
         <ArrowUpRight className="size-3.5" aria-hidden="true" />

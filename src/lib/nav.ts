@@ -21,5 +21,11 @@ export function useNavState() {
     : isIssue
       ? "true"
       : undefined;
-  return { latest, isIssue, issuesCurrent, isStart: pathname === "/" };
+  return {
+    latest,
+    isIssue,
+    issuesCurrent,
+    isStart: pathname === "/",
+    isTermine: pathname === "/termine",
+  };
 }

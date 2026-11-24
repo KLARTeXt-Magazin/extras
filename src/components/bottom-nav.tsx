@@ -4,6 +4,7 @@
 // • Ausgaben → neueste Ausgabe (springt automatisch um,
 //   sobald in src/lib/issues.ts eine neue öffentlich ist);
 //   markiert auf jeder Ausgabenseite, auch bei älteren
+// • Termine → Veranstaltungsreihe „ZEIT FÜR DICH.“
 // • Magazin → magazin-klartext.de (neuer Tab)
 // Aktiver Punkt: helle Glas-Kapsel um Symbol und Text (wie in Safari/iOS).
 // Ab 900 px ausgeblendet; dort stehen dieselben Punkte oben
@@ -11,14 +12,14 @@
 // =======================================================
 
 import { Link } from "@tanstack/react-router";
-import { BookOpen, House, Share2, Sparkles } from "lucide-react";
+import { BookOpen, CalendarDays, House, Share2, Sparkles } from "lucide-react";
 
 import { MAGAZIN_URL } from "@/lib/links";
 import { useNavState } from "@/lib/nav";
 import { useIsStandaloneApp } from "@/lib/app-mode";
 
 export function BottomNav() {
-  const { latest, isIssue, issuesCurrent, isStart } = useNavState();
+  const { latest, isIssue, issuesCurrent, isStart, isTermine } = useNavState();
   const standalone = useIsStandaloneApp();
 
   const sharePage = async () => {
@@ -68,6 +69,16 @@ export function BottomNav() {
             <span>Ausgaben</span>
           </Link>
         ) : null}
+
+        <Link
+          to="/termine"
+          className={`bottom-nav-item ${isTermine ? "bottom-nav-item-active" : ""}`}
+          aria-current={isTermine ? "page" : undefined}
+          aria-label="Termine: Veranstaltungen ZEIT FÜR DICH."
+        >
+          <CalendarDays className="size-5" strokeWidth={1.75} aria-hidden="true" />
+          <span>Termine</span>
+        </Link>
 
         {standalone ? (
           <button
