@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { BottomNav } from "../components/bottom-nav";
 import { BreathIntro } from "../components/breath-intro";
 import { PlayerProvider } from "../lib/player";
+import { IconUpdateHint } from "../components/icon-update-hint";
 import { InstallBanner } from "../components/install-banner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteFooter, SiteHeader } from "../components/site-chrome";
@@ -212,6 +213,7 @@ function RootComponent() {
       <Outlet />
       <BottomNav />
       <InstallBanner />
+      <IconUpdateHint />
     </PlayerProvider>
   );
 }
