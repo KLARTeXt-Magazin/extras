@@ -2426,12 +2426,14 @@ body:has(.mini-player) {
    ======================================================= */
 
 .breath-intro {
-  /* Farben aus der Web-App-Palette: Emberwood, Sand, Tidal Depth, Soft Rinse */
-  --intro-bg: #48110f;
-  --intro-ink: #fcf3df;
-  --intro-blue: #475b8b;
-  --intro-sky: #a2b5d8;
-  --intro-line: #2b1d18;
+  /* Farben des Logos: Papier, Schwarz, Taupe */
+  --intro-bg: #f6efe3;
+  --intro-ink: #0d0a09;
+  --intro-blue: #0d0a09;
+  --intro-sky: #bc9e87;
+  --intro-paper: #fffdf8;
+  --intro-taupe-soft: #e4d6c8;
+  --intro-line: #0d0a09;
   position: fixed;
   inset: 0;
   z-index: 200;
@@ -2489,6 +2491,11 @@ body:has(.mini-player) {
   font-weight: 800;
   letter-spacing: -0.01em;
   animation: hello-pop 650ms cubic-bezier(0.34, 1.56, 0.64, 1) 150ms both;
+}
+
+/* wie im Logo: „KLAR“ schwarz, „TeXt“ und Punkt in Taupe */
+.hello-mark__soft {
+  color: var(--intro-sky);
 }
 
 .hello-mark__dot {
@@ -2585,7 +2592,7 @@ body:has(.mini-player) {
   top: 8%;
   right: 0%;
   background: var(--intro-blue);
-  color: var(--intro-ink);
+  color: var(--intro-paper);
   rotate: 7deg;
   animation-delay: 850ms;
 }
@@ -2597,7 +2604,7 @@ body:has(.mini-player) {
 .hello-bubble--3 {
   bottom: 14%;
   left: 18%;
-  background: var(--intro-ink);
+  background: var(--intro-paper);
   color: var(--intro-line);
   rotate: 5deg;
   animation-delay: 1150ms;
@@ -2612,7 +2619,7 @@ body:has(.mini-player) {
   right: 4%;
   bottom: 20%;
   padding: 0.4rem 0.6rem;
-  background: var(--intro-sky);
+  background: var(--intro-taupe-soft);
   color: var(--intro-line);
   rotate: -6deg;
   animation-delay: 1300ms;

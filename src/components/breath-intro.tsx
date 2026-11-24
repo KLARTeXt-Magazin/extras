@@ -102,7 +102,7 @@ export function BreathIntro() {
           </span>
           <p className="hello-mark">
             <span>
-              KLARTeXt
+              KLAR<span className="hello-mark__soft">TeXt</span>
               <span className="hello-mark__dot" />
             </span>
           </p>
