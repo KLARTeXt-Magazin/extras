@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-23T23:55:05.166Z",
+  "title": "Design System: KLARTeXt. Extras",
+  "extensions": {
+    "colorMeta": {
+      "espresso": {
+        "role": "primary",
+        "displayName": "Espresso",
+        "canonical": "#3b2723",
+        "tonalRamp": ["#281816", "#3b2723", "#5a3d36", "#795b52", "#987c71", "#b89d91", "#d4c1b8", "#f0e9e4"]
+      },
+      "espresso-deep": {
+        "role": "primary",
+        "displayName": "Tiefes Mineralrot",
+        "canonical": "#3a0c0c",
+        "tonalRamp": ["#250808", "#3a0c0c", "#591b1b", "#793333", "#995252", "#b87878", "#d3a6a6", "#f0dede"]
+      },
+      "ivory": {
+        "role": "neutral",
+        "displayName": "Elfenbein",
+        "canonical": "#f2ede5",
+        "tonalRamp": ["#302d2a", "#5c5650", "#898077", "#ada39a", "#cfc6bd", "#dfd8d0", "#ebe6df", "#f2ede5"]
+      },
+      "pearl": {
+        "role": "neutral",
+        "displayName": "Perlmutt",
+        "canonical": "#f8f6f2",
+        "tonalRamp": ["#302f2c", "#5d5a55", "#898680", "#b1ada6", "#d0ccc5", "#e2dfd9", "#eeeae5", "#f8f6f2"]
+      },
+      "pampas-sand": {
+        "role": "secondary",
+        "displayName": "Pampas-Sand",
+        "canonical": "#dccbb2",
+        "tonalRamp": ["#40382d", "#665845", "#8d795c", "#aa9471", "#c1aa84", "#dccbb2", "#eadfcd", "#f6f1e9"]
+      },
+      "muted-clay": {
+        "role": "neutral",
+        "displayName": "Gedämpfter Lehm",
+        "canonical": "#715e58",
+        "tonalRamp": ["#2b2422", "#493c38", "#715e58", "#8e7c75", "#ad9d96", "#c8bbb5", "#ded5d0", "#f0eae7"]
+      },
+      "linen-cool": {
+        "role": "neutral",
+        "displayName": "Kühles Leinen",
+        "canonical": "#e7e2dc",
+        "tonalRamp": ["#30302f", "#5f5d59", "#8d8983", "#b0aca5", "#c9c4bd", "#d8d3cd", "#e1ddd7", "#e7e2dc"]
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Nebel",
+        "canonical": "#ded8d1",
+        "tonalRamp": ["#30302e", "#5c5a56", "#898580", "#aaa59e", "#c2bdb6", "#ded8d1", "#ebe7e2", "#f6f4f1"]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Linie",
+        "canonical": "#cfc6bf",
+        "tonalRamp": ["#292827", "#55514e", "#817b76", "#9d9690", "#b7afa8", "#cfc6bf", "#e2ddd8", "#f2efec"]
+      },
+      "denim": {
+        "role": "secondary",
+        "displayName": "Staubiges Jeansblau",
+        "canonical": "#c3ced3",
+        "tonalRamp": ["#263034", "#4c5c63", "#70838c", "#8ea2aa", "#a9bac0", "#c3ced3", "#dce3e5", "#f1f5f6"]
+      },
+      "listening-white": {
+        "role": "neutral",
+        "displayName": "Hörweiß",
+        "canonical": "#fffefa",
+        "tonalRamp": ["#30302e", "#5d5c59", "#8c8a86", "#b1afaa", "#cfcdc8", "#e1dfda", "#efede8", "#fffefa"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Syne",
+        "purpose": "Expressive editorial headlines, issue titles, and card titles."
+      },
+      "body": {
+        "displayName": "Plus Jakarta Sans",
+        "purpose": "Navigation, metadata, descriptions, controls, and reading text."
+      },
+      "label": {
+        "displayName": "Plus Jakarta Sans Label",
+        "purpose": "Small uppercase metadata and navigation labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-ui",
+        "value": "0 12px 32px color-mix(in srgb, var(--foreground) 18%, transparent)",
+        "purpose": "Floating install notices and layered UI hints."
+      },
+      {
+        "name": "floating-navigation",
+        "value": "0 8px 28px -6px rgb(0 0 0 / 0.18)",
+        "purpose": "Mobile bottom navigation."
+      },
+      {
+        "name": "quiet-control",
+        "value": "0 3px 10px color-mix(in srgb, var(--foreground) 8%, transparent)",
+        "purpose": "Small header controls."
+      }
+    ],
+    "motion": [
+      {
+        "name": "settle",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Cards, shelves, and player surfaces entering or changing state."
+      },
+      {
+        "name": "state",
+        "value": "200ms ease",
+        "purpose": "Color and focus transitions for controls."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "380px"
+      },
+      {
+        "name": "tablet",
+        "value": "700px"
+      },
+      {
+        "name": "desktop",
+        "value": "900px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Warm, confident action for starting or continuing an impulse.",
+      "html": "<button class=\"ds-btn-primary\">Hören</button>",
+      "css": ".ds-btn-primary { background: #3b2723; color: #f2ede5; border: 0; border-radius: 999px; min-height: 48px; padding: 0 20px; font: 600 14px/1.2 'Plus Jakarta Sans', sans-serif; transition: background-color 200ms ease, outline-color 200ms ease; } .ds-btn-primary:hover { background: #5a3d36; } .ds-btn-primary:focus-visible { outline: 2px solid #3a0c0c; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet supporting action such as opening an app guide or PDF.",
+      "html": "<button class=\"ds-btn-secondary\">App speichern</button>",
+      "css": ".ds-btn-secondary { background: #f8f6f2; color: #3b2723; border: 1px solid #cfc6bf; border-radius: 999px; min-height: 40px; padding: 0 14px; font: 600 12px/1.2 'Plus Jakarta Sans', sans-serif; transition: background-color 200ms ease, outline-color 200ms ease; } .ds-btn-secondary:hover { background: #ded8d1; } .ds-btn-secondary:focus-visible { outline: 2px solid #3a0c0c; outline-offset: 2px; }"
+    },
+    {
+      "name": "Issue Card",
+      "kind": "card",
+      "refersTo": "issue-card",
+      "description": "Editorial issue entry that connects the overview with a magazine edition.",
+      "html": "<article class=\"ds-issue-card\"><div class=\"ds-issue-media\"></div><div class=\"ds-issue-body\"><small>Ausgabe 02</small><h3>Lichtblicke</h3><p>Audio-Momente zum Innehalten.</p></div></article>",
+      "css": ".ds-issue-card { display: grid; grid-template-columns: 96px 1fr; overflow: hidden; background: #f8f6f2; color: #3b2723; border-radius: 22px; border: 1px solid #cfc6bf; } .ds-issue-media { min-height: 112px; background: #dccbb2; } .ds-issue-body { padding: 16px; } .ds-issue-body small { color: #715e58; font: 600 10px/1.2 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: .12em; } .ds-issue-body h3 { margin: 6px 0 0; font: 700 20px/1.1 'Syne', sans-serif; } .ds-issue-body p { margin: 6px 0 0; color: #715e58; font: 400 14px/1.5 'Plus Jakarta Sans', sans-serif; }"
+    },
+    {
+      "name": "Audio Card",
+      "kind": "custom",
+      "refersTo": "audio-card",
+      "description": "Color-led listening tile for a single magazine impulse.",
+      "html": "<article class=\"ds-audio-card\"><small>6. Dezember</small><div class=\"ds-wave\" aria-hidden=\"true\"></div><div class=\"ds-audio-foot\"><strong>Einen Moment zum Nikolaus</strong><button class=\"ds-play\" aria-label=\"Abspielen\">▶</button></div></article>",
+      "css": ".ds-audio-card { position: relative; display: flex; flex-direction: column; width: 240px; aspect-ratio: 1; padding: 15px; background: #173d3a; color: #b8d4d1; border-radius: 22px; } .ds-audio-card small { font: 600 12px/1.2 'Plus Jakarta Sans', sans-serif; } .ds-wave { width: 62%; height: 72px; margin: auto 0; opacity: .45; border-top: 2px solid currentColor; border-radius: 50%; transform: rotate(-8deg); } .ds-audio-foot { display: flex; align-items: end; justify-content: space-between; gap: 8px; } .ds-audio-foot strong { max-width: 150px; font: 700 16px/1.15 'Syne', sans-serif; } .ds-play { display: grid; width: 48px; height: 48px; place-items: center; border: 0; border-radius: 999px; background: #b8d4d1; color: #173d3a; } .ds-play:focus-visible { outline: 2px solid #b8d4d1; outline-offset: -4px; }"
+    },
+    {
+      "name": "Mobile Navigation",
+      "kind": "nav",
+      "refersTo": "bottom-navigation",
+      "description": "Floating mobile navigation for Start, Ausgaben, and Magazin.",
+      "html": "<nav class=\"ds-bottom-nav\"><a class=\"ds-nav-active\" href=\"#\">Start</a><a href=\"#\">Ausgaben</a><a href=\"#\">Magazin</a></nav>",
+      "css": ".ds-bottom-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 5px; background: rgb(255 255 255 / .42); border: 1px solid rgb(255 255 255 / .65); border-radius: 999px; box-shadow: 0 8px 28px -6px rgb(0 0 0 / .18), inset 0 1px 0 rgb(255 255 255 / .9); backdrop-filter: blur(14px) saturate(180%); } .ds-bottom-nav a { min-height: 44px; display: grid; place-items: center; border-radius: 999px; color: #3b2723; font: 600 10px/1.2 'Plus Jakarta Sans', sans-serif; } .ds-bottom-nav a:hover, .ds-bottom-nav .ds-nav-active { background: rgb(255 255 255 / .6); } .ds-bottom-nav a:focus-visible { outline: 2px solid #3a0c0c; outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Das redaktionelle Ruhehaus",
+    "overview": "KLARTeXt. Extras ist ein warmes, haptisches Zuhause für kleine Momente. Die Oberfläche verlängert das Printmagazin nicht als technische Plattform, sondern als ruhigen Übergang: Leser:innen scannen einen QR-Code und landen ohne Umwege bei einem passenden Audio-Impuls oder Begleittext.\n\nDie visuelle Sprache verbindet redaktionelle Klarheit mit bewusst inszenierten Ausgabenwelten. Grundflächen bleiben ruhig und materialbasiert; Cover, Ausgabenfarben und Audio-Karten dürfen dagegen charaktervoll und kontrastreich auftreten. Tiefe entsteht primär durch Farbebenen, Überlagerungen, Rundungen und wenige gezielte Schatten.",
+    "keyCharacteristics": [
+      "Warmes Elfenbein, Espresso und Pampas-Sand als ruhige Grundstimmung",
+      "Syne für expressive redaktionelle Titel, Plus Jakarta Sans für Orientierung und Lesetext",
+      "Mobile-first mit einer konzentrierten Inhaltsbreite von maximal etwa 430px",
+      "Ausgaben als eigene Farb- und Bildwelten innerhalb eines gemeinsamen Rahmens",
+      "Flache Inhaltsflächen; Glas und stärkere Tiefe nur auf Bedienebenen wie Navigation und Player"
+    ],
+    "rules": [
+      {
+        "name": "Die Ruhehaus-Regel",
+        "body": "Grundflächen bleiben warm, ruhig und lesbar; Farbe wird gezielt für Ausgaben, Zustände und aktive Bedienung eingesetzt.",
+        "section": "colors"
+      },
+      {
+        "name": "Die Zwei-Stimmen-Regel",
+        "body": "Syne schafft Orientierung und Haltung; Jakarta Sans erklärt. Keine dritte Schriftfamilie ergänzen.",
+        "section": "typography"
+      },
+      {
+        "name": "Die Flat-by-Default-Regel",
+        "body": "Inhalte liegen ruhig und deckend; Schatten und Blur markieren nur Bedienung oder Zustandswechsel.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do den QR-Code-Weg in wenigen, klaren Schritten unterstützen.",
+      "Do warme Papier- und Materialtöne mit den individuellen Ausgabenfarben verbinden.",
+      "Do Syne nur für markante redaktionelle Titel und Plus Jakarta Sans für funktionale Information einsetzen.",
+      "Do mobile Lesbarkeit, 44px-Touch-Ziele und sichtbaren Tastaturfokus bewahren.",
+      "Do Glas- und Schatteneffekte auf Bedienebenen begrenzen.",
+      "Do deutsche Inhalte, lokale Schriften und die exakte Schreibweise „KLARTeXt.“ bewahren."
+    ],
+    "donts": [
+      "Don't Google Fonts, Tracking, Cookies oder unnötige Drittanbieter-Einbindungen ergänzen.",
+      "Don't die ruhigen Inhaltsflächen mit dauerhaftem Blur, starken Verläufen oder dekorativen Schatten überladen.",
+      "Don't die 430px-Inhaltslogik durch breite, beliebige Dashboard-Raster ersetzen.",
+      "Don't Footer-Links zu Impressum oder Datenschutz entfernen.",
+      "Don't generische SaaS-Farbwelten oder eine zusätzliche Schriftfamilie einführen."
+    ]
+  }
+}

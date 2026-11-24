@@ -48,7 +48,7 @@ export function SiteHeader({ hasScrolled }: { hasScrolled: boolean; current: Sit
     <header
       className={`floating-site-header fixed inset-x-0 top-0 z-50 ${hasScrolled ? "is-scrolled" : ""}`}
     >
-      <div className="site-header-inner mx-auto grid w-full max-w-[430px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:px-7">
+      <div className="site-header-inner mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:px-7">
         <a
           href={MAGAZIN_URL}
           target="_blank"

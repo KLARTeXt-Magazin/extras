@@ -190,6 +190,7 @@
 
 .site-header-inner {
   height: 4rem;
+  max-width: 430px;
 }
 
 .site-logo {
@@ -1080,6 +1081,10 @@ body:has(.mini-player) {
 @media (min-width: 900px) {
   body {
     padding-bottom: 0;
+  }
+
+  .site-header-inner {
+    max-width: 76rem;
   }
 
   .mini-player {
