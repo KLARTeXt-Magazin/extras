@@ -416,7 +416,7 @@ function Lichtblicke() {
         </div>
 
         <IssueSheet flat>
-          <ContinueCard issue={getIssue("/ehrlichkeit")} />
+          <ContinueCard issue={getIssue("/ehrlichkeit")} cta="Zur Audio-Auszeit" />
         </IssueSheet>
 
         <SiteFooter />
