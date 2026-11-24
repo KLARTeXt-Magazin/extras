@@ -6,12 +6,11 @@
 // Inhalte ändern → `track` und Begleittext unten.
 // =======================================================
 
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import coverImage from "@/assets/cover-zeit-collage-v3.jpg";
-import { AudioShelf, IssueHead, IssueSheet } from "@/components/issue-layout";
+import { AudioShelf, ContinueCard, IssueHead, IssueSheet } from "@/components/issue-layout";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { getIssue, latestIssue } from "@/lib/issues";
 import { usePreview } from "@/lib/preview";
@@ -101,22 +100,7 @@ function Ehrlichkeit() {
 
         {nextIssue?.to ? (
           <IssueSheet flat>
-            {/* Weiterhören */}
-            <section className="issue-section issue-continue">
-              <p className="text-xs font-semibold text-muted-foreground">
-                Weiterhören · {nextIssue.eyebrow.split(" · ")[0]}
-              </p>
-
-              <Link
-                to={nextIssue.to}
-                className="continue-link mt-3 text-2xl leading-tight text-foreground"
-              >
-                {nextIssue.title}
-                <span className="mt-3 block text-sm font-medium text-foreground/70">
-                  {nextIssue.subtitle} <ArrowRight aria-hidden="true" className="continue-arrow" />
-                </span>
-              </Link>
-            </section>
+            <ContinueCard issue={nextIssue} />
           </IssueSheet>
         ) : null}
 

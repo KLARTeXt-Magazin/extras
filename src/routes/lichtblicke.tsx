@@ -15,16 +15,22 @@
 // • Track-ids = Hash-Links der QR-Codes (#nikolaus, #heiligabend, …)
 // =======================================================
 
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Download, Play } from "lucide-react";
+import { Download, Play } from "lucide-react";
 
 import coverMoment from "../assets/cover-pmr-collage-v3.jpg";
 import coverNikolausNeu from "../assets/cover-nikolaus-collage-v3.jpg";
 import coverGrussNeu from "../assets/cover-heiligabend-collage-v3.jpg";
 import coverMomentNeu from "../assets/cover-moment-collage-v3.jpg";
 
-import { AudioShelf, Expandable, IssueHead, IssueSheet } from "@/components/issue-layout";
+import {
+  AudioShelf,
+  ContinueCard,
+  Expandable,
+  IssueHead,
+  IssueSheet,
+} from "@/components/issue-layout";
 import { PdfDownloadLink } from "@/components/pdf-download-link";
 import { usePlayer } from "@/lib/player";
 import type { AudioTrack } from "@/lib/tracks";
@@ -410,20 +416,7 @@ function Lichtblicke() {
         </div>
 
         <IssueSheet flat>
-          {/* Weiterhören */}
-          <section className="issue-section issue-continue">
-            <p className="text-xs font-semibold text-muted-foreground">Weiterhören · Ausgabe 01</p>
-
-            <Link
-              to="/ehrlichkeit"
-              className="continue-link mt-3 text-2xl leading-tight text-foreground"
-            >
-              Warum Ehrlichkeit Mut braucht
-              <span className="mt-3 block text-sm font-medium text-foreground/70">
-                Zur Audio-Auszeit <ArrowRight aria-hidden="true" className="continue-arrow" />
-              </span>
-            </Link>
-          </section>
+          <ContinueCard issue={getIssue("/ehrlichkeit")} />
         </IssueSheet>
 
         <SiteFooter />

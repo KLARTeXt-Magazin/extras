@@ -129,6 +129,12 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Textmarkierung in KLARTeXt-Farben statt Browser-Blau */
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 28%, transparent);
+    color: inherit;
+  }
+
   /* Sichtbarer Tastaturfokus */
   :where(a, button, input, select, textarea, [tabindex]):focus-visible {
     outline: 2px solid var(--accent-mineral);
@@ -437,12 +443,6 @@
   text-wrap: balance;
 }
 
-/* Ausgabentitel auch als Verweis in Großbuchstaben */
-.issue-continue .continue-link {
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-}
-
 .issue-head__intro {
   max-width: 22rem;
   margin-top: 1rem;
@@ -460,6 +460,17 @@
 .issue-stage > .issue-head {
   position: sticky;
   top: 0;
+}
+
+/* Handy: Hören bleibt stehen, sobald sein Ende unten ankommt;
+   „Lesen“ fährt dann darüber wie Hören über den Kopf */
+@media (max-width: 899px) {
+  .issue-stage:has(> .pmr-band) > .content-sheet {
+    position: sticky;
+    top: min(0px, calc(100svh - var(--sheet-h, 100svh)));
+    /* Platz für die untere Navigation, damit der Impuls frei bleibt */
+    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+  }
 }
 
 .content-sheet {
@@ -500,8 +511,33 @@
   color: var(--muted-foreground);
 }
 
-.issue-section--tight {
-  padding-bottom: 0.5rem;
+/* Sprunglink „1 Beitrag zum Lesen“ neben der Hören-Überschrift */
+.section-head__side {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.25rem 0.75rem;
+}
+
+.section-jump {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.section-jump__icon {
+  display: inline-block;
+  width: 0.95em;
+  height: 0.95em;
+  margin-left: 0.25em;
+  vertical-align: -0.12em;
+  stroke-width: 2.25;
 }
 
 .section-head__side {
@@ -676,7 +712,10 @@
   outline-color: var(--audio-accent-ink);
 }
 
+/* große Karten: alle gleich hoch und oben bündig, sonst entsteht
+   über der aktiven Karte eine Lücke, wenn eine Nachbarin zweizeilig ist */
 .audio-shelf:has(.shelf-big) {
+  align-items: stretch;
   padding-top: 0.5rem;
 }
 
@@ -881,9 +920,85 @@ details[open] > .read-row__summary .read-row__arrow {
   line-height: 1.7;
 }
 
-/* Ausgabe 01 / weitere Abschnitte im Sandblatt */
+/* Weiterhören: letzte Karteikarte in der Farbe der nächsten Ausgabe */
 .issue-continue {
   padding-inline: 1.25rem;
+}
+
+.continue-card {
+  display: grid;
+  grid-template-columns: 5.75rem minmax(0, 1fr);
+  align-items: center;
+  gap: 1.1rem;
+  width: min(100%, 44rem);
+  padding: 0.7rem 1.25rem 0.7rem 0.7rem;
+  border-radius: 1.5rem;
+  background: var(--continue-ink);
+  color: var(--continue-accent);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.continue-card:hover {
+  transform: translateY(-2px);
+}
+
+.continue-card:focus-visible {
+  outline: 3px solid var(--continue-ink);
+  outline-offset: 3px;
+}
+
+.continue-card__cover {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 0.8rem;
+  object-fit: cover;
+}
+
+.continue-card__text {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.continue-card__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.continue-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 5.4vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.continue-card__sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.continue-card__arrow {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.continue-card:hover .continue-card__arrow {
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .continue-card,
+  .continue-card__arrow {
+    transition: none;
+  }
 }
 
 @media (min-width: 900px) {
@@ -1669,7 +1784,7 @@ body:has(.mini-player) {
    Farbe je Audio-Welt, sonst Espresso */
 .audio-player-card > div:last-of-type {
   margin-top: 0.65rem;
-  padding: 1.6rem 1rem 1.25rem;
+  padding: 1.15rem 1rem 1rem;
   border-radius: 1rem;
   background: var(--audio-accent-ink, var(--wine));
   color: var(--pearl);
@@ -1692,7 +1807,10 @@ body:has(.mini-player) {
   color: color-mix(in srgb, var(--pearl) 75%, transparent);
 }
 
+/* Handy: flacheres Cover (16:10), damit eine Karte samt Impuls
+   kaum mehr als einen Bildschirm braucht */
 .audio-cover-layout {
+  aspect-ratio: 16 / 10;
   border-radius: 1rem;
   background: var(--neutral-mist);
 }
@@ -1834,7 +1952,7 @@ body:has(.mini-player) {
 
 .companion-inner {
   position: relative;
-  padding: 1.5rem 1.5rem 1.25rem;
+  padding: 1.15rem 1.25rem 0.75rem;
   border-radius: 1.25rem;
   background: var(--audio-accent-ink, var(--wine));
   color: var(--neutral-pearl);
@@ -1855,6 +1973,37 @@ body:has(.mini-player) {
 
 .companion-inner :focus-visible {
   outline-color: var(--audio-accent, var(--secondary));
+}
+
+/* Rest des Impulses (Handy und Desktop): erst klein, weich aufklappen */
+.companion-rest {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 280ms ease;
+}
+
+.companion-rest.is-open {
+  grid-template-rows: 1fr;
+}
+
+.companion-rest__inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.companion-toggle svg {
+  transition: transform 250ms ease;
+}
+
+.companion-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .companion-rest,
+  .companion-toggle svg {
+    transition: none;
+  }
 }
 
 /* Verweis auf den Extra-Beitrag weiter unten */
@@ -1891,7 +2040,11 @@ body:has(.mini-player) {
 }
 
 .companion-quote {
+  margin-top: 0.6rem;
   color: var(--audio-accent, var(--secondary));
+  font-size: 1.125rem;
+  line-height: 1.6rem;
+  text-wrap: balance;
   transition: color 400ms ease;
 }
 
@@ -1917,20 +2070,52 @@ body:has(.mini-player) {
 }
 
 /* Progressive Muskelentspannung – sanft in der Salbei-Welt der PMR-Kachel */
+/* „Lesen“ ist die nächste Karteikarte: schiebt sich mit runder
+   Oberkante über „Hören“ (Handy und Desktop) */
 .pmr-band {
-  /* liegt im Stapel immer über dem stehenden Ausgabenkopf */
   position: relative;
   z-index: 2;
+  margin-top: -1.75rem;
+  padding-top: 2rem;
   scroll-margin-top: calc(4.5rem + env(safe-area-inset-top));
   --pmr-accent: #bcd0bf;
   --pmr-ink: #263b2c;
-  border-top: 1px solid color-mix(in srgb, var(--pmr-accent) 80%, transparent);
+  border-radius: 1.75rem 1.75rem 0 0;
+  box-shadow: 0 -14px 30px -18px rgb(38 8 8 / 0.28);
   background: linear-gradient(
     to bottom,
     color-mix(in srgb, var(--pmr-accent) 30%, var(--neutral-linen-cool)) 0%,
     var(--neutral-linen-cool) 70%
   );
   color: var(--foreground);
+}
+
+/* Kopfzeile „Lesen · 1 Beitrag“ */
+.pmr-chapter {
+  margin-bottom: 0;
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+.pmr-chapter-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.pmr-chapter-count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+/* Sicherheitshinweis: Farbfläche statt Seitenbalken */
+.pmr-safety {
+  padding: 1rem 1.2rem;
+  border-radius: 0.9rem;
+  background: color-mix(in oklab, var(--pmr-accent) 45%, transparent);
 }
 
 .pmr-band .text-sage-foreground,
@@ -2761,6 +2946,8 @@ body:has(.mini-player) {
 
 /* Gebärdenvideo-Button auf der Audiokachel (components/sign-video.tsx) */
 .sign-video-button {
+  min-height: 2.75rem;
+  height: auto;
   border: 1px solid color-mix(in oklab, currentColor 45%, transparent);
   color: inherit;
   background: transparent;
@@ -2828,19 +3015,17 @@ body:has(.mini-player) {
    DESKTOP: alle Audios auf einen Blick, jede mit eigenem
    Begleitimpuls als eine Karte (2 × 2), Lesen wie der PMR-Beitrag
    ------------------------------------------------------- */
-.pmr-chapter {
-  display: none;
-}
-
 @media (min-width: 900px) {
-  /* „Lesen“ wandert als Titel in die linke Spalte des Beitrags */
-  .issue-section--tight {
+  /* „Lesen“ steht groß in der linken Spalte des Beitrags */
+  .pmr-chapter-row {
+    margin-bottom: 2.25rem;
+  }
+
+  .pmr-chapter-count {
     display: none;
   }
 
   .pmr-chapter {
-    display: block;
-    margin-bottom: 2.25rem;
     font-size: clamp(2.75rem, 4.4vw, 4rem);
     line-height: 1;
   }
@@ -2946,160 +3131,9 @@ body:has(.mini-player) {
     font-size: 1.4rem;
     line-height: 2.1rem;
   }
-}
 
-/* Rest des Impulses (Handy und Desktop): erst klein, weich aufklappen */
-.companion-rest {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 280ms ease;
-}
-
-.companion-rest.is-open {
-  grid-template-rows: 1fr;
-}
-
-.companion-rest__inner {
-  min-height: 0;
-  overflow: hidden;
-}
-
-.companion-toggle svg {
-  transition: transform 250ms ease;
-}
-
-.companion-toggle[aria-expanded="true"] svg {
-  transform: rotate(180deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .companion-rest,
-  .companion-toggle svg {
-    transition: none;
-  }
-}
-
-/* -------------------------------------------------------
-   HANDY: „Lesen“ ist die nächste Karteikarte im Stapel.
-   Sie schiebt sich mit runder Oberkante über „Hören“,
-   so wie „Hören“ über den Ausgabenkopf.
-   ------------------------------------------------------- */
-.pmr-chapter-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.pmr-chapter-count {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--muted-foreground);
-}
-
-.issue-section--tight {
-  display: none;
-}
-
-@media (min-width: 900px) {
-  .pmr-chapter-count {
-    display: none;
-  }
-}
-
-@media (max-width: 899px) {
-  .pmr-band {
-    position: relative;
-    z-index: 2;
-    margin-top: -1.75rem;
-    padding-top: 2rem;
-    border-top: 0;
-    border-radius: 1.75rem 1.75rem 0 0;
-    box-shadow: 0 -14px 30px -18px rgb(38 8 8 / 0.28);
-  }
-
-  .pmr-chapter {
-    display: block;
-    margin-bottom: 0;
-    font-size: 1.6rem;
-    line-height: 1.1;
-  }
-
-  .pmr-chapter-row {
-    margin-bottom: 1.25rem;
-  }
-
-  /* Hören bleibt stehen, sobald sein Ende unten ankommt;
-     „Lesen“ fährt dann darüber wie Hören über den roten Kopf */
-  .issue-stage:has(> .pmr-band) > .content-sheet {
-    position: sticky;
-    top: min(0px, calc(100svh - var(--sheet-h, 100svh)));
-    /* Platz für die untere Navigation, damit der Impuls frei bleibt */
-    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
-  }
-}
-
-/* Ausgabe mit nur einem Audio: die Karte nicht in einer halben Spalte verlieren */
-@media (min-width: 900px) {
+  /* Ausgabe mit nur einem Audio: nicht in einer halben Spalte verlieren */
   .audio-shelf:has(> .audio-pair:only-child) {
     grid-template-columns: minmax(0, 44rem);
   }
-}
-
-/* Sprunglink „1 Beitrag zum Lesen ↓“ neben der Hören-Überschrift */
-.section-head__side {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: flex-end;
-  gap: 0.25rem 0.75rem;
-}
-
-.section-jump {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--foreground);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
-/* Komfortable Tippflächen (44 px) */
-.install-guide-jump,
-.sign-video-button {
-  min-height: 2.75rem;
-  height: auto;
-}
-
-/* Weiterhören: als Link erkennbar */
-.continue-link:hover span,
-.continue-link:focus-visible span {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
-/* Impeccable-Feinschliff -------------------------------------------- */
-.section-jump__icon,
-.continue-arrow {
-  display: inline-block;
-  width: 0.95em;
-  height: 0.95em;
-  margin-left: 0.25em;
-  vertical-align: -0.12em;
-  stroke-width: 2.25;
-}
-
-/* Sicherheitshinweis im PMR-Beitrag: Farbfläche statt Seitenbalken */
-.pmr-safety {
-  padding: 1rem 1.2rem;
-  border-radius: 0.9rem;
-  background: color-mix(in oklab, var(--pmr-accent, #bcd0bf) 45%, transparent);
-}
-
-/* Textmarkierung in KLARTeXt-Farben statt Browser-Blau */
-::selection {
-  background: color-mix(in oklab, var(--primary) 28%, transparent);
-  color: inherit;
 }
