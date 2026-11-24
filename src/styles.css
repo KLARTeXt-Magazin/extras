@@ -2508,6 +2508,39 @@ body:has(.mini-player) {
 .breath-intro.is-leave .hello-mark__logo {
   transform: scale(0.82);
 }
+/* Atemkreis hinter dem Icon: wächst beim Einatmen, sinkt beim Ausatmen */
+.breath-ring {
+  position: absolute;
+  width: clamp(7.5rem, 34vw, 10rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--intro-sky) 70%, transparent) 0%,
+    color-mix(in srgb, var(--intro-sky) 35%, transparent) 55%,
+    transparent 72%
+  );
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--intro-sky) 60%, transparent);
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    transform 4000ms cubic-bezier(0.37, 0, 0.63, 1),
+    opacity 1200ms ease,
+    box-shadow 4000ms ease;
+}
+
+.breath-intro.is-in .breath-ring {
+  opacity: 1;
+  transform: scale(2.1);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--intro-sky) 25%, transparent);
+}
+
+.breath-intro.is-out .breath-ring,
+.breath-intro.is-leave .breath-ring {
+  opacity: 0.7;
+  transform: scale(0.85);
+}
+
 .hello-bubble {
   position: absolute;
   padding: 0.45rem 0.85rem 0.5rem;
@@ -2645,6 +2678,23 @@ body:has(.mini-player) {
   font-weight: 600;
   color: var(--intro-ink);
   animation: hello-rise 600ms ease 2100ms both;
+}
+
+/* Hinweis wechselt weich zwischen „einatmen …“ und „… und aus.“ */
+.breath-intro.is-in .breath-intro__hint,
+.breath-intro.is-out .breath-intro__hint {
+  animation: breath-hint-swap 900ms ease both;
+}
+
+@keyframes breath-hint-swap {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
 .breath-intro__skip {

@@ -100,6 +100,7 @@ export function BreathIntro() {
             <Hand className="hello-bubble__hand" strokeWidth={2.25} />
           </span>
           <p className="hello-mark">
+            <span className="breath-ring" />
             <img
               src="/icon-192.png?v=8"
               alt="KLARTeXt."
@@ -111,7 +112,7 @@ export function BreathIntro() {
         </div>
 
         <p className="breath-intro__label">schön, dass du da bist.</p>
-        <p className="breath-intro__hint">
+        <p key={stage} className="breath-intro__hint">
           {stage === "greet"
             ? "lass uns kurz zusammen atmen"
             : stage === "in"
