@@ -57,6 +57,9 @@ export function BreathIntro() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     // ?intro zeigt das Intro auch im normalen Browser (zum Ansehen/Testen)
     const forced = new URLSearchParams(window.location.search).has("intro");
+    // QR-Links führen direkt zum Impuls. Die Begrüßung darf diesen
+    // PWA-Einstieg nicht verdecken.
+    if (window.location.hash) return;
     if (!forced && (!isStandaloneApp() || reduced || hasSeenIntro())) return;
 
     markIntroSeen();

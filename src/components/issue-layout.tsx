@@ -215,7 +215,7 @@ export function AudioShelf({
     };
   }, []);
 
-  const goTo = (index: number) => {
+  const goTo = (index: number, immediate = false) => {
     const shelf = shelfRef.current;
     const card = shelf?.querySelectorAll<HTMLElement>("[data-track]")[index];
     if (!shelf || !card) return;
@@ -227,7 +227,7 @@ export function AudioShelf({
         card.offsetLeft -
         shelf.offsetLeft -
         (parseFloat(getComputedStyle(shelf).scrollPaddingInlineStart) || 0),
-      behavior: reduced ? "auto" : "smooth",
+      behavior: reduced || immediate ? "auto" : "smooth",
     });
   };
 
@@ -239,7 +239,15 @@ export function AudioShelf({
       const index = tracks.findIndex((track) => track.id === id);
       if (index < 0) return;
       shelfRef.current?.closest("section")?.scrollIntoView({ block: "start" });
-      requestAnimationFrame(() => goTo(index));
+      const select = () => {
+        const shelf = shelfRef.current;
+        if (!shelf) return;
+        const card = shelf.querySelectorAll<HTMLElement>("[data-track]")[index];
+        if (!card) return;
+        goTo(index, true);
+      };
+      requestAnimationFrame(() => requestAnimationFrame(select));
+      window.setTimeout(select, 500);
       setHighlightId(id);
       window.clearTimeout(timer);
       timer = window.setTimeout(() => setHighlightId(null), 3000);
