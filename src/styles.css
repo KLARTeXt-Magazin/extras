@@ -3094,6 +3094,14 @@ body:has(.mini-player) {
   height: 1.15rem;
 }
 
+.termine-honig {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .termine-login-link {
   justify-self: center;
   min-height: 2.75rem;

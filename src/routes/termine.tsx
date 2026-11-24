@@ -11,6 +11,8 @@ import { CalendarDays, Clock, MapPin, Pencil, Plus, Trash2 } from "lucide-react"
 import { useState, type FormEvent } from "react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { MAGAZIN_URL } from "@/lib/links";
+import { reservieren } from "@/lib/reservierung";
 import { abmelden, anmelden, holeTermine, loescheTermin, speichereTermin } from "@/lib/termine";
 import { LEERER_TERMIN, datumLang, type Termin } from "@/lib/termine-types";
 
@@ -126,6 +128,7 @@ function TerminSeite() {
                   {t.text ? (
                     <p className="mt-4 whitespace-pre-line text-base leading-7">{t.text}</p>
                   ) : null}
+                  {t.status === "oeffentlich" && !t.ausgebucht ? <Reservieren termin={t} /> : null}
                   {angemeldet ? (
                     <div className="mt-4 flex flex-wrap gap-2">
                       <button
@@ -317,6 +320,106 @@ function TerminFormular({
           {laedt ? "Speichert …" : "Speichern"}
         </button>
         <button type="button" className="termine-button" onClick={onFertig}>
+          Abbrechen
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function Reservieren({ termin }: { termin: Termin }) {
+  const [offen, setOffen] = useState(false);
+  const [fehler, setFehler] = useState("");
+  const [fertig, setFertig] = useState(false);
+  const [laedt, setLaedt] = useState(false);
+
+  if (fertig)
+    return (
+      <p role="status" className="termine-redaktion mt-4 text-sm">
+        Danke! Dein Platz ist vorgemerkt. Eine Bestätigung ist per Mail unterwegs.
+      </p>
+    );
+
+  if (!offen)
+    return (
+      <button
+        type="button"
+        className="termine-button termine-button--primary mt-4 justify-self-start"
+        onClick={() => setOffen(true)}
+      >
+        Platz reservieren
+      </button>
+    );
+
+  async function senden(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const f = new FormData(e.currentTarget);
+    setLaedt(true);
+    setFehler("");
+    const r = await reservieren({
+      data: {
+        terminId: termin.id,
+        name: String(f.get("name") ?? ""),
+        email: String(f.get("email") ?? ""),
+        personen: Number(f.get("personen") ?? 1),
+        hinweis: String(f.get("hinweis") ?? ""),
+        einwilligung: f.get("einwilligung") === "on",
+        website: String(f.get("website") ?? ""),
+      },
+    });
+    setLaedt(false);
+    if (r.ok) setFertig(true);
+    else setFehler(r.fehler);
+  }
+
+  return (
+    <form className="mt-4 grid gap-3" onSubmit={senden}>
+      <label className="termine-feld">
+        Name
+        <input name="name" autoComplete="name" required />
+      </label>
+      <label className="termine-feld">
+        E-Mail
+        <input name="email" type="email" autoComplete="email" required />
+      </label>
+      <label className="termine-feld">
+        Personen
+        <input name="personen" type="number" min={1} max={10} defaultValue={1} required />
+      </label>
+      <label className="termine-feld">
+        Fragen oder Hinweise (optional)
+        <textarea name="hinweis" rows={3} />
+      </label>
+      <label className="termine-honig" aria-hidden="true">
+        Website
+        <input name="website" tabIndex={-1} autoComplete="off" />
+      </label>
+      <label className="termine-check items-start">
+        <input name="einwilligung" type="checkbox" required className="mt-1" />
+        <span className="text-sm">
+          Ich bin einverstanden, dass meine Angaben per E-Mail an die Redaktion geschickt werden,
+          damit sie meine Reservierung bearbeiten kann. Mehr dazu in der{" "}
+          <a
+            className="underline"
+            href={`${MAGAZIN_URL}datenschutzerklaerung/`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Datenschutzerklärung
+          </a>
+          .
+        </span>
+      </label>
+      {fehler ? (
+        <p role="alert" className="text-sm font-semibold text-wine">
+          {fehler}
+        </p>
+      ) : null}
+      <div className="flex flex-wrap gap-2">
+        <button type="submit" className="termine-button termine-button--primary" disabled={laedt}>
+          {laedt ? "Wird gesendet …" : "Reservierung senden"}
+        </button>
+        <button type="button" className="termine-button" onClick={() => setOffen(false)}>
           Abbrechen
         </button>
       </div>
