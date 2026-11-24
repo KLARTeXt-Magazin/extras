@@ -18,7 +18,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Lock, Play } from "lucide-react";
 
-import { SignVideoButton, useSignVideo } from "@/components/sign-video";
+import { SignVideoButton } from "@/components/sign-video";
+import { useSignVideo } from "@/lib/sign-video";
 import { Button } from "@/components/ui/button";
 import { ListeningMode, type ListeningView } from "@/components/listening-mode";
 import { transcripts } from "@/lib/transcripts";

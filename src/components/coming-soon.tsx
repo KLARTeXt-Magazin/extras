@@ -35,9 +35,7 @@ export function ComingSoon({ issue, current }: { issue: Issue; current: SiteRout
 
         <section className="overview-hero px-5 pb-14 sm:px-7">
           <div className="mx-auto w-full max-w-[430px]">
-            <p className="text-[10px] font-medium uppercase text-muted-foreground">
-              {issue.eyebrow}
-            </p>
+            <p className="text-xs font-medium uppercase text-muted-foreground">{issue.eyebrow}</p>
             <h1 className="hero-title mt-3">Kommt demnächst</h1>
             <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
               Die Extras zu dieser Ausgabe sind bald hier. Bis dahin findest du alle bisherigen
@@ -48,7 +46,7 @@ export function ComingSoon({ issue, current }: { issue: Issue; current: SiteRout
 
         <section className="continue-band px-6 py-14">
           <div className="mx-auto max-w-[430px]">
-            <p className="text-[10px] font-semibold uppercase text-muted-foreground">Zurück</p>
+            <p className="text-xs font-semibold uppercase text-muted-foreground">Zurück</p>
             <Link to="/" className="continue-link mt-3 text-2xl leading-tight text-foreground">
               Alle Extras
               <span className="mt-3 block text-sm font-medium text-foreground/70">

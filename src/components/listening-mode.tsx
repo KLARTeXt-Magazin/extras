@@ -1,7 +1,8 @@
 import { useId, type CSSProperties, type Ref } from "react";
 import { Pause, Play, X } from "lucide-react";
 
-import { SignIcon, type SignVideo } from "@/components/sign-video";
+import { SignIcon } from "@/components/sign-video";
+import type { SignVideo } from "@/lib/sign-video";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { formatTime } from "@/lib/utils";
@@ -44,6 +45,7 @@ type ListeningModeProps = {
   title: string;
   eyebrow: string;
   cover: string;
+  coverAlt?: string;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
@@ -68,6 +70,7 @@ export function ListeningMode({
   title,
   eyebrow,
   cover,
+  coverAlt = "",
   isPlaying,
   currentTime,
   duration,
@@ -94,15 +97,11 @@ export function ListeningMode({
         className={`listening-mode ${compact ? "listening-mode--video" : ""} fixed inset-0 left-0 top-0 z-[150] h-[100dvh] max-h-none w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden border-0 p-0 shadow-none sm:rounded-none`}
         style={
           {
-            "--listening-image": `url(${cover})`,
             ...(accent ? { "--listening-soft": accent } : {}),
             ...(accentInk ? { "--listening-deep": accentInk } : {}),
           } as CSSProperties
         }
       >
-        <div className="listening-mode__image" aria-hidden="true" />
-        <div className="listening-mode__wash" aria-hidden="true" />
-
         <div className="relative z-10 mx-auto flex h-[100dvh] min-h-0 w-full max-w-[430px] flex-col px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))]">
           <div className="flex items-center justify-between gap-3">
             {signVideo || transcript?.length ? (
@@ -132,7 +131,7 @@ export function ListeningMode({
                     aria-label="In Deutscher Gebärdensprache"
                   >
                     <SignIcon className="size-4" />
-                    DGS
+                    Gebärden
                   </button>
                 ) : null}
               </div>
@@ -150,6 +149,13 @@ export function ListeningMode({
               <X className="size-6" strokeWidth={2.5} aria-hidden="true" />
             </Button>
           </div>
+
+          {/* Audio-Ansicht: Bild als großes Quadrat */}
+          {!compact ? (
+            <div className="listening-cover">
+              <img src={cover} alt={coverAlt} width={1024} height={1024} />
+            </div>
+          ) : null}
 
           {showVideo && signVideo ? (
             <div className="listening-video">
@@ -185,14 +191,14 @@ export function ListeningMode({
             </div>
           ) : null}
 
-          <div className={compact ? "mt-4" : "mt-auto"}>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-listening-muted">
+          <div className={compact ? "mt-4" : "mt-6"}>
+            <p className="text-xs font-semibold tracking-[0.02em] text-listening-muted">
               {eyebrow}
             </p>
 
             <DialogTitle
               className={`mt-3 max-w-sm font-display font-semibold leading-[0.98] text-listening ${
-                compact ? "text-2xl" : "text-[2.6rem]"
+                compact ? "text-2xl" : "text-[2rem]"
               }`}
             >
               {title}
@@ -202,7 +208,7 @@ export function ListeningMode({
               Großflächige Höransicht für „{title}“
             </DialogDescription>
 
-            <div className={compact ? "mt-5" : "mt-10"}>
+            <div className={compact ? "mt-5" : "mt-6"}>
               <label className="sr-only" htmlFor={progressId}>
                 Wiedergabeposition in „{title}“
               </label>

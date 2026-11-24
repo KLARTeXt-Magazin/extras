@@ -129,6 +129,12 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Textmarkierung in KLARTeXt-Farben statt Browser-Blau */
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 28%, transparent);
+    color: inherit;
+  }
+
   /* Sichtbarer Tastaturfokus */
   :where(a, button, input, select, textarea, [tabindex]):focus-visible {
     outline: 2px solid var(--accent-mineral);
@@ -190,6 +196,7 @@
 
 .site-header-inner {
   height: 4rem;
+  max-width: 430px;
 }
 
 .site-logo {
@@ -217,6 +224,11 @@
   color: var(--foreground);
   border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent);
   box-shadow: 0 12px 32px color-mix(in srgb, var(--foreground) 18%, transparent);
+  animation: mini-player-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+/* Mini-Player ist da: Hinweis darüber stapeln statt ihn zu verdecken */
+.install-banner--above-player {
+  bottom: calc(4.9rem + 4.25rem + env(safe-area-inset-bottom));
 }
 .install-banner__icon {
   width: 3rem;
@@ -265,7 +277,7 @@
 /* „App speichern“-Knopf */
 .install-guide-jump {
   position: relative;
-  height: 2rem;
+  min-height: 44px;
   padding-inline: 0.65rem;
   border-color: color-mix(in srgb, var(--primary) 28%, transparent);
   background: var(--neutral-pearl);
@@ -367,6 +379,800 @@
   stroke-width: 2.1;
 }
 
+/* -------------------------------------------------------
+   AUSGABEN-SEITE IN EBENEN (components/issue-layout.tsx)
+   1 Kopf in der Ausgabenfarbe · 2 Sandblatt · 3 Mini-Player
+   Flach: keine Schatten, keine Unschärfe.
+   ------------------------------------------------------- */
+.issue-head {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  overflow: hidden;
+  background: var(--issue-color);
+  color: var(--issue-accent);
+}
+
+.issue-head__image {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: min(74vh, 38rem);
+  object-fit: cover;
+  object-position: var(--cover-focus);
+  /* auf den ruhigen Bildteil zoomen, damit die Cover-Schriften nicht mit dem Titel konkurrieren */
+  transform: scale(2);
+  transform-origin: var(--cover-focus);
+}
+
+/* solider Verlauf unten in die Ausgabenfarbe – ohne Unschärfe */
+.issue-head::after {
+  content: "";
+  position: relative;
+  z-index: 1;
+  grid-area: 1 / 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 28%,
+    color-mix(in srgb, var(--issue-color) 78%, transparent) 52%,
+    var(--issue-color) 74%
+  );
+}
+
+.issue-head__text {
+  position: relative;
+  z-index: 2;
+  grid-area: 1 / 1;
+  align-self: end;
+  width: min(100%, 430px);
+  margin-inline: auto;
+  padding: 0 1.25rem 3.25rem;
+}
+
+.issue-head__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.issue-head__title {
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 9.2vw, 4.25rem);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.issue-head__intro {
+  max-width: 22rem;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* Ebene 2: Sandblatt schiebt sich mit runden Ecken über den Kopf */
+/* Karteikarten-Stapel: das Rot der Ausgabe bleibt stehen,
+   die Inhaltskarte schiebt sich beim Scrollen darüber */
+.issue-stage {
+  position: relative;
+}
+
+.issue-stage > .issue-head {
+  position: sticky;
+  top: 0;
+}
+
+/* Handy: Hören bleibt stehen, sobald sein Ende unten ankommt;
+   „Lesen“ fährt dann darüber wie Hören über den Kopf */
+@media (max-width: 899px) {
+  .issue-stage:has(> .pmr-band) > .content-sheet {
+    position: sticky;
+    top: min(0px, calc(100svh - var(--sheet-h, 100svh)));
+    /* Platz für die untere Navigation, damit der Impuls frei bleibt */
+    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+.content-sheet {
+  position: relative;
+  z-index: 1;
+  margin-top: -1.75rem;
+  padding: 2rem 0 1rem;
+  border-radius: 1.75rem 1.75rem 0 0;
+  background: var(--background);
+}
+
+.issue-section {
+  width: min(100%, 860px);
+  margin-inline: auto;
+  padding-bottom: 2.5rem;
+  scroll-margin-top: calc(5rem + env(safe-area-inset-top));
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-inline: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.section-head__title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.section-head__count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+/* Sprunglink „1 Beitrag zum Lesen“ neben der Hören-Überschrift */
+.section-head__side {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.25rem 0.75rem;
+}
+
+.section-jump {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.section-jump__icon {
+  display: inline-block;
+  width: 0.95em;
+  height: 0.95em;
+  margin-left: 0.25em;
+  vertical-align: -0.12em;
+  stroke-width: 2.25;
+}
+
+.section-head__side {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Aufklappen: Kacheln ⇄ große Karten */
+.section-toggle {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.85rem 0 1rem;
+  border-radius: 999px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.section-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 250ms ease;
+}
+
+.section-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+/* fließender Übergang klein ⇄ groß (View Transitions) */
+::view-transition-group(*) {
+  animation-duration: 480ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Vorschau mit Auslauf: zeigt den Anfang, Rest klappt auf */
+.expandable__clip {
+  position: relative;
+  max-height: 15rem;
+  overflow: hidden;
+  transition: max-height 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* flow-root: Außenabstände der Kinder zählen mit, sonst wird der
+   letzte Button beim Aufklappen unten abgeschnitten */
+.expandable__inner {
+  display: flow-root;
+  padding-bottom: 0.25rem;
+}
+
+.expandable:not(.is-open) .expandable__clip {
+  mask-image: linear-gradient(to bottom, #000 35%, transparent);
+}
+
+.expandable__toggle {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0 1.1rem 0 1.25rem;
+  border-radius: 999px;
+  background: var(--pmr-ink, var(--foreground));
+  color: var(--pmr-accent, var(--background));
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.expandable__toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform 250ms ease;
+}
+
+.expandable.is-open .expandable__toggle svg {
+  transform: rotate(180deg);
+}
+
+.content-sheet--flat {
+  margin-top: 0;
+  border-radius: 0;
+}
+
+/* HÖREN: Regal */
+.audio-shelf {
+  display: flex;
+  gap: 0.85rem;
+  overflow-x: auto;
+  padding: 0.25rem 1.25rem 0.75rem;
+  scroll-padding-inline: 1.25rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.audio-shelf::-webkit-scrollbar {
+  display: none;
+}
+
+.shelf-card {
+  position: relative;
+  display: flex;
+  width: min(16rem, 68vw);
+  aspect-ratio: 1;
+  flex: none;
+  flex-direction: column;
+  padding: 0.95rem;
+  border-radius: 1.35rem;
+  background: var(--card-ink);
+  color: var(--card-accent);
+  scroll-snap-align: start;
+  transform-origin: left bottom;
+  transition:
+    width 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    outline-color 300ms ease;
+  outline: 3px solid transparent;
+  outline-offset: 3px;
+}
+
+.shelf-card.is-highlight,
+.shelf-card.is-current {
+  outline-color: var(--card-ink);
+}
+
+/* oben auf der Seite: alle Kacheln klein und gleich groß */
+.audio-shelf:not(.is-open) .shelf-card {
+  width: 10.5rem;
+}
+
+.audio-shelf:not(.is-open) .shelf-card__wave {
+  width: 50%;
+}
+
+.audio-shelf:not(.is-open) .shelf-card__title {
+  font-size: 0.95rem;
+}
+
+/* in „Hören“ hineingescrollt: gewählte Karte groß, Nachbarn kleiner */
+.audio-shelf.is-open .shelf-card:not(.is-active) {
+  cursor: pointer;
+  transform: scale(0.78);
+}
+
+.audio-shelf {
+  align-items: flex-end;
+}
+
+/* große Karten, sobald man weiter in „Hören“ hineinscrollt */
+.shelf-big {
+  width: min(calc(100vw - 3.5rem), 22rem);
+  flex: none;
+  scroll-snap-align: start;
+  border-radius: 1.5rem;
+  outline: 3px solid transparent;
+  outline-offset: 3px;
+  transform-origin: left bottom;
+  transition:
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    outline-color 300ms ease;
+  animation: shelf-grow 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.shelf-big:not(.is-active) {
+  cursor: pointer;
+  transform: scale(0.92);
+}
+
+.shelf-big.is-highlight {
+  outline-color: var(--audio-accent-ink);
+}
+
+/* große Karten: alle gleich hoch und oben bündig, sonst entsteht
+   über der aktiven Karte eine Lücke, wenn eine Nachbarin zweizeilig ist */
+.audio-shelf:has(.shelf-big) {
+  align-items: stretch;
+  padding-top: 0.5rem;
+}
+
+@keyframes shelf-grow {
+  from {
+    opacity: 0.4;
+    scale: 0.6;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* Begleitimpuls wechselt mit der gewählten Karte */
+/* ganze Karte öffnet den Player (unter dem Play-Knopf) */
+.shelf-card__open {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.shelf-card__eyebrow {
+  position: relative;
+  font-size: 0.72rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.shelf-card__wave {
+  width: 62%;
+  height: auto;
+  margin-block: auto;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.shelf-card__foot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  pointer-events: none;
+}
+
+.shelf-card__title {
+  position: relative;
+  font-size: 1.15rem;
+  pointer-events: none;
+  text-wrap: balance;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.shelf-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.9;
+}
+
+.shelf-card__dgs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.shelf-card__play,
+.shelf-card__lock {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+  place-items: center;
+  border-radius: 999px;
+}
+
+.shelf-card__play {
+  background: var(--card-accent);
+  color: var(--card-ink);
+  pointer-events: auto;
+}
+
+.shelf-card__lock {
+  border: 1px solid color-mix(in srgb, var(--card-accent) 50%, transparent);
+}
+
+.shelf-card :focus-visible {
+  outline: 2px solid var(--card-accent);
+  outline-offset: -4px;
+}
+
+/* LESEN: Liste auf Sand */
+.read-list {
+  display: grid;
+  padding-inline: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.read-row {
+  border-bottom: 1px solid var(--border);
+}
+
+.read-row__summary {
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  gap: 0.9rem;
+  padding-block: 1rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.read-row__summary::-webkit-details-marker {
+  display: none;
+}
+
+.read-row__bar {
+  align-self: stretch;
+  width: 0.35rem;
+  flex: none;
+  border-radius: 999px;
+  background: var(--row-color);
+}
+
+.read-row__main {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 0.25rem;
+}
+
+.read-row__kicker {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+.read-row__title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.read-row__teaser {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+details[open] .read-row__teaser {
+  display: none;
+}
+
+.read-row__meta {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+.read-row__arrow {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+  transition: transform 220ms ease;
+}
+
+details[open] > .read-row__summary .read-row__arrow {
+  transform: rotate(180deg);
+}
+
+.read-row__body {
+  padding: 0 0 1.75rem 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* Weiterhören: letzte Karteikarte in der Farbe der nächsten Ausgabe */
+.issue-continue {
+  padding-inline: 1.25rem;
+}
+
+.continue-card {
+  display: grid;
+  grid-template-columns: 5.75rem minmax(0, 1fr);
+  align-items: center;
+  gap: 1.1rem;
+  width: min(100%, 44rem);
+  padding: 0.7rem 1.25rem 0.7rem 0.7rem;
+  border-radius: 1.5rem;
+  background: var(--continue-ink);
+  color: var(--continue-accent);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.continue-card:hover {
+  transform: translateY(-2px);
+}
+
+.continue-card:focus-visible {
+  outline: 3px solid var(--continue-ink);
+  outline-offset: 3px;
+}
+
+.continue-card__cover {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 0.8rem;
+  object-fit: cover;
+}
+
+.continue-card__text {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.continue-card__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.continue-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 5.4vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.continue-card__sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.continue-card__arrow {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.continue-card:hover .continue-card__arrow {
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .continue-card,
+  .continue-card__arrow {
+    transition: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .issue-head {
+    min-height: 34rem;
+  }
+
+  .issue-head__image {
+    width: min(48%, 38rem);
+    height: 100%;
+    justify-self: end;
+    transform: scale(2.1);
+  }
+
+  .issue-head::after {
+    background: linear-gradient(
+      to right,
+      var(--issue-color) 56%,
+      color-mix(in srgb, var(--issue-color) 60%, transparent) 70%,
+      transparent 88%
+    );
+  }
+
+  .issue-head__text {
+    align-self: center;
+    width: min(100vw - 4rem, 76rem);
+    padding: 6rem 0 4rem;
+  }
+
+  .issue-head__text > * {
+    max-width: 34rem;
+  }
+
+  .content-sheet {
+    padding-top: 3rem;
+  }
+
+  .audio-shelf {
+    padding-inline: max(1.25rem, calc((100vw - 860px) / 2 + 1.25rem));
+    scroll-padding-inline: max(1.25rem, calc((100vw - 860px) / 2 + 1.25rem));
+  }
+
+  .issue-section:has(.audio-shelf) {
+    width: 100%;
+  }
+
+  .issue-section:has(.audio-shelf) .section-head {
+    width: min(100%, 860px);
+    margin-inline: auto;
+  }
+
+  .shelf-card {
+    width: 15rem;
+  }
+
+  /* Pfeile, Punkte und Begleitimpuls bündig mit dem Regal */
+  .issue-section .carousel-nav {
+    justify-content: flex-start;
+    padding-inline: max(1.25rem, calc((100vw - 860px) / 2 + 1.25rem));
+  }
+
+  .issue-section .companion-band {
+    width: min(100%, 860px);
+    padding-inline: 1.25rem;
+  }
+}
+
+/* -------------------------------------------------------
+   MINI-PLAYER – das einzige Glas für Inhalte
+   Tidal Depth + Unschärfe; ohne Unschärfe fast deckend.
+   Am Handy über der unteren Leiste, am Desktop unten.
+   ------------------------------------------------------- */
+.mini-player {
+  --mini-bg: #475b8b;
+  --mini-ink: #fcf3df;
+  position: fixed;
+  inset-inline: 1rem;
+  bottom: calc(4.9rem + env(safe-area-inset-bottom));
+  z-index: 60;
+  display: flex;
+  max-width: 400px;
+  align-items: center;
+  gap: 0.5rem;
+  margin-inline: auto;
+  overflow: hidden;
+  padding: 0.4rem 0.45rem 0.4rem 0.4rem;
+  border: 1px solid color-mix(in srgb, var(--mini-ink) 16%, transparent);
+  border-radius: 999px;
+  /* 90 % statt 74 %, damit die helle Schrift auch über hellem Grund 4,5 : 1 erreicht */
+  background: color-mix(in srgb, var(--mini-bg) 96%, transparent);
+  color: var(--mini-ink);
+  animation: mini-player-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mini-player {
+    background: color-mix(in srgb, var(--mini-bg) 90%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+  }
+}
+
+.mini-player__open {
+  display: flex;
+  min-width: 0;
+  min-height: 2.75rem;
+  flex: 1;
+  align-items: center;
+  gap: 0.7rem;
+  border-radius: 999px;
+  text-align: left;
+}
+
+.mini-player__cover {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.mini-player__text {
+  display: grid;
+  min-width: 0;
+}
+
+.mini-player__eyebrow {
+  overflow: hidden;
+  font-size: 0.7rem;
+  font-weight: 600;
+  opacity: 0.85;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-player__title {
+  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-player__play {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--mini-ink);
+  color: var(--mini-bg);
+}
+
+.mini-player__progress {
+  position: absolute;
+  inset-inline: 1.5rem;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--mini-ink) 0 var(--mini-progress),
+    color-mix(in srgb, var(--mini-ink) 22%, transparent) var(--mini-progress) 100%
+  );
+}
+
+.mini-player :focus-visible {
+  outline: 2px solid var(--mini-ink);
+  outline-offset: 2px;
+}
+
+/* Seite unten so polstern, dass nichts unter Leiste + Mini-Player liegt */
+body:has(.mini-player) {
+  padding-bottom: calc(9rem + env(safe-area-inset-bottom));
+}
+
+@keyframes mini-player-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Desktop: Navigation als Textlinks im Kopf statt Leiste unten */
 .header-nav {
   display: none;
@@ -377,12 +1183,28 @@
     padding-bottom: 0;
   }
 
+  .site-header-inner {
+    max-width: 76rem;
+  }
+
+  .mini-player {
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  body:has(.mini-player) {
+    padding-bottom: 5.5rem;
+  }
+
   .bottom-nav {
     display: none;
   }
 
   .install-banner {
     bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  .install-banner--above-player {
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 4.25rem);
   }
 
   .header-nav {
@@ -952,7 +1774,7 @@
    Farbe je Audio-Welt, sonst Espresso */
 .audio-player-card > div:last-of-type {
   margin-top: 0.65rem;
-  padding: 1.6rem 1rem 1.25rem;
+  padding: 1.15rem 1rem 1rem;
   border-radius: 1rem;
   background: var(--audio-accent-ink, var(--wine));
   color: var(--pearl);
@@ -975,7 +1797,10 @@
   color: color-mix(in srgb, var(--pearl) 75%, transparent);
 }
 
+/* Handy: flacheres Cover (16:10), damit eine Karte samt Impuls
+   kaum mehr als einen Bildschirm braucht */
 .audio-cover-layout {
+  aspect-ratio: 16 / 10;
   border-radius: 1rem;
   background: var(--neutral-mist);
 }
@@ -1117,7 +1942,7 @@
 
 .companion-inner {
   position: relative;
-  padding: 1.5rem 1.5rem 1.25rem;
+  padding: 1.15rem 1.25rem 0.75rem;
   border-radius: 1.25rem;
   background: var(--audio-accent-ink, var(--wine));
   color: var(--neutral-pearl);
@@ -1140,6 +1965,37 @@
   outline-color: var(--audio-accent, var(--secondary));
 }
 
+/* Rest des Impulses (Handy und Desktop): erst klein, weich aufklappen */
+.companion-rest {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 280ms ease;
+}
+
+.companion-rest.is-open {
+  grid-template-rows: 1fr;
+}
+
+.companion-rest__inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.companion-toggle svg {
+  transition: transform 250ms ease;
+}
+
+.companion-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .companion-rest,
+  .companion-toggle svg {
+    transition: none;
+  }
+}
+
 /* Verweis auf den Extra-Beitrag weiter unten */
 .companion-more {
   display: inline-flex;
@@ -1157,8 +2013,28 @@
   color: var(--audio-accent, var(--secondary));
 }
 
+/* zugeklappt: kleiner Begleitimpuls, Zitat auf drei Zeilen gekürzt */
+.companion-band.is-compact .companion-inner {
+  padding: 1rem 1.15rem 0.6rem;
+  border-radius: 1rem;
+}
+
+.companion-band.is-compact .companion-quote {
+  display: -webkit-box;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 .companion-quote {
+  margin-top: 0.6rem;
   color: var(--audio-accent, var(--secondary));
+  font-size: 1.125rem;
+  line-height: 1.6rem;
+  text-wrap: balance;
   transition: color 400ms ease;
 }
 
@@ -1184,17 +2060,52 @@
 }
 
 /* Progressive Muskelentspannung – sanft in der Salbei-Welt der PMR-Kachel */
+/* „Lesen“ ist die nächste Karteikarte: schiebt sich mit runder
+   Oberkante über „Hören“ (Handy und Desktop) */
 .pmr-band {
+  position: relative;
+  z-index: 2;
+  margin-top: -1.75rem;
+  padding-top: 2rem;
   scroll-margin-top: calc(4.5rem + env(safe-area-inset-top));
   --pmr-accent: #bcd0bf;
   --pmr-ink: #263b2c;
-  border-top: 1px solid color-mix(in srgb, var(--pmr-accent) 80%, transparent);
+  border-radius: 1.75rem 1.75rem 0 0;
+  box-shadow: 0 -14px 30px -18px rgb(38 8 8 / 0.28);
   background: linear-gradient(
     to bottom,
     color-mix(in srgb, var(--pmr-accent) 30%, var(--neutral-linen-cool)) 0%,
     var(--neutral-linen-cool) 70%
   );
   color: var(--foreground);
+}
+
+/* Kopfzeile „Lesen · 1 Beitrag“ */
+.pmr-chapter {
+  margin-bottom: 0;
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+.pmr-chapter-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.pmr-chapter-count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+/* Sicherheitshinweis: Farbfläche statt Seitenbalken */
+.pmr-safety {
+  padding: 1rem 1.2rem;
+  border-radius: 0.9rem;
+  background: color-mix(in oklab, var(--pmr-accent) 45%, transparent);
 }
 
 .pmr-band .text-sage-foreground,
@@ -1365,6 +2276,24 @@
   transform: scale(1.015);
 }
 
+/* Audio-Ansicht: Bild als großes Quadrat oben, Grund flach in der Farbe der Audio */
+.listening-cover {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.listening-cover img {
+  aspect-ratio: 1;
+  width: 100%;
+  max-height: 100%;
+  border-radius: 1.4rem;
+  object-fit: cover;
+}
+
 /* Text zum Mitlesen im Hörmodus: scrollbar, oben und unten weich ausgeblendet */
 .listening-text {
   min-height: 0;
@@ -1495,305 +2424,206 @@
    ======================================================= */
 
 .breath-intro {
-  /* nur KLARTeXt.-Farben: Braun + Jeansblau (Startseite),
-     Aubergine, Beere, Rosé, Sand (Ausgabe 02) – bewusst nichts Grünes */
-  --intro-bg: #3b2723;
-  --intro-ink: #f8f6f2;
-  --intro-sun: #e9bbcb;
-  --intro-ring: #c3ced3;
+  /* nur KLARTeXt.-Farben: Rotbraun, Creme, Jeansblau, Rosé – flach */
+  --intro-bg: #48110f;
+  --intro-ink: #fcf3df;
+  --intro-blue: #475b8b;
+  --intro-sky: #a2b5d8;
+  --intro-rose: #e9bbcb;
+  --intro-line: #2b1d18;
   position: fixed;
   inset: 0;
   z-index: 200;
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  justify-items: center;
-  align-items: center;
+  place-items: center;
   overflow: hidden;
-  padding: calc(2.5rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
+  padding: calc(2rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
   background: var(--intro-bg);
   color: var(--intro-ink);
-  animation: breath-intro-in 700ms ease both;
+  animation: breath-intro-in 400ms ease both;
+  transition:
+    transform 1100ms cubic-bezier(0.7, 0, 0.84, 0),
+    border-radius 1100ms ease;
 }
 
-.breath-intro.is-leaving {
-  animation: breath-intro-out 650ms ease both;
-}
-
-/* keine Großbuchstaben: „KLARTeXt.“ muss so bleiben */
-.breath-intro__eyebrow {
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: color-mix(in srgb, var(--intro-ink) 78%, var(--intro-bg));
+/* nach dem Ausatmen: die ganze Fläche wischt nach oben weg */
+.breath-intro.is-leave {
+  transform: translateY(-104%);
+  border-bottom-left-radius: 50% 4rem;
+  border-bottom-right-radius: 50% 4rem;
 }
 
 .breath-intro__stage {
   display: grid;
   justify-items: center;
   text-align: center;
+  transition: transform 4000ms cubic-bezier(0.37, 0, 0.63, 1);
 }
 
-/* Illustration: Ring, Sonne, Hügel – alles flache Vollfarben */
-.breath-art {
+/* Einatmen: groß – Ausatmen: klein */
+.breath-intro.is-in .breath-intro__stage {
+  transform: scale(1.04);
+}
+
+.breath-intro.is-out .breath-intro__stage,
+.breath-intro.is-leave .breath-intro__stage {
+  transform: scale(0.94);
+}
+
+.hello-scene {
   position: relative;
-  width: min(20rem, 82vw);
+  width: min(72vw, 17rem);
   aspect-ratio: 1;
-  margin-bottom: 2rem;
-  overflow: hidden;
-  border-radius: 50%;
-  background: var(--intro-ring);
 }
 
-.breath-art__paper {
+/* „KLARTeXt.“ – der Punkt ist groß, eigenfarbig und atmet */
+.hello-mark {
   position: absolute;
   inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 11vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  animation: hello-pop 650ms cubic-bezier(0.34, 1.56, 0.64, 1) 150ms both;
 }
 
-.paper {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: var(--phase-ms, 4s) cubic-bezier(0.45, 0, 0.55, 1) both;
+.hello-mark__dot {
+  display: inline-block;
+  width: 0.34em;
+  height: 0.34em;
+  margin-left: 0.06em;
+  vertical-align: baseline;
+  border-radius: 999px;
+  background: var(--intro-sky);
+  /* wächst nach rechts oben, weg von der Schrift */
+  transform-origin: 0% 100%;
+  transition: scale 4000ms cubic-bezier(0.37, 0, 0.63, 1);
+  animation: hello-dot-in 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 700ms both;
 }
 
-.paper--lilac {
-  fill: #40334b; /* Aubergine (Ausgabe 02) */
+/* einatmen: Punkt wird groß – ausatmen: klein */
+.breath-intro.is-in .hello-mark__dot {
+  scale: 3;
 }
 
-.paper--teal {
-  fill: #4b2934; /* Beere (Ausgabe 02) */
+.breath-intro.is-out .hello-mark__dot,
+.breath-intro.is-leave .hello-mark__dot {
+  scale: 0.8;
 }
 
-.paper--rose {
-  fill: #f8f6f2; /* kleiner Mond in Perlweiß */
+@keyframes hello-dot-in {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
-/* beim Einatmen heben sich die Hügel leicht, beim Ausatmen sinken sie */
-.breath-intro.is-in .paper--lilac {
-  animation-name: paper-rise-far;
-}
-
-.breath-intro.is-in .paper--teal {
-  animation-name: paper-rise-near;
-}
-
-.breath-intro.is-in .paper--rose {
-  animation-name: paper-float;
-}
-
-.breath-intro.is-out .paper--lilac {
-  animation-name: paper-sink-far;
-}
-
-.breath-intro.is-out .paper--teal {
-  animation-name: paper-sink-near;
-}
-
-.breath-intro.is-out .paper--rose {
-  animation-name: paper-settle;
-}
-
-/* Sonne und Hof hinter den Hügeln */
-.breath-art__light,
-.breath-art__glow {
+.hello-bubble {
   position: absolute;
-  left: 50%;
-  top: 58%;
+  padding: 0.45rem 0.85rem 0.5rem;
+  border: 3px solid var(--intro-line);
+  border-radius: 1.1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 4.4vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1;
   z-index: 1;
-  border-radius: 50%;
-  translate: -50% -50%;
-  animation: var(--phase-ms, 4s) cubic-bezier(0.45, 0, 0.55, 1) both;
+  white-space: nowrap;
+  animation: hello-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.breath-art__light {
-  width: 34%;
-  aspect-ratio: 1;
-  background: var(--intro-sun);
+/* kleine Sprechblasen-Spitze */
+.hello-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -0.55rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-right: 3px solid var(--intro-line);
+  border-bottom: 3px solid var(--intro-line);
+  background: inherit;
+  transform: rotate(45deg);
 }
 
-/* flacher Hof um die Sonne, keine Unschärfe */
-.breath-art__glow {
-  width: 62%;
-  aspect-ratio: 1;
-  background: #dccbb2;
+.hello-bubble--1 {
+  top: 14%;
+  left: -4%;
+  background: var(--intro-sky);
+  color: var(--intro-line);
+  rotate: -8deg;
+  animation-delay: 550ms;
 }
 
-/* Sonne geht beim Einatmen auf und beim Ausatmen wieder unter */
-.breath-intro.is-in .breath-art__light {
-  animation-name: light-grow;
+.hello-bubble--1::after {
+  right: 1.1rem;
 }
 
-.breath-intro.is-out .breath-art__light {
-  animation-name: light-shrink;
+.hello-bubble--2 {
+  top: 8%;
+  right: 0%;
+  background: var(--intro-rose);
+  color: var(--intro-line);
+  rotate: 7deg;
+  animation-delay: 850ms;
 }
 
-.breath-intro.is-in .breath-art__glow {
-  animation-name: glow-grow;
+.hello-bubble--2::after {
+  left: 1rem;
 }
 
-.breath-intro.is-out .breath-art__glow {
-  animation-name: glow-shrink;
+.hello-bubble--3 {
+  bottom: 14%;
+  left: 18%;
+  background: var(--intro-ink);
+  color: var(--intro-line);
+  rotate: 5deg;
+  animation-delay: 1150ms;
+}
+
+.hello-bubble--3::after {
+  right: 1rem;
 }
 
 .breath-intro__label {
+  margin-top: 2.25rem;
   font-family: var(--font-display);
-  font-size: 2.25rem;
-  font-weight: 600;
-  line-height: 1;
-  animation: breath-label-in 700ms ease both;
+  font-size: clamp(1.4rem, 6.2vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  text-wrap: balance;
+  animation: hello-rise 600ms ease 1750ms both;
 }
 
 .breath-intro__hint {
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
-  color: color-mix(in srgb, var(--intro-ink) 72%, transparent);
-}
-
-.breath-intro__footer {
-  display: grid;
-  justify-items: center;
-  gap: 1.25rem;
-  width: min(16rem, 70vw);
-}
-
-.breath-progress {
-  display: block;
-  width: 100%;
-  height: 6px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #2b1d18;
-}
-
-.breath-progress > span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--intro-sun);
-  transform-origin: left;
-  animation: breath-progress linear both;
+  margin-top: 0.6rem;
+  font-size: 1.05rem;
+  color: color-mix(in srgb, var(--intro-ink) 80%, transparent);
+  animation: hello-rise 600ms ease 2100ms both;
 }
 
 .breath-intro__skip {
-  min-height: 44px;
-  padding: 0 1.4rem;
+  position: absolute;
+  right: 1.25rem;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  min-height: 2.75rem;
   border-radius: 999px;
-  background: var(--intro-ink);
-  color: var(--intro-bg);
+  color: var(--intro-ink);
   font-size: 0.85rem;
-  font-weight: 700;
 }
 
 .breath-intro__skip:hover {
-  background: #ffffff;
-  color: var(--intro-bg);
+  background: color-mix(in srgb, var(--intro-ink) 12%, transparent);
+  color: var(--intro-ink);
 }
 
 .breath-intro :focus-visible {
-  outline: 2px solid var(--intro-sun);
+  outline: 2px solid var(--intro-ink);
   outline-offset: 3px;
-}
-
-@keyframes light-grow {
-  from {
-    translate: -50% -10%;
-    scale: 0.85;
-  }
-  to {
-    translate: -50% -78%;
-    scale: 1.1;
-  }
-}
-
-@keyframes light-shrink {
-  from {
-    translate: -50% -78%;
-    scale: 1.1;
-  }
-  to {
-    translate: -50% -10%;
-    scale: 0.85;
-  }
-}
-
-@keyframes glow-grow {
-  from {
-    translate: -50% -10%;
-    scale: 0.7;
-  }
-  to {
-    translate: -50% -66%;
-    scale: 1.15;
-  }
-}
-
-@keyframes glow-shrink {
-  from {
-    translate: -50% -66%;
-    scale: 1.15;
-  }
-  to {
-    translate: -50% -10%;
-    scale: 0.7;
-  }
-}
-
-@keyframes paper-rise-far {
-  to {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes paper-sink-far {
-  from {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes paper-rise-near {
-  to {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes paper-sink-near {
-  from {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes paper-float {
-  to {
-    transform: translate(-6px, -10px) rotate(-8deg);
-  }
-}
-
-@keyframes paper-settle {
-  from {
-    transform: translate(-6px, -10px) rotate(-8deg);
-  }
-}
-
-@keyframes breath-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes breath-label-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
 }
 
 @keyframes breath-intro-in {
@@ -1805,13 +2635,25 @@
   }
 }
 
-@keyframes breath-intro-out {
+@keyframes hello-pop {
   from {
-    opacity: 1;
+    opacity: 0;
+    transform: scale(0.4);
   }
   to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hello-rise {
+  from {
     opacity: 0;
-    visibility: hidden;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -1835,9 +2677,9 @@
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 0.5rem;
-  font-size: 0.78rem;
-  line-height: 1.55;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
   opacity: 0.92;
 }
 
@@ -1847,7 +2689,7 @@
 
 .homescreen-guide__note {
   margin-top: 0.7rem;
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   line-height: 1.5;
   opacity: 0.9;
 }
@@ -2094,6 +2936,8 @@
 
 /* Gebärdenvideo-Button auf der Audiokachel (components/sign-video.tsx) */
 .sign-video-button {
+  min-height: 2.75rem;
+  height: auto;
   border: 1px solid color-mix(in oklab, currentColor 45%, transparent);
   color: inherit;
   background: transparent;
@@ -2106,8 +2950,9 @@
 
 /* Hinweis „Für alle“ auf der Übersicht */
 .inclusion-note {
-  border-left: 4px solid currentColor;
-  padding-left: 1.25rem;
+  padding: 1.25rem 1.4rem;
+  border-radius: 1rem;
+  background: color-mix(in oklab, currentColor 7%, transparent);
 }
 
 /* Text zum Mitlesen (components/audio-access.tsx) */
@@ -2154,4 +2999,131 @@
   padding: 0.5rem 0 0.25rem;
   font-size: 0.95rem;
   line-height: 1.75;
+}
+
+/* -------------------------------------------------------
+   DESKTOP: alle Audios auf einen Blick, jede mit eigenem
+   Begleitimpuls als eine Karte (2 × 2), Lesen wie der PMR-Beitrag
+   ------------------------------------------------------- */
+@media (min-width: 900px) {
+  /* „Lesen“ steht groß in der linken Spalte des Beitrags */
+  .pmr-chapter-row {
+    margin-bottom: 2.25rem;
+  }
+
+  .pmr-chapter-count {
+    display: none;
+  }
+
+  .pmr-chapter {
+    font-size: clamp(2.75rem, 4.4vw, 4rem);
+    line-height: 1;
+  }
+
+  .issue-section:has(.audio-shelf) {
+    width: min(100vw - 4rem, 76rem);
+    margin-inline: auto;
+  }
+
+  .issue-section:has(.audio-shelf) .section-head {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.75rem;
+    width: auto;
+    margin: 0 0 2.25rem;
+    padding: 0;
+  }
+
+  .issue-section:has(.audio-shelf) .section-head__title {
+    font-size: clamp(2.75rem, 4.4vw, 4rem);
+    line-height: 1;
+  }
+
+  .issue-section:has(.audio-shelf) .section-head__side {
+    justify-content: flex-start;
+  }
+
+  .issue-section .audio-shelf {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 1.5rem;
+    padding: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  /* eine Audio = die große Karte mit Bild, darunter ihr Begleitimpuls */
+  .audio-pair {
+    display: flex;
+    flex-direction: column;
+    outline: 3px solid transparent;
+    outline-offset: 6px;
+    border-radius: 1.5rem;
+    transition: outline-color 300ms ease;
+  }
+
+  .audio-pair.is-highlight {
+    outline-color: var(--card-ink);
+  }
+
+  .audio-pair .shelf-big {
+    width: 100%;
+    transform: none;
+    animation: none;
+    outline: none;
+  }
+
+  /* kleinere Version: Bild links, Titel und Knöpfe rechts */
+  .audio-pair .audio-player-card {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 0.65rem;
+  }
+
+  .audio-pair .audio-player-card > div:last-of-type {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0;
+    padding: 1.1rem 1rem;
+  }
+
+  .audio-pair .audio-player-card > div:last-of-type > div {
+    margin-top: 1rem;
+  }
+
+  .audio-pair .audio-cover-layout {
+    aspect-ratio: auto;
+    min-height: 15rem;
+  }
+
+  .audio-pair .audio-art-title {
+    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  }
+
+  .audio-pair .companion-band {
+    flex: 1;
+    width: 100%;
+    margin: 0;
+    padding: 0.75rem 0 0;
+  }
+
+  .audio-pair .companion-inner {
+    max-width: none;
+    height: 100%;
+    margin: 0;
+    padding: 1.1rem 1.5rem 1.25rem;
+  }
+
+  .audio-pair .companion-quote {
+    margin-top: 0.9rem;
+    font-size: 1.4rem;
+    line-height: 2.1rem;
+  }
+
+  /* Ausgabe mit nur einem Audio: nicht in einer halben Spalte verlieren */
+  .audio-shelf:has(> .audio-pair:only-child) {
+    grid-template-columns: minmax(0, 44rem);
+  }
 }

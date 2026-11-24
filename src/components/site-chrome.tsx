@@ -3,7 +3,7 @@
 // • Header mit Logo und „App speichern“
 // • Footer mit Impressum / Datenschutz
 // • Navigation: Handy → untere Leiste (components/bottom-nav.tsx),
-//   Desktop → Textlinks hier im Kopf (Start / Aktuell / Magazin)
+//   Desktop → Textlinks hier im Kopf (Start / Ausgaben / Magazin)
 // Neue Ausgabe → nur `issues` in src/lib/issues.ts ergänzen.
 // =======================================================
 
@@ -19,7 +19,7 @@ import type { SiteRoute } from "@/lib/issues";
 
 // Desktop-Navigation (gleiche Punkte wie die untere Leiste)
 function HeaderNav() {
-  const { latest, isLatest, isStart } = useNavState();
+  const { latest, issuesCurrent, isStart } = useNavState();
 
   return (
     <nav className="header-nav" aria-label="Hauptnavigation">
@@ -29,10 +29,10 @@ function HeaderNav() {
       {latest?.to ? (
         <Link
           to={latest.to}
-          aria-current={isLatest ? "page" : undefined}
-          aria-label={`Aktuelle Ausgabe: ${latest.title}`}
+          aria-current={issuesCurrent}
+          aria-label={`Ausgaben: neueste Ausgabe ${latest.title}`}
         >
-          Aktuell
+          Ausgaben
         </Link>
       ) : null}
       <a href={MAGAZIN_URL} target="_blank" rel="noreferrer">
@@ -48,7 +48,7 @@ export function SiteHeader({ hasScrolled }: { hasScrolled: boolean; current: Sit
     <header
       className={`floating-site-header fixed inset-x-0 top-0 z-50 ${hasScrolled ? "is-scrolled" : ""}`}
     >
-      <div className="site-header-inner mx-auto grid w-full max-w-[430px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:px-7">
+      <div className="site-header-inner mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:px-7">
         <a
           href={MAGAZIN_URL}
           target="_blank"
@@ -56,13 +56,13 @@ export function SiteHeader({ hasScrolled }: { hasScrolled: boolean; current: Sit
           className="-my-2 block w-fit py-2"
           aria-label="Zum KLARTeXt. Magazin"
         >
-          <img src="/logo.png" alt="KLARTeXt." className="site-logo" />
+          <img src="/logo-header.png" alt="KLARTeXt." className="site-logo" />
         </a>
 
         <div className="flex items-center gap-2">
           <HeaderNav />
 
-          <Button asChild variant="outline" className="install-guide-jump h-10 rounded-full px-3">
+          <Button asChild variant="outline" className="install-guide-jump rounded-full px-3">
             <a href="#app-installieren" aria-label="Zur Anleitung: Als App speichern">
               <Smartphone className="size-4" />
               <span>App speichern</span>
@@ -85,9 +85,7 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-[430px] items-end justify-between gap-6">
         <div>
           <p className="font-display text-lg font-semibold">KLARTeXt.</p>
-          <p className="mt-1 text-[11px] uppercase tracking-[0.1em] opacity-80">
-            Echt. Mutig. Klar.
-          </p>
+          <p className="mt-1 text-xs uppercase tracking-[0.1em] opacity-80">Echt. Mutig. Klar.</p>
         </div>
 
         <div className="flex flex-col items-end gap-1">
@@ -107,7 +105,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <p className="mx-auto mt-6 max-w-[430px] text-[10px] leading-relaxed opacity-90">
+      <p className="mx-auto mt-6 max-w-[430px] text-xs leading-relaxed opacity-90">
         Schriften:{" "}
         <a
           className="underline underline-offset-2"

@@ -1,8 +1,9 @@
 // =======================================================
 // UNTERE LEISTE (App-Navigation, nur Handy/Tablet)
 // • Start → Übersicht aller Ausgaben
-// • Aktuell → neueste Ausgabe (springt automatisch um,
-//   sobald in src/lib/issues.ts eine neue öffentlich ist)
+// • Ausgaben → neueste Ausgabe (springt automatisch um,
+//   sobald in src/lib/issues.ts eine neue öffentlich ist);
+//   markiert auf jeder Ausgabenseite, auch bei älteren
 // • Magazin → magazin-klartext.de (neuer Tab)
 // Aktiver Punkt: helle Glas-Kapsel um Symbol und Text (wie in Safari/iOS).
 // Ab 900 px ausgeblendet; dort stehen dieselben Punkte oben
@@ -16,7 +17,7 @@ import { MAGAZIN_URL } from "@/lib/links";
 import { useNavState } from "@/lib/nav";
 
 export function BottomNav() {
-  const { latest, isLatest, isStart } = useNavState();
+  const { latest, isIssue, issuesCurrent, isStart } = useNavState();
 
   return (
     <nav className="bottom-nav" aria-label="Hauptnavigation">
@@ -34,12 +35,12 @@ export function BottomNav() {
         {latest?.to ? (
           <Link
             to={latest.to}
-            className={`bottom-nav-item ${isLatest ? "bottom-nav-item-active" : ""}`}
-            aria-current={isLatest ? "page" : undefined}
-            aria-label={`Aktuelle Ausgabe: ${latest.title}`}
+            className={`bottom-nav-item ${isIssue ? "bottom-nav-item-active" : ""}`}
+            aria-current={issuesCurrent}
+            aria-label={`Ausgaben: neueste Ausgabe ${latest.title}`}
           >
             <Sparkles className="size-5" strokeWidth={1.75} aria-hidden="true" />
-            <span>Aktuell</span>
+            <span>Ausgaben</span>
           </Link>
         ) : null}
 

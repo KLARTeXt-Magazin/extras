@@ -62,9 +62,7 @@ export function InstallAction() {
 
   return (
     <div className="install-action mt-8 border-t border-border pt-7">
-      <p className="text-[10px] font-semibold uppercase text-muted-foreground">
-        Schnell erreichbar
-      </p>
+      <p className="text-xs font-semibold uppercase text-muted-foreground">Schnell erreichbar</p>
       <Button
         type="button"
         variant="ghost"
