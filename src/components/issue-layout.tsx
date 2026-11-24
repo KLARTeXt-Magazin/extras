@@ -402,7 +402,7 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
 
   const rest = (
     <>
-      {track.note ? (
+      {track.note && !inline ? (
         <p className="mt-5 text-sm leading-7 text-muted-foreground">{track.note}</p>
       ) : null}
 
@@ -429,7 +429,7 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
       <AudioAccess track={track} />
 
       {track.credit ? (
-        <p className="mt-7 text-[11px] leading-5 text-muted-foreground">{track.credit}</p>
+        <p className="mt-7 text-xs leading-5 text-muted-foreground">{track.credit}</p>
       ) : null}
     </>
   );
@@ -439,7 +439,6 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
       className={`companion-band px-5 pt-3 ${inline ? "is-inline" : ""}`}
       style={{ "--audio-accent": track.accent, "--audio-accent-ink": track.ink } as CSSProperties}
       aria-label={`Begleitimpuls zu ${track.title}`}
-      aria-live={inline ? undefined : "polite"}
     >
       <div className="companion-inner mx-auto w-full max-w-[430px]">
         <p className="companion-kicker text-xs font-semibold">
@@ -449,6 +448,9 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
         {inline ? (
           <>
             {quote}
+            {track.note ? (
+              <p className="mt-5 text-sm leading-7 text-muted-foreground">{track.note}</p>
+            ) : null}
             <div className={`companion-rest ${open ? "is-open" : ""}`} inert={!open}>
               <div className="companion-rest__inner">{rest}</div>
             </div>
@@ -458,7 +460,7 @@ function Companion({ track, inline = false }: { track: AudioTrack; inline?: bool
               onClick={() => setOpen(!open)}
               aria-expanded={open}
             >
-              {open ? "Weniger anzeigen" : "Ganzen Impuls ansehen"}
+              {open ? "Weniger anzeigen" : "Mehr zum Begleitimpuls"}
               <ChevronDown aria-hidden="true" className="size-4" />
             </button>
           </>
@@ -530,7 +532,7 @@ function ShelfCard({
                 className="audio-cover-image h-full w-full object-cover"
               />
             ) : null}
-            <span className="audio-cover-badge absolute left-4 top-4 rounded-full border px-3 py-1.5 text-[11px] font-semibold">
+            <span className="audio-cover-badge absolute left-4 top-4 rounded-full border px-3 py-1.5 text-xs font-semibold">
               {track.eyebrow}
             </span>
             {!unlocked ? (

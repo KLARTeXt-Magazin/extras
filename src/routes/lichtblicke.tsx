@@ -332,7 +332,7 @@ function Lichtblicke() {
                       ],
                       [
                         "Wo?",
-                        "Wo du gerade bist. Zu Hause, im Büro oder unterwegs, im Sitzen oder Liegen.",
+                        "Wo du gerade bist. Zu Hause, im Büro oder unterwegs – sitzend oder liegend.",
                       ],
                       [
                         "Warum?",

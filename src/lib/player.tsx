@@ -27,6 +27,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [expanded, setExpanded] = useState(false);
   const [mode, setMode] = useState<ListeningView>("audio");
   const [videoEl, setVideoEl] = useState<HTMLVideoElement | null>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
 
   // nach einem Wechsel (Track oder Ansicht) hier fortsetzen
   const pending = useRef<{ time: number; play: boolean } | null>(null);
@@ -115,10 +116,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const open = useCallback(
     (next: AudioTrack, view: ListeningView = "audio") => {
+      if (!expanded) openerRef.current = document.activeElement as HTMLElement | null;
       setExpanded(true);
       startTrack(next, view);
     },
-    [startTrack],
+    [expanded, startTrack],
   );
 
   const toggle = useCallback(() => {
@@ -144,6 +146,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const closeExpanded = (isOpen: boolean) => {
     setExpanded(isOpen);
     if (isOpen) return;
+    window.requestAnimationFrame(() => openerRef.current?.focus());
     if (mode === "dgs") {
       // Video anhalten, an derselben Stelle mit der Audio weitermachen
       const time = videoEl?.currentTime ?? 0;
@@ -224,7 +227,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       play,
       open,
       toggle,
-      expand: () => setExpanded(true),
+      expand: () => {
+        openerRef.current = document.activeElement as HTMLElement | null;
+        setExpanded(true);
+      },
     }),
     [track, isPlaying, currentTime, duration, play, open, toggle],
   );

@@ -85,9 +85,7 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-[430px] items-end justify-between gap-6">
         <div>
           <p className="font-display text-lg font-semibold">KLARTeXt.</p>
-          <p className="mt-1 text-[11px] uppercase tracking-[0.1em] opacity-80">
-            Echt. Mutig. Klar.
-          </p>
+          <p className="mt-1 text-xs uppercase tracking-[0.1em] opacity-80">Echt. Mutig. Klar.</p>
         </div>
 
         <div className="flex flex-col items-end gap-1">
@@ -107,7 +105,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <p className="mx-auto mt-6 max-w-[430px] text-[10px] leading-relaxed opacity-90">
+      <p className="mx-auto mt-6 max-w-[430px] text-xs leading-relaxed opacity-90">
         Schriften:{" "}
         <a
           className="underline underline-offset-2"
