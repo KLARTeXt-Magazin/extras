@@ -140,8 +140,8 @@ const PREVIEW_UNLOCKED = false;
 const tracks: AudioTrack[] = [
   {
     id: "nikolaus",
-    ink: "#173d3a",
-    accent: "#b8d4d1",
+    ink: "#2b3a5e", // Tiefblau (statt Petrol, damit es sich vom PMR-Grün abhebt)
+    accent: "#b9c8e6",
     duration: "1:14",
     eyebrow: "6. Dezember",
     title: "Einen Moment zum Nikolaus",
